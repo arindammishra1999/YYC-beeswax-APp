@@ -1,13 +1,13 @@
 import React from 'react';
 import { styles } from '../styles/headerStyles';
 import { View, Text } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 export default function Header(props:{ header: string }) {
 
     return (
         <View style={styles.header}>
-            <Ionicons 
+            <Icon
                     name="ios-chevron-back" 
                     size={24} 
                     color="black" 
