@@ -1,6 +1,7 @@
 import { StyleSheet } from 'react-native';
+import { colors } from '../consts/styles';
 
-export const styles = StyleSheet.create({
+export const headerStyles = StyleSheet.create({
     header: {
         width: '100%',
         height: '10%',
@@ -11,7 +12,7 @@ export const styles = StyleSheet.create({
     headerText: {
         fontWeight: 'bold',
         fontSize: 20,
-        color: '#333',
+        color: colors.grey,
         letterSpacing: 1,
     },
     backButton: {

@@ -1,9 +1,10 @@
 import { Text, View } from 'react-native';
-import { styles } from '../styles/mainStyles';
+import { mainStyles } from '../styles/mainStyles';
+import React from 'react';
 
 export default function CartPage() {
     return (
-        <View style={styles.container}>
+        <View style={mainStyles.container}>
             <Text>Cart Page</Text>
         </View>
     );
