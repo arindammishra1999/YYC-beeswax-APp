@@ -14,5 +14,5 @@
   "include": [
     "**/*.ts",
     "**/*.tsx"
-, "app/components/AppTextInput.js", "app/screens/LoginScreen.js", "app/styles/textInputStyles.js"  ]
+, "app/components/AppTextInput.js", "app/screens/LoginScreen.tsx", "app/styles/textInputStyles.js"  ]
 }
