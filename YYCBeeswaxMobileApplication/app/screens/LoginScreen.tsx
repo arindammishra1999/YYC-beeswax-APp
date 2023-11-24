@@ -16,7 +16,7 @@ function LoginScreen() {
     const [error, setError] = useState('');
     const navigation = useNavigation();
 
-    async function Login(props: { navigation: any }) {
+    async function Login(navigation: any ) {
         try{
             await signInWithEmailAndPassword(auth, email, password);
             navigation.navigate(HOMEPAGE_ROUTE);
