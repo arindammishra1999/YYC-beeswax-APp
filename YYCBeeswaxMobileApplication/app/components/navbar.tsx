@@ -1,7 +1,7 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import {colors} from '../consts/styles';
+import { colors } from '../consts/styles';
 import {
     HOMEPAGE_ROUTE,
     CART_ROUTE,
