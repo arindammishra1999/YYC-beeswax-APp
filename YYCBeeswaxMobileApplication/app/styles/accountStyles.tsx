@@ -21,6 +21,7 @@ export const accountStyles = StyleSheet.create({
     textInput: {
         fontSize: 18,
         color: colors.darkGrey,
+        flex: 1,
     },
     inputContainer: {
         backgroundColor: colors.darkWhite,

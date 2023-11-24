@@ -10,7 +10,7 @@ import { HOMEPAGE_ROUTE } from '../consts/constants';
 import { useState } from "react";
 import PasswordInput from "../components/passwordInput";
 
-function LoginScreen() {
+export default function LoginPage() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
@@ -41,5 +41,3 @@ function LoginScreen() {
         </SafeAreaView>
     );
 }
-
-export default LoginScreen;
