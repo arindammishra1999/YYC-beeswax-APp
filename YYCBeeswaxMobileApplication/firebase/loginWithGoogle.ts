@@ -1,13 +1,13 @@
+import {GoogleAuthProvider, OAuthCredential, signInWithCredential} from "@firebase/auth";
+import {auth} from './config'
 import {useIdTokenAuthRequest} from "expo-auth-session/build/providers/Google";
-import {GoogleAuthProvider, OAuthCredential, signInWithCredential} from "firebase/auth";
 import {useCallback, useEffect} from "react";
-import {auth} from '@/firebase/config'
 
 export function useLoginWithGoogle() {
     const [googleAuthRequest, authSessionResult, promptGoogle] = useIdTokenAuthRequest({
         selectAccount: true,
-        clientId:'720523949389-uhqc3r2mds6u51ragnv8nh21ng40hv7q.apps.googleusercontent.com',
-        androidClientId:'720523949389-uhqc3r2mds6u51ragnv8nh21ng40hv7q.apps.googleusercontent.com',
+        clientId:'470231171912-icirnco6no2bckh3b46nd5fjhc5kbjae.apps.googleusercontent.com',
+        androidClientId:'470231171912-icirnco6no2bckh3b46nd5fjhc5kbjae.apps.googleusercontent.com',
         iosClientId:'720523949389-uhqc3r2mds6u51ragnv8nh21ng40hv7q.apps.googleusercontent.com'
     })
 
