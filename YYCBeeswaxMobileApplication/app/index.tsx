@@ -6,9 +6,12 @@ import Navbar from './components/navbar';
 import { Text, SafeAreaView } from "react-native";
 import { mainStyles } from "./styles/mainStyles";
 import {Link} from "expo-router";
+import {Button} from "@rneui/base";
+import {useLoginWithGoogle} from '@/firebase/loginWithGoogle'
 
-export default function App() {
+export default function App() {    
     const { user } = useAuth();
+    const {handleLoginGoogle}=useLoginWithGoogle()
 
     return (
         <View style={mainStyles.container}>
@@ -20,6 +23,7 @@ export default function App() {
             <Text>{user?.uid || 'Not Logged In'}</Text>
             <StatusBar style="auto"/>
             <Link href='/auth/forgotPassword'>Forgot</Link>
+            <Button onPress={handleLoginGoogle}>Login in with google</Button>
         </View>
     );
 }
