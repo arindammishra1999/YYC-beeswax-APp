@@ -1,12 +1,12 @@
 import React from "react";
 import { useNavigation } from '@react-navigation/native';
 import { Text, SafeAreaView } from "react-native";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { auth } from "@/firebase/config";
 import { accountStyles } from "../styles/accountStyles";
 import SubmitButton from "../components/submitButton";
 import EmailInput from "../components/emailInput";
-import { HOMEPAGE_ROUTE } from '../consts/constants';
+import { PROFILE_ROUTE } from '../consts/constants';
 import { useState } from "react";
 import PasswordInput from "../components/passwordInput";
 
@@ -14,12 +14,12 @@ export default function LoginPage() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
-    const navigation = useNavigation();
 
     async function Login(navigation: any ) {
         try{
-            await signInWithEmailAndPassword(auth, email, password);
-            navigation.navigate(HOMEPAGE_ROUTE);
+            // await signInWithEmailAndPassword(auth, email, password);
+            await signOut(auth);
+            navigation.navigate(PROFILE_ROUTE);
         } catch (err: any){
             if (err?.code === "auth/invalid-email") {
                 setError('Login Failed - Enter a valid email.');
