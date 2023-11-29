@@ -1,11 +1,11 @@
 import { Text, View } from 'react-native';
-import { mainStyles } from '../styles/mainStyles';
+import { mainStyles } from '@/styles/mainStyles';
 import React from 'react';
 
-export default function ChangeLangaugePage() {
+export default function OderHistoryPage() {
     return (
         <View style={mainStyles.container}>
-            <Text>Change Langauge Page</Text>
+            <Text>Order History Page</Text>
         </View>
     );
 }

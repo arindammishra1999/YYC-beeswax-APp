@@ -1,11 +1,11 @@
 import { Text, View } from 'react-native';
-import { mainStyles } from '../styles/mainStyles';
+import { mainStyles } from '@/styles/mainStyles';
 import React from 'react';
 
-export default function LandingPage() {
+export default function ForgotPasswordPage() {
     return (
         <View style={mainStyles.container}>
-            <Text>Landing Page</Text>
+            <Text>Forgot Password Page</Text>
         </View>
     );
 }

@@ -3,10 +3,10 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {colors} from '@/consts/styles';
 import {CART_ROUTE, HOMEPAGE_ROUTE, MORE_ROUTE, PROFILE_ROUTE} from '@/consts/constants';
-import HomePage from '@/app/dashboard/HomePage';
-import CartPage from '@/app/dashboard/CartPage';
-import ProfilePage from '@/app/dashboard/ProfilePage';
-import MorePage from '@/app/dashboard/MorePage';
+import HomePage from '@/app/dashboard/homePage';
+import CartPage from '@/app/dashboard/cartPage';
+import ProfilePage from '@/app/dashboard/profilePage';
+import MorePage from '@/app/dashboard/morePage';
 
 const Tab = createBottomTabNavigator();
 

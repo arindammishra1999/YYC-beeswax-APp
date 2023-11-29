@@ -1,11 +1,11 @@
 import { Text, View } from 'react-native';
-import { mainStyles } from '../styles/mainStyles';
+import { mainStyles } from '@/styles/mainStyles';
 import React from 'react';
 
-export default function CheckoutPage() {
+export default function LandingPage() {
     return (
         <View style={mainStyles.container}>
-            <Text>Checkout Page</Text>
+            <Text>Landing Page</Text>
         </View>
     );
 }

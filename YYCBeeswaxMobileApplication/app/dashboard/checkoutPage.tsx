@@ -1,11 +1,11 @@
 import { Text, View } from 'react-native';
-import { mainStyles } from '../styles/mainStyles';
+import { mainStyles } from '@/styles/mainStyles';
 import React from 'react';
 
-export default function OderHistoryPage() {
+export default function CheckoutPage() {
     return (
         <View style={mainStyles.container}>
-            <Text>Order History Page</Text>
+            <Text>Checkout Page</Text>
         </View>
     );
 }
