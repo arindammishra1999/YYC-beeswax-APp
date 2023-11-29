@@ -4,24 +4,51 @@ import { colors } from '../consts/styles';
 
 export const notificationPageStyles = StyleSheet.create({
     item: {
-        marginTop: 10,
         paddingTop: 10, 
         paddingBottom: 10,       
         flexDirection: 'row',
         justifyContent: 'space-between',
-        alignItems: 'center'
+        alignItems: 'center',
         
     },
     itemTitle: {
-        alignSelf: 'flex-start',
-        paddingTop: 7,
+        alignSelf: 'center',
         fontSize: 14,
-        height: '100%',
-        marginLeft: 10,
+        marginLeft: 20,
         
     },
     itemToggle: {
         alignSelf: 'flex-end',
-        marginRight: 10,      
+        marginRight: 20,      
+    },
+    header: {
+        paddingTop: 20,
+        marginLeft: 20,
+        fontSize: 16,
+        fontWeight: 'bold',
+        paddingBottom: 10,
+    },
+    divider: {
+        width: "90%",
+        display: "flex",
+        alignSelf: "center",
+        marginTop: 20,
+        borderBottomWidth: 0.5,
+        borderBottomColor: colors.lightGrey,
+    },
+    button: {
+        backgroundColor: colors.yellow,
+        position: 'absolute',
+        alignSelf: 'center',
+        width: "65%",
+        paddingTop: 15,
+        paddingBottom: 15,
+        borderRadius: 30,
+        bottom: "5%",
+    },
+    buttonText: {
+        fontSize: 21,
+        fontWeight: 'bold',
+        alignSelf: "center",
     }
 });
