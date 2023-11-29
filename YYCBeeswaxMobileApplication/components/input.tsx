@@ -19,7 +19,7 @@ function Input(props: Props) {
                       paddingHorizontal: 15,
                       borderWidth: 1,
                       borderColor: 'lightgray',
-                      height:55,
+                      height: 55,
                   }}
                   inputStyle={{
                       fontSize: 14

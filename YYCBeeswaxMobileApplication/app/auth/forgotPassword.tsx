@@ -1,6 +1,4 @@
-import {Text, View} from 'react-native';
-import {Ionicons} from '@expo/vector-icons';
-import {router} from "expo-router";
+import {View} from 'react-native';
 import HideableInput from "@/components/hideableInput";
 import Button from '@/components/button'
 import {accountStyles} from "@/styles/accountStyles";

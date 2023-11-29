@@ -1,27 +1,22 @@
 import React from 'react';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { colors } from '../consts/styles';
-import {
-    HOMEPAGE_ROUTE,
-    CART_ROUTE,
-    MORE_ROUTE,
-    PROFILE_ROUTE
-} from '../consts/constants';
-import HomePage from '../pages/HomePage';
-import CartPage from '../pages/CartPage';
-import ProfilePage from '../pages/ProfilePage';
-import MorePage from '../pages/MorePage';
+import {colors} from '@/consts/styles';
+import {CART_ROUTE, HOMEPAGE_ROUTE, MORE_ROUTE, PROFILE_ROUTE} from '@/consts/constants';
+import HomePage from '@/app/HomePage';
+import CartPage from '@/app/CartPage';
+import ProfilePage from '@/app/ProfilePage';
+import MorePage from '@/app/MorePage';
 
 const Tab = createBottomTabNavigator();
 
 
-export default function Navbar(){
+export default function Navbar() {
     return (
         <Tab.Navigator
             initialRouteName={HOMEPAGE_ROUTE}
             screenOptions={({route}) => ({
-                tabBarIcon: ({ color }) => {
+                tabBarIcon: ({color}) => {
                     let iconName = '';
                     if (route.name === HOMEPAGE_ROUTE) {
                         iconName = 'home';
@@ -32,14 +27,14 @@ export default function Navbar(){
                     } else if (route.name === PROFILE_ROUTE) {
                         iconName = 'account-circle';
                     }
-                    return <Icon name={iconName} color={color} size={38} />;
+                    return <Icon name={iconName} color={color} size={38}/>;
                 },
                 tabBarActiveTintColor: colors.yellow,
                 tabBarInactiveTintColor: colors.black,
                 tabBarShowLabel: false,
                 headerShown: false,
                 tabBarStyle: {height: '9%'},
-        })}>
+            })}>
             <Tab.Screen name={HOMEPAGE_ROUTE} component={HomePage}/>
             <Tab.Screen name={CART_ROUTE} component={CartPage}/>
             <Tab.Screen name={MORE_ROUTE} component={MorePage}/>

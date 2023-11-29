@@ -6,9 +6,9 @@ import {useCallback, useEffect} from "react";
 export function useLoginWithGoogle() {
     const [googleAuthRequest, authSessionResult, promptGoogle] = useIdTokenAuthRequest({
         selectAccount: true,
-        clientId:'470231171912-icirnco6no2bckh3b46nd5fjhc5kbjae.apps.googleusercontent.com',
-        androidClientId:'470231171912-icirnco6no2bckh3b46nd5fjhc5kbjae.apps.googleusercontent.com',
-        iosClientId:'720523949389-uhqc3r2mds6u51ragnv8nh21ng40hv7q.apps.googleusercontent.com'
+        clientId: process.env.EXPO_PUBLIC_GOOGLE_CLIENT_ID,
+        androidClientId: process.env.EXPO_PUBLIC_GOOGLE_ANDROID_CLIENT_ID,
+        iosClientId: process.env.EXPO_PUBLIC_GOOGLE_IOS_CLIENT_ID
     })
 
     // Handles the login via the Google Provider

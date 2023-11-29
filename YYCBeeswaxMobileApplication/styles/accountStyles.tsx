@@ -1,11 +1,10 @@
 import {StyleSheet} from 'react-native';
-import Constants from "expo-constants";
 import {colors} from '../consts/styles';
 
 export const accountStyles = StyleSheet.create({
     container: {
         paddingHorizontal: 10,
-        paddingBottom:10,
+        paddingBottom: 10,
         flex: 1,
         alignContent: 'space-between'
     },
