@@ -1,11 +1,13 @@
-import { StyleSheet } from 'react-native';
+import {StyleSheet} from 'react-native';
 import Constants from "expo-constants";
-import { colors } from '../consts/styles';
+import {colors} from '../consts/styles';
 
 export const accountStyles = StyleSheet.create({
     container: {
-        padding: 10,
-        paddingTop: Constants.statusBarHeight
+        paddingHorizontal: 10,
+        paddingBottom:10,
+        flex: 1,
+        alignContent: 'space-between'
     },
     logo: {
         width: 80,
@@ -37,13 +39,10 @@ export const accountStyles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         padding: 15,
-        width: "100%",
-        marginVertical: 10,
     },
     submitButtonText: {
         color: colors.black,
-        fontSize: 18,
-        textTransform: "uppercase",
+        fontSize: 16,
         fontWeight: "bold",
     },
     error: {
