@@ -1,5 +1,5 @@
 import React from "react";
-import {Input as RNEInput} from "@rneui/themed";
+import {Text, TextInput, View} from "react-native";
 import {inputStyles} from "@/styles/components/inputStyles";
 
 type Props = {
@@ -11,12 +11,11 @@ type Props = {
 
 function Input(props: Props) {
     return (
-        <RNEInput label={props.label} placeholder={props.placeholder}
-                  value={props.value}
-                  onChangeText={props.onChangeText}
-                  labelStyle={inputStyles.labelStyle}
-                  inputContainerStyle={inputStyles.inputContainerStyle}
-                  inputStyle={inputStyles.inputStyle}/>
+        <View style={inputStyles.inputContainer}>
+            <Text style={inputStyles.label}>{props.label}</Text>
+            <TextInput style={inputStyles.input} placeholder={props.placeholder} value={props.value}
+                       onChangeText={props.onChangeText}/>
+        </View>
     );
 }
 

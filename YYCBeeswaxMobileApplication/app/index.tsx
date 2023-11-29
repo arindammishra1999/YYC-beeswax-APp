@@ -20,7 +20,7 @@ export default function App() {
             </View>
             <View style={rootPageStyles.buttonGroup}>
                 <LinkButton title='Log in' href='/auth/login' style={rootPageStyles.button}/>
-                <LinkButton title='Browse as Guest' href='/' style={rootPageStyles.button}/>
+                <LinkButton title='Browse as Guest' href='/dashboard/HomePage' style={rootPageStyles.button}/>
             </View>
             <Link href='/auth/signup' asChild>
                 <Text style={mainStyles.centerText}>Don't have an account? Sign Up</Text>

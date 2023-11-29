@@ -8,7 +8,7 @@ export const accountStyles = StyleSheet.create({
         flex: 1,
         alignContent: 'space-between'
     },
-    form: {flex: 1, paddingTop: 10},
+    form: {flex: 1, paddingTop: 10, gap: 20},
     logo: {
         width: 80,
         height: 80,

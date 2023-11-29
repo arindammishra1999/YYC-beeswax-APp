@@ -1,6 +1,5 @@
 import React from "react";
 import {GestureResponderEvent, Text, TouchableOpacity} from "react-native";
-import {mainStyles} from "@/styles/mainStyles";
 import {buttonStyles} from "@/styles/components/buttonStyles";
 
 type Props = {

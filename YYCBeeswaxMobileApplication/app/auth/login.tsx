@@ -9,8 +9,8 @@ import Header from "@/components/header";
 import Input from "@/components/input";
 import HideableInput from "@/components/hideableInput";
 import {Link, router} from "expo-router";
-import {Divider} from "@rneui/themed";
 import {loginPageStyles} from "@/styles/loginPageStyles";
+import Divider from "@/components/divider";
 
 export default function Login() {
     const [email, setEmail] = useState('');
@@ -46,7 +46,7 @@ export default function Login() {
                 {error && <Text style={accountStyles.error}>{error}</Text>}
             </View>
             <Button title="Log In" onPress={login}/>
-            <Divider style={loginPageStyles.divider}/>
+            <Divider/>
             <Button title='Login in with google' onPress={handleLoginGoogle}/>
         </View>
     );

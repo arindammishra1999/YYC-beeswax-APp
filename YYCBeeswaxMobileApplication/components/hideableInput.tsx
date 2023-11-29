@@ -1,7 +1,7 @@
 import React, {useState} from "react";
-import {Input} from "@rneui/themed";
-import {FontAwesome} from "@expo/vector-icons";
 import {inputStyles} from "@/styles/components/inputStyles";
+import {Text, TextInput, View} from "react-native";
+import {FontAwesome} from "@expo/vector-icons";
 
 type Props = {
     label: string
@@ -14,13 +14,14 @@ function HideableInput(props: Props) {
     const [hide, setHide] = useState(true)
     const hideIconName = hide ? 'eye-slash' : 'eye'
     return (
-        <Input label={props.label} placeholder={props.placeholder}
-               value={props.value} onChangeText={props.onChangeText}
-               labelStyle={inputStyles.labelStyle}
-               inputContainerStyle={inputStyles.inputContainerStyle}
-               inputStyle={inputStyles.inputStyle}
-               rightIcon={<FontAwesome name={hideIconName} size={20} onPress={() => setHide(prev => !prev)}/>}
-               secureTextEntry={hide}/>
+        <View style={inputStyles.inputContainer}>
+            <Text style={inputStyles.label}>{props.label}</Text>
+            <View style={inputStyles.input}>
+                <TextInput style={inputStyles.inputHideable} placeholder={props.placeholder} value={props.value}
+                           onChangeText={props.onChangeText} secureTextEntry={hide}/>
+                <FontAwesome name={hideIconName} size={20} onPress={() => setHide(prev => !prev)}/>
+            </View>
+        </View>
     );
 }
 
