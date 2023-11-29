@@ -22,7 +22,7 @@ export default function Login() {
     async function login() {
         try {
             await signInWithEmailAndPassword(auth, email, password);
-            router.push('./home')
+            router.push('../dashboard/homePage')
         } catch (err: any) {
             if (err?.code === "auth/invalid-email") {
                 setError('Login Failed - Enter a valid email.');
@@ -39,7 +39,7 @@ export default function Login() {
             <Header header={'Login'}/>
             <View style={accountStyles.form}>
                 <Input label={'Email'} placeholder='Enter Email' value={email} onChangeText={setEmail}/>
-                <HideableInput label={'Password'} placeholder='Enter Email' value={email} onChangeText={setEmail}/>
+                <HideableInput label={'Password'} placeholder='Enter Password' value={password} onChangeText={setPassword}/>
                 <Link href='/auth/forgotPassword' asChild>
                     <Text style={loginPageStyles.forgot}>Forgot password?</Text>
                 </Link>
