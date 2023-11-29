@@ -8,6 +8,7 @@ export const accountStyles = StyleSheet.create({
         flex: 1,
         alignContent: 'space-between'
     },
+    form: {flex: 1, paddingTop: 10},
     logo: {
         width: 80,
         height: 80,
@@ -31,18 +32,6 @@ export const accountStyles = StyleSheet.create({
         width: "100%",
         padding: 15,
         marginVertical: 10,
-    },
-    submitButton: {
-        backgroundColor: colors.yellow,
-        borderRadius: 25,
-        justifyContent: "center",
-        alignItems: "center",
-        padding: 15,
-    },
-    submitButtonText: {
-        color: colors.black,
-        fontSize: 16,
-        fontWeight: "bold",
     },
     error: {
         color: colors.red,

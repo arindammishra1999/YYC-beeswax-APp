@@ -1,5 +1,6 @@
 import React from "react";
 import {Input as RNEInput} from "@rneui/themed";
+import {inputStyles} from "@/styles/components/inputStyles";
 
 type Props = {
     label: string
@@ -13,17 +14,9 @@ function Input(props: Props) {
         <RNEInput label={props.label} placeholder={props.placeholder}
                   value={props.value}
                   onChangeText={props.onChangeText}
-                  labelStyle={{paddingBottom: 8}}
-                  inputContainerStyle={{
-                      borderRadius: 8,
-                      paddingHorizontal: 15,
-                      borderWidth: 1,
-                      borderColor: 'lightgray',
-                      height: 55,
-                  }}
-                  inputStyle={{
-                      fontSize: 14
-                  }}/>
+                  labelStyle={inputStyles.labelStyle}
+                  inputContainerStyle={inputStyles.inputContainerStyle}
+                  inputStyle={inputStyles.inputStyle}/>
     );
 }
 

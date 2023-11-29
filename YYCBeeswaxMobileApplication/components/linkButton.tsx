@@ -1,7 +1,7 @@
 import React from "react";
 import {Text, TouchableOpacity, ViewStyle} from "react-native";
-import {accountStyles} from "@/styles/accountStyles";
 import {Link} from "expo-router";
+import {buttonStyles} from "@/styles/components/buttonStyles";
 
 type Props = {
     href: any
@@ -12,8 +12,8 @@ type Props = {
 function LinkButton(props: Props) {
     return (
         <Link href={props.href} asChild>
-            <TouchableOpacity style={{...accountStyles.submitButton, ...props.style}}>
-                <Text style={accountStyles.submitButtonText}>{props.title}</Text>
+            <TouchableOpacity style={{...buttonStyles.button, ...props.style}}>
+                <Text style={buttonStyles.buttonText}>{props.title}</Text>
             </TouchableOpacity>
         </Link>
     );

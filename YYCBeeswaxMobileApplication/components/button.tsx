@@ -1,6 +1,7 @@
 import React from "react";
 import {GestureResponderEvent, Text, TouchableOpacity} from "react-native";
-import {accountStyles} from "@/styles/accountStyles";
+import {mainStyles} from "@/styles/mainStyles";
+import {buttonStyles} from "@/styles/components/buttonStyles";
 
 type Props = {
     title: string
@@ -9,8 +10,8 @@ type Props = {
 
 function Button(props: Props) {
     return (
-        <TouchableOpacity style={accountStyles.submitButton} onPress={props.onPress}>
-            <Text style={accountStyles.submitButtonText}>{props.title}</Text>
+        <TouchableOpacity style={buttonStyles.button} onPress={props.onPress}>
+            <Text style={buttonStyles.buttonText}>{props.title}</Text>
         </TouchableOpacity>
     );
 }

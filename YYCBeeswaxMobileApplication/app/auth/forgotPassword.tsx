@@ -8,7 +8,7 @@ export default function App() {
     return (
         <View style={accountStyles.container}>
             <Header header={'Forget Password'}/>
-            <View style={{flex: 1, paddingTop: 10}}>
+            <View style={accountStyles.form}>
                 <HideableInput label='Old Password' placeholder='Enter old password'/>
                 <HideableInput label='New Password' placeholder='Enter new password'/>
                 <HideableInput label='Confirm New Password' placeholder='Re-enter new password'/>

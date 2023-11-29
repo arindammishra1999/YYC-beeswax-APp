@@ -10,6 +10,7 @@ import Input from "@/components/input";
 import HideableInput from "@/components/hideableInput";
 import {Link, router} from "expo-router";
 import {Divider} from "@rneui/themed";
+import {loginPageStyles} from "@/styles/loginPageStyles";
 
 export default function Login() {
     const [email, setEmail] = useState('');
@@ -36,16 +37,16 @@ export default function Login() {
     return (
         <View style={accountStyles.container}>
             <Header header={'Login'}/>
-            <View style={{flex: 1, paddingTop: 10}}>
+            <View style={accountStyles.form}>
                 <Input label={'Email'} placeholder='Enter Email' value={email} onChangeText={setEmail}/>
                 <HideableInput label={'Password'} placeholder='Enter Email' value={email} onChangeText={setEmail}/>
                 <Link href='/auth/forgotPassword' asChild>
-                    <Text style={{paddingLeft: 10}}>Forgot password?</Text>
+                    <Text style={loginPageStyles.forgot}>Forgot password?</Text>
                 </Link>
                 {error && <Text style={accountStyles.error}>{error}</Text>}
             </View>
             <Button title="Log In" onPress={login}/>
-            <Divider style={{paddingTop: 10, marginBottom: 10}}/>
+            <Divider style={loginPageStyles.divider}/>
             <Button title='Login in with google' onPress={handleLoginGoogle}/>
         </View>
     );
