@@ -2,7 +2,9 @@ import React from "react";
 import {SafeAreaView, TextInput} from "react-native";
 import {accountStyles} from "@/styles/accountStyles";
 
-export default function PasswordInput(props: { passwordInput: (value: string) => void }) {
+type Props = { passwordInput: (value: string) => void }
+
+export default function PasswordInput(props: Props) {
     return (
         <SafeAreaView style={accountStyles.inputContainer}>
             <TextInput
