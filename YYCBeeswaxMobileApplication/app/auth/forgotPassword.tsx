@@ -19,8 +19,10 @@ export default function App() {
         } catch (err: any) {
             if (err?.code == "auth/missing-email") {
                 setError('Password Reset Failed - Enter your email.');
+            } else if (err?.code == "auth/invalid-email") {
+                setError('Password Reset Failed - Enter a valid email.');
             } else {
-                setError(err?.code);
+                setError('Password Reset Failed');
             }
         }
     }
