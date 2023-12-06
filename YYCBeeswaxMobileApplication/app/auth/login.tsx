@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Text, View} from "react-native";
+import {Text, View, TouchableWithoutFeedback, Keyboard } from "react-native";
 import {signInWithEmailAndPassword} from "firebase/auth";
 import {auth} from "@/firebase/config";
 import {accountStyles} from "@/styles/accountStyles";
@@ -35,19 +35,21 @@ export default function Login() {
     }
 
     return (
-        <View style={accountStyles.container}>
-            <Header header={'Login'}/>
-            <View style={accountStyles.form}>
-                <Input label={'Email'} placeholder='Enter Email' value={email} onChangeText={setEmail}/>
-                <HideableInput label={'Password'} placeholder='Enter Password' value={password} onChangeText={setPassword}/>
-                <Link href='/auth/forgotPassword' asChild>
-                    <Text style={loginPageStyles.forgot}>Forgot password?</Text>
-                </Link>
-                {error && <Text style={accountStyles.error}>{error}</Text>}
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <View style={accountStyles.container}>
+                <Header header={'Login'}/>
+                <View style={accountStyles.form}>
+                    <Input label={'Email'} placeholder='Enter Email' value={email} onChangeText={setEmail} autoCapitalize={false}/>
+                    <HideableInput label={'Password'} placeholder='Enter Password' value={password} onChangeText={setPassword}/>
+                    <Link href='/auth/forgotPassword' asChild>
+                        <Text style={loginPageStyles.forgot}>Forgot password?</Text>
+                    </Link>
+                    {error && <Text style={accountStyles.error}>{error}</Text>}
+                </View>
+                <Button title="Login" onPress={login}/>
+                <Divider/>
+                <Button title='Login with Google' onPress={handleLoginGoogle}/>
             </View>
-            <Button title="Log In" onPress={login}/>
-            <Divider/>
-            <Button title='Login in with google' onPress={handleLoginGoogle}/>
-        </View>
+        </TouchableWithoutFeedback>
     );
 }

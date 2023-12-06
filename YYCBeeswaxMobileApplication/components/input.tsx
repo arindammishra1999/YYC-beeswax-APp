@@ -5,8 +5,9 @@ import {inputStyles} from "@/styles/components/inputStyles";
 type Props = {
     label: string
     placeholder: string
-    value?: string,
+    value?: string
     onChangeText?: (value: string) => void
+    autoCapitalize: boolean
 }
 
 function Input(props: Props) {
@@ -14,7 +15,7 @@ function Input(props: Props) {
         <View style={inputStyles.inputContainer}>
             <Text style={inputStyles.label}>{props.label}</Text>
             <TextInput style={inputStyles.input} placeholder={props.placeholder} value={props.value}
-                       onChangeText={props.onChangeText}/>
+                       onChangeText={props.onChangeText} autoCapitalize={props.autoCapitalize? 'words' : 'none'}/>
         </View>
     );
 }

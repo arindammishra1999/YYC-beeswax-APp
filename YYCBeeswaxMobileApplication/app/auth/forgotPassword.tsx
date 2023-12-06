@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { sendPasswordResetEmail } from 'firebase/auth';
 import { auth } from "@/firebase/config";
 import { Fontisto } from '@expo/vector-icons';
@@ -28,15 +28,17 @@ export default function App() {
     }
 
     return (
-        <View style={forgotPageStyles.container}>
-            <Header header={'Forgot Password'}/>
-            <View style={forgotPageStyles.form}>
-                <Fontisto name="locked" size={80} color="black" style={forgotPageStyles.logo}/>
-                <Text style={forgotPageStyles.text}>Please enter your email address to receive a link to reset your password. You will then be prompted to login.</Text>
-                <Input label={'Email'} placeholder='Enter your email' value={email} onChangeText={setEmail}/>
-                {error && <Text style={forgotPageStyles.error}>{error}</Text>}
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <View style={forgotPageStyles.container}>
+                <Header header={'Forgot Password'}/>
+                <View style={forgotPageStyles.form}>
+                    <Fontisto name="locked" size={80} color="black" style={forgotPageStyles.logo}/>
+                    <Text style={forgotPageStyles.text}>Please enter your email address to receive a link to reset your password. You will then be prompted to login.</Text>
+                    <Input label={'Email'} placeholder='Enter Email' value={email} onChangeText={setEmail} autoCapitalize={false}/>
+                    {error && <Text style={forgotPageStyles.error}>{error}</Text>}
+                </View>
+                <Button title={'Confirm'} onPress={confirm}/>
             </View>
-            <Button title={'Confirm'} onPress={confirm}/>
-        </View>
+        </TouchableWithoutFeedback>
     )
 }
