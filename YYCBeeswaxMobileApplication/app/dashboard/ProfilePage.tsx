@@ -6,11 +6,18 @@ import {profilePageStyles} from '@/styles/profilePageStyles';
 import {router} from 'expo-router';
 import useAuth from '@/firebase/hooks/useAuth';
 import { logoutPopupStyles } from '@/styles/components/logoutPopupStyles';
+import { signOut } from 'firebase/auth';
+import { auth } from '@/firebase/config';
 
 export default function ProfilePage() {
     const {user} = useAuth();
     const [logoutPopupVisible, setLogoutPopupVisible] = useState(false);
 
+    function logout () {
+        signOut(auth);
+        router.push('/');
+    }
+    
     if (!user) {
         return (
             <View style={mainStyles.container}>
@@ -56,7 +63,7 @@ export default function ProfilePage() {
                                 </TouchableOpacity>
                                 <TouchableOpacity
                                 style={logoutPopupStyles.button}
-                                onPress={() => router.replace('/')}>
+                                onPress={logout}>
                                 <Text style={logoutPopupStyles.buttonTextStyle}>Yes</Text>
                                 </TouchableOpacity>   
                             </View>                         
