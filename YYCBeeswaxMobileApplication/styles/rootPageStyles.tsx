@@ -1,3 +1,4 @@
+import { colors } from '@/consts/styles';
 import {StyleSheet} from 'react-native';
 
 export const rootPageStyles = StyleSheet.create({
@@ -14,5 +15,17 @@ export const rootPageStyles = StyleSheet.create({
     },
     button: {
         flex: 1
-    }
+    },
+    textGroup: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+    },
+    signupLinkText: {
+        fontSize: 16,
+        color: colors.blue,
+        textDecorationLine: 'underline',
+    },
+    signupText: {
+        fontSize: 16,
+    },
 });

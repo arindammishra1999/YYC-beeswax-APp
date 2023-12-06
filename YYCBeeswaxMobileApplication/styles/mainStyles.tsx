@@ -6,9 +6,9 @@ export const mainStyles = StyleSheet.create({
         backgroundColor: 'white',
     },
     center: {
-        alignItems: 'center'
+        alignItems: 'center',
     },
     centerText: {
-        textAlign: 'center'
+        textAlign: 'center',
     },
 });

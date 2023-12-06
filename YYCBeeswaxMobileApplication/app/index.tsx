@@ -1,9 +1,9 @@
 import React from "react";
-import {Image, Text, View} from "react-native";
+import {Image, Text, View, TouchableOpacity} from "react-native";
 import {mainStyles} from "@/styles/mainStyles";
 import LinkButton from "@/components/linkButton";
-import {Link} from "expo-router";
 import {rootPageStyles} from "@/styles/rootPageStyles";
+import {router} from 'expo-router';
 
 export default function App() {
     return (
@@ -19,12 +19,15 @@ export default function App() {
                 <Text style={mainStyles.centerText}>Shop for all your favourite YYC Beeswax products</Text>
             </View>
             <View style={rootPageStyles.buttonGroup}>
-                <LinkButton title='Log in' href='/auth/login' style={rootPageStyles.button}/>
+                <LinkButton title='Login' href='/auth/login' style={rootPageStyles.button}/>
                 <LinkButton title='Browse as Guest' href='/dashboard/HomePage' style={rootPageStyles.button}/>
             </View>
-            <Link href='/auth/signup' asChild>
-                <Text style={mainStyles.centerText}>Don't have an account? Sign Up</Text>
-            </Link>
+            <View style={rootPageStyles.textGroup}>
+                <Text style={rootPageStyles.signupText}>Don't have an account?</Text>
+                <TouchableOpacity onPress={() => router.push('/auth/signup')}> 
+                    <Text style={rootPageStyles.signupLinkText}> Sign Up</Text>
+                </TouchableOpacity>
+            </View>
         </View>
     );
 }
