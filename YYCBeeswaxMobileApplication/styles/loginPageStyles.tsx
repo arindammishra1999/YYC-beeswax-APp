@@ -6,5 +6,6 @@ export const loginPageStyles = StyleSheet.create({
         alignSelf: 'center',
         color: colors.blue,
         fontSize: 16,
+        textDecorationLine: 'underline',
     },
 });

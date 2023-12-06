@@ -23,6 +23,7 @@ export const rootPageStyles = StyleSheet.create({
     signupLinkText: {
         fontSize: 16,
         color: colors.blue,
+        textDecorationLine: 'underline',
     },
     signupText: {
         fontSize: 16,

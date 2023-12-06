@@ -33,7 +33,9 @@ export default function App() {
                 <Header header={'Forgot Password'}/>
                 <View style={forgotPageStyles.form}>
                     <Fontisto name="locked" size={80} color="black" style={forgotPageStyles.logo}/>
-                    <Text style={forgotPageStyles.text}>Please enter your email address to receive a link to reset your password. You will then be prompted to login.</Text>
+                    <Text style={forgotPageStyles.text}>
+                        Please enter your email address to receive a link to reset your password. You will then be prompted to login.
+                    </Text>
                     <Input label={'Email'} placeholder='Enter Email' value={email} onChangeText={setEmail} autoCapitalize={false}/>
                     {error && <Text style={forgotPageStyles.error}>{error}</Text>}
                 </View>
