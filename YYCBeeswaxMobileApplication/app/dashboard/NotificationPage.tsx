@@ -1,14 +1,10 @@
 import React, {useState} from 'react';
-import { headerStyles } from '../styles/headerStyles';
-import { notificationPageStyles } from '../styles/notificationPageStyles';
+import { notificationPageStyles } from '../../styles/notificationPageStyles';
 import { Switch, View, Text, Pressable } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
-import { default as Navbar } from '../components/navbar';
-import { default as Header } from '../components/header';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { ScrollView } from 'react-native-gesture-handler';
-import { mainStyles } from '../styles/mainStyles';
-import { colors } from '../consts/styles';
+import { default as Navbar } from '../../components/navbar';
+import { default as Header } from '../../components/header';
+import { mainStyles } from '../../styles/mainStyles';
+import { colors } from '../../consts/styles';
 
 
 export default function NotificationsPage() {
@@ -64,5 +60,3 @@ export default function NotificationsPage() {
         </View>
     )
 }
-
-
