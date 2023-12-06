@@ -22,7 +22,7 @@ export default function Login() {
     async function login() {
         try {
             await signInWithEmailAndPassword(auth, email, password);
-            router.push('../dashboard/homePage')
+            router.push('../dashboard/HomePage')
         } catch (err: any) {
             if (err?.code === "auth/invalid-email") {
                 setError('Login Failed - Enter a valid email.');
