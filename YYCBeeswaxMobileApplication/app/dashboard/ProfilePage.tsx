@@ -1,10 +1,12 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {Text, TouchableOpacity, View} from 'react-native';
 import {mainStyles} from '@/styles/mainStyles';
-import {default as Header} from '../../components/header'
 import {profilePageStyles} from '@/styles/profilePageStyles';
+import {Ionicons} from "@expo/vector-icons";
 import {router} from 'expo-router';
 import useAuth from '@/firebase/hooks/useAuth';
+import Header from '@/components/header';
+import ProfileOption from '@/components/profileOption';
 
 export default function ProfilePage() {
     const {user} = useAuth();
@@ -32,7 +34,32 @@ export default function ProfilePage() {
     else {
         return (
             <View>
-                <Text>{user?.uid}</Text>
+                <Header header="Your Profile"/>
+                <Ionicons 
+                    name="person-outline" 
+                    style={profilePageStyles.largeIcon}
+                />
+
+                <View style={profilePageStyles.optionContainer}>
+                    <ProfileOption label="Order History" iconName='history' />
+                </View>
+                
+                <View style={profilePageStyles.optionContainer}>
+                    <ProfileOption label="Edit Profile" iconName='edit' />
+                    <ProfileOption label="Notifications" iconName='notifications' />
+                    <ProfileOption label="Language" iconName='language' />
+                </View>
+                
+                <View style={profilePageStyles.optionContainer}>
+                    <ProfileOption label="Help & Support" iconName='help-outline' />
+                    <ProfileOption label="Contact Us" iconName='message' />
+                    <ProfileOption label="Privacy Policy" iconName='lock-outline' />
+                </View>
+                
+                <View style={profilePageStyles.optionContainer}>
+                    <ProfileOption label="Logout" iconName='logout' />
+                </View>
+                
             </View>
         )
     }

@@ -38,4 +38,28 @@ export const profilePageStyles = StyleSheet.create({
         fontSize: 16,
         color: colors.blue,
     },
+    largeIcon: {
+        alignSelf: 'center',
+        fontSize: 200
+    },
+    optionIcon: {
+        fontSize: 40,
+        marginLeft: 10
+    },
+    option: {
+        flexDirection: 'row',
+        textAlignVertical: 'center',
+    },
+    optionLabel: {
+        fontSize: 25,
+        marginLeft: 15
+    },
+    optionContainer: {
+        borderRadius: 8,
+        borderColor: colors.lightGrey,
+        borderWidth: 0.5,
+        width: '90%',
+        alignSelf: 'center',
+        marginBottom: 20,
+    }
 });
