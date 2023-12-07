@@ -1,5 +1,6 @@
-import {StyleSheet} from 'react-native';
-import {colors} from '@/consts/styles';
+import { StyleSheet } from "react-native";
+
+import { colors } from "@/consts/styles";
 
 export const profilePageStyles = StyleSheet.create({
     button: {
@@ -8,9 +9,9 @@ export const profilePageStyles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         padding: 15,
-        marginTop: '15%',
-        marginLeft: '25%',
-        marginRight: '25%',
+        marginTop: "15%",
+        marginLeft: "25%",
+        marginRight: "25%",
     },
     buttonText: {
         color: colors.black,
@@ -21,15 +22,15 @@ export const profilePageStyles = StyleSheet.create({
         alignSelf: "center",
         textAlign: "center",
         fontSize: 21,
-        fontWeight: 'bold',
-        marginTop: '40%',
-        marginLeft: '10%',
-        marginRight: '10%',
+        fontWeight: "bold",
+        marginTop: "40%",
+        marginLeft: "10%",
+        marginRight: "10%",
     },
     signUpContainer: {
-        flexDirection: 'row',
-        justifyContent: 'center',
-        marginTop: '5%'
+        flexDirection: "row",
+        justifyContent: "center",
+        marginTop: "5%",
     },
     signUpText: {
         fontSize: 16,
