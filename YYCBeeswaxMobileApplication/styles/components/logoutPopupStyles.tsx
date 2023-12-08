@@ -41,5 +41,12 @@ export const logoutPopupStyles = StyleSheet.create({
         fontSize: 16,
         fontWeight: 'bold',
       },
+      touchableOverlay: {
+        position: 'absolute',
+        top: 0,
+        bottom: 0,
+        left: 0,
+        right: 0,
+    }
 
 });
