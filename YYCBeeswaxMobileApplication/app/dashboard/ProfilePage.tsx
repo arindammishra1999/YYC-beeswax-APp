@@ -1,7 +1,6 @@
 import { router } from "expo-router";
-import React from "react";
-import {Modal,  Text, TouchableOpacity, View, TouchableWithoutFeedback } from "react-native";
-
+import React, { useState } from "react";
+import { Modal,  Text, TouchableOpacity, View, TouchableWithoutFeedback } from "react-native";
 import Header from "@/components/header";
 import useAuth from "@/firebase/hooks/useAuth";
 import { mainStyles } from "@/styles/mainStyles";
