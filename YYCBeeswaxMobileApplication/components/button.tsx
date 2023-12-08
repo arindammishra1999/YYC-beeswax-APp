@@ -1,11 +1,12 @@
 import React from "react";
-import {GestureResponderEvent, Text, TouchableOpacity} from "react-native";
-import {buttonStyles} from "@/styles/components/buttonStyles";
+import { GestureResponderEvent, Text, TouchableOpacity } from "react-native";
+
+import { buttonStyles } from "@/styles/components/buttonStyles";
 
 type Props = {
-    title: string
+    title: string;
     onPress?: ((event: GestureResponderEvent) => void) | undefined;
-}
+};
 
 function Button(props: Props) {
     return (
@@ -15,4 +16,4 @@ function Button(props: Props) {
     );
 }
 
-export default Button
+export default Button;

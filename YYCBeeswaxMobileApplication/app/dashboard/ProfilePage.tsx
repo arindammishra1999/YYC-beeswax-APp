@@ -1,16 +1,17 @@
-import React, {useEffect, useState} from 'react';
-import {Modal, Text, TouchableOpacity, View, TouchableWithoutFeedback} from 'react-native';
-import {mainStyles} from '@/styles/mainStyles';
-import {default as Header} from '../../components/header'
-import {profilePageStyles} from '@/styles/profilePageStyles';
-import {router} from 'expo-router';
-import useAuth from '@/firebase/hooks/useAuth';
+import { router } from "expo-router";
+import React from "react";
+import {Modal,  Text, TouchableOpacity, View, TouchableWithoutFeedback } from "react-native";
+
+import Header from "@/components/header";
+import useAuth from "@/firebase/hooks/useAuth";
+import { mainStyles } from "@/styles/mainStyles";
+import { profilePageStyles } from "@/styles/profilePageStyles";
 import { logoutPopupStyles } from '@/styles/components/logoutPopupStyles';
 import { signOut } from 'firebase/auth';
 import { auth } from '@/firebase/config';
 
 export default function ProfilePage() {
-    const {user} = useAuth();
+    const { user } = useAuth();
     const [logoutPopupVisible, setLogoutPopupVisible] = useState(false);
 
     function logout () {
@@ -21,24 +22,33 @@ export default function ProfilePage() {
     if (!user) {
         return (
             <View style={mainStyles.container}>
-                <Header header='Your Profile'/>
+                <Header header="Your Profile" />
                 <Text style={profilePageStyles.messageText}>
-                    You are currently browsing as a guest! Login or 
-                    create an account to view your profile and save your settings.
+                    You are currently browsing as a guest! Login or create an
+                    account to view your profile and save your settings.
                 </Text>
-                <TouchableOpacity style={profilePageStyles.button} onPress={() => router.replace('/auth/login')}>
+                <TouchableOpacity
+                    style={profilePageStyles.button}
+                    onPress={() => router.replace("/auth/login")}
+                >
                     <Text style={profilePageStyles.buttonText}>Login</Text>
                 </TouchableOpacity>
                 <View style={profilePageStyles.signUpContainer}>
-                    <Text style={profilePageStyles.signUpText}>Don't have an account? </Text>
+                    <Text style={profilePageStyles.signUpText}>
+                        Don't have an account?{" "}
+                    </Text>
                     <TouchableOpacity>
-                        <Text style={profilePageStyles.signUpLink} onPress={() => router.replace('/auth/signup')}>Sign Up</Text>
+                        <Text
+                            style={profilePageStyles.signUpLink}
+                            onPress={() => router.replace("/auth/signup")}
+                        >
+                            Sign Up
+                        </Text>
                     </TouchableOpacity>
                 </View>
             </View>
         );
-    }
-    else {
+    } else {
         return (
             <View style={mainStyles.container}>    
                 <TouchableOpacity onPress={() => setLogoutPopupVisible(true)}>
