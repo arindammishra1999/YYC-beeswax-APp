@@ -1,23 +1,32 @@
-import { router } from "expo-router";
 import React, { useState } from "react";
-import { Modal,  Text, TouchableOpacity, View, TouchableWithoutFeedback } from "react-native";
-import Header from "@/components/header";
+import {
+    Modal,
+    Text,
+    TouchableOpacity,
+    TouchableWithoutFeedback,
+    View,
+} from "react-native";
 import useAuth from "@/firebase/hooks/useAuth";
 import { mainStyles } from "@/styles/mainStyles";
 import { profilePageStyles } from "@/styles/profilePageStyles";
-import { logoutPopupStyles } from '@/styles/components/logoutPopupStyles';
-import { signOut } from 'firebase/auth';
-import { auth } from '@/firebase/config';
+import { Ionicons } from "@expo/vector-icons";
+import { router } from "expo-router";
+import Header from "@/components/header";
+import ProfileOption from "@/components/profileOption";
+import * as Linking from "expo-linking";
+import { logoutPopupStyles } from "@/styles/components/logoutPopupStyles";
+import { signOut } from "firebase/auth";
+import { auth } from "@/firebase/config";
 
 export default function ProfilePage() {
     const { user } = useAuth();
     const [logoutPopupVisible, setLogoutPopupVisible] = useState(false);
 
-    function logout () {
+    function logout() {
         signOut(auth);
-        router.push('/');
+        router.push("/");
     }
-    
+
     if (!user) {
         return (
             <View style={mainStyles.container}>
@@ -49,42 +58,125 @@ export default function ProfilePage() {
         );
     } else {
         return (
-            <View style={mainStyles.container}>    
-                <TouchableOpacity onPress={() => setLogoutPopupVisible(true)}>
-                    <Text>Click here to open popup</Text>
-                </TouchableOpacity>
+            <View>
+                <Header header="Your Profile" />
+                <Ionicons
+                    name="person-outline"
+                    style={profilePageStyles.largeIcon}
+                />
+                <View style={profilePageStyles.optionContainer}>
+                    <ProfileOption
+                        onPress={() => router.push("/")}
+                        label="Order History"
+                        iconName="history"
+                    />
+                </View>
+                <View style={profilePageStyles.optionContainer}>
+                    <ProfileOption
+                        onPress={() => router.push("/")}
+                        label="Edit Profile"
+                        iconName="edit"
+                    />
+                    <ProfileOption
+                        onPress={() => router.push("/")}
+                        label="Notifications"
+                        iconName="notifications"
+                    />
+                    <ProfileOption
+                        onPress={() => router.push("/")}
+                        label="Language"
+                        iconName="language"
+                    />
+                </View>
+                <View style={profilePageStyles.optionContainer}>
+                    <ProfileOption
+                        onPress={() =>
+                            Linking.openURL(
+                                "https://yycwax.com/about/frequently-asked-questions/"
+                            )
+                        }
+                        label="Help & Support"
+                        iconName="help-outline"
+                    />
+                    <ProfileOption
+                        onPress={() =>
+                            Linking.openURL("https://yycwax.com/contact-us/")
+                        }
+                        label="Contact Us"
+                        iconName="message"
+                    />
+                    <ProfileOption
+                        onPress={() =>
+                            Linking.openURL(
+                                "https://yycwax.com/privacy-policy/"
+                            )
+                        }
+                        label="Privacy Policy"
+                        iconName="lock-outline"
+                    />
+                </View>
+                <View style={profilePageStyles.optionContainer}>
+                    <ProfileOption
+                        onPress={() => setLogoutPopupVisible(true)}
+                        label="Logout"
+                        iconName="logout"
+                    />
+                </View>
                 <Modal
                     animationType="slide"
                     visible={logoutPopupVisible}
                     transparent={true}
                     onRequestClose={() => {
-                    setLogoutPopupVisible(!logoutPopupVisible);
-                    }}>  
-                        <View style={logoutPopupStyles.viewContainer}>
-                        <TouchableWithoutFeedback onPress={() => setLogoutPopupVisible(false)}>
-                            <View style={logoutPopupStyles.touchableOverlay}></View>
-                        </TouchableWithoutFeedback> 
-                            <View style={logoutPopupStyles.popupView}>
-                                <Text style={logoutPopupStyles.popupText}>Are you sure you want to logout?
-                                This will take you back to the login screen.</Text>
-                                <View style={logoutPopupStyles.buttonContainer}>
-                                    <TouchableOpacity
+                        setLogoutPopupVisible(!logoutPopupVisible);
+                    }}
+                >
+                    <View style={logoutPopupStyles.viewContainer}>
+                        <TouchableWithoutFeedback
+                            onPress={() => setLogoutPopupVisible(false)}
+                        >
+                            <View
+                                style={logoutPopupStyles.touchableOverlay}
+                            ></View>
+                        </TouchableWithoutFeedback>
+                        <View style={logoutPopupStyles.popupView}>
+                            <Text style={logoutPopupStyles.popupText}>
+                                Are you sure you want to logout? This will take
+                                you back to the login screen.
+                            </Text>
+                            <View style={logoutPopupStyles.buttonContainer}>
+                                <TouchableOpacity
                                     style={logoutPopupStyles.button}
-                                    onPress={() => setLogoutPopupVisible(!logoutPopupVisible)}>
-                                    <Text style={logoutPopupStyles.buttonTextStyle}>No</Text>
-                                    </TouchableOpacity>
-                                    <TouchableOpacity
+                                    onPress={() =>
+                                        setLogoutPopupVisible(
+                                            !logoutPopupVisible
+                                        )
+                                    }
+                                >
+                                    <Text
+                                        style={
+                                            logoutPopupStyles.buttonTextStyle
+                                        }
+                                    >
+                                        No
+                                    </Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity
                                     style={logoutPopupStyles.button}
-                                    onPress={logout}>
-                                    <Text style={logoutPopupStyles.buttonTextStyle}>Yes</Text>
-                                    </TouchableOpacity>   
-                                </View>                         
+                                    onPress={logout}
+                                >
+                                    <Text
+                                        style={
+                                            logoutPopupStyles.buttonTextStyle
+                                        }
+                                    >
+                                        Yes
+                                    </Text>
+                                </TouchableOpacity>
                             </View>
                         </View>
-                </Modal>             
+                    </View>
+                </Modal>
             </View>
-                
-            
-        )
+        );
     }
 }
