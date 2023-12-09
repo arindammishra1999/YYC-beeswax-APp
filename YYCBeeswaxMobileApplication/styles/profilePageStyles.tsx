@@ -37,6 +37,7 @@ export const profilePageStyles = StyleSheet.create({
     signUpLink: {
         fontSize: 16,
         color: colors.blue,
+        textDecorationLine: "underline",
     },
     largeIcon: {
         paddingVertical: 25,
