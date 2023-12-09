@@ -39,14 +39,16 @@ export const profilePageStyles = StyleSheet.create({
         color: colors.blue,
     },
     largeIcon: {
+        paddingVertical: 25,
         alignSelf: 'center',
-        fontSize: 200
+        fontSize: 100
     },
     optionIcon: {
-        fontSize: 40,
+        fontSize: 35,
         marginLeft: 10
     },
     option: {
+        paddingVertical: 4,
         flexDirection: 'row',
         textAlignVertical: 'center',
     },
@@ -61,5 +63,7 @@ export const profilePageStyles = StyleSheet.create({
         width: '90%',
         alignSelf: 'center',
         marginBottom: 20,
+        shadowOffset: {width: 3, height: 3 },
+        shadowOpacity: 1.0,
     }
 });

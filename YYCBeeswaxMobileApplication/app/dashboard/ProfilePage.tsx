@@ -50,7 +50,7 @@ export default function ProfilePage() {
                     <ProfileOption label="Language" iconName='language' />
                 </View>
                 
-                <View style={profilePageStyles.optionContainer}>
+                <View style={profilePageStyles.optionContainer} >
                     <ProfileOption label="Help & Support" iconName='help-outline' />
                     <ProfileOption label="Contact Us" iconName='message' />
                     <ProfileOption label="Privacy Policy" iconName='lock-outline' />
