@@ -1,31 +1,28 @@
-import { StyleSheet } from 'react-native';
-import Constants from "expo-constants";
-import { colors } from '../consts/styles';
+import { StyleSheet } from "react-native";
+import { colors } from "../consts/styles";
 
 export const notificationPageStyles = StyleSheet.create({
     item: {
-        paddingTop: 10, 
-        paddingBottom: 10,       
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        
+        paddingTop: 10,
+        paddingBottom: 10,
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
     },
     itemTitle: {
-        alignSelf: 'center',
+        alignSelf: "center",
         fontSize: 14,
         marginLeft: 20,
-        
     },
     itemToggle: {
-        alignSelf: 'flex-end',
-        marginRight: 20,      
+        alignSelf: "flex-end",
+        marginRight: 20,
     },
     header: {
         paddingTop: 20,
         marginLeft: 20,
         fontSize: 16,
-        fontWeight: 'bold',
+        fontWeight: "bold",
         paddingBottom: 10,
     },
     divider: {
@@ -38,17 +35,17 @@ export const notificationPageStyles = StyleSheet.create({
     },
     button: {
         backgroundColor: colors.yellow,
-        position: 'absolute',
-        alignSelf: 'center',
+        alignSelf: "center",
         width: "65%",
         paddingTop: 15,
         paddingBottom: 15,
         borderRadius: 30,
+        position: "absolute",
         bottom: "5%",
     },
     buttonText: {
         fontSize: 21,
-        fontWeight: 'bold',
+        fontWeight: "bold",
         alignSelf: "center",
-    }
+    },
 });
