@@ -63,7 +63,7 @@ export const profilePageStyles = StyleSheet.create({
         width: "90%",
         alignSelf: "center",
         marginBottom: 20,
-        shadowOffset: {width: 0, height: 4},
+        shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.2,
         shadowRadius: 4,
         backgroundColor: colors.white,
