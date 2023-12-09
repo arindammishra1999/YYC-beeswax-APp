@@ -12,4 +12,11 @@ module.exports = {
             },
         },
     ],
+    "prettier/prettier": [
+        "error",
+        {
+            endOfLine: "auto",
+            tabWidth: 4,
+        },
+    ],
 };
