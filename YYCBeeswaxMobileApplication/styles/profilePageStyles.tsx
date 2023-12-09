@@ -53,17 +53,21 @@ export const profilePageStyles = StyleSheet.create({
         textAlignVertical: 'center',
     },
     optionLabel: {
-        fontSize: 25,
-        marginLeft: 15
+        alignSelf: "center",
+        fontSize: 20,
+        marginLeft: 15,
     },
     optionContainer: {
         borderRadius: 8,
         borderColor: colors.lightGrey,
-        borderWidth: 0.5,
         width: '90%',
         alignSelf: 'center',
         marginBottom: 20,
-        shadowOffset: {width: 3, height: 3 },
-        shadowOpacity: 1.0,
+        shadowOffset: {width: 0, height: 4},
+        shadowOpacity: 0.2,
+        shadowRadius: 4,
+        backgroundColor: colors.white,
+        paddingVertical: 5,
+
     }
 });

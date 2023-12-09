@@ -39,27 +39,22 @@ export default function ProfilePage() {
                     name="person-outline" 
                     style={profilePageStyles.largeIcon}
                 />
-
                 <View style={profilePageStyles.optionContainer}>
-                    <ProfileOption label="Order History" iconName='history' />
+                    <ProfileOption onPress={() => router.push('/auth/login')} label="Order History" iconName='history'/>
                 </View>
-                
                 <View style={profilePageStyles.optionContainer}>
-                    <ProfileOption label="Edit Profile" iconName='edit' />
-                    <ProfileOption label="Notifications" iconName='notifications' />
-                    <ProfileOption label="Language" iconName='language' />
+                    <ProfileOption onPress={() => router.push('/auth/login')} label="Edit Profile" iconName='edit'/>
+                    <ProfileOption onPress={() => router.push('/auth/login')} label="Notifications" iconName='notifications'/>
+                    <ProfileOption onPress={() => router.push('/auth/login')} label="Language" iconName='language'/>
                 </View>
-                
                 <View style={profilePageStyles.optionContainer} >
-                    <ProfileOption label="Help & Support" iconName='help-outline' />
-                    <ProfileOption label="Contact Us" iconName='message' />
-                    <ProfileOption label="Privacy Policy" iconName='lock-outline' />
+                    <ProfileOption onPress={() => router.push('/auth/login')} label="Help & Support" iconName='help-outline'/>
+                    <ProfileOption onPress={() => router.push('/auth/login')} label="Contact Us" iconName='message'/>
+                    <ProfileOption onPress={() => router.push('/auth/login')} label="Privacy Policy" iconName='lock-outline'/>
                 </View>
-                
                 <View style={profilePageStyles.optionContainer}>
-                    <ProfileOption label="Logout" iconName='logout' />
+                    <ProfileOption onPress={() => router.push('/auth/login')} label="Logout" iconName='logout'/>
                 </View>
-                
             </View>
         )
     }
