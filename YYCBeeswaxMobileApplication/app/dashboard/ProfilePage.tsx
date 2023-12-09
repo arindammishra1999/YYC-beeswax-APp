@@ -1,12 +1,13 @@
 import React from 'react';
-import {Text, TouchableOpacity, View} from 'react-native';
-import {mainStyles} from '@/styles/mainStyles';
-import {profilePageStyles} from '@/styles/profilePageStyles';
-import {Ionicons} from "@expo/vector-icons";
-import {router} from 'expo-router';
+import { Text, TouchableOpacity, View } from 'react-native';
+import { mainStyles } from '@/styles/mainStyles';
+import { profilePageStyles } from '@/styles/profilePageStyles';
+import { Ionicons } from "@expo/vector-icons";
+import { router } from 'expo-router';
 import useAuth from '@/firebase/hooks/useAuth';
 import Header from '@/components/header';
 import ProfileOption from '@/components/profileOption';
+import * as Linking from 'expo-linking';
 
 export default function ProfilePage() {
     const { user } = useAuth();
@@ -49,20 +50,20 @@ export default function ProfilePage() {
                     style={profilePageStyles.largeIcon}
                 />
                 <View style={profilePageStyles.optionContainer}>
-                    <ProfileOption onPress={() => router.push('/auth/login')} label="Order History" iconName='history'/>
+                    <ProfileOption onPress={() => router.push('/')} label="Order History" iconName="history"/>
                 </View>
                 <View style={profilePageStyles.optionContainer}>
-                    <ProfileOption onPress={() => router.push('/auth/login')} label="Edit Profile" iconName='edit'/>
-                    <ProfileOption onPress={() => router.push('/auth/login')} label="Notifications" iconName='notifications'/>
-                    <ProfileOption onPress={() => router.push('/auth/login')} label="Language" iconName='language'/>
+                    <ProfileOption onPress={() => router.push('/')} label="Edit Profile" iconName="edit"/>
+                    <ProfileOption onPress={() => router.push('/')} label="Notifications" iconName="notifications"/>
+                    <ProfileOption onPress={() => router.push('/')} label="Language" iconName="language"/>
                 </View>
                 <View style={profilePageStyles.optionContainer} >
-                    <ProfileOption onPress={() => router.push('/auth/login')} label="Help & Support" iconName='help-outline'/>
-                    <ProfileOption onPress={() => router.push('/auth/login')} label="Contact Us" iconName='message'/>
-                    <ProfileOption onPress={() => router.push('/auth/login')} label="Privacy Policy" iconName='lock-outline'/>
+                    <ProfileOption onPress={() => Linking.openURL("https://yycwax.com/about/frequently-asked-questions/")} label="Help & Support" iconName="help-outline"/>
+                    <ProfileOption onPress={() => router.push("https://yycwax.com/contact-us/")} label="Contact Us" iconName="message"/>
+                    <ProfileOption onPress={() => router.push("https://yycwax.com/privacy-policy/")} label="Privacy Policy" iconName="lock-outline"/>
                 </View>
                 <View style={profilePageStyles.optionContainer}>
-                    <ProfileOption onPress={() => router.push('/auth/login')} label="Logout" iconName='logout'/>
+                    <ProfileOption onPress={() => router.push('/')} label="Logout" iconName="logout"/>
                 </View>
             </View>
         );
