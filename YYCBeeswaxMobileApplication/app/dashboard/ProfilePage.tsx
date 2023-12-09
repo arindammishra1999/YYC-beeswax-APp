@@ -77,7 +77,7 @@ export default function ProfilePage() {
                     <ProfileOption
                         onPress={() =>
                             Linking.openURL(
-                                "https://yycwax.com/about/frequently-asked-questions/",
+                                "https://yycwax.com/about/frequently-asked-questions/"
                             )
                         }
                         label="Help & Support"
@@ -85,14 +85,16 @@ export default function ProfilePage() {
                     />
                     <ProfileOption
                         onPress={() =>
-                            router.push("https://yycwax.com/contact-us/")
+                            Linking.openURL("https://yycwax.com/contact-us/")
                         }
                         label="Contact Us"
                         iconName="message"
                     />
                     <ProfileOption
                         onPress={() =>
-                            router.push("https://yycwax.com/privacy-policy/")
+                            Linking.openURL(
+                                "https://yycwax.com/privacy-policy/"
+                            )
                         }
                         label="Privacy Policy"
                         iconName="lock-outline"
