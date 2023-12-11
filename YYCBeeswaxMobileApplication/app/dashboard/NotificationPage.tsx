@@ -23,6 +23,7 @@ export default function NotificationsPage() {
         { name: "Promotions", key: "4", toggle: false },
         { name: "Discounts", key: "5", toggle: false },
     ]);
+    const [changesMade, setChangesMade] = useState(false);
 
     const showChangesSavedMesssage = () =>
         Alert.alert("Success!", "Your changes have been saved.", [
@@ -31,17 +32,11 @@ export default function NotificationsPage() {
 
     useEffect(() => {
         const loadNotificationSettings = async () => {
-            const general = "1";
-            const sounds = "2";
-            const vibration = "3";
-            const promotions = "4";
-            const discounts = "5";
-
-            const generalToggle = await SecureStore.getItemAsync(general);
-            const soundsToggle = await SecureStore.getItemAsync(sounds);
-            const vibrationToggle = await SecureStore.getItemAsync(vibration);
-            const promotionsToggle = await SecureStore.getItemAsync(promotions);
-            const discountsToggle = await SecureStore.getItemAsync(discounts);
+            const generalToggle = await SecureStore.getItemAsync("1");
+            const soundsToggle = await SecureStore.getItemAsync("2");
+            const vibrationToggle = await SecureStore.getItemAsync("3");
+            const promotionsToggle = await SecureStore.getItemAsync("4");
+            const discountsToggle = await SecureStore.getItemAsync("5");
 
             setCommonSetting([
                 {
@@ -75,6 +70,7 @@ export default function NotificationsPage() {
     }, []);
 
     const toggleSwitch = (key: string, settingType: string) => {
+        setChangesMade(true);
         if (settingType === "common") {
             setCommonSetting((prevSettings) =>
                 prevSettings.map((setting) =>
@@ -95,48 +91,43 @@ export default function NotificationsPage() {
     };
 
     const handleConfirmChanges = async () => {
-        const general = "1";
-        const sounds = "2";
-        const vibration = "3";
-        const promotions = "4";
-        const discounts = "5";
-
         await SecureStore.setItemAsync(
-            general,
+            "1",
             (
-                commonSettings.find((setting) => setting.key === general)
+                commonSettings.find((setting) => setting.key === "1")?.toggle ||
+                false
+            ).toString()
+        );
+        await SecureStore.setItemAsync(
+            "2",
+            (
+                commonSettings.find((setting) => setting.key === "2")?.toggle ||
+                false
+            ).toString()
+        );
+        await SecureStore.setItemAsync(
+            "3",
+            (
+                commonSettings.find((setting) => setting.key === "3")?.toggle ||
+                false
+            ).toString()
+        );
+        await SecureStore.setItemAsync(
+            "4",
+            (
+                promotionSettings.find((setting) => setting.key === "4")
                     ?.toggle || false
             ).toString()
         );
         await SecureStore.setItemAsync(
-            sounds,
+            "5",
             (
-                commonSettings.find((setting) => setting.key === sounds)
-                    ?.toggle || false
-            ).toString()
-        );
-        await SecureStore.setItemAsync(
-            vibration,
-            (
-                commonSettings.find((setting) => setting.key === vibration)
-                    ?.toggle || false
-            ).toString()
-        );
-        await SecureStore.setItemAsync(
-            promotions,
-            (
-                promotionSettings.find((setting) => setting.key === promotions)
-                    ?.toggle || false
-            ).toString()
-        );
-        await SecureStore.setItemAsync(
-            discounts,
-            (
-                promotionSettings.find((setting) => setting.key === discounts)
+                promotionSettings.find((setting) => setting.key === "5")
                     ?.toggle || false
             ).toString()
         );
         showChangesSavedMesssage();
+        setChangesMade(false);
     };
 
     return (
@@ -184,8 +175,12 @@ export default function NotificationsPage() {
                 ))}
             </ScrollView>
             <TouchableOpacity
-                style={notificationPageStyles.button}
+                style={[
+                    notificationPageStyles.button,
+                    !changesMade && notificationPageStyles.buttonDisabled,
+                ]}
                 onPress={handleConfirmChanges}
+                disabled={!changesMade}
             >
                 <Text style={notificationPageStyles.buttonText}>
                     Confirm Changes

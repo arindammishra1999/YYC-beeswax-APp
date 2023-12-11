@@ -43,6 +43,9 @@ export const notificationPageStyles = StyleSheet.create({
         position: "absolute",
         bottom: "5%",
     },
+    buttonDisabled: {
+        opacity: 0.5,
+    },
     buttonText: {
         fontSize: 21,
         fontWeight: "bold",
