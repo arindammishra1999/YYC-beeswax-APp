@@ -11,7 +11,7 @@ export const notificationPageStyles = StyleSheet.create({
     },
     itemTitle: {
         alignSelf: "center",
-        fontSize: 14,
+        fontSize: 16,
         marginLeft: 20,
     },
     itemToggle: {
@@ -21,7 +21,7 @@ export const notificationPageStyles = StyleSheet.create({
     header: {
         paddingTop: 20,
         marginLeft: 20,
-        fontSize: 16,
+        fontSize: 18,
         fontWeight: "bold",
         paddingBottom: 10,
     },

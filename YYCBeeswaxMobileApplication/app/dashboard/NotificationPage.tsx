@@ -91,41 +91,19 @@ export default function NotificationsPage() {
     };
 
     const handleConfirmChanges = async () => {
-        await SecureStore.setItemAsync(
-            "1",
-            (
-                commonSettings.find((setting) => setting.key === "1")?.toggle ||
-                false
-            ).toString()
-        );
-        await SecureStore.setItemAsync(
-            "2",
-            (
-                commonSettings.find((setting) => setting.key === "2")?.toggle ||
-                false
-            ).toString()
-        );
-        await SecureStore.setItemAsync(
-            "3",
-            (
-                commonSettings.find((setting) => setting.key === "3")?.toggle ||
-                false
-            ).toString()
-        );
-        await SecureStore.setItemAsync(
-            "4",
-            (
-                promotionSettings.find((setting) => setting.key === "4")
-                    ?.toggle || false
-            ).toString()
-        );
-        await SecureStore.setItemAsync(
-            "5",
-            (
-                promotionSettings.find((setting) => setting.key === "5")
-                    ?.toggle || false
-            ).toString()
-        );
+        const settingsToSet = [
+            { key: "1", settings: commonSettings },
+            { key: "2", settings: commonSettings },
+            { key: "3", settings: commonSettings },
+            { key: "4", settings: promotionSettings },
+            { key: "5", settings: promotionSettings },
+        ];
+
+        for (const { key, settings } of settingsToSet) {
+            const setting = settings.find((setting) => setting.key === key);
+            const value = (setting?.toggle || false).toString();
+            await SecureStore.setItemAsync(key, value);
+        }
         showChangesSavedMesssage();
         setChangesMade(false);
     };
