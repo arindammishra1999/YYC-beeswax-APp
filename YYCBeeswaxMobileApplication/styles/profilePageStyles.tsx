@@ -69,5 +69,6 @@ export const profilePageStyles = StyleSheet.create({
         shadowRadius: 4,
         backgroundColor: colors.white,
         paddingVertical: 5,
+        elevation: 3,
     },
 });

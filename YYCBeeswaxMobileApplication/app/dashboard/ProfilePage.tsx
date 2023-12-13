@@ -78,7 +78,7 @@ export default function ProfilePage() {
                         iconName="edit"
                     />
                     <ProfileOption
-                        onPress={() => router.push("/")}
+                        onPress={() => router.push("./NotificationPage")}
                         label="Notifications"
                         iconName="notifications"
                     />
