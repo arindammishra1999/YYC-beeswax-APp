@@ -8,10 +8,11 @@ import {
     ScrollView,
     Alert,
 } from "react-native";
-import { default as Header } from "../../components/header";
 import { mainStyles } from "../../styles/mainStyles";
 import { colors } from "../../consts/styles";
 import * as SecureStore from "expo-secure-store";
+import HeaderWithBackOptions from "@/components/headerWithBackOptions";
+import { router } from "expo-router";
 
 export default function NotificationsPage() {
     const [commonSettings, setCommonSetting] = useState([
@@ -108,9 +109,27 @@ export default function NotificationsPage() {
         setChangesMade(false);
     };
 
+    const handleBackPress = () => {
+        if (changesMade) {
+            Alert.alert(
+                "Unsaved Changes!",
+                "Are you sure you want to leave this page? Changes you have made will not be saved.",
+                [
+                    { text: "Cancel" },
+                    { text: "Leave", onPress: () => router.back() },
+                ]
+            );
+        } else {
+            router.back();
+        }
+    };
+
     return (
         <View style={mainStyles.container}>
-            <Header header="Notifications" />
+            <HeaderWithBackOptions
+                header="Notifications"
+                onPress={handleBackPress}
+            />
             <ScrollView>
                 <Text style={notificationPageStyles.header}>Common</Text>
                 {commonSettings.map((item) => (
@@ -161,7 +180,7 @@ export default function NotificationsPage() {
                 disabled={!changesMade}
             >
                 <Text style={notificationPageStyles.buttonText}>
-                    Confirm Changes
+                    Save Changes
                 </Text>
             </TouchableOpacity>
         </View>
