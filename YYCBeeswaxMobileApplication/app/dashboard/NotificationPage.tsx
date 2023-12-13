@@ -147,6 +147,7 @@ export default function NotificationsPage() {
                                 false: colors.white,
                                 true: colors.yellow,
                             }}
+                            thumbColor={colors.white}
                         />
                     </View>
                 ))}
@@ -167,6 +168,7 @@ export default function NotificationsPage() {
                                 false: colors.white,
                                 true: colors.yellow,
                             }}
+                            thumbColor={colors.white}
                         />
                     </View>
                 ))}
