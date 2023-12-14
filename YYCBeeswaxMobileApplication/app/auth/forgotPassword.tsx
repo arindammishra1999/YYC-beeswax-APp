@@ -1,22 +1,31 @@
 import { Fontisto } from "@expo/vector-icons";
 import { sendPasswordResetEmail } from "firebase/auth";
 import { useState } from "react";
-import { Keyboard, Text, TouchableWithoutFeedback, View } from "react-native";
-
+import {
+    Keyboard,
+    Modal,
+    Text,
+    TouchableOpacity,
+    TouchableWithoutFeedback,
+    View,
+} from "react-native";
 import Button from "@/components/button";
 import Header from "@/components/header";
 import Input from "@/components/input";
 import { auth } from "@/firebase/config";
 import { forgotPageStyles } from "@/styles/forgotPageStyles";
+import { router } from "expo-router";
+import { loginPopupStyles } from "@/styles/components/loginPopupStyles";
 
 export default function App() {
     const [email, setEmail] = useState("");
     const [error, setError] = useState("");
+    const [loginPopupVisible, setLoginPopupVisible] = useState(false);
 
     async function confirm() {
         try {
             await sendPasswordResetEmail(auth, email);
-            //USE NAVIGATION TO RETURN BACK TO LOGIN
+            setLoginPopupVisible(true);
         } catch (err: any) {
             if (err?.code == "auth/missing-email") {
                 setError("Password Reset Failed - Enter your email.");
@@ -55,6 +64,35 @@ export default function App() {
                     )}
                 </View>
                 <Button title="Confirm" onPress={confirm} />
+                <Modal
+                    animationType="slide"
+                    visible={loginPopupVisible}
+                    transparent={true}
+                    onRequestClose={() => {
+                        setLoginPopupVisible(!loginPopupVisible);
+                    }}
+                >
+                    <View style={loginPopupStyles.viewContainer}>
+                        <View style={loginPopupStyles.popupView}>
+                            <Text style={loginPopupStyles.popupText}>
+                                An email has been sent to the associated account
+                                with a link to reset your password.
+                            </Text>
+                            <View style={loginPopupStyles.buttonContainer}>
+                                <TouchableOpacity
+                                    style={loginPopupStyles.button}
+                                    onPress={() => router.push("./login")}
+                                >
+                                    <Text
+                                        style={loginPopupStyles.buttonTextStyle}
+                                    >
+                                        Login
+                                    </Text>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                    </View>
+                </Modal>
             </View>
         </TouchableWithoutFeedback>
     );
