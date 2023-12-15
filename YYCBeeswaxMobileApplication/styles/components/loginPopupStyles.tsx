@@ -13,6 +13,7 @@ export const loginPopupStyles = StyleSheet.create({
         paddingVertical: 40,
         alignItems: "center",
         shadowColor: "#000",
+        elevation: 3,
         shadowOpacity: 0.25,
         shadowRadius: 10,
     },
