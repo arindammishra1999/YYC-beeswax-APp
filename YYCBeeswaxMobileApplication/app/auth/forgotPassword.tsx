@@ -81,12 +81,12 @@ export default function App() {
                             <View style={loginPopupStyles.buttonContainer}>
                                 <TouchableOpacity
                                     style={loginPopupStyles.button}
-                                    onPress={() => router.push("./login")}
+                                    onPress={() => router.back()}
                                 >
                                     <Text
                                         style={loginPopupStyles.buttonTextStyle}
                                     >
-                                        Login
+                                        Back to Login
                                     </Text>
                                 </TouchableOpacity>
                             </View>
