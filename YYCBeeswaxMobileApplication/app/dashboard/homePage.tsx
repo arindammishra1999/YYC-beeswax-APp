@@ -1,6 +1,7 @@
-import {Text, View} from 'react-native';
-import {mainStyles} from '@/styles/mainStyles';
-import React from 'react';
+import React from "react";
+import { Text, View } from "react-native";
+
+import { mainStyles } from "@/styles/mainStyles";
 
 export default function HomePage() {
     return (

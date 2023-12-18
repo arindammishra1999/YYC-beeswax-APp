@@ -4,12 +4,17 @@ import React from "react";
 import { Text, View } from "react-native";
 import { headerStyles } from "@/styles/components/headerStyles";
 
-export default function Header(props: { header: string }) {
+type Props = {
+    header: string;
+    onPress: () => void;
+};
+
+export default function HeaderWithBackOptions(props: Props) {
     return (
         <View style={headerStyles.header}>
             <Ionicons
                 name="arrow-back"
-                onPress={router.back}
+                onPress={props.onPress}
                 size={32}
                 style={headerStyles.backButton}
             />
