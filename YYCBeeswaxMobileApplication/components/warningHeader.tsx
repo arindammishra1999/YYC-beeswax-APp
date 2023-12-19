@@ -1,22 +1,22 @@
 import { Ionicons } from "@expo/vector-icons";
-import { router } from "expo-router";
 import React from "react";
 import { Text, View } from "react-native";
 import { headerStyles } from "@/styles/components/headerStyles";
 
 type Props = {
-    header: string,
-    noBackArrow?: boolean
-}
-export default function Header(props: Props) {
+    header: string;
+    onPress: () => void;
+};
+
+export default function WarningHeader(props: Props) {
     return (
         <View style={headerStyles.header}>
-            {!props?.noBackArrow && <Ionicons
+            <Ionicons
                 name="arrow-back"
-                onPress={router.back}
+                onPress={props.onPress}
                 size={32}
                 style={headerStyles.backButton}
-            />}
+            />
             <Text style={headerStyles.headerText}>{props.header}</Text>
         </View>
     );

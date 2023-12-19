@@ -1,14 +1,15 @@
-import {StyleSheet} from 'react-native';
-import {colors} from '@/consts/styles';
+import { StyleSheet } from "react-native";
+
+import { colors } from "@/consts/styles";
 
 export const accountStyles = StyleSheet.create({
     container: {
         paddingHorizontal: 10,
         paddingBottom: 10,
         flex: 1,
-        alignContent: 'space-between'
+        alignContent: "space-between",
     },
-    form: {flex: 1, paddingTop: 10, gap: 20},
+    form: { flex: 1, paddingTop: 10, gap: 20 },
     logo: {
         width: 80,
         height: 80,
@@ -35,6 +36,6 @@ export const accountStyles = StyleSheet.create({
     },
     error: {
         color: colors.red,
-        alignSelf: 'center'
-    }
+        alignSelf: "center",
+    },
 });

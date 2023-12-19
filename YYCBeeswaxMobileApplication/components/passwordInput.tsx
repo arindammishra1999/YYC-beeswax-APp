@@ -1,8 +1,9 @@
 import React from "react";
-import {SafeAreaView, TextInput} from "react-native";
-import {accountStyles} from "@/styles/accountStyles";
+import { SafeAreaView, TextInput } from "react-native";
 
-type Props = { passwordInput: (value: string) => void }
+import { accountStyles } from "@/styles/accountStyles";
+
+type Props = { passwordInput: (value: string) => void };
 
 export default function PasswordInput(props: Props) {
     return (
@@ -10,7 +11,7 @@ export default function PasswordInput(props: Props) {
             <TextInput
                 autoCapitalize="none"
                 autoCorrect={false}
-                onChangeText={text => props.passwordInput(text)}
+                onChangeText={(text) => props.passwordInput(text)}
                 placeholder="Password"
                 secureTextEntry
                 textContentType="password"

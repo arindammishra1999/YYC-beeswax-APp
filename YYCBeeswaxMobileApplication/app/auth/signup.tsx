@@ -65,9 +65,9 @@ export default function signup() {
         <View style={accountStyles.container}>
             <Header header={'Create Account'}/>
             <View style={accountStyles.form}>
-                <Input label={'First Name'} placeholder='Enter First Name' value={firstName} onChangeText={setFirstName}/>
-                <Input label={'Last Name'} placeholder='Enter Last Name' value={lastName} onChangeText={setLastName}/>
-                <Input label={'Email'} placeholder='Enter Email' value={email} onChangeText={setEmail}/>
+                <Input label={'First Name'} placeholder='Enter First Name' value={firstName} onChangeText={setFirstName} autoCapitalize={false}/>
+                <Input label={'Last Name'} placeholder='Enter Last Name' value={lastName} onChangeText={setLastName} autoCapitalize={false}/>
+                <Input label={'Email'} placeholder='Enter Email' value={email} onChangeText={setEmail} autoCapitalize={false}/>
                 <HideableInput label={'Password'} placeholder='Enter Password' value={password} onChangeText={setPassword}/>
                 <HideableInput label={'Password'} placeholder='Re-enter Password' value={confirmedPassword} onChangeText={setConfirmedPassword}/>
                 {error && <Text style={accountStyles.error}>{error}</Text>}
