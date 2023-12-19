@@ -53,11 +53,19 @@ export default function signup() {
             },3000);
 
         }
-        catch(error){
+        catch (error: any) {
             console.error('Error creating user:', error);
-            // Handle signup errors and update state
-            setError('Error creating user. Please try again.');
-        };
+            // Handle different error cases
+            if (error.code === "auth/invalid-email") {
+                setError('Signup Failed - Enter a valid email.');
+            } else if (error.code === "auth/weak-password") {
+                setError('Signup Failed - Password is too weak.');
+            } else if (error.code === "auth/email-already-in-use") {
+                setError('Signup Failed - Email is already in use.');
+            } else {
+                setError('Error creating user. Please try again.');
+            }
+        }
     }
 
     return (
