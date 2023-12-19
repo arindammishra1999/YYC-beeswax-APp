@@ -23,7 +23,7 @@ export default function App() {
                 <LinkButton title='Browse as Guest' href='/dashboard/HomePage' style={rootPageStyles.button}/>
             </View>
             <Link href='/auth/signup' asChild>
-                <Text style={mainStyles.centerText}>Don't have an account? Sign Up</Text>
+                <Text style={{...mainStyles.centerText, color:'blue',textDecorationLine: 'underline'}}>Don't have an account? Sign Up</Text>
             </Link>
         </View>
     );
