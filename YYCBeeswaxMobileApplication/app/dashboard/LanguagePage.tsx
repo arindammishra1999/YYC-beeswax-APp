@@ -76,39 +76,33 @@ const LanguageSelectionPage = () => {
             </View>
             <ScrollView style={languagePageStyles.languageList}>
                 {availableLanguages.map((language) => (
-                    <View
+                    <TouchableOpacity
                         key={language}
-                        style={languagePageStyles.languageContainer}
+                        onPress={() => handleLanguageChange(language)}
+                        disabled={selectedLanguage === language}
                     >
-                        <Text
-                            style={
-                                (languagePageStyles.languageText,
-                                selectedLanguage === language &&
-                                    languagePageStyles.selectedLanguageContainer)
-                            }
-                        >
-                            {language}
-                        </Text>
-                        <TouchableOpacity
-                            style={[
-                                languagePageStyles.circleButton,
-                                selectedLanguage === language
-                                    ? [
-                                          languagePageStyles.yellowCircle,
-                                          languagePageStyles.circleTouchable,
-                                      ]
-                                    : languagePageStyles.clearCircle,
-                            ]}
-                            onPress={() => handleLanguageChange(language)}
-                            disabled={selectedLanguage === language}
-                            hitSlop={{
-                                top: 30,
-                                bottom: 30,
-                                left: 30,
-                                right: 30,
-                            }}
-                        />
-                    </View>
+                        <View style={languagePageStyles.languageContainer}>
+                            <Text
+                                style={
+                                    (languagePageStyles.languageText,
+                                    selectedLanguage === language &&
+                                        languagePageStyles.selectedLanguageText)
+                                }
+                            >
+                                {language}
+                            </Text>
+                            <View>
+                                <View
+                                    style={[
+                                        languagePageStyles.circleButton,
+                                        selectedLanguage === language
+                                            ? languagePageStyles.yellowCircle
+                                            : languagePageStyles.clearCircle,
+                                    ]}
+                                />
+                            </View>
+                        </View>
+                    </TouchableOpacity>
                 ))}
             </ScrollView>
             <View style={languagePageStyles.bottomContainer}>
