@@ -1,50 +1,37 @@
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import React from "react";
-import Icon from "react-native-vector-icons/MaterialIcons";
-
-import CartPage from "@/app/dashboard/CartPage";
-import HomePage from "@/app/dashboard/HomePage";
-import MorePage from "@/app/dashboard/MorePage";
-import ProfilePage from "@/app/dashboard/ProfilePage";
-import {
-    CART_ROUTE,
-    HOMEPAGE_ROUTE,
-    MORE_ROUTE,
-    PROFILE_ROUTE,
-} from "@/consts/constants";
+import { View } from "react-native";
+import { useState } from "react";
+import NavbarOption from "./navbarOption";
+import { router } from "expo-router";
+import { navbarStyles } from "@/styles/components/navbarStyles";
 import { colors } from "@/consts/styles";
 
-const Tab = createBottomTabNavigator();
+type Props = {
+    currentPage: string,
+}
 
-export default function Navbar() {
+export default function Navbar(props: Props) {
     return (
-        <Tab.Navigator
-            initialRouteName={HOMEPAGE_ROUTE}
-            screenOptions={({ route }) => ({
-                tabBarIcon: ({ color }) => {
-                    let iconName = "";
-                    if (route.name === HOMEPAGE_ROUTE) {
-                        iconName = "home";
-                    } else if (route.name === CART_ROUTE) {
-                        iconName = "shopping-cart";
-                    } else if (route.name === MORE_ROUTE) {
-                        iconName = "layers";
-                    } else if (route.name === PROFILE_ROUTE) {
-                        iconName = "account-circle";
-                    }
-                    return <Icon name={iconName} color={color} size={38} />;
-                },
-                tabBarActiveTintColor: colors.yellow,
-                tabBarInactiveTintColor: colors.black,
-                tabBarShowLabel: false,
-                headerShown: false,
-                tabBarStyle: { height: "9%" },
-            })}
-        >
-            <Tab.Screen name={HOMEPAGE_ROUTE} component={HomePage} />
-            <Tab.Screen name={CART_ROUTE} component={CartPage} />
-            <Tab.Screen name={MORE_ROUTE} component={MorePage} />
-            <Tab.Screen name={PROFILE_ROUTE} component={ProfilePage} />
-        </Tab.Navigator>
+        <View style={navbarStyles.container}>
+            <NavbarOption 
+                iconName="home" 
+                onPress={() => router.push("/dashboard/HomePage")}
+                color={props.currentPage === "Home" ? colors.yellow : colors.black}
+            />
+            <NavbarOption 
+                iconName="shopping-cart" 
+                onPress={() => router.push("/dashboard/CartPage")}
+                color={props.currentPage === "Cart" ? colors.yellow : colors.black}
+            />
+            <NavbarOption 
+                iconName="layers" 
+                onPress={() => router.push("/dashboard/MorePage")}
+                color={props.currentPage === "More" ? colors.yellow : colors.black}
+            />
+            <NavbarOption 
+                iconName="account-circle" 
+                onPress={() => router.push("/dashboard/ProfilePage")}
+                color={props.currentPage === "Profile" ? colors.yellow : colors.black}
+            />
+        </View>
     );
 }

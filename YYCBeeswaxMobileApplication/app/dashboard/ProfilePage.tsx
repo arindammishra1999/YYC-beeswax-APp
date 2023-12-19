@@ -17,6 +17,7 @@ import * as Linking from "expo-linking";
 import { logoutPopupStyles } from "@/styles/components/logoutPopupStyles";
 import { signOut } from "firebase/auth";
 import { auth } from "@/firebase/config";
+import Navbar from "@/components/navbar";
 
 export default function ProfilePage() {
     const { user } = useAuth();
@@ -54,11 +55,12 @@ export default function ProfilePage() {
                         </Text>
                     </TouchableOpacity>
                 </View>
+                <Navbar currentPage="Profile"/>
             </View>
         );
     } else {
         return (
-            <View>
+            <View style={mainStyles.container}>
                 <Header header="Your Profile" />
                 <Ionicons
                     name="person-outline"
@@ -176,6 +178,7 @@ export default function ProfilePage() {
                         </View>
                     </View>
                 </Modal>
+                <Navbar currentPage="Profile"/>
             </View>
         );
     }
