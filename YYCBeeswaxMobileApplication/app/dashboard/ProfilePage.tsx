@@ -31,7 +31,7 @@ export default function ProfilePage() {
     if (!user) {
         return (
             <View style={mainStyles.container}>
-                <Header header="Your Profile" />
+                <Header header="Your Profile" noBackArrow={true} />
                 <Text style={profilePageStyles.messageText}>
                     You are currently browsing as a guest! Login or create an
                     account to view your profile and save your settings.
@@ -61,7 +61,7 @@ export default function ProfilePage() {
     } else {
         return (
             <View style={mainStyles.container}>
-                <Header header="Your Profile" />
+                <Header header="Your Profile" noBackArrow={true} />
                 <Ionicons
                     name="person-outline"
                     style={profilePageStyles.largeIcon}
