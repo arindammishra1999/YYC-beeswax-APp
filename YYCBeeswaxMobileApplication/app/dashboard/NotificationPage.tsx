@@ -11,7 +11,7 @@ import {
 import { mainStyles } from "../../styles/mainStyles";
 import { colors } from "../../consts/styles";
 import * as SecureStore from "expo-secure-store";
-import HeaderWithBackOptions from "@/components/headerWithBackOptions";
+import WarningHeader from "@/components/warningHeader";
 import { router } from "expo-router";
 
 export default function NotificationsPage() {
@@ -126,7 +126,7 @@ export default function NotificationsPage() {
 
     return (
         <View style={mainStyles.container}>
-            <HeaderWithBackOptions
+            <WarningHeader
                 header="Notifications"
                 onPress={handleBackPress}
             />

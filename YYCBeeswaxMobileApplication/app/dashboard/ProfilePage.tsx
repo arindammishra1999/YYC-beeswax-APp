@@ -17,6 +17,7 @@ import * as Linking from "expo-linking";
 import { logoutPopupStyles } from "@/styles/components/logoutPopupStyles";
 import { signOut } from "firebase/auth";
 import { auth } from "@/firebase/config";
+import Navbar from "@/components/navbar";
 
 export default function ProfilePage() {
     const { user } = useAuth();
@@ -30,7 +31,7 @@ export default function ProfilePage() {
     if (!user) {
         return (
             <View style={mainStyles.container}>
-                <Header header="Your Profile" />
+                <Header header="Your Profile" noBackArrow={true} />
                 <Text style={profilePageStyles.messageText}>
                     You are currently browsing as a guest! Login or create an
                     account to view your profile and save your settings.
@@ -54,12 +55,13 @@ export default function ProfilePage() {
                         </Text>
                     </TouchableOpacity>
                 </View>
+                <Navbar currentPage="Profile"/>
             </View>
         );
     } else {
         return (
-            <View>
-                <Header header="Your Profile" />
+            <View style={mainStyles.container}>
+                <Header header="Your Profile" noBackArrow={true} />
                 <Ionicons
                     name="person-outline"
                     style={profilePageStyles.largeIcon}
@@ -176,6 +178,7 @@ export default function ProfilePage() {
                         </View>
                     </View>
                 </Modal>
+                <Navbar currentPage="Profile"/>
             </View>
         );
     }
