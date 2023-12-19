@@ -1,4 +1,5 @@
 import { Fontisto } from "@expo/vector-icons";
+import { router } from "expo-router";
 import { sendPasswordResetEmail } from "firebase/auth";
 import { useState } from "react";
 import {
@@ -9,13 +10,13 @@ import {
     TouchableWithoutFeedback,
     View,
 } from "react-native";
+
 import Button from "@/components/button";
 import Header from "@/components/header";
 import Input from "@/components/input";
 import { auth } from "@/firebase/config";
-import { forgotPageStyles } from "@/styles/forgotPageStyles";
-import { router } from "expo-router";
 import { loginPopupStyles } from "@/styles/components/loginPopupStyles";
+import { forgotPageStyles } from "@/styles/forgotPageStyles";
 
 export default function App() {
     const [email, setEmail] = useState("");
@@ -67,7 +68,7 @@ export default function App() {
                 <Modal
                     animationType="slide"
                     visible={loginPopupVisible}
-                    transparent={true}
+                    transparent
                     onRequestClose={() => {
                         setLoginPopupVisible(!loginPopupVisible);
                     }}

@@ -1,3 +1,7 @@
+import { Ionicons } from "@expo/vector-icons";
+import * as Linking from "expo-linking";
+import { router } from "expo-router";
+import { signOut } from "firebase/auth";
 import React, { useState } from "react";
 import {
     Modal,
@@ -6,18 +10,15 @@ import {
     TouchableWithoutFeedback,
     View,
 } from "react-native";
+
+import Header from "@/components/header";
+import Navbar from "@/components/navbar";
+import ProfileOption from "@/components/profileOption";
+import { auth } from "@/firebase/config";
 import useAuth from "@/firebase/hooks/useAuth";
+import { logoutPopupStyles } from "@/styles/components/logoutPopupStyles";
 import { mainStyles } from "@/styles/mainStyles";
 import { profilePageStyles } from "@/styles/profilePageStyles";
-import { Ionicons } from "@expo/vector-icons";
-import { router } from "expo-router";
-import Header from "@/components/header";
-import ProfileOption from "@/components/profileOption";
-import * as Linking from "expo-linking";
-import { logoutPopupStyles } from "@/styles/components/logoutPopupStyles";
-import { signOut } from "firebase/auth";
-import { auth } from "@/firebase/config";
-import Navbar from "@/components/navbar";
 
 export default function ProfilePage() {
     const { user } = useAuth();
@@ -31,7 +32,7 @@ export default function ProfilePage() {
     if (!user) {
         return (
             <View style={mainStyles.container}>
-                <Header header="Your Profile" noBackArrow={true} />
+                <Header header="Your Profile" noBackArrow />
                 <Text style={profilePageStyles.messageText}>
                     You are currently browsing as a guest! Login or create an
                     account to view your profile and save your settings.
@@ -55,13 +56,13 @@ export default function ProfilePage() {
                         </Text>
                     </TouchableOpacity>
                 </View>
-                <Navbar currentPage="Profile"/>
+                <Navbar currentPage="Profile" />
             </View>
         );
     } else {
         return (
             <View style={mainStyles.container}>
-                <Header header="Your Profile" noBackArrow={true} />
+                <Header header="Your Profile" noBackArrow />
                 <Ionicons
                     name="person-outline"
                     style={profilePageStyles.largeIcon}
@@ -94,7 +95,7 @@ export default function ProfilePage() {
                     <ProfileOption
                         onPress={() =>
                             Linking.openURL(
-                                "https://yycwax.com/about/frequently-asked-questions/"
+                                "https://yycwax.com/about/frequently-asked-questions/",
                             )
                         }
                         label="Help & Support"
@@ -110,7 +111,7 @@ export default function ProfilePage() {
                     <ProfileOption
                         onPress={() =>
                             Linking.openURL(
-                                "https://yycwax.com/privacy-policy/"
+                                "https://yycwax.com/privacy-policy/",
                             )
                         }
                         label="Privacy Policy"
@@ -127,7 +128,7 @@ export default function ProfilePage() {
                 <Modal
                     animationType="slide"
                     visible={logoutPopupVisible}
-                    transparent={true}
+                    transparent
                     onRequestClose={() => {
                         setLogoutPopupVisible(!logoutPopupVisible);
                     }}
@@ -136,9 +137,7 @@ export default function ProfilePage() {
                         <TouchableWithoutFeedback
                             onPress={() => setLogoutPopupVisible(false)}
                         >
-                            <View
-                                style={logoutPopupStyles.touchableOverlay}
-                            ></View>
+                            <View style={logoutPopupStyles.touchableOverlay} />
                         </TouchableWithoutFeedback>
                         <View style={logoutPopupStyles.popupView}>
                             <Text style={logoutPopupStyles.popupText}>
@@ -150,7 +149,7 @@ export default function ProfilePage() {
                                     style={logoutPopupStyles.button}
                                     onPress={() =>
                                         setLogoutPopupVisible(
-                                            !logoutPopupVisible
+                                            !logoutPopupVisible,
                                         )
                                     }
                                 >
@@ -178,7 +177,7 @@ export default function ProfilePage() {
                         </View>
                     </View>
                 </Modal>
-                <Navbar currentPage="Profile"/>
+                <Navbar currentPage="Profile" />
             </View>
         );
     }

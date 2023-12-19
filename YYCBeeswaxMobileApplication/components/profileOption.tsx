@@ -1,8 +1,9 @@
 import React from "react";
 import { Text, View } from "react-native";
-import Icon from "react-native-vector-icons/MaterialIcons";
-import { profilePageStyles } from "@/styles/profilePageStyles";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import Icon from "react-native-vector-icons/MaterialIcons";
+
+import { profilePageStyles } from "@/styles/profilePageStyles";
 
 type Props = {
     label: string;

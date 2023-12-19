@@ -17,6 +17,10 @@ export const accountStyles = StyleSheet.create({
         marginTop: 50,
         marginBottom: 20,
     },
+    text: {
+        textAlign: "center",
+        fontSize: 18,
+    },
     header: {
         fontSize: 20,
         alignSelf: "center",

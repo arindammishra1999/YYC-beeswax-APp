@@ -3,6 +3,13 @@ module.exports = {
     extends: ["universe/native", "universe/shared/typescript-analysis"],
     rules: {
         eqeqeq: "off",
+        "prettier/prettier": [
+            "error",
+            {
+                endOfLine: "auto",
+                tabWidth: 4,
+            },
+        ],
     },
     overrides: [
         {
@@ -10,13 +17,6 @@ module.exports = {
             parserOptions: {
                 project: "./tsconfig.json",
             },
-        },
-    ],
-    "prettier/prettier": [
-        "error",
-        {
-            endOfLine: "auto",
-            tabWidth: 4,
         },
     ],
 };

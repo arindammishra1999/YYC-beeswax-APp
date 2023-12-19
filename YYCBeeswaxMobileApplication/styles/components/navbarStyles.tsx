@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+
 import { colors } from "@/consts/styles";
 
 export const navbarStyles = StyleSheet.create({
@@ -24,6 +25,6 @@ export const navbarStyles = StyleSheet.create({
         marginBottom: "2%",
     },
     optionIcon: {
-        fontSize: 34
-    }
+        fontSize: 34,
+    },
 });
