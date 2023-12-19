@@ -1,11 +1,10 @@
 import { router } from "expo-router";
-import * as SecureStore from "expo-secure-store";
+import SecureStore from "expo-secure-store";
 import React, { useState, useEffect } from "react";
 import { View, Text, TouchableOpacity, ScrollView, Alert } from "react-native";
 
-import { languagePageStyles } from "../../styles/languagePageStyles";
-
 import WarningHeader from "@/components/warningHeader";
+import { languagePageStyles } from "@/styles/languagePageStyles";
 
 const LanguageSelectionPage = () => {
     const [selectedLanguage, setSelectedLanguage] = useState("English");

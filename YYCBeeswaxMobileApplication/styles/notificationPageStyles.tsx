@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 
-import { colors } from "../consts/styles";
+import { colors } from "@/consts/styles";
 
 export const notificationPageStyles = StyleSheet.create({
     item: {

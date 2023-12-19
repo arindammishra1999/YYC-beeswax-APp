@@ -1,5 +1,5 @@
 import { router } from "expo-router";
-import * as SecureStore from "expo-secure-store";
+import SecureStore from "expo-secure-store";
 import React, { useEffect, useState } from "react";
 import {
     Switch,
@@ -10,11 +10,10 @@ import {
     Alert,
 } from "react-native";
 
-import { colors } from "../../consts/styles";
-import { mainStyles } from "../../styles/mainStyles";
-import { notificationPageStyles } from "../../styles/notificationPageStyles";
-
 import WarningHeader from "@/components/warningHeader";
+import { colors } from "@/consts/styles";
+import { mainStyles } from "@/styles/mainStyles";
+import { notificationPageStyles } from "@/styles/notificationPageStyles";
 
 export default function NotificationsPage() {
     const [commonSettings, setCommonSetting] = useState([

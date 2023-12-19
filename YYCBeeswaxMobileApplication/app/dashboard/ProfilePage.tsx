@@ -1,5 +1,5 @@
 import { Ionicons } from "@expo/vector-icons";
-import * as Linking from "expo-linking";
+import Linking from "expo-linking";
 import { router } from "expo-router";
 import { signOut } from "firebase/auth";
 import React, { useState } from "react";
