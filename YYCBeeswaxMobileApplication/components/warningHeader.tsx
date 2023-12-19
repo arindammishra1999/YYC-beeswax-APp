@@ -1,5 +1,4 @@
 import { Ionicons } from "@expo/vector-icons";
-import { router } from "expo-router";
 import React from "react";
 import { Text, View } from "react-native";
 import { headerStyles } from "@/styles/components/headerStyles";
@@ -9,7 +8,7 @@ type Props = {
     onPress: () => void;
 };
 
-export default function HeaderWithBackOptions(props: Props) {
+export default function WarningHeader(props: Props) {
     return (
         <View style={headerStyles.header}>
             <Ionicons
