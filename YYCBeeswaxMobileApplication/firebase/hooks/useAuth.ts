@@ -11,7 +11,7 @@ export default function useAuth() {
             setUser(user);
         });
         return unsubscribe;
-    }, []);
+    }, [onAuthStateChanged]);
 
     return { user };
 }
