@@ -85,7 +85,7 @@ export default function ProfilePage() {
                         iconName="notifications"
                     />
                     <ProfileOption
-                        onPress={() => router.push("/")}
+                        onPress={() => router.push("./LanguagePage")}
                         label="Language"
                         iconName="language"
                     />
