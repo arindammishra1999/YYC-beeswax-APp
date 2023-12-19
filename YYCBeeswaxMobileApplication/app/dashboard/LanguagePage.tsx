@@ -1,111 +1,126 @@
-import React, { useState } from "react";
-import {
-    View,
-    Text,
-    TouchableOpacity,
-    StyleSheet,
-    SafeAreaView,
-    ScrollView,
-} from "react-native";
-import Header from "../../components/header";
-import { accountStyles } from "../../styles/accountStyles";
-import { headerStyles } from "../../styles/components/headerStyles";
-import NavBar from "../../components/navbar";
-import Button from "../../components/button";
+import React, { useState, useEffect } from "react";
+import { View, Text, TouchableOpacity, ScrollView, Alert } from "react-native";
+import { languagePageStyles } from "../../styles/languagePageStyles";
+import * as SecureStore from "expo-secure-store";
+import HeaderWithBackOptions from "@/components/headerWithBackOptions";
+import { router } from "expo-router";
 
 const LanguageSelectionPage = () => {
     const [selectedLanguage, setSelectedLanguage] = useState("English");
-
+    const [changesMade, setChangesMade] = useState(false);
     const availableLanguages = [
-        "English",
-        "French",
-        "Spanish",
-        "German",
-        "Chinese",
+        "English (English)",
+        "Nederlands (Dutch)",
+        "Français (French)",
+        "Deutsch (German)",
+        "हिंदी (Hindi)",
+        "Italiano (Italian)",
+        "日本語 (Japanese)",
+        "한국인 (Korean)",
+        "普通话 (Mandarin)",
+        "Português (Portuguese)",
+        "Русский (Russian)",
+        "Español (Spanish)",
+        "Türkçe (Turkish)",
+        "Tiếng Việt (Vietnamese)",
     ];
 
+    const showChangesSavedMesssage = () =>
+        Alert.alert("Success!", "Your changes have been saved.", [
+            { text: "OK" },
+        ]);
+
     const handleLanguageChange = (language: string) => {
+        setChangesMade(true);
         setSelectedLanguage(language);
     };
 
-    const handleConfirmChange = () => {
-        // Add logic to confirm and save the selected language
-        console.log(`Selected language: ${selectedLanguage}`);
+    const handleConfirmChange = async () => {
+        await SecureStore.setItemAsync("language", selectedLanguage);
+        showChangesSavedMesssage();
+        setChangesMade(false);
+    };
+
+    useEffect(() => {
+        const loadLanguageSettings = async () => {
+            const savedLanguage = await SecureStore.getItemAsync("language");
+            const languageToSet = savedLanguage ?? "English";
+            setSelectedLanguage(languageToSet);
+        };
+
+        loadLanguageSettings();
+    }, []);
+
+    const handleBackPress = () => {
+        if (changesMade) {
+            Alert.alert(
+                "Unsaved Changes!",
+                "Are you sure you want to leave this page? Changes you have made will not be saved.",
+                [
+                    { text: "Cancel" },
+                    { text: "Leave", onPress: () => router.back() },
+                ]
+            );
+        } else {
+            router.back();
+        }
     };
 
     return (
-        <View style={styles.container}>
-            <Header header="Language" />
+        <View style={languagePageStyles.container}>
+            <HeaderWithBackOptions
+                header="Language"
+                onPress={handleBackPress}
+            />
             <View>
-                <Text style={styles.sectionHeader}>Available Languages:</Text>
+                <Text style={languagePageStyles.sectionHeader}>
+                    Available Languages
+                </Text>
             </View>
-            <ScrollView style={styles.languageList}>
+            <ScrollView style={languagePageStyles.languageList}>
                 {availableLanguages.map((language) => (
-                    <View key={language} style={styles.languageContainer}>
-                        <Text style={styles.languageText}>{language}</Text>
+                    <View
+                        key={language}
+                        style={languagePageStyles.languageContainer}
+                    >
+                        <Text style={languagePageStyles.languageText}>
+                            {language}
+                        </Text>
                         <TouchableOpacity
                             style={[
-                                styles.circleButton,
+                                languagePageStyles.circleButton,
                                 selectedLanguage === language
-                                    ? styles.blueCircle
-                                    : styles.clearCircle,
+                                    ? languagePageStyles.yellowCircle
+                                    : languagePageStyles.clearCircle,
                             ]}
                             onPress={() => handleLanguageChange(language)}
                             disabled={selectedLanguage === language}
+                            hitSlop={{
+                                top: 30,
+                                bottom: 30,
+                                left: 30,
+                                right: 30,
+                            }}
                         />
                     </View>
                 ))}
             </ScrollView>
-            <View style={styles.bottomContainer}>
-                <Button title="Confirm Changes" onPress={handleConfirmChange} />
-                <NavBar />
+            <View style={languagePageStyles.bottomContainer}>
+                <TouchableOpacity
+                    style={[
+                        languagePageStyles.bottomButton,
+                        !changesMade && languagePageStyles.buttonDisabled,
+                    ]}
+                    onPress={handleConfirmChange}
+                    disabled={!changesMade}
+                >
+                    <Text style={languagePageStyles.buttonText}>
+                        Save Changes
+                    </Text>
+                </TouchableOpacity>
             </View>
         </View>
     );
 };
-
-const styles = StyleSheet.create({
-    safeArea: {
-        flex: 1,
-    },
-    container: {
-        flex: 1,
-        padding: 16,
-        justifyContent: "space-between",
-    },
-    languageList: {
-        flex: 1,
-    },
-    languageContainer: {
-        flexDirection: "row",
-        justifyContent: "space-between",
-        alignItems: "center",
-        marginBottom: 20,
-    },
-    languageText: {
-        fontSize: 16,
-    },
-    circleButton: {
-        width: 30,
-        height: 30,
-        borderRadius: 15, // half of width and height to create a circle
-        borderWidth: 1,
-        borderColor: "#007BFF",
-        marginLeft: 10,
-    },
-    blueCircle: {
-        backgroundColor: "#007BFF",
-    },
-    clearCircle: {
-        backgroundColor: "transparent",
-    },
-    sectionHeader: {
-        fontSize: 18,
-        marginBottom: 10,
-    },
-    bottomContainer: {
-        justifyContent: "flex-end",
-    },
-});
 
 export default LanguageSelectionPage;
