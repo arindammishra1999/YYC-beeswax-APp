@@ -19,7 +19,7 @@
         },
         "android": {
             "adaptiveIcon": {
-                "foregroundImage": "./assets/adaptive-icon.png",
+                "foregroundImage": "./assets/YYC_Full_logo_transparent.png",
                 "backgroundColor": "#ffffff"
             },
             "package": "com.anonymous.bee"
