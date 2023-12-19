@@ -18,6 +18,7 @@ import { logoutPopupStyles } from "@/styles/components/logoutPopupStyles";
 import { signOut } from "firebase/auth";
 import { auth } from "@/firebase/config";
 import Navbar from "@/components/navbar";
+import OrderHistoryPage from "./OrderHistoryPage";
 
 export default function ProfilePage() {
     const { user } = useAuth();
@@ -68,7 +69,7 @@ export default function ProfilePage() {
                 />
                 <View style={profilePageStyles.optionContainer}>
                     <ProfileOption
-                        onPress={() => router.push("/")}
+                        onPress={() => router.push("./OrderHistoryPage")}
                         label="Order History"
                         iconName="history"
                     />
