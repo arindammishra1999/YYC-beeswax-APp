@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { View, Text, TouchableOpacity, ScrollView, Alert } from "react-native";
 import { languagePageStyles } from "../../styles/languagePageStyles";
 import * as SecureStore from "expo-secure-store";
-import HeaderWithBackOptions from "@/components/headerWithBackOptions";
+import WarningHeader from "@/components/warningHeader";
 import { router } from "expo-router";
 
 const LanguageSelectionPage = () => {
@@ -68,10 +68,7 @@ const LanguageSelectionPage = () => {
 
     return (
         <View style={languagePageStyles.container}>
-            <HeaderWithBackOptions
-                header="Language"
-                onPress={handleBackPress}
-            />
+            <WarningHeader header="Language" onPress={handleBackPress} />
             <View>
                 <Text style={languagePageStyles.sectionHeader}>
                     Available Languages
