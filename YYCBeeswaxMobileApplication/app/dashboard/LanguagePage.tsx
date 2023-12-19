@@ -9,7 +9,7 @@ const LanguageSelectionPage = () => {
     const [selectedLanguage, setSelectedLanguage] = useState("English");
     const [changesMade, setChangesMade] = useState(false);
     const availableLanguages = [
-        "English (English)",
+        "English",
         "Nederlands (Dutch)",
         "Français (French)",
         "Deutsch (German)",
@@ -80,14 +80,23 @@ const LanguageSelectionPage = () => {
                         key={language}
                         style={languagePageStyles.languageContainer}
                     >
-                        <Text style={languagePageStyles.languageText}>
+                        <Text
+                            style={
+                                (languagePageStyles.languageText,
+                                selectedLanguage === language &&
+                                    languagePageStyles.selectedLanguageContainer)
+                            }
+                        >
                             {language}
                         </Text>
                         <TouchableOpacity
                             style={[
                                 languagePageStyles.circleButton,
                                 selectedLanguage === language
-                                    ? languagePageStyles.yellowCircle
+                                    ? [
+                                          languagePageStyles.yellowCircle,
+                                          languagePageStyles.circleTouchable,
+                                      ]
                                     : languagePageStyles.clearCircle,
                             ]}
                             onPress={() => handleLanguageChange(language)}

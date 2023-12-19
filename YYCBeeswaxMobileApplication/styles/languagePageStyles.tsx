@@ -66,4 +66,7 @@ export const languagePageStyles = StyleSheet.create({
     buttonDisabled: {
         opacity: 0.5,
     },
+    selectedLanguageContainer: {
+        color: colors.yellow, // Add a background color for the selected language
+    },
 });
