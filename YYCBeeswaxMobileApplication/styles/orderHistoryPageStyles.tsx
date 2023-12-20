@@ -1,14 +1,15 @@
 import { StyleSheet } from "react-native";
+import { colors } from "@/consts/styles";
 
 export const orderHistoryPageStyles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "white",
+        backgroundColor: colors.white,
     },
     orderCard: {
         flexDirection: "row",
         padding: 15,
-        backgroundColor: "white",
+        backgroundColor: colors.white,
     },
     image: {
         width: 70,
@@ -32,11 +33,19 @@ export const orderHistoryPageStyles = StyleSheet.create({
         justifyContent: "flex-start",
     },
     orderDetailsShipped: {
-        color: "blue",
+        color: colors.blue,
         fontSize: 15,
     },
     orderDetailsDelivered: {
-        color: "grey",
+        color: colors.grey,
+        fontSize: 15,
+    },
+    orderDetailsCancelled: {
+        color: colors.red,
+        fontSize: 15,
+    },
+    orderDetailsPlaced: {
+        color: colors.darkGrey,
         fontSize: 15,
     },
 });

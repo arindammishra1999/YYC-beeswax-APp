@@ -4,75 +4,93 @@ import { orderHistoryPageStyles } from "@/styles/orderHistoryPageStyles";
 import Header from "@/components/header";
 
 export default function OrderHistoryPage() {
+    enum orderStatus {
+        Placed = "Placed", 
+        Shipped = "Shipped", 
+        Delivered = "Delivered", 
+        Cancelled = "Cancelled"
+    };
+
     const listings = [
         {
             id: 1,
             title: "Chakra Treasure Beeswax Pillar Candle",
             numberProducts: 2,
-            orderStatus: "Shipped on Feb 12, 2023",
+            order: orderStatus.Shipped,
+            date: "Feb 12, 2023",
             imageLink: require("../../assets/tempImages/chakra.jpg"),
         },
         {
             id: 2,
             title: "Mini Self Care Kit",
             numberProducts: 1,
-            orderStatus: "Delivered on Jan 20, 2023",
+            order: orderStatus.Delivered,
+            date: "Jan 20, 2023",
             imageLink: require("../../assets/tempImages/miniSelfCare.jpg"),
         },
         {
             id: 3,
             title: "Online Rolled Candle Making Starter Kit",
             numberProducts: 2,
-            orderStatus: "Delivered on Jan 4, 2023",
+            order: orderStatus.Delivered,
+            date: "Jan 4, 2023",
             imageLink: require("../../assets/tempImages/onlineRolled.jpg"),
         },
         {
             id: 4,
-            title: "Extra - 4",
+            title: "Extra - Placed",
             numberProducts: 2,
-            orderStatus: "Shipped on Jan 4, 2023",
+            order: orderStatus.Placed,
+            date: "Jan 5, 2023",
             imageLink: require("../../assets/tempImages/onlineRolled.jpg"),
         },
         {
             id: 5,
-            title: "Extra - 5",
-            numberProducts: 2,
-            orderStatus: "Delivered on Jan 4, 2023",
+            title: "Extra - Shipped",
+            numberProducts: 1,
+            order: orderStatus.Shipped,
+            date: "Jan 6, 2023",
             imageLink: require("../../assets/tempImages/onlineRolled.jpg"),
         },
         {
             id: 6,
-            title: "Extra - 6",
+            title: "Extra - Delivered",
             numberProducts: 2,
-            orderStatus: "Delivered on Jan 4, 2023",
+            order: orderStatus.Delivered,
+            date: "Jan 7, 2023",
             imageLink: require("../../assets/tempImages/onlineRolled.jpg"),
         },
         {
             id: 7,
-            title: "Extra - 7",
-            numberProducts: 2,
-            orderStatus: "Delivered on Jan 4, 2023",
+            title: "Extra - Cancelled",
+            numberProducts: 5,
+            order: orderStatus.Cancelled,
+            date: "Jan 8, 2023",
             imageLink: require("../../assets/tempImages/onlineRolled.jpg"),
         },
         {
             id: 8,
-            title: "Extra - 8",
+            title: "Extra",
             numberProducts: 2,
-            orderStatus: "Delivered on Jan 4, 2023",
+            order: orderStatus.Cancelled,
+            date: "Jan 4, 2023",
             imageLink: require("../../assets/tempImages/onlineRolled.jpg"),
         },
     ];
+
     type ItemProps = {
         title: string;
         numberProducts: number;
-        orderStatus: string;
+        order: orderStatus;
+        date: string;
         imageLink: string;
     };
 
     const Item = ({
         title,
         numberProducts,
-        orderStatus,
+        order,
+        date,
         imageLink,
     }: ItemProps) => (
         <View style={orderHistoryPageStyles.orderCard}>
@@ -90,9 +108,13 @@ export default function OrderHistoryPage() {
                 <View style={orderHistoryPageStyles.orderDetails}>
                     <Text
                         style={
-                            orderStatus[0] == "D"
+                            order == orderStatus.Delivered
                                 ? orderHistoryPageStyles.orderDetailsDelivered
-                                : orderHistoryPageStyles.orderDetailsShipped
+                                : order == orderStatus.Shipped
+                                ? orderHistoryPageStyles.orderDetailsShipped
+                                : order == orderStatus.Placed
+                                ? orderHistoryPageStyles.orderDetailsPlaced
+                                : orderHistoryPageStyles.orderDetailsCancelled
                         }
                     >
                         {numberProducts} product{numberProducts > 1 ? "s" : ""}{" "}
@@ -100,12 +122,16 @@ export default function OrderHistoryPage() {
                     </Text>
                     <Text
                         style={
-                            orderStatus[0] == "D"
+                            order == orderStatus.Delivered
                                 ? orderHistoryPageStyles.orderDetailsDelivered
-                                : orderHistoryPageStyles.orderDetailsShipped
+                                : order == orderStatus.Shipped
+                                ? orderHistoryPageStyles.orderDetailsShipped
+                                : order == orderStatus.Placed
+                                ? orderHistoryPageStyles.orderDetailsPlaced
+                                : orderHistoryPageStyles.orderDetailsCancelled
                         }
                     >
-                        {orderStatus}
+                        {order} on {date}
                     </Text>
                 </View>
             </View>
@@ -121,7 +147,8 @@ export default function OrderHistoryPage() {
                     <Item
                         title={item.title}
                         numberProducts={item.numberProducts}
-                        orderStatus={item.orderStatus}
+                        order={item.order}
+                        date={item.date}
                         imageLink={item.imageLink}
                     />
                 )}
