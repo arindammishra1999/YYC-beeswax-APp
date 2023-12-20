@@ -12,7 +12,7 @@ export default function App() {
             <View style={mainStyles.center}>
                 <Image
                     resizeMode="contain"
-                    source={require("../assets/YYC_Full_logo_transparent.png")}
+                    source={require("../assets/YYCBeeswaxFullLogo.png")}
                     style={rootPageStyles.image}
                 />
             </View>
