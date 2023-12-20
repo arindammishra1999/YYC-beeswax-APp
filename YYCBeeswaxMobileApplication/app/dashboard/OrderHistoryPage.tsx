@@ -62,21 +62,51 @@ export default function OrderHistoryPage() {
             imageLink: require("../../assets/tempImages/onlineRolled.jpg"),
         },
     ];
-    type ItemProps = {title: string, numberProducts: number, orderStatus: string, imageLink: string}
+    type ItemProps = {
+        title: string;
+        numberProducts: number;
+        orderStatus: string;
+        imageLink: string;
+    };
 
-    const Item = ({title, numberProducts, orderStatus, imageLink}: ItemProps) => (
+    const Item = ({
+        title,
+        numberProducts,
+        orderStatus,
+        imageLink,
+    }: ItemProps) => (
         <View style={orderHistoryPageStyles.orderCard}>
-            <Image style={orderHistoryPageStyles.image} source={imageLink as any} />
+            <Image
+                style={orderHistoryPageStyles.image}
+                source={imageLink as any}
+            />
             <View style={orderHistoryPageStyles.detailsContainer}>
-                <Text style={orderHistoryPageStyles.orderName} numberOfLines={1}>{title}</Text>
+                <Text
+                    style={orderHistoryPageStyles.orderName}
+                    numberOfLines={1}
+                >
+                    {title}
+                </Text>
                 <View style={orderHistoryPageStyles.orderDetails}>
-                    <Text style={orderStatus[0] == 'D' ? 
-                                    orderHistoryPageStyles.orderDetailsDelivered : 
-                                    orderHistoryPageStyles.orderDetailsShipped}>
-                                        {numberProducts} product{numberProducts>1 ? "s" : ""} - </Text>
-                    <Text style={orderStatus[0] == 'D' ? 
-                                    orderHistoryPageStyles.orderDetailsDelivered : 
-                                    orderHistoryPageStyles.orderDetailsShipped}>{orderStatus}</Text>
+                    <Text
+                        style={
+                            orderStatus[0] == "D"
+                                ? orderHistoryPageStyles.orderDetailsDelivered
+                                : orderHistoryPageStyles.orderDetailsShipped
+                        }
+                    >
+                        {numberProducts} product{numberProducts > 1 ? "s" : ""}{" "}
+                        -{" "}
+                    </Text>
+                    <Text
+                        style={
+                            orderStatus[0] == "D"
+                                ? orderHistoryPageStyles.orderDetailsDelivered
+                                : orderHistoryPageStyles.orderDetailsShipped
+                        }
+                    >
+                        {orderStatus}
+                    </Text>
                 </View>
             </View>
         </View>
@@ -84,13 +114,17 @@ export default function OrderHistoryPage() {
 
     return (
         <View style={orderHistoryPageStyles.container}>
-            <Header header="Order History"/>
-            <FlatList 
+            <Header header="Order History" />
+            <FlatList
                 data={listings}
-                renderItem={({item}) => <Item title={item.title} 
-                                                numberProducts={item.numberProducts} 
-                                                orderStatus={item.orderStatus} 
-                                                imageLink={item.imageLink}/>}
+                renderItem={({ item }) => (
+                    <Item
+                        title={item.title}
+                        numberProducts={item.numberProducts}
+                        orderStatus={item.orderStatus}
+                        imageLink={item.imageLink}
+                    />
+                )}
                 keyExtractor={(listings) => listings.id.toString()}
             />
         </View>

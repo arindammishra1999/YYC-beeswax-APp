@@ -18,7 +18,6 @@ import { logoutPopupStyles } from "@/styles/components/logoutPopupStyles";
 import { signOut } from "firebase/auth";
 import { auth } from "@/firebase/config";
 import Navbar from "@/components/navbar";
-import OrderHistoryPage from "./OrderHistoryPage";
 
 export default function ProfilePage() {
     const { user } = useAuth();
@@ -56,7 +55,7 @@ export default function ProfilePage() {
                         </Text>
                     </TouchableOpacity>
                 </View>
-                <Navbar currentPage="Profile"/>
+                <Navbar currentPage="Profile" />
             </View>
         );
     } else {
@@ -179,7 +178,7 @@ export default function ProfilePage() {
                         </View>
                     </View>
                 </Modal>
-                <Navbar currentPage="Profile"/>
+                <Navbar currentPage="Profile" />
             </View>
         );
     }
