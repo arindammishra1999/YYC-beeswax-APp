@@ -1,5 +1,5 @@
 import { router } from "expo-router";
-import SecureStore from "expo-secure-store";
+import { getItemAsync, setItemAsync } from "expo-secure-store";
 import React, { useEffect, useState } from "react";
 import {
     Switch,
@@ -34,11 +34,11 @@ export default function NotificationsPage() {
 
     useEffect(() => {
         const loadNotificationSettings = async () => {
-            const generalToggle = await SecureStore.getItemAsync("1");
-            const soundsToggle = await SecureStore.getItemAsync("2");
-            const vibrationToggle = await SecureStore.getItemAsync("3");
-            const promotionsToggle = await SecureStore.getItemAsync("4");
-            const discountsToggle = await SecureStore.getItemAsync("5");
+            const generalToggle = await getItemAsync("1");
+            const soundsToggle = await getItemAsync("2");
+            const vibrationToggle = await getItemAsync("3");
+            const promotionsToggle = await getItemAsync("4");
+            const discountsToggle = await getItemAsync("5");
 
             setCommonSetting([
                 {
@@ -104,7 +104,7 @@ export default function NotificationsPage() {
         for (const { key, settings } of settingsToSet) {
             const setting = settings.find((setting) => setting.key === key);
             const value = (setting?.toggle ?? false).toString();
-            await SecureStore.setItemAsync(key, value);
+            await setItemAsync(key, value);
         }
         showChangesSavedMesssage();
         setChangesMade(false);
