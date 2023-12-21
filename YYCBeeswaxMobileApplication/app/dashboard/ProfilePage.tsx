@@ -55,7 +55,7 @@ export default function ProfilePage() {
                         </Text>
                     </TouchableOpacity>
                 </View>
-                <Navbar currentPage="Profile"/>
+                <Navbar currentPage="Profile" />
             </View>
         );
     } else {
@@ -68,7 +68,7 @@ export default function ProfilePage() {
                 />
                 <View style={profilePageStyles.optionContainer}>
                     <ProfileOption
-                        onPress={() => router.push("/")}
+                        onPress={() => router.push("./OrderHistoryPage")}
                         label="Order History"
                         iconName="history"
                     />
@@ -178,7 +178,7 @@ export default function ProfilePage() {
                         </View>
                     </View>
                 </Modal>
-                <Navbar currentPage="Profile"/>
+                <Navbar currentPage="Profile" />
             </View>
         );
     }
