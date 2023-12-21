@@ -20,7 +20,7 @@ export const orderHistoryPageStyles = StyleSheet.create({
     detailsContainer: {
         marginLeft: 5,
         justifyContent: "center",
-        flexShrink: 1
+        flexShrink: 1,
     },
     orderName: {
         marginRight: 20,
@@ -47,5 +47,35 @@ export const orderHistoryPageStyles = StyleSheet.create({
     orderDetailsPlaced: {
         color: colors.darkGrey,
         fontSize: 15,
+    },
+    button: {
+        backgroundColor: colors.yellow,
+        borderRadius: 25,
+        justifyContent: "center",
+        alignItems: "center",
+        padding: 15,
+        marginTop: "15%",
+        marginLeft: "25%",
+        marginRight: "25%",
+    },
+    buttonText: {
+        color: colors.black,
+        fontSize: 16,
+        fontWeight: "bold",
+    },
+    messageText: {
+        alignSelf: "center",
+        textAlign: "center",
+        fontSize: 21,
+        fontWeight: "bold",
+        marginTop: "40%",
+        marginLeft: "10%",
+        marginRight: "10%",
+    },
+    gif: {
+        alignSelf: "center",
+        marginTop: 10,
+        height: 240,
+        width: 320,
     },
 });
