@@ -14,8 +14,7 @@ export default function CartPage() {
             <View style={cartPageStyles.container}>
                 <Header header="Your Cart" noBackArrow={true} />
                 <Text style={cartPageStyles.messageText}>
-                    You haven't ordered anything yet! Go ahead and check out our
-                    products.
+                    Your cart is empty! Go ahead and check out our products.
                 </Text>
                 <Image
                     resizeMode="contain"
