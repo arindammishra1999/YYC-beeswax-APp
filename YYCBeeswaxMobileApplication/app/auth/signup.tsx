@@ -49,8 +49,8 @@ export default function signup() {
             setSignupSuccess(true);
             setTimeout(()=>{
              setSignupSuccess(false);
-             router.push('../login')
-            },3000);
+             router.push("../dashboard/HomePage");
+            },1000);
 
         }
         catch (error: any) {
@@ -58,6 +58,8 @@ export default function signup() {
             // Handle different error cases
             if (error.code === "auth/invalid-email") {
                 setError('Signup Failed - Enter a valid email.');
+            } else if (error.code === "auth/missing-password") {
+                setError('Signup Failed - No password entered.');
             } else if (error.code === "auth/weak-password") {
                 setError('Signup Failed - Password is too weak.');
             } else if (error.code === "auth/email-already-in-use") {
@@ -79,8 +81,9 @@ export default function signup() {
                 <HideableInput label={'Password'} placeholder='Enter Password' value={password} onChangeText={setPassword}/>
                 <HideableInput label={'Password'} placeholder='Re-enter Password' value={confirmedPassword} onChangeText={setConfirmedPassword}/>
                 {error && <Text style={accountStyles.error}>{error}</Text>}
-                {signupSuccess && <Text>You have successfully signed up!</Text>}
+                {signupSuccess && <View style={loginPageStyles.centered}><Text>You have successfully signed up!</Text></View>}
             </View>
+
             <View style={loginPageStyles.space} /> 
             <Button title="Sign Up" onPress={signup}/>  
         </View>
