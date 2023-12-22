@@ -41,9 +41,6 @@ export default function App() {
                     <Text style={rootPageStyles.signupLinkText}> Sign Up</Text>
                 </TouchableOpacity>
             </View>
-            {/* <Link href='/auth/signup' asChild>
-                <Text style={{...mainStyles.centerText, color:'blue',textDecorationLine: 'underline'}}>Don't have an account? Sign Up</Text>
-            </Link> */}
         </View>
     );
 }

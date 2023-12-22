@@ -2,6 +2,7 @@ import { StyleSheet } from "react-native";
 
 import { colors } from "@/consts/styles";
 
+
 export const loginPageStyles = StyleSheet.create({
     forgot: {
         alignSelf: "center",
@@ -18,4 +19,24 @@ export const loginPageStyles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
     },
+
+    bottomContainer: {
+        flex: 1,
+        justifyContent: "flex-end",
+
+    },
+    bottomButton: {
+        backgroundColor: colors.yellow,
+        alignSelf: "center",
+        width: "50%",
+        marginVertical: 155,
+        paddingVertical:15,
+        borderRadius: 30,
+    },
+    buttonText: {
+        fontSize: 18,
+        fontWeight: "bold",
+        alignSelf: "center",
+    },
+
 });

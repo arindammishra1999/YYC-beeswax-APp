@@ -9,6 +9,7 @@ import Input from "@/components/input";
 import HideableInput from "@/components/hideableInput";
 import {useRouter} from 'expo-router';
 import {loginPageStyles} from "@/styles/loginPageStyles";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 export default function signup() {
     const [firstName, setFirstName] = useState('');
@@ -71,7 +72,7 @@ export default function signup() {
     }
 
     return (
-        <ScrollView>
+     <ScrollView>
         <View style={accountStyles.container}>
             <Header header={'Create Account'}/>
             <View style={accountStyles.form}>
@@ -79,14 +80,21 @@ export default function signup() {
                 <Input label={'Last Name'} placeholder='Enter Last Name' value={lastName} onChangeText={setLastName} autoCapitalize={false}/>
                 <Input label={'Email'} placeholder='Enter Email' value={email} onChangeText={setEmail} autoCapitalize={false}/>
                 <HideableInput label={'Password'} placeholder='Enter Password' value={password} onChangeText={setPassword}/>
-                <HideableInput label={'Password'} placeholder='Re-enter Password' value={confirmedPassword} onChangeText={setConfirmedPassword}/>
+                <HideableInput label={'Confirm Password'} placeholder='Re-enter Password' value={confirmedPassword} onChangeText={setConfirmedPassword}/>
                 {error && <Text style={accountStyles.error}>{error}</Text>}
                 {signupSuccess && <View style={loginPageStyles.centered}><Text>You have successfully signed up!</Text></View>}
             </View>
 
-            <View style={loginPageStyles.space} /> 
-            <Button title="Sign Up" onPress={signup}/>  
+            <View style={loginPageStyles.bottomContainer}>
+                <TouchableOpacity
+                    style={loginPageStyles.bottomButton}
+                    onPress={signup}>
+                    <Text style={loginPageStyles.buttonText}>
+                        Create Account
+                    </Text>
+                </TouchableOpacity>
+            </View>
         </View>
-        </ScrollView>
+     </ScrollView>
     );
 }
