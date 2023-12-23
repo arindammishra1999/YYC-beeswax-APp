@@ -15,7 +15,6 @@ export default function PrivacyPolicyPage() {
                 </Text>
                 <Text style={privacyPolicyPageStyles.bodyText}>
                     {"\n"}
-                    {"\n"}
                     We collect personal information from our customers in the
                     regular course of doing business. This page lets you know
                     exactly how we’re protecting the information you entrust to
@@ -26,13 +25,11 @@ export default function PrivacyPolicyPage() {
                     What personal information do you collect about me?{" "}
                 </Text>
                 <Text style={privacyPolicyPageStyles.bodyText}>
-                    {"\n"}
                     {"\n"}We collect the following information about you: {"\n"}
                     {"\n"}
                     {"\u2022"} Name{"\n"}
                     {"\u2022"} Address{"\n"}
-                    {"\u2022"} Postal{"\n"}
-                    {"\u2022"} Code{"\n"}
+                    {"\u2022"} Postal Code{"\n"}
                     {"\u2022"} Phone Number{"\n"}
                     {"\u2022"} Email Address{"\n"}
                     {"\u2022"} Purchase history{"\n"}
@@ -40,11 +37,11 @@ export default function PrivacyPolicyPage() {
                     {"\u2022"} Opinions about products and services
                     {"\n"}
                     {"\n"}
-                    When you visit our web site, we also collect: information
-                    about your computer, including your IP address, the type of
-                    operating system and browser you use, and your computer’s
-                    location{"\n"}
+                    When you visit our web site, we also collect:{"\n"}
                     {"\n"}
+                    {"\u2022"} information about your computer, including your
+                    IP address, the type of operating system and browser you
+                    use, and your computer’s location{"\n"}
                     {"\u2022"} what pages you visit on our site and what links
                     you click on
                     {"\n"}
@@ -56,8 +53,6 @@ export default function PrivacyPolicyPage() {
                     How do you use this information?
                 </Text>
                 <Text style={privacyPolicyPageStyles.bodyText}>
-                    {"\n"}
-                    {"\n"}
                     {"\n"}The main reasons we collect personal information from
                     you are:{"\n"}
                     {"\n"}
@@ -82,7 +77,6 @@ export default function PrivacyPolicyPage() {
                 </Text>
                 <Text style={privacyPolicyPageStyles.bodyText}>
                     {"\n"}
-                    {"\n"}
                     We also may use your personal information for other,
                     secondary reasons, including:{"\n"}
                     {"\n"}
@@ -102,7 +96,6 @@ export default function PrivacyPolicyPage() {
                 </Text>
                 <Text style={privacyPolicyPageStyles.bodyText}>
                     {"\n"}
-                    {"\n"}
                     Sometimes, we also share your personal information with
                     other companies, including:{"\n"}
                     {"\n"}
@@ -110,16 +103,15 @@ export default function PrivacyPolicyPage() {
                     {"\u2022"} Third party contractors (such as a courier
                     company){"\n"}
                     {"\n"}We use Hotjar on this website to improve user
-                    experience. Check out their privacy policy
-                    <TouchableOpacity
+                    experience. Check out their privacy policy{" "}
+                    <Text
+                        style={privacyPolicyPageStyles.linkText}
                         onPress={() =>
                             Linking.openURL("https://www.hotjar.com/privacy/")
                         }
                     >
-                        <Text style={privacyPolicyPageStyles.linkText}>
-                            here.
-                        </Text>
-                    </TouchableOpacity>
+                        here.
+                    </Text>
                     {"\n"}
                     {"\n"}We will also disclose your personal information if we
                     are required by law to do so.{"\n"}
@@ -129,7 +121,6 @@ export default function PrivacyPolicyPage() {
                     How do you get my consent?
                 </Text>
                 <Text style={privacyPolicyPageStyles.bodyText}>
-                    {"\n"}
                     {"\n"}
                     When you provide us with personal information to complete a
                     transaction, verify your credit card, place an order,
@@ -145,39 +136,48 @@ export default function PrivacyPolicyPage() {
                     How do I get more information?
                 </Text>
                 <Text style={privacyPolicyPageStyles.bodyText}>
-                    {"\n"}
                     {"\n"}We are happy to answer any questions you may have
                     about your personal information. If you would like more
                     information about our policies, or you would like to see
                     exactly what personal information we have about you in our
-                    records, or you wish to register a complaint, please
-                    !!contact us.{"\n"}
-                    {"\n"}You can also contact the{" "}
-                </Text>
-                <TouchableOpacity
-                    onPress={() =>
-                        Linking.openURL("https://www.hotjar.com/privacy/")
-                    }
-                >
-                    <Text style={privacyPolicyPageStyles.linkText}>
+                    records, or you wish to register a complaint, please{" "}
+                    <Text
+                        style={privacyPolicyPageStyles.linkText}
+                        onPress={() =>
+                            Linking.openURL("https://yycwax.com/contact-us/")
+                        }
+                    >
+                        contact us
+                    </Text>
+                    <Text style={privacyPolicyPageStyles.bodyText}>
+                        .{"\n"}
+                        {"\n"}
+                        You can also contact the{" "}
+                    </Text>
+                    <Text
+                        style={privacyPolicyPageStyles.linkText}
+                        onPress={() =>
+                            Linking.openURL("https://www.priv.gc.ca/")
+                        }
+                    >
                         Privacy Commissioner of Canada
                     </Text>
-                </TouchableOpacity>
-                <Text style={privacyPolicyPageStyles.bodyText}>or the</Text>
-                <TouchableOpacity
-                    onPress={() =>
-                        Linking.openURL("https://www.hotjar.com/privacy/")
-                    }
-                >
-                    <Text style={privacyPolicyPageStyles.linkText}>
+                    <Text style={privacyPolicyPageStyles.bodyText}>
+                        {" or the "}
+                    </Text>
+                    <Text
+                        style={privacyPolicyPageStyles.linkText}
+                        onPress={() => Linking.openURL("https://oipc.ab.ca/")}
+                    >
                         Office of the Information and Privacy Commissioner of
                         Alberta
                     </Text>
-                </TouchableOpacity>
-                <Text style={privacyPolicyPageStyles.bodyText}>
-                    for assistance.{"\n"}
-                    {"\n"}
-                    {"\n"}
+                    <Text style={privacyPolicyPageStyles.bodyText}>
+                        {" "}
+                        for assistance.
+                        {"\n"}
+                        {"\n"}
+                    </Text>
                 </Text>
             </ScrollView>
         </View>
