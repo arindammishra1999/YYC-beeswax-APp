@@ -18,7 +18,7 @@ export default function CartPage() {
                 </Text>
                 <Image
                     resizeMode="contain"
-                    source={require("../../assets/shopping.gif")}
+                    source={require("@/assets/shopping.gif")}
                     style={cartPageStyles.gif}
                 />
                 <TouchableOpacity
