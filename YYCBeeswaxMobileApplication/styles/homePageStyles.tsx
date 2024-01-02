@@ -11,17 +11,20 @@ export const homePageStyles = StyleSheet.create({
         height: "10%",
         alignSelf: "flex-start",
     },
-    searchBar: {
+    searchBarContainer: {
         flexDirection: "row",
         alignItems: "center",
-        width: "100%",
-        alignSelf: "center",
-        paddingHorizontal: 15,
-        borderRadius: 8,
-        borderWidth: 2,
-        borderColor: "lightgray",
-        height: 55,
-        fontSize: 14,
+        paddingHorizontal: 10,
+        height: 50,
+        borderRadius: 10,
+        backgroundColor: colors.lightGrey,
+    },
+    searchBar: {
+        flex: 1,
+        paddingVertical: 10,
+    },
+    searchIcon: {
+        marginRight: 10,
     },
     headerText: {
         fontSize: 18,
@@ -36,5 +39,10 @@ export const homePageStyles = StyleSheet.create({
     horizontalScrollContainer: {
         height: 170,
         flexDirection: "row",
+    },
+    lastHorizontalScrollContainer: {
+        height: 170,
+        flexDirection: "row",
+        marginBottom: "50%",
     },
 });

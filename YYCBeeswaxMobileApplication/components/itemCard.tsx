@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Image, Text, TouchableOpacity } from "react-native";
+import { View, Image, TouchableOpacity } from "react-native";
 import { itemCardStyles } from "@/styles/components/itemCardStylex";
 
 type Props = {
@@ -16,7 +16,6 @@ export default function ItemCard(props: Props) {
                     source={props.image}
                     style={itemCardStyles.image}
                 />
-                <Text style={itemCardStyles.text}>{props.title}</Text>
             </TouchableOpacity>
         </View>
     );
