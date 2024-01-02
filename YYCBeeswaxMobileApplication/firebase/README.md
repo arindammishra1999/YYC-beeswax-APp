@@ -6,4 +6,5 @@
    ![Alt text](images/image.png)
 
 4. Map the images with whatever detail you need, i.e.
-   ![Alt text](images/image-1.png)
+
+    ![Alt text](images/image-1.png)
