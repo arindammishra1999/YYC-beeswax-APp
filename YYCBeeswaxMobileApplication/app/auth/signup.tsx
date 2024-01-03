@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Text, ScrollView, View} from "react-native";
+import {Text, ScrollView, View, Alert} from "react-native";
 import { getDatabase, ref, push } from 'firebase/database';
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import {accountStyles} from "@/styles/accountStyles";
@@ -26,6 +26,11 @@ export default function signup() {
             const database = getDatabase();
             const auth = getAuth();
 
+            if (!firstName || !lastName) {
+                setError('First name and Last name are required.');
+                return;
+            }
+
             // Validate if password and confirm password match
             if (password !== confirmedPassword) {
                 setError('Passwords do not match');
@@ -48,10 +53,11 @@ export default function signup() {
             }
 
             setSignupSuccess(true);
-            setTimeout(()=>{
-             setSignupSuccess(false);
-             router.push("../dashboard/HomePage");
-            },1000);
+            Alert.alert(
+                "Sign Up Successful",
+                "You have successfully signed up!",
+                [{ text: "OK", onPress: () => router.push("../dashboard/HomePage") }]
+            );
 
         }
         catch (error: any) {
@@ -72,29 +78,20 @@ export default function signup() {
     }
 
     return (
-     <ScrollView>
         <View style={accountStyles.container}>
             <Header header={'Create Account'}/>
+            <ScrollView>
             <View style={accountStyles.form}>
-                <Input label={'First Name'} placeholder='Enter First Name' value={firstName} onChangeText={setFirstName} autoCapitalize={false}/>
-                <Input label={'Last Name'} placeholder='Enter Last Name' value={lastName} onChangeText={setLastName} autoCapitalize={false}/>
+                <Input label={'First Name'} placeholder='Enter First Name' value={firstName} onChangeText={setFirstName} autoCapitalize={true}/>
+                <Input label={'Last Name'} placeholder='Enter Last Name' value={lastName} onChangeText={setLastName} autoCapitalize={true}/>
                 <Input label={'Email'} placeholder='Enter Email' value={email} onChangeText={setEmail} autoCapitalize={false}/>
                 <HideableInput label={'Password'} placeholder='Enter Password' value={password} onChangeText={setPassword}/>
                 <HideableInput label={'Confirm Password'} placeholder='Re-enter Password' value={confirmedPassword} onChangeText={setConfirmedPassword}/>
                 {error && <Text style={accountStyles.error}>{error}</Text>}
                 {signupSuccess && <View style={loginPageStyles.centered}><Text>You have successfully signed up!</Text></View>}
             </View>
-
-            <View style={loginPageStyles.bottomContainer}>
-                <TouchableOpacity
-                    style={loginPageStyles.bottomButton}
-                    onPress={signup}>
-                    <Text style={loginPageStyles.buttonText}>
-                        Create Account
-                    </Text>
-                </TouchableOpacity>
-            </View>
+            </ScrollView>      
+            <Button title="Create Account" onPress={signup} />
         </View>
-     </ScrollView>
     );
 }
