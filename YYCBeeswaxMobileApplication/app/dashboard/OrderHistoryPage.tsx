@@ -1,15 +1,18 @@
-import React from "react";
-import { FlatList, Text, View, Image } from "react-native";
+import React, { useState } from "react";
+import { FlatList, Text, View, Image, TouchableOpacity } from "react-native";
 import { orderHistoryPageStyles } from "@/styles/orderHistoryPageStyles";
 import Header from "@/components/header";
+import { router } from "expo-router";
 
 export default function OrderHistoryPage() {
+    const [orderHistory, setOrderHistory] = useState(false);
+
     enum orderStatus {
-        Placed = "Placed", 
-        Shipped = "Shipped", 
-        Delivered = "Delivered", 
-        Cancelled = "Cancelled"
-    };
+        Placed = "Placed",
+        Shipped = "Shipped",
+        Delivered = "Delivered",
+        Cancelled = "Cancelled",
+    }
 
     const listings = [
         {
@@ -111,10 +114,10 @@ export default function OrderHistoryPage() {
                             order == orderStatus.Delivered
                                 ? orderHistoryPageStyles.orderDetailsDelivered
                                 : order == orderStatus.Shipped
-                                ? orderHistoryPageStyles.orderDetailsShipped
-                                : order == orderStatus.Placed
-                                ? orderHistoryPageStyles.orderDetailsPlaced
-                                : orderHistoryPageStyles.orderDetailsCancelled
+                                  ? orderHistoryPageStyles.orderDetailsShipped
+                                  : order == orderStatus.Placed
+                                    ? orderHistoryPageStyles.orderDetailsPlaced
+                                    : orderHistoryPageStyles.orderDetailsCancelled
                         }
                     >
                         {numberProducts} product{numberProducts > 1 ? "s" : ""}{" "}
@@ -125,10 +128,10 @@ export default function OrderHistoryPage() {
                             order == orderStatus.Delivered
                                 ? orderHistoryPageStyles.orderDetailsDelivered
                                 : order == orderStatus.Shipped
-                                ? orderHistoryPageStyles.orderDetailsShipped
-                                : order == orderStatus.Placed
-                                ? orderHistoryPageStyles.orderDetailsPlaced
-                                : orderHistoryPageStyles.orderDetailsCancelled
+                                  ? orderHistoryPageStyles.orderDetailsShipped
+                                  : order == orderStatus.Placed
+                                    ? orderHistoryPageStyles.orderDetailsPlaced
+                                    : orderHistoryPageStyles.orderDetailsCancelled
                         }
                     >
                         {order} on {date}
@@ -138,22 +141,47 @@ export default function OrderHistoryPage() {
         </View>
     );
 
-    return (
-        <View style={orderHistoryPageStyles.container}>
-            <Header header="Order History" />
-            <FlatList
-                data={listings}
-                renderItem={({ item }) => (
-                    <Item
-                        title={item.title}
-                        numberProducts={item.numberProducts}
-                        order={item.order}
-                        date={item.date}
-                        imageLink={item.imageLink}
-                    />
-                )}
-                keyExtractor={(listings) => listings.id.toString()}
-            />
-        </View>
-    );
+    if (orderHistory) {
+        return (
+            <View style={orderHistoryPageStyles.container}>
+                <Header header="Order History" />
+                <FlatList
+                    data={listings}
+                    renderItem={({ item }) => (
+                        <Item
+                            title={item.title}
+                            numberProducts={item.numberProducts}
+                            order={item.order}
+                            date={item.date}
+                            imageLink={item.imageLink}
+                        />
+                    )}
+                    keyExtractor={(listings) => listings.id.toString()}
+                />
+            </View>
+        );
+    } else {
+        return (
+            <View style={orderHistoryPageStyles.container}>
+                <Header header="Order History" />
+                <Text style={orderHistoryPageStyles.messageText}>
+                    You haven't ordered anything yet! Go ahead and check out our
+                    products.
+                </Text>
+                <Image
+                    resizeMode="contain"
+                    source={require("../../assets/shopping.gif")}
+                    style={orderHistoryPageStyles.gif}
+                />
+                <TouchableOpacity
+                    style={orderHistoryPageStyles.button}
+                    onPress={() => router.replace("./HomePage")}
+                >
+                    <Text style={orderHistoryPageStyles.buttonText}>
+                        Shop Now
+                    </Text>
+                </TouchableOpacity>
+            </View>
+        );
+    }
 }

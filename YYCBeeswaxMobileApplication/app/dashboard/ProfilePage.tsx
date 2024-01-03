@@ -108,11 +108,7 @@ export default function ProfilePage() {
                         iconName="message"
                     />
                     <ProfileOption
-                        onPress={() =>
-                            Linking.openURL(
-                                "https://yycwax.com/privacy-policy/"
-                            )
-                        }
+                        onPress={() => router.push("./PrivacyPolicyPage")}
                         label="Privacy Policy"
                         iconName="lock-outline"
                     />
