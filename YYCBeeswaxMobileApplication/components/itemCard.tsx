@@ -3,7 +3,6 @@ import { View, Image, TouchableOpacity } from "react-native";
 import { itemCardStyles } from "@/styles/components/itemCardStylex";
 
 type Props = {
-    title: string;
     image: any;
 };
 
@@ -13,7 +12,7 @@ export default function ItemCard(props: Props) {
             <TouchableOpacity onPress={() => {}}>
                 <Image
                     resizeMode="contain"
-                    source={props.image}
+                    source={{ uri: props.image }}
                     style={itemCardStyles.image}
                 />
             </TouchableOpacity>

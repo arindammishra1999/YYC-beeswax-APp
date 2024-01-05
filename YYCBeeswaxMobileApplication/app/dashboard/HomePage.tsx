@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Text, View, Image, TextInput, ScrollView } from "react-native";
 import Navbar from "@/components/navbar";
 import { mainStyles } from "@/styles/mainStyles";
@@ -7,8 +7,21 @@ import CategoryCard from "@/components/categoryCard";
 import ItemCard from "@/components/itemCard";
 import Icon from "react-native-vector-icons/Feather";
 import { colors } from "@/consts/styles";
+import { getProductData } from "../../firebase/getCollections/getProducts";
 
 export default function HomePage() {
+    const [allProducts, setAllProducts] = useState([] as any);
+
+    useEffect(() => {
+        getProductData().then((products) => {
+            if (products) {
+                setAllProducts(products);
+            } else {
+                console.log("Issue getting products");
+            }
+        });
+    }, []);
+
     return (
         <View style={mainStyles.container}>
             <ScrollView>
@@ -58,22 +71,12 @@ export default function HomePage() {
                             horizontal={true}
                             showsHorizontalScrollIndicator={false}
                         >
-                            <ItemCard
-                                image={require("../../assets/tempImages/pillarCandles.jpg")}
-                                title="Candles"
-                            ></ItemCard>
-                            <ItemCard
-                                image={require("../../assets/tempImages/pillarCandles.jpg")}
-                                title="Candles with long text this is crazy"
-                            ></ItemCard>
-                            <ItemCard
-                                image={require("../../assets/tempImages/pillarCandles.jpg")}
-                                title="Candles"
-                            ></ItemCard>
-                            <ItemCard
-                                image={require("../../assets/tempImages/pillarCandles.jpg")}
-                                title="Candles"
-                            ></ItemCard>
+                            {allProducts.map((product: any) => (
+                                <ItemCard
+                                    key={product.id}
+                                    image={product.data.url}
+                                />
+                            ))}
                         </ScrollView>
                     </View>
                     <Text style={homePageStyles.headerText}>Best Sellers</Text>
@@ -82,22 +85,12 @@ export default function HomePage() {
                             horizontal={true}
                             showsHorizontalScrollIndicator={false}
                         >
-                            <ItemCard
-                                image={require("../../assets/tempImages/pillarCandles.jpg")}
-                                title="Candles"
-                            ></ItemCard>
-                            <ItemCard
-                                image={require("../../assets/tempImages/pillarCandles.jpg")}
-                                title="Candles"
-                            ></ItemCard>
-                            <ItemCard
-                                image={require("../../assets/tempImages/pillarCandles.jpg")}
-                                title="Candles"
-                            ></ItemCard>
-                            <ItemCard
-                                image={require("../../assets/tempImages/pillarCandles.jpg")}
-                                title="Candles"
-                            ></ItemCard>
+                            {allProducts.map((product: any) => (
+                                <ItemCard
+                                    key={product.id}
+                                    image={product.data.url}
+                                />
+                            ))}
                         </ScrollView>
                     </View>
                     <Text style={homePageStyles.headerText}>
@@ -108,22 +101,12 @@ export default function HomePage() {
                             horizontal={true}
                             showsHorizontalScrollIndicator={false}
                         >
-                            <ItemCard
-                                image={require("../../assets/tempImages/pillarCandles.jpg")}
-                                title="Candles"
-                            ></ItemCard>
-                            <ItemCard
-                                image={require("../../assets/tempImages/pillarCandles.jpg")}
-                                title="Candles"
-                            ></ItemCard>
-                            <ItemCard
-                                image={require("../../assets/tempImages/pillarCandles.jpg")}
-                                title="Candles"
-                            ></ItemCard>
-                            <ItemCard
-                                image={require("../../assets/tempImages/pillarCandles.jpg")}
-                                title="Candles"
-                            ></ItemCard>
+                            {allProducts.map((product: any) => (
+                                <ItemCard
+                                    key={product.id}
+                                    image={product.data.url}
+                                />
+                            ))}
                         </ScrollView>
                     </View>
                 </View>
