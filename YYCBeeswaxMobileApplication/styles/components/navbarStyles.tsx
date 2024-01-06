@@ -17,6 +17,7 @@ export const navbarStyles = StyleSheet.create({
         justifyContent: "space-between",
         paddingHorizontal: "5%",
         paddingTop: "2%",
+        paddingBottom: "2%",
         borderTopWidth: 0.5,
     },
     optionIcon: {
