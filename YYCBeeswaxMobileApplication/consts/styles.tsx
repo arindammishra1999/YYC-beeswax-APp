@@ -3,7 +3,7 @@ export const colors = {
     black: "#000000",
     lightBlue: "#4ecdc4",
     white: "#fff",
-    lightGrey: "#6e6969",
+    lightGrey: "#EAEAEA",
     darkWhite: "#f8f4f4",
     red: "#ff5252",
     darkGrey: "#0c0c0c",
