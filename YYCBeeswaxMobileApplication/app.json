@@ -19,7 +19,7 @@
         },
         "android": {
             "adaptiveIcon": {
-                "foregroundImage": "./assets/YYYCBeeswaxIcon.png",
+                "foregroundImage": "./assets/YYCBeeswaxIcon.png",
                 "backgroundColor": "#ffffff"
             },
             "package": "com.anonymous.bee"
