@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { View, Text, Dimensions } from "react-native";
+import { View, Text } from "react-native";
 import Carousel, { Pagination } from "react-native-snap-carousel";
 import { viewportWidth } from "@/consts/viewport";
 import Icon from "react-native-vector-icons/MaterialIcons";
-import { colors } from "@/consts/styles";
+import { landingCarouselStyles } from "@/styles/components/landingCarouselStyles";
 
 type item = {
     text: string;
@@ -19,16 +19,9 @@ export default function LandingCarousel(props: Props) {
 
     const _renderItem = ({ item, index }: { item: item; index: number }) => {
         return (
-            <View
-                style={{
-                    justifyContent: "center",
-                    alignItems: "center",
-                    height: 300,
-                    backgroundColor: colors.white,
-                }}
-            >
+            <View style={landingCarouselStyles.option}>
                 <Icon name={item.iconName} size={200} />
-                <Text>{item.text}</Text>
+                <Text style={landingCarouselStyles.caption}>{item.text}</Text>
             </View>
         );
     };
@@ -47,24 +40,16 @@ export default function LandingCarousel(props: Props) {
                 itemWidth={viewportWidth}
                 renderItem={_renderItem}
                 onSnapToItem={onSnapToItem}
+                autoplay
+                autoplayInterval={3000}
+                loop
             />
-
             <Pagination
                 dotsLength={props.items.length}
                 activeDotIndex={activeSlide}
-                containerStyle={{ paddingTop: 5 }}
-                dotStyle={{
-                    width: 10,
-                    height: 10,
-                    borderRadius: 5,
-                    backgroundColor: colors.yellow,
-                }}
-                inactiveDotStyle={{
-                    width: 10,
-                    height: 10,
-                    borderRadius: 5,
-                    backgroundColor: colors.lightGrey,
-                }}
+                containerStyle={landingCarouselStyles.pagination}
+                dotStyle={landingCarouselStyles.dotStyle}
+                inactiveDotStyle={landingCarouselStyles.inactiveDotStyle}
                 inactiveDotOpacity={0.4}
                 inactiveDotScale={0.6}
             />
