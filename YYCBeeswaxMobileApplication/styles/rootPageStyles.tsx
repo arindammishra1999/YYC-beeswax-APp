@@ -22,6 +22,7 @@ export const rootPageStyles = StyleSheet.create({
         justifyContent: "center",
     },
     signupLinkText: {
+        paddingLeft: 5,
         fontSize: 16,
         color: colors.blue,
         textDecorationLine: "underline",
