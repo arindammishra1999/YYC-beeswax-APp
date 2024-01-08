@@ -7,7 +7,7 @@ export default function MorePage() {
     return (
         <View style={mainStyles.container}>
             <Text>More Page</Text>
-            <Navbar currentPage="More"/>
+            <Navbar currentPage="More" />
         </View>
     );
 }
