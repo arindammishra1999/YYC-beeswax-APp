@@ -31,7 +31,7 @@ export default function EditProfilePage() {
                 ...(email && { firstName }),
             });
             router.push("/dashboard/HomePage");
-        } catch (err: any) {
+        } catch {
             setError("Failed to update profile");
         }
     }
