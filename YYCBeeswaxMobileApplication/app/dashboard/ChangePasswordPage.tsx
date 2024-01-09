@@ -37,7 +37,7 @@ export default function ChangePasswordPage() {
                 setError("Password Reset Failed - Invalid user");
                 return;
             }
-            if(password != confirmPassword){
+            if (password != confirmPassword) {
                 setError("Password Reset Failed - Passwords do not match");
                 return;
             }
