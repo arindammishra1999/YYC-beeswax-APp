@@ -1,5 +1,5 @@
 import { router } from "expo-router";
-import SecureStore from "expo-secure-store";
+import * as SecureStore from "expo-secure-store";
 import React, { useState, useEffect } from "react";
 import { View, Text, TouchableOpacity, ScrollView, Alert } from "react-native";
 
