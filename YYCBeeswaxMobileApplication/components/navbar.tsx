@@ -13,7 +13,6 @@ type Props = {
 export default function Navbar(props: Props) {
     return (
         <View style={navbarStyles.container}>
-            <View style={navbarStyles.divider} />
             <View style={navbarStyles.optionContainer}>
                 <NavbarOption
                     iconName="home"

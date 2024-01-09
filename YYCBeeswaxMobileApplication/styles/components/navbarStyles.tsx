@@ -6,7 +6,7 @@ export const navbarStyles = StyleSheet.create({
     container: {
         flex: 1,
         flexDirection: "column",
-        bottom: "1%",
+        bottom: "0%",
         position: "absolute",
         width: "100%",
     },
@@ -17,12 +17,8 @@ export const navbarStyles = StyleSheet.create({
         width: "100%",
         justifyContent: "space-between",
         paddingHorizontal: "5%",
-    },
-    divider: {
-        width: "100%",
-        borderBottomWidth: 0.5,
-        borderBottomColor: colors.lightGrey,
-        marginBottom: "2%",
+        paddingVertical: "2%",
+        borderTopWidth: 0.5,
     },
     optionIcon: {
         fontSize: 34,
