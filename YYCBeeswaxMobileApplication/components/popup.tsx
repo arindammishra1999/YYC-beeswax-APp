@@ -10,26 +10,15 @@ type Props = {
     option2Text: string;
     option1Action: () => void;
     option2Action: () => void;
+    changeVisibility: () => void;
     visible: boolean;
-    changeVisibility?: (value: boolean) => void;
 };
 
 export default function Popup(props: Props) {
     return (
-        <Modal
-            animationType="slide"
-            visible={props.visible}
-            transparent={true}
-            onRequestClose={() =>
-                props.changeVisibility && props.changeVisibility(false)
-            }
-        >
+        <Modal animationType="slide" visible={props.visible} transparent={true}>
             <View style={popupStyles.viewContainer}>
-                <TouchableWithoutFeedback
-                    onPress={() =>
-                        props.changeVisibility && props.changeVisibility(false)
-                    }
-                >
+                <TouchableWithoutFeedback onPress={props.changeVisibility}>
                     <View style={popupStyles.touchableOverlay}></View>
                 </TouchableWithoutFeedback>
                 <View style={popupStyles.popupView}>
