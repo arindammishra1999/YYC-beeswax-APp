@@ -18,7 +18,6 @@ export default function ProfilePage() {
     const [logoutPopupVisible, setLogoutPopupVisible] = useState(false);
 
     function logout() {
-        console.log("we logged out");
         signOut(auth);
         router.push("/dashboard/HomePage");
     }
@@ -115,23 +114,13 @@ export default function ProfilePage() {
                         iconName="logout"
                     />
                 </View>
-                {/* <Popup
+                <Popup
                     subTitle="Are you sure you want to logout? This will take you back
                     to the login screen."
                     option1Text="No"
                     option2Text="Yes"
                     visible={logoutPopupVisible}
                     changeVisibility={() => setLogoutPopupVisible(false)}
-                    option1Action={() => setLogoutPopupVisible(false)}
-                    option2Action={logout}
-                /> */}
-                <Popup
-                    title="Success!"
-                    subTitle="This item has been added to your cart!"
-                    option1Text="Keep Shopping"
-                    option2Text="Checkout"
-                    visible={logoutPopupVisible}
-                    changeVisibility={setLogoutPopupVisible}
                     option1Action={() => setLogoutPopupVisible(false)}
                     option2Action={logout}
                 />
