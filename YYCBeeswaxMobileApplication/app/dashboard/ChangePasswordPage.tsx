@@ -24,6 +24,7 @@ import { changePasswordPageStyles } from "@/styles/changePasswordPageStyles";
 export default function ChangePasswordPage() {
     const [currentPassword, setCurrentPassword] = useState("");
     const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
     const [error, setError] = useState("");
     const [successfulPopupVisible, setSuccessfulPopupVisible] = useState(false);
     const [reloginPopupVisible, setReloginPopupVisible] = useState(false);
@@ -34,6 +35,10 @@ export default function ChangePasswordPage() {
         try {
             if (!user) {
                 setError("Password Reset Failed - Invalid user");
+                return;
+            }
+            if(password != confirmPassword){
+                setError("Password Reset Failed - Passwords do not match");
                 return;
             }
             await updatePassword(user, password);
@@ -97,6 +102,12 @@ export default function ChangePasswordPage() {
                         placeholder="Enter New Password"
                         value={password}
                         onChangeText={setPassword}
+                    />
+                    <HideableInput
+                        label="Confirm New Password"
+                        placeholder="Renter New Password"
+                        value={confirmPassword}
+                        onChangeText={setConfirmPassword}
                     />
                     {error && <Text style={accountStyles.error}>{error}</Text>}
                 </View>
