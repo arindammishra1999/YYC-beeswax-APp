@@ -2,7 +2,7 @@ import { StyleSheet } from "react-native";
 
 import { colors } from "@/consts/styles";
 
-export const logoutPopupStyles = StyleSheet.create({
+export const popupStyles = StyleSheet.create({
     viewContainer: {
         flex: 1,
         justifyContent: "center",
@@ -11,31 +11,42 @@ export const logoutPopupStyles = StyleSheet.create({
         marginHorizontal: 30,
         backgroundColor: colors.white,
         borderRadius: 20,
-        paddingVertical: 40,
+        paddingVertical: 30,
         alignItems: "center",
-        shadowColor: "#000",
+        justifyContent: "center",
+        shadowColor: colors.black,
         shadowOpacity: 0.25,
         shadowRadius: 10,
+        elevation: 3,
+        width: 350,
+        minHeight: 200,
     },
-    popupText: {
+    popupTitle: {
+        fontSize: 18,
+        fontWeight: "bold",
+        paddingTop: "5%",
+        textAlign: "center",
+    },
+    popupSubTitle: {
         paddingHorizontal: 40,
         color: colors.black,
         fontSize: 16,
-        fontWeight: "bold",
         marginBottom: 30,
         textAlign: "center",
     },
     buttonContainer: {
-        width: 300,
         flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "space-around",
+        justifyContent: "space-between",
+        paddingHorizontal: 20,
+        gap: 10,
     },
     button: {
+        flex: 1,
         borderRadius: 30,
-        paddingHorizontal: 50,
         paddingVertical: 15,
         backgroundColor: colors.yellow,
+        justifyContent: "center",
+        alignItems: "center",
     },
     buttonTextStyle: {
         color: colors.black,
