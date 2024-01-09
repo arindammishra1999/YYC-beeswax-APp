@@ -12,6 +12,9 @@ jobs:
   build:
     # uses a Ubuntu Docker image
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./YYCBeeswaxMobileApplication
 
     steps:
       - name: Check out Git repository
