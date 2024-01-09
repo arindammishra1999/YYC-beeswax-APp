@@ -1,11 +1,5 @@
 import React, { useState } from "react";
-import {
-    Modal,
-    Text,
-    TouchableOpacity,
-    TouchableWithoutFeedback,
-    View,
-} from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 import useAuth from "@/firebase/hooks/useAuth";
 import { mainStyles } from "@/styles/mainStyles";
 import { profilePageStyles } from "@/styles/profilePageStyles";
@@ -14,18 +8,19 @@ import { router } from "expo-router";
 import Header from "@/components/header";
 import ProfileOption from "@/components/profileOption";
 import * as Linking from "expo-linking";
-import { logoutPopupStyles } from "@/styles/components/logoutPopupStyles";
 import { signOut } from "firebase/auth";
 import { auth } from "@/firebase/config";
 import Navbar from "@/components/navbar";
+import Popup from "@/components/popup";
 
 export default function ProfilePage() {
     const { user } = useAuth();
     const [logoutPopupVisible, setLogoutPopupVisible] = useState(false);
 
     function logout() {
+        console.log("we logged out");
         signOut(auth);
-        router.push("/");
+        router.push("/dashboard/HomePage");
     }
 
     if (!user) {
@@ -120,60 +115,26 @@ export default function ProfilePage() {
                         iconName="logout"
                     />
                 </View>
-                <Modal
-                    animationType="slide"
+                {/* <Popup
+                    subTitle="Are you sure you want to logout? This will take you back
+                    to the login screen."
+                    option1Text="No"
+                    option2Text="Yes"
                     visible={logoutPopupVisible}
-                    transparent={true}
-                    onRequestClose={() => {
-                        setLogoutPopupVisible(!logoutPopupVisible);
-                    }}
-                >
-                    <View style={logoutPopupStyles.viewContainer}>
-                        <TouchableWithoutFeedback
-                            onPress={() => setLogoutPopupVisible(false)}
-                        >
-                            <View
-                                style={logoutPopupStyles.touchableOverlay}
-                            ></View>
-                        </TouchableWithoutFeedback>
-                        <View style={logoutPopupStyles.popupView}>
-                            <Text style={logoutPopupStyles.popupText}>
-                                Are you sure you want to logout? This will take
-                                you back to the login screen.
-                            </Text>
-                            <View style={logoutPopupStyles.buttonContainer}>
-                                <TouchableOpacity
-                                    style={logoutPopupStyles.button}
-                                    onPress={() =>
-                                        setLogoutPopupVisible(
-                                            !logoutPopupVisible
-                                        )
-                                    }
-                                >
-                                    <Text
-                                        style={
-                                            logoutPopupStyles.buttonTextStyle
-                                        }
-                                    >
-                                        No
-                                    </Text>
-                                </TouchableOpacity>
-                                <TouchableOpacity
-                                    style={logoutPopupStyles.button}
-                                    onPress={logout}
-                                >
-                                    <Text
-                                        style={
-                                            logoutPopupStyles.buttonTextStyle
-                                        }
-                                    >
-                                        Yes
-                                    </Text>
-                                </TouchableOpacity>
-                            </View>
-                        </View>
-                    </View>
-                </Modal>
+                    changeVisibility={() => setLogoutPopupVisible(false)}
+                    option1Action={() => setLogoutPopupVisible(false)}
+                    option2Action={logout}
+                /> */}
+                <Popup
+                    title="Success!"
+                    subTitle="This item has been added to your cart!"
+                    option1Text="Keep Shopping"
+                    option2Text="Checkout"
+                    visible={logoutPopupVisible}
+                    changeVisibility={setLogoutPopupVisible}
+                    option1Action={() => setLogoutPopupVisible(false)}
+                    option2Action={logout}
+                />
                 <Navbar currentPage="Profile" />
             </View>
         );
