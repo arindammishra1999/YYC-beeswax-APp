@@ -17,8 +17,9 @@ type Props = {
 
 export default function LandingCarousel(props: Props) {
     const [activeSlide, setActiveSlide] = useState(0);
+    const isCarousel = React.useRef(null);
 
-    const _renderItem = ({ item, index }: { item: item; index: number }) => {
+    const _renderItem = ({ item }: { item: item }) => {
         return (
             <View style={landingCarouselStyles.option}>
                 <Icon name={item.iconName} size={200} />
@@ -34,8 +35,10 @@ export default function LandingCarousel(props: Props) {
     return (
         <View>
             <Carousel
+                vertical={false}
                 layout="stack"
                 layoutCardOffset={9}
+                ref={isCarousel}
                 data={props.items}
                 sliderWidth={viewportWidth}
                 itemWidth={viewportWidth}
@@ -48,6 +51,7 @@ export default function LandingCarousel(props: Props) {
             <Pagination
                 dotsLength={props.items.length}
                 activeDotIndex={activeSlide}
+                carouselRef={isCarousel}
                 containerStyle={landingCarouselStyles.pagination}
                 dotStyle={landingCarouselStyles.dotStyle}
                 inactiveDotStyle={landingCarouselStyles.inactiveDotStyle}
