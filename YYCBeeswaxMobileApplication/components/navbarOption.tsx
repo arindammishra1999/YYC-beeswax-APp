@@ -1,13 +1,13 @@
 import React from "react";
-import { Text, View } from "react-native";
-import Icon from "react-native-vector-icons/MaterialIcons";
-import { navbarStyles } from "@/styles/components/navbarStyles";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import Icon from "react-native-vector-icons/MaterialIcons";
+
+import { navbarStyles } from "@/styles/components/navbarStyles";
 
 type Props = {
     iconName: string;
     onPress: () => void;
-    color: string
+    color: string;
 };
 
 export default function NavbarOption(props: Props) {

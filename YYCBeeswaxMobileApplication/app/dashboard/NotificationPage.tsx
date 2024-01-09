@@ -1,5 +1,6 @@
+import { router } from "expo-router";
+import { getItemAsync, setItemAsync } from "expo-secure-store";
 import React, { useEffect, useState } from "react";
-import { notificationPageStyles } from "../../styles/notificationPageStyles";
 import {
     Switch,
     View,
@@ -8,11 +9,11 @@ import {
     ScrollView,
     Alert,
 } from "react-native";
-import { mainStyles } from "../../styles/mainStyles";
-import { colors } from "../../consts/styles";
-import * as SecureStore from "expo-secure-store";
+
 import WarningHeader from "@/components/warningHeader";
-import { router } from "expo-router";
+import { colors } from "@/consts/styles";
+import { mainStyles } from "@/styles/mainStyles";
+import { notificationPageStyles } from "@/styles/notificationPageStyles";
 
 export default function NotificationsPage() {
     const [commonSettings, setCommonSetting] = useState([
@@ -33,11 +34,11 @@ export default function NotificationsPage() {
 
     useEffect(() => {
         const loadNotificationSettings = async () => {
-            const generalToggle = await SecureStore.getItemAsync("1");
-            const soundsToggle = await SecureStore.getItemAsync("2");
-            const vibrationToggle = await SecureStore.getItemAsync("3");
-            const promotionsToggle = await SecureStore.getItemAsync("4");
-            const discountsToggle = await SecureStore.getItemAsync("5");
+            const generalToggle = await getItemAsync("1");
+            const soundsToggle = await getItemAsync("2");
+            const vibrationToggle = await getItemAsync("3");
+            const promotionsToggle = await getItemAsync("4");
+            const discountsToggle = await getItemAsync("5");
 
             setCommonSetting([
                 {
@@ -77,16 +78,16 @@ export default function NotificationsPage() {
                 prevSettings.map((setting) =>
                     setting.key === key
                         ? { ...setting, toggle: !setting.toggle }
-                        : setting
-                )
+                        : setting,
+                ),
             );
         } else if (settingType === "promotion") {
             setPromotionSetting((prevSettings) =>
                 prevSettings.map((setting) =>
                     setting.key === key
                         ? { ...setting, toggle: !setting.toggle }
-                        : setting
-                )
+                        : setting,
+                ),
             );
         }
     };
@@ -102,8 +103,8 @@ export default function NotificationsPage() {
 
         for (const { key, settings } of settingsToSet) {
             const setting = settings.find((setting) => setting.key === key);
-            const value = (setting?.toggle || false).toString();
-            await SecureStore.setItemAsync(key, value);
+            const value = (setting?.toggle ?? false).toString();
+            await setItemAsync(key, value);
         }
         showChangesSavedMesssage();
         setChangesMade(false);
@@ -117,7 +118,7 @@ export default function NotificationsPage() {
                 [
                     { text: "Cancel" },
                     { text: "Leave", onPress: () => router.back() },
-                ]
+                ],
             );
         } else {
             router.back();
@@ -126,10 +127,7 @@ export default function NotificationsPage() {
 
     return (
         <View style={mainStyles.container}>
-            <WarningHeader
-                header="Notifications"
-                onPress={handleBackPress}
-            />
+            <WarningHeader header="Notifications" onPress={handleBackPress} />
             <ScrollView>
                 <Text style={notificationPageStyles.header}>Common</Text>
                 {commonSettings.map((item) => (
@@ -151,7 +149,7 @@ export default function NotificationsPage() {
                         />
                     </View>
                 ))}
-                <View style={notificationPageStyles.divider}></View>
+                <View style={notificationPageStyles.divider} />
                 <Text style={notificationPageStyles.header}>Promotions</Text>
                 {promotionSettings.map((item) => (
                     <View style={notificationPageStyles.item} key={item.key}>

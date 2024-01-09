@@ -1,9 +1,10 @@
+import { router } from "expo-router";
+import SecureStore from "expo-secure-store";
 import React, { useState, useEffect } from "react";
 import { View, Text, TouchableOpacity, ScrollView, Alert } from "react-native";
-import { languagePageStyles } from "../../styles/languagePageStyles";
-import * as SecureStore from "expo-secure-store";
+
 import WarningHeader from "@/components/warningHeader";
-import { router } from "expo-router";
+import { languagePageStyles } from "@/styles/languagePageStyles";
 
 const LanguageSelectionPage = () => {
     const [selectedLanguage, setSelectedLanguage] = useState("English");
@@ -59,7 +60,7 @@ const LanguageSelectionPage = () => {
                 [
                     { text: "Cancel" },
                     { text: "Leave", onPress: () => router.back() },
-                ]
+                ],
             );
         } else {
             router.back();
