@@ -1,11 +1,12 @@
+import { router } from "expo-router";
 import React, { useState } from "react";
 import { FlatList, Text, View, Image, TouchableOpacity } from "react-native";
-import { orderHistoryPageStyles } from "@/styles/orderHistoryPageStyles";
+
 import Header from "@/components/header";
-import { router } from "expo-router";
+import { orderHistoryPageStyles } from "@/styles/orderHistoryPageStyles";
 
 export default function OrderHistoryPage() {
-    const [orderHistory, setOrderHistory] = useState(false);
+    const [orderHistory] = useState(false);
 
     enum orderStatus {
         Placed = "Placed",

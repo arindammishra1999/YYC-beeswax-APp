@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { Text, View, Image, TextInput, ScrollView } from "react-native";
-import Navbar from "@/components/navbar";
-import { mainStyles } from "@/styles/mainStyles";
-import { homePageStyles } from "@/styles/homePageStyles";
+import Icon from "react-native-vector-icons/Feather";
+
+import { getProductData } from "../../firebase/getCollections/getProducts";
+
 import CategoryCard from "@/components/categoryCard";
 import ItemCard from "@/components/itemCard";
-import Icon from "react-native-vector-icons/Feather";
+import Navbar from "@/components/navbar";
 import { colors } from "@/consts/styles";
-import { getProductData } from "../../firebase/getCollections/getProducts";
+import { homePageStyles } from "@/styles/homePageStyles";
+import { mainStyles } from "@/styles/mainStyles";
 
 export default function HomePage() {
     const [allProducts, setAllProducts] = useState([] as any);
@@ -52,23 +54,14 @@ export default function HomePage() {
                         Shop by Category
                     </Text>
                     <View style={homePageStyles.categoriesContainer}>
-                        <CategoryCard
-                            iconName="candle"
-                            title="Candles"
-                        ></CategoryCard>
-                        <CategoryCard
-                            iconName="lipstick"
-                            title="Lip Balm"
-                        ></CategoryCard>
-                        <CategoryCard
-                            iconName="lotion"
-                            title="Lotion"
-                        ></CategoryCard>
+                        <CategoryCard iconName="candle" title="Candles" />
+                        <CategoryCard iconName="lipstick" title="Lip Balm" />
+                        <CategoryCard iconName="lotion" title="Lotion" />
                     </View>
                     <Text style={homePageStyles.headerText}>New Arrivals</Text>
                     <View style={homePageStyles.horizontalScrollContainer}>
                         <ScrollView
-                            horizontal={true}
+                            horizontal
                             showsHorizontalScrollIndicator={false}
                         >
                             {allProducts.map((product: any) => (
@@ -82,7 +75,7 @@ export default function HomePage() {
                     <Text style={homePageStyles.headerText}>Best Sellers</Text>
                     <View style={homePageStyles.horizontalScrollContainer}>
                         <ScrollView
-                            horizontal={true}
+                            horizontal
                             showsHorizontalScrollIndicator={false}
                         >
                             {allProducts.map((product: any) => (
@@ -98,7 +91,7 @@ export default function HomePage() {
                     </Text>
                     <View style={homePageStyles.lastHorizontalScrollContainer}>
                         <ScrollView
-                            horizontal={true}
+                            horizontal
                             showsHorizontalScrollIndicator={false}
                         >
                             {allProducts.map((product: any) => (

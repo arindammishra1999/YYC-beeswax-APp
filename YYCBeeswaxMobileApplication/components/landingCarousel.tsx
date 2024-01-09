@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { View, Text } from "react-native";
 import Carousel, { Pagination } from "react-native-snap-carousel";
-import { viewportWidth } from "@/consts/viewport";
 import Icon from "react-native-vector-icons/MaterialIcons";
+
+import { viewportWidth } from "@/consts/viewport";
 import { landingCarouselStyles } from "@/styles/components/landingCarouselStyles";
 
 type item = {

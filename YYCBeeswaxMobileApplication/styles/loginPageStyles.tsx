@@ -2,7 +2,6 @@ import { StyleSheet } from "react-native";
 
 import { colors } from "@/consts/styles";
 
-
 export const loginPageStyles = StyleSheet.create({
     forgot: {
         alignSelf: "center",
@@ -11,7 +10,7 @@ export const loginPageStyles = StyleSheet.create({
         textDecorationLine: "underline",
     },
     space: {
-        height:20,
+        height: 20,
     },
 
     centered: {

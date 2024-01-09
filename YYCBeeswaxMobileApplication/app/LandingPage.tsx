@@ -2,11 +2,10 @@ import { router } from "expo-router";
 import React from "react";
 import { Image, Text, TouchableOpacity, View } from "react-native";
 
+import LandingCarousel from "@/components/landingCarousel";
 import LinkButton from "@/components/linkButton";
 import { mainStyles } from "@/styles/mainStyles";
 import { rootPageStyles } from "@/styles/rootPageStyles";
-
-import LandingCarousel from "@/components/landingCarousel";
 
 export default function LandingPage() {
     const items = [
