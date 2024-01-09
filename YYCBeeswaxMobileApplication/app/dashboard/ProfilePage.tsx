@@ -19,7 +19,7 @@ export default function ProfilePage() {
 
     function logout() {
         signOut(auth);
-        router.push("/dashboard/HomePage");
+        router.push("/");
     }
 
     if (!user) {
