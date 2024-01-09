@@ -5,35 +5,50 @@ import { navbarStyles } from "@/styles/components/navbarStyles";
 import { colors } from "@/consts/styles";
 
 type Props = {
-    currentPage: string,
-}
+    currentPage: string;
+};
 
 export default function Navbar(props: Props) {
-    return (       
+    return (
         <View style={navbarStyles.container}>
-            <View style={navbarStyles.divider}></View>
             <View style={navbarStyles.optionContainer}>
-                <NavbarOption 
-                    iconName="home" 
+                <NavbarOption
+                    iconName="home"
                     onPress={() => router.push("/dashboard/HomePage")}
-                    color={props.currentPage === "Home" ? colors.yellow : colors.black}
+                    color={
+                        props.currentPage === "Home"
+                            ? colors.yellow
+                            : colors.black
+                    }
                 />
-                <NavbarOption 
-                    iconName="shopping-cart" 
+                <NavbarOption
+                    iconName="shopping-cart"
                     onPress={() => router.push("/dashboard/CartPage")}
-                    color={props.currentPage === "Cart" ? colors.yellow : colors.black}
+                    color={
+                        props.currentPage === "Cart"
+                            ? colors.yellow
+                            : colors.black
+                    }
                 />
-                <NavbarOption 
-                    iconName="layers" 
+                <NavbarOption
+                    iconName="layers"
                     onPress={() => router.push("/dashboard/MorePage")}
-                    color={props.currentPage === "More" ? colors.yellow : colors.black}
+                    color={
+                        props.currentPage === "More"
+                            ? colors.yellow
+                            : colors.black
+                    }
                 />
-                <NavbarOption 
-                    iconName="account-circle" 
+                <NavbarOption
+                    iconName="account-circle"
                     onPress={() => router.push("/dashboard/ProfilePage")}
-                    color={props.currentPage === "Profile" ? colors.yellow : colors.black}
+                    color={
+                        props.currentPage === "Profile"
+                            ? colors.yellow
+                            : colors.black
+                    }
                 />
             </View>
-        </View>    
+        </View>
     );
 }
