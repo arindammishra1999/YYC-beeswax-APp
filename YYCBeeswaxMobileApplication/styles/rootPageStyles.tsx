@@ -5,6 +5,7 @@ import { colors } from "@/consts/styles";
 export const rootPageStyles = StyleSheet.create({
     image: {
         width: "80%",
+        top: "5%",
     },
     caption: { height: 300 },
     buttonGroup: {
@@ -22,6 +23,7 @@ export const rootPageStyles = StyleSheet.create({
         justifyContent: "center",
     },
     signupLinkText: {
+        paddingLeft: 5,
         fontSize: 16,
         color: colors.blue,
         textDecorationLine: "underline",

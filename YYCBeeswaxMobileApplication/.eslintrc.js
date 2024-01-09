@@ -1,6 +1,7 @@
 module.exports = {
     root: true,
     extends: ["universe/native", "universe/shared/typescript-analysis"],
+    ignorePatterns: ["expo-env.d.ts"],
     rules: {
         eqeqeq: "off",
     },
@@ -10,13 +11,6 @@ module.exports = {
             parserOptions: {
                 project: "./tsconfig.json",
             },
-        },
-    ],
-    "prettier/prettier": [
-        "error",
-        {
-            endOfLine: "auto",
-            tabWidth: 4,
         },
     ],
 };

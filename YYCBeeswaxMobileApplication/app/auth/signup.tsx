@@ -1,16 +1,17 @@
+import { useRouter } from "expo-router";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { getDatabase, ref, push } from "firebase/database";
 import React, { useState } from "react";
 import { Text, ScrollView, View, Alert } from "react-native";
-import { getDatabase, ref, push } from "firebase/database";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import { accountStyles } from "@/styles/accountStyles";
+
 import Button from "@/components/button";
 import Header from "@/components/header";
-import Input from "@/components/input";
 import HideableInput from "@/components/hideableInput";
-import { useRouter } from "expo-router";
+import Input from "@/components/input";
+import { accountStyles } from "@/styles/accountStyles";
 import { loginPageStyles } from "@/styles/loginPageStyles";
 
-export default function signup() {
+export default function Signup() {
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [email, setEmail] = useState("");
@@ -40,18 +41,18 @@ export default function signup() {
             const userCredential = await createUserWithEmailAndPassword(
                 auth,
                 email,
-                password
+                password,
             );
 
             // Save user info to the database
             const usersRef = ref(database, "users"); // Reference to 'users' collection
-            if (userCredential && userCredential.user) {
+            if (userCredential?.user) {
                 const { uid } = userCredential.user;
                 await push(usersRef, {
                     userId: uid,
-                    firstName: firstName,
-                    lastName: lastName,
-                    email: email,
+                    firstName,
+                    lastName,
+                    email,
                 });
             }
 
@@ -64,7 +65,7 @@ export default function signup() {
                         text: "OK",
                         onPress: () => router.push("../dashboard/HomePage"),
                     },
-                ]
+                ],
             );
         } catch (error: any) {
             console.error("Error creating user:", error);
@@ -85,38 +86,38 @@ export default function signup() {
 
     return (
         <View style={accountStyles.container}>
-            <Header header={"Create Account"} />
+            <Header header="Create Account" />
             <ScrollView>
                 <View style={accountStyles.form}>
                     <Input
-                        label={"First Name"}
+                        label="First Name"
                         placeholder="Enter First Name"
                         value={firstName}
                         onChangeText={setFirstName}
-                        autoCapitalize={true}
+                        autoCapitalize
                     />
                     <Input
-                        label={"Last Name"}
+                        label="Last Name"
                         placeholder="Enter Last Name"
                         value={lastName}
                         onChangeText={setLastName}
-                        autoCapitalize={true}
+                        autoCapitalize
                     />
                     <Input
-                        label={"Email"}
+                        label="Email"
                         placeholder="Enter Email"
                         value={email}
                         onChangeText={setEmail}
                         autoCapitalize={false}
                     />
                     <HideableInput
-                        label={"Password"}
+                        label="Password"
                         placeholder="Enter Password"
                         value={password}
                         onChangeText={setPassword}
                     />
                     <HideableInput
-                        label={"Confirm Password"}
+                        label="Confirm Password"
                         placeholder="Re-enter Password"
                         value={confirmedPassword}
                         onChangeText={setConfirmedPassword}

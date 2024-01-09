@@ -1,8 +1,10 @@
-import { View } from "react-native";
-import NavbarOption from "./navbarOption";
 import { router } from "expo-router";
-import { navbarStyles } from "@/styles/components/navbarStyles";
+import { View } from "react-native";
+
+import NavbarOption from "./navbarOption";
+
 import { colors } from "@/consts/styles";
+import { navbarStyles } from "@/styles/components/navbarStyles";
 
 type Props = {
     currentPage: string;

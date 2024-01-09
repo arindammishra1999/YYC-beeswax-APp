@@ -25,7 +25,7 @@ export default function ProfilePage() {
     if (!user) {
         return (
             <View style={mainStyles.container}>
-                <Header header="Your Profile" noBackArrow={true} />
+                <Header header="Your Profile" noBackArrow />
                 <Text style={profilePageStyles.messageText}>
                     You are currently browsing as a guest! Login or create an
                     account to view your profile and save your settings.
@@ -55,7 +55,7 @@ export default function ProfilePage() {
     } else {
         return (
             <View style={mainStyles.container}>
-                <Header header="Your Profile" noBackArrow={true} />
+                <Header header="Your Profile" noBackArrow />
                 <Ionicons
                     name="person-outline"
                     style={profilePageStyles.largeIcon}
@@ -69,7 +69,9 @@ export default function ProfilePage() {
                 </View>
                 <View style={profilePageStyles.optionContainer}>
                     <ProfileOption
-                        onPress={() => router.push("/")}
+                        onPress={() =>
+                            router.push("/dashboard/EditProfilePage")
+                        }
                         label="Edit Profile"
                         iconName="edit"
                     />
@@ -88,7 +90,7 @@ export default function ProfilePage() {
                     <ProfileOption
                         onPress={() =>
                             Linking.openURL(
-                                "https://yycwax.com/about/frequently-asked-questions/"
+                                "https://yycwax.com/about/frequently-asked-questions/",
                             )
                         }
                         label="Help & Support"

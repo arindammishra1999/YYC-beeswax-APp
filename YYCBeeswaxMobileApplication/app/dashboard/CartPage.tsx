@@ -1,18 +1,19 @@
+import { router } from "expo-router";
 import React, { useState } from "react";
 import { Text, TouchableOpacity, View, Image } from "react-native";
-import Navbar from "@/components/navbar";
-import { mainStyles } from "@/styles/mainStyles";
-import { router } from "expo-router";
+
 import Header from "@/components/header";
+import Navbar from "@/components/navbar";
 import { cartPageStyles } from "@/styles/cartPageStyles";
+import { mainStyles } from "@/styles/mainStyles";
 
 export default function CartPage() {
-    const [emptyCart, setEmptyCart] = useState(true);
+    const [emptyCart] = useState(true);
 
     if (emptyCart) {
         return (
             <View style={cartPageStyles.container}>
-                <Header header="Your Cart" noBackArrow={true} />
+                <Header header="Your Cart" noBackArrow />
                 <Text style={cartPageStyles.messageText}>
                     Your cart is empty! Go ahead and check out our products.
                 </Text>

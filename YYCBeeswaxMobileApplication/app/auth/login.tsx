@@ -25,6 +25,7 @@ export default function Login() {
             await signInWithEmailAndPassword(auth, email, password);
             router.push("../dashboard/HomePage");
         } catch (err: any) {
+            console.log(err);
             if (err?.code === "auth/invalid-email") {
                 setError("Login Failed - Enter a valid email.");
             } else if (err?.code === "auth/missing-password") {
