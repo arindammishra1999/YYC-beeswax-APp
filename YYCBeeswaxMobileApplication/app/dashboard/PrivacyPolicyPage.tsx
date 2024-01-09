@@ -1,8 +1,9 @@
 import React from "react";
-import { Linking, Text, TouchableOpacity, View } from "react-native";
-import { mainStyles } from "@/styles/mainStyles";
-import Header from "@/components/header";
+import { Linking, Text, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
+
+import Header from "@/components/header";
+import { mainStyles } from "@/styles/mainStyles";
 import { privacyPolicyPageStyles } from "@/styles/privacyPolicyPageStyles";
 
 export default function PrivacyPolicyPage() {

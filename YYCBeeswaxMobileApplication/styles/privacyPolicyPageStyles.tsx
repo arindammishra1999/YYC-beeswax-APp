@@ -1,5 +1,6 @@
 import { StyleSheet } from "react-native";
-import { colors } from "../consts/styles";
+
+import { colors } from "@/consts/styles";
 
 export const privacyPolicyPageStyles = StyleSheet.create({
     textContainer: {

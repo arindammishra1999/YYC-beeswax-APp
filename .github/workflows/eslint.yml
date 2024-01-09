@@ -1,0 +1,22 @@
+name: ESLint Check
+
+on:
+  # runs on pushes to the main branch
+  push:
+    branches: [main]
+  # also runs inside pull requests that target the main branch
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    # uses a Ubuntu Docker image
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v2
+      - name: Install Dependencies
+        run: npm i eslint eslint-config-universe
+      - name: Run check
+        run: npm run lint
