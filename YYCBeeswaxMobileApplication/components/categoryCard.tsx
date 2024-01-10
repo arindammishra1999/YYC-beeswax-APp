@@ -1,3 +1,4 @@
+import { router } from "expo-router";
 import React from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
@@ -9,10 +10,17 @@ type Props = {
     iconName: any;
 };
 
+export let selectedCategory: string = "";
+
 export default function CategoryCard(props: Props) {
     return (
         <View style={categoryCardStyles.cardContainer}>
-            <TouchableOpacity onPress={() => {}}>
+            <TouchableOpacity
+                onPress={() => {
+                    selectedCategory = props.title;
+                    router.push("../dashboard/CategoryPage");
+                }}
+            >
                 <Icon name={props.iconName} style={categoryCardStyles.icon} />
                 <Text style={categoryCardStyles.text} numberOfLines={1}>
                     {props.title}
