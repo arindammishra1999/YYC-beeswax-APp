@@ -1,3 +1,4 @@
+import { router } from "expo-router";
 import React, { useEffect, useState } from "react";
 import { Text, View, Image, TextInput, ScrollView } from "react-native";
 import Icon from "react-native-vector-icons/Feather";
@@ -11,9 +12,11 @@ import { colors } from "@/consts/styles";
 import { homePageStyles } from "@/styles/homePageStyles";
 import { mainStyles } from "@/styles/mainStyles";
 
+export let searchTerm: string = "";
+
 export default function HomePage() {
     const [allProducts, setAllProducts] = useState([] as any);
-
+    const [searchQuery, setSearchQuery] = useState("");
     useEffect(() => {
         getProductData().then((products) => {
             if (products) {
@@ -44,9 +47,11 @@ export default function HomePage() {
                             style={homePageStyles.searchBar}
                             placeholder="Search all Products"
                             placeholderTextColor={colors.darkGrey}
-                            onSubmitEditing={() =>
-                                console.log("Search bar clicked")
-                            }
+                            onChangeText={setSearchQuery}
+                            onSubmitEditing={() => {
+                                searchTerm = searchQuery;
+                                router.push("/dashboard/SearchPage");
+                            }}
                             returnKeyType="search"
                         />
                     </View>

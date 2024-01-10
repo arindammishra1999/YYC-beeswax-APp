@@ -90,6 +90,20 @@ export default function OrderHistoryPage() {
         imageLink: string;
     };
 
+    const setOrderStatusType = (order: orderStatus) => {
+        switch (order) {
+            case orderStatus.Delivered:
+                return orderHistoryPageStyles.orderDetailsDelivered;
+            case orderStatus.Shipped:
+                return orderHistoryPageStyles.orderDetailsShipped;
+            case orderStatus.Placed:
+                return orderHistoryPageStyles.orderDetailsPlaced;
+            case orderStatus.Cancelled:
+                return orderHistoryPageStyles.orderDetailsCancelled;
+            default:
+        }
+    };
+
     const Item = ({
         title,
         numberProducts,
@@ -110,31 +124,11 @@ export default function OrderHistoryPage() {
                     {title}
                 </Text>
                 <View style={orderHistoryPageStyles.orderDetails}>
-                    <Text
-                        style={
-                            order == orderStatus.Delivered
-                                ? orderHistoryPageStyles.orderDetailsDelivered
-                                : order == orderStatus.Shipped
-                                  ? orderHistoryPageStyles.orderDetailsShipped
-                                  : order == orderStatus.Placed
-                                    ? orderHistoryPageStyles.orderDetailsPlaced
-                                    : orderHistoryPageStyles.orderDetailsCancelled
-                        }
-                    >
+                    <Text style={setOrderStatusType(order)}>
                         {numberProducts} product{numberProducts > 1 ? "s" : ""}{" "}
                         -{" "}
                     </Text>
-                    <Text
-                        style={
-                            order == orderStatus.Delivered
-                                ? orderHistoryPageStyles.orderDetailsDelivered
-                                : order == orderStatus.Shipped
-                                  ? orderHistoryPageStyles.orderDetailsShipped
-                                  : order == orderStatus.Placed
-                                    ? orderHistoryPageStyles.orderDetailsPlaced
-                                    : orderHistoryPageStyles.orderDetailsCancelled
-                        }
-                    >
+                    <Text style={setOrderStatusType(order)}>
                         {order} on {date}
                     </Text>
                 </View>
