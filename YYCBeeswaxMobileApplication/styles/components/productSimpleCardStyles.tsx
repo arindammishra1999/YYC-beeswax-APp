@@ -1,17 +1,18 @@
-import { StyleSheet, Dimensions } from "react-native";
+import { StyleSheet } from "react-native";
 
 import { colors } from "@/consts/styles";
+import { viewportWidth } from "@/consts/viewport";
 
 export const productSimpleCardStyles = StyleSheet.create({
     cardContainer: {
-        width: Dimensions.get("window").width / 2 - 30,
-        height: Dimensions.get("window").width / 2 + 30,
+        width: viewportWidth / 2 - 30,
+        height: viewportWidth / 2 + 30,
         margin: 15,
         justifyContent: "center",
     },
     image: {
-        width: Dimensions.get("window").width / 2 - 30,
-        height: Dimensions.get("window").width / 2 - 30,
+        width: viewportWidth / 2 - 30,
+        height: viewportWidth / 2 - 30,
         top: -10,
     },
     title: {

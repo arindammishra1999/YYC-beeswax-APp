@@ -1,4 +1,5 @@
 import { Dimensions } from "react-native";
 
-const { width } = Dimensions.get("screen");
+const { width, height } = Dimensions.get("screen");
 export const viewportWidth = width;
+export const viewportHeight = height;

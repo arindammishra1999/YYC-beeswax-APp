@@ -1,4 +1,6 @@
-import { StyleSheet, Dimensions } from "react-native";
+import { StyleSheet } from "react-native";
+
+import { viewportWidth, viewportHeight } from "@/consts/viewport";
 
 import { colors } from "@/consts/styles";
 export const productPageStyles = StyleSheet.create({
@@ -10,8 +12,8 @@ export const productPageStyles = StyleSheet.create({
         alignItems: "center",
     },
     image: {
-        width: Dimensions.get("window").width,
-        height: Dimensions.get("window").width,
+        width: viewportWidth,
+        height: viewportWidth,
     },
     productDetails: {
         top: -20,
@@ -76,7 +78,7 @@ export const productPageStyles = StyleSheet.create({
     bottomSection: {
         borderTopLeftRadius: 25,
         borderTopRightRadius: 25,
-        height: Dimensions.get("window").height / 8,
+        height: viewportHeight / 8,
         backgroundColor: colors.white,
         borderColor: colors.darkGrey,
         borderStyle: "solid",
@@ -90,7 +92,7 @@ export const productPageStyles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         padding: 15,
-        width: Dimensions.get("window").width / 2,
+        width: viewportWidth / 2,
         marginLeft: "25%",
         marginRight: "25%",
     },

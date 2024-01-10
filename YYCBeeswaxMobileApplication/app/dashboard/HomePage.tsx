@@ -50,7 +50,7 @@ export default function HomePage() {
                             onChangeText={setSearchQuery}
                             onSubmitEditing={() => {
                                 searchTerm = searchQuery;
-                                router.push("./SearchPage");
+                                router.push("/dashboard/SearchPage");
                             }}
                             returnKeyType="search"
                         />

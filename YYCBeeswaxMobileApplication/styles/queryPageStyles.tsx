@@ -1,4 +1,6 @@
-import { StyleSheet, Dimensions } from "react-native";
+import { StyleSheet } from "react-native";
+
+import { viewportWidth } from "@/consts/viewport";
 
 export const queryPageStyles = StyleSheet.create({
     container: {
@@ -10,6 +12,6 @@ export const queryPageStyles = StyleSheet.create({
         flexWrap: "wrap",
     },
     extraSpace: {
-        height: Dimensions.get("window").width,
+        height: viewportWidth,
     },
 });
