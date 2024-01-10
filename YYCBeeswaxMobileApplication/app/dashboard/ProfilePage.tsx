@@ -9,7 +9,6 @@ import Header from "@/components/header";
 import Navbar from "@/components/navbar";
 import Popup from "@/components/popup";
 import ProfileOption from "@/components/profileOption";
-
 import { auth } from "@/firebase/config";
 import useAuth from "@/firebase/hooks/useAuth";
 import { mainStyles } from "@/styles/mainStyles";
