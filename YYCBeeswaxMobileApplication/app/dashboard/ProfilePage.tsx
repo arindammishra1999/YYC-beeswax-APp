@@ -1,17 +1,18 @@
+import { Ionicons } from "@expo/vector-icons";
+import * as Linking from "expo-linking";
+import { router } from "expo-router";
+import { signOut } from "firebase/auth";
 import React, { useState } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
+
+import Header from "@/components/header";
+import Navbar from "@/components/navbar";
+import Popup from "@/components/popup";
+import ProfileOption from "@/components/profileOption";
+import { auth } from "@/firebase/config";
 import useAuth from "@/firebase/hooks/useAuth";
 import { mainStyles } from "@/styles/mainStyles";
 import { profilePageStyles } from "@/styles/profilePageStyles";
-import { Ionicons } from "@expo/vector-icons";
-import { router } from "expo-router";
-import Header from "@/components/header";
-import ProfileOption from "@/components/profileOption";
-import * as Linking from "expo-linking";
-import { signOut } from "firebase/auth";
-import { auth } from "@/firebase/config";
-import Navbar from "@/components/navbar";
-import Popup from "@/components/popup";
 
 export default function ProfilePage() {
     const { user } = useAuth();
