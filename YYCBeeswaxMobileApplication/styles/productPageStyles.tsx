@@ -1,8 +1,7 @@
 import { StyleSheet } from "react-native";
 
-import { viewportWidth, viewportHeight } from "@/consts/viewport";
-
 import { colors } from "@/consts/styles";
+import { viewportWidth, viewportHeight } from "@/consts/viewport";
 export const productPageStyles = StyleSheet.create({
     container: {
         flex: 1,
