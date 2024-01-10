@@ -6,6 +6,7 @@ import {
     Modal,
     TouchableWithoutFeedback,
 } from "react-native";
+
 import { popupStyles } from "@/styles/components/popupStyles";
 
 type Props = {
@@ -21,10 +22,10 @@ type Props = {
 
 export default function Popup(props: Props) {
     return (
-        <Modal animationType="slide" visible={props.visible} transparent={true}>
+        <Modal animationType="slide" visible={props.visible} transparent>
             <View style={popupStyles.viewContainer}>
                 <TouchableWithoutFeedback onPress={props.changeVisibility}>
-                    <View style={popupStyles.touchableOverlay}></View>
+                    <View style={popupStyles.touchableOverlay} />
                 </TouchableWithoutFeedback>
                 <View style={popupStyles.popupView}>
                     {props.title && (
