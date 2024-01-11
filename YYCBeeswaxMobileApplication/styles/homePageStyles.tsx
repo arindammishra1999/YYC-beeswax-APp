@@ -33,6 +33,7 @@ export const homePageStyles = StyleSheet.create({
         paddingVertical: 25,
     },
     categoriesContainer: {
+        height: 130,
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "space-between",
