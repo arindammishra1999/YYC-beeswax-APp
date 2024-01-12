@@ -59,9 +59,18 @@ export default function HomePage() {
                         Shop by Category
                     </Text>
                     <View style={homePageStyles.categoriesContainer}>
-                        <CategoryCard iconName="candle" title="Candles" />
-                        <CategoryCard iconName="lipstick" title="Lip Balm" />
-                        <CategoryCard iconName="lotion" title="Lotion" />
+                        <ScrollView
+                            horizontal
+                            showsHorizontalScrollIndicator={false}
+                        >
+                            <CategoryCard iconName="candle" title="Candles" />
+                            <CategoryCard
+                                iconName="lipstick"
+                                title="Lip Balm"
+                            />
+                            <CategoryCard iconName="lotion" title="Lotion" />
+                            <CategoryCard iconName="store" title="Other" />
+                        </ScrollView>
                     </View>
                     <Text style={homePageStyles.headerText}>New Arrivals</Text>
                     <View style={homePageStyles.horizontalScrollContainer}>
