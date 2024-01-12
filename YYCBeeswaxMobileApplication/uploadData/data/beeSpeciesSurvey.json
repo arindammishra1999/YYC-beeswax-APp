@@ -1,0 +1,173 @@
+[
+    {
+        "question": "How do you approach challenges in your life?",
+        "option1": "With careful planning and organization",
+        "option2": "With enthusiasm and energy",
+        "option3": "By adapting and going with the flow",
+        "option4": "By seeking collaborative solutions",
+        "quizName": "beeSpeciesSurvey",
+        "quizType": "survey"
+    },
+    {
+        "question": "What is your preferred work environment?",
+        "option1": "Structured and orderly",
+        "option2": "Dynamic and fast-paced",
+        "option3": "Flexible and creative",
+        "option4": "Collaborative and team-oriented",
+        "quizName": "beeSpeciesSurvey",
+        "quizType": "survey"
+    },
+    {
+        "question": "Choose a color that represents your personality:",
+        "option1": "Blue",
+        "option2": "Yellow",
+        "option3": "Green",
+        "option4": "Red",
+        "quizName": "beeSpeciesSurvey",
+        "quizType": "survey"
+    },
+    {
+        "question": "What role do you usually play in a group project?",
+        "option1": "The organizer and planner",
+        "option2": "The motivator and energizer",
+        "option3": "The innovator and creative thinker",
+        "option4": "The mediator and team player",
+        "quizName": "beeSpeciesSurvey",
+        "quizType": "survey"
+    },
+    {
+        "question": "How do you unwind after a busy day?",
+        "option1": "Organizing and decluttering",
+        "option2": "Engaging in a physical activity",
+        "option3": "Exploring new ideas or hobbies",
+        "option4": "Spending time with loved ones",
+        "quizName": "beeSpeciesSurvey",
+        "quizType": "survey"
+    },
+    {
+        "question": "What is your communication style?",
+        "option1": "Clear and concise",
+        "option2": "Energetic and expressive",
+        "option3": "Creative and imaginative",
+        "option4": "Supportive and empathetic",
+        "quizName": "beeSpeciesSurvey",
+        "quizType": "survey"
+    },
+    {
+        "question": "Choose an outdoor activity that appeals to you:",
+        "option1": "Gardening",
+        "option2": "Running or hiking",
+        "option3": "Artistic endeavors",
+        "option4": "Picnicking with friends",
+        "quizName": "beeSpeciesSurvey",
+        "quizType": "survey"
+    },
+    {
+        "question": "What's your favorite season?",
+        "option1": "Spring",
+        "option2": "Summer",
+        "option3": "Autumn",
+        "option4": "Winter",
+        "quizName": "beeSpeciesSurvey",
+        "quizType": "survey"
+    },
+    {
+        "question": "How do you handle conflicts within a group?",
+        "option1": "Addressing the issues directly",
+        "option2": "Encouraging open communication",
+        "option3": "Finding creative solutions",
+        "option4": "Promoting compromise and understanding",
+        "quizName": "beeSpeciesSurvey",
+        "quizType": "survey"
+    },
+    {
+        "question": "Choose a flower that resonates with you:",
+        "option1": "Lily",
+        "option2": "Sunflower",
+        "option3": "Daisy",
+        "option4": "Rose",
+        "quizName": "beeSpeciesSurvey",
+        "quizType": "survey"
+    },
+    {
+        "question": "What's your preferred mode of transportation?",
+        "option1": "Car",
+        "option2": "Bicycle",
+        "option3": "Walking",
+        "option4": "Public transit",
+        "quizName": "beeSpeciesSurvey",
+        "quizType": "survey"
+    },
+    {
+        "question": "How do you approach learning new things?",
+        "option1": "Systematic and step-by-step",
+        "option2": "With enthusiasm and curiosity",
+        "option3": "Experimenting and trying different approaches",
+        "option4": "Collaborating with others and sharing knowledge",
+        "quizName": "beeSpeciesSurvey",
+        "quizType": "survey"
+    },
+    {
+        "question": "What's your favorite type of music?",
+        "option1": "Classical",
+        "option2": "Pop",
+        "option3": "Indie",
+        "option4": "Jazz",
+        "quizName": "beeSpeciesSurvey",
+        "quizType": "survey"
+    },
+    {
+        "question": "In a social setting, you are most likely to be:",
+        "option1": "The organizer and host",
+        "option2": "The life of the party",
+        "option3": "The creative storyteller",
+        "option4": "The supportive friend",
+        "quizName": "beeSpeciesSurvey",
+        "quizType": "survey"
+    },
+    {
+        "question": "How do you handle unexpected changes?",
+        "option1": "Adapt quickly and find a new plan",
+        "option2": "Embrace the excitement of the unknown",
+        "option3": "Explore new possibilities",
+        "option4": "Seek support and advice",
+        "quizName": "beeSpeciesSurvey",
+        "quizType": "survey"
+    },
+    {
+        "question": "What's your preferred leisure activity?",
+        "option1": "Reading a book",
+        "option2": "Playing a sport",
+        "option3": "Creating art or crafts",
+        "option4": "Socializing with friends",
+        "quizName": "beeSpeciesSurvey",
+        "quizType": "survey"
+    },
+    {
+        "question": "What role does nature play in your life?",
+        "option1": "I find peace and tranquility in nature",
+        "option2": "I love exploring and being outdoors",
+        "option3": "I draw inspiration from natural beauty",
+        "option4": "Nature is a source of connection and community",
+        "quizName": "beeSpeciesSurvey",
+        "quizType": "survey"
+    },
+    {
+        "question": "Choose a vacation destination that excites you:",
+        "option1": "Historical city tour",
+        "option2": "Tropical beach resort",
+        "option3": "Mountain retreat",
+        "option4": "Countryside bed and breakfast",
+        "quizName": "beeSpeciesSurvey",
+        "quizType": "survey"
+    },
+    {
+        "question": "What's your favorite type of sweet treat?",
+        "option1": "Chocolate cake",
+        "option2": "Fruit sorbet",
+        "option3": "Honey-based dessert",
+        "option4": "Cookies and pastries",
+        "quizName": "beeSpeciesSurvey",
+        "quizType": "survey"
+    }
+]
