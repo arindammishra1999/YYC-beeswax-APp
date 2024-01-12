@@ -23,7 +23,7 @@ export const navbarStyles = StyleSheet.create({
         fontSize: 34,
     },
     optionHitbox: {
-        height: viewportHeight / 13,
+        height: viewportHeight / 17,
         width: viewportWidth / 4,
         alignItems: "center",
         justifyContent: "center",
