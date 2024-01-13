@@ -1,36 +1,43 @@
-import { getDatabase, ref, set } from "@firebase/database";
-import { Link, router } from "expo-router";
+import { router } from "expo-router";
+import { doc, setDoc } from "firebase/firestore";
 import React, { useState } from "react";
 import { Keyboard, Text, TouchableWithoutFeedback, View } from "react-native";
 
 import Button from "@/components/button";
 import Header from "@/components/header";
 import Input from "@/components/input";
+import { db } from "@/firebase/config";
 import useAuth from "@/firebase/hooks/useAuth";
 import { accountStyles } from "@/styles/accountStyles";
-import { loginPageStyles } from "@/styles/loginPageStyles";
 
 export default function EditProfilePage() {
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
-    const [email, setEmail] = useState("");
     const [error, setError] = useState("");
 
     const { user } = useAuth();
 
     async function login() {
         const userId = user?.uid;
-        if (!userId) {
-            return;
-        }
         try {
-            const db = getDatabase();
-            await set(ref(db, "users/" + userId), {
-                ...(firstName && { firstName }),
-                ...(lastName && { firstName }),
-                ...(email && { firstName }),
-            });
-            router.push("/dashboard/HomePage");
+            if (!userId) {
+                setError("User Not Found");
+                return;
+            }
+            if (firstName == "" && lastName == "") {
+                setError("Fields are empty");
+                return;
+            }
+            const docRef = doc(db, "users/" + userId);
+            await setDoc(
+                docRef,
+                {
+                    ...(firstName != "" && { firstName }),
+                    ...(lastName != "" && { lastName }),
+                },
+                { merge: true },
+            );
+            router.push("/dashboard/ProfileDataPage");
         } catch {
             setError("Failed to update profile");
         }
@@ -55,18 +62,6 @@ export default function EditProfilePage() {
                         onChangeText={setLastName}
                         autoCapitalize={false}
                     />
-                    <Input
-                        label="Email"
-                        placeholder="Enter Email"
-                        value={email}
-                        onChangeText={setEmail}
-                        autoCapitalize={false}
-                    />
-                    <Link href="/dashboard/ChangePasswordPage" asChild>
-                        <Text style={loginPageStyles.forgot}>
-                            Change password
-                        </Text>
-                    </Link>
                     {error && <Text style={accountStyles.error}>{error}</Text>}
                 </View>
                 <Button title="Confirm" onPress={login} />
