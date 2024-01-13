@@ -57,7 +57,7 @@ export default function EventsPage() {
             <ScrollView>
                 {mockEvents.map((event) => (
                     <EventCard
-                        key={event.id}
+                        id={event.id}
                         image={event.image}
                         date={event.date}
                         name={event.name}
