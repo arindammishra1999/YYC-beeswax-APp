@@ -19,7 +19,7 @@ export const eventDetailsPageStyles = StyleSheet.create({
         flexDirection: "row",
         alignSelf: "center",
         width: "90%",
-        marginVertical: 10,
+        marginVertical: 5,
         height: 60,
     },
     iconContainer: {
@@ -40,16 +40,12 @@ export const eventDetailsPageStyles = StyleSheet.create({
         height: "80%",
         width: "80%",
         alignSelf: "center",
-        justifyContent: "space-between",
         marginLeft: 15,
         flexWrap: "wrap",
+        justifyContent: "center",
     },
     infoHeaderText: {
-        fontSize: 18,
-        flexShrink: 1,
-        width: "100%",
-    },
-    infoSubheaderText: {
+        fontSize: 15,
         flexShrink: 1,
         width: "100%",
     },

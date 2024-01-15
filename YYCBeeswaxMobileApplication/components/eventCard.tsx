@@ -9,9 +9,9 @@ import { mainStyles } from "@/styles/mainStyles";
 type Props = {
     id: any;
     image: any;
-    date: string;
+    startTime: string;
     name: string;
-    location: string;
+    place: string;
 };
 
 export let selectedEventID: number;
@@ -33,7 +33,7 @@ export default function EventCard(props: Props) {
                     />
                     <View style={eventCardStyles.textContainer}>
                         <Text style={eventCardStyles.dateText}>
-                            {props.date}
+                            {props.startTime}
                         </Text>
                         <Text style={eventCardStyles.nameText}>
                             {props.name}
@@ -44,7 +44,7 @@ export default function EventCard(props: Props) {
                                 style={eventCardStyles.icon}
                             />
                             <Text style={eventCardStyles.locationText}>
-                                {props.location}
+                                {props.place}
                             </Text>
                         </View>
                     </View>

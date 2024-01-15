@@ -9,45 +9,69 @@ export default function EventsPage() {
     const [mockEvents] = useState([
         {
             id: 1,
-            image: require("../../assets/tempImages/chakra.jpg"),
-            date: "Wed, Apr 28 - 5:30 PM",
+            coverImage: require("../../assets/tempImages/chakra.jpg"),
             name: "Lip Balm Making Workshop",
-            location: "3130 114 Avenue SE, Calgary, T2Z 3V6, CA",
+            startTime: "Wed, Apr 28 - 5:30 PM",
+            endTime: "",
+            description:
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+            place: "3130 114 Avenue SE, Calgary, T2Z 3V6, CA",
+            ticketUrl: "https://yycwax.com/",
         },
         {
             id: 2,
-            image: require("../../assets/tempImages/chakra.jpg"),
-            date: "Wed, Apr 28 - 5:30 PM",
-            name: "Event #2",
-            location: "3130 114 Avenue SE, Calgary, T2Z 3V6, CA",
+            coverImage: require("../../assets/tempImages/chakra.jpg"),
+            name: "Another Event",
+            startTime: "Wed, Apr 28 - 8:30 PM",
+            endTime: "",
+            description:
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+            place: "3130 114 Avenue SE, Calgary, T2Z 3V6, CA",
+            ticketUrl: "https://yycwax.com/",
         },
         {
             id: 3,
-            image: require("../../assets/tempImages/chakra.jpg"),
-            date: "Wed, Apr 28 - 5:30 PM",
-            name: "Event #3",
-            location: "3130 114 Avenue SE, Calgary, T2Z 3V6, CA",
+            coverImage: require("../../assets/tempImages/chakra.jpg"),
+            name: "New Year Wellness Workshop",
+            startTime: "Wed, Apr 28 - 10:30 PM",
+            endTime: "",
+            description:
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+            place: "3130 114 Avenue SE, Calgary, T2Z 3V6, CA",
+            ticketUrl: "https://yycwax.com/",
         },
         {
             id: 4,
-            image: require("../../assets/tempImages/chakra.jpg"),
-            date: "Wed, Apr 28 - 5:30 PM",
-            name: "Event #4",
-            location: "3130 114 Avenue SE, Calgary, T2Z 3V6, CA",
+            coverImage: require("../../assets/tempImages/chakra.jpg"),
+            name: "Beeswax Luminary Workshop",
+            startTime: "Wed, Apr 28 - 5:30 AM",
+            endTime: "",
+            description:
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+            place: "3130 114 Avenue SE, Calgary, T2Z 3V6, CA",
+            ticketUrl: "https://yycwax.com/",
         },
         {
             id: 5,
-            image: require("../../assets/tempImages/chakra.jpg"),
-            date: "Wed, Apr 28 - 5:30 PM",
-            name: "Event #5",
-            location: "3130 114 Avenue SE, Calgary, T2Z 3V6, CA",
+            coverImage: require("../../assets/tempImages/chakra.jpg"),
+            name: "Massage Candle Making Workshop",
+            startTime: "Wed, Apr 28 - 1:30 PM",
+            endTime: "",
+            description:
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+            place: "3130 114 Avenue SE, Calgary, T2Z 3V6, CA",
+            ticketUrl: "https://yycwax.com/",
         },
         {
             id: 6,
-            image: require("../../assets/tempImages/chakra.jpg"),
-            date: "Wed, Apr 28 - 5:30 PM",
-            name: "Event #6",
-            location: "3130 114 Avenue SE, Calgary, T2Z 3V6, CA",
+            coverImage: require("../../assets/tempImages/chakra.jpg"),
+            name: "Random Event 6",
+            startTime: "Wed, Apr 28 - 12:30 PM",
+            endTime: "",
+            description:
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+            place: "3130 114 Avenue SE, Calgary, T2Z 3V6, CA",
+            ticketUrl: "https://yycwax.com/",
         },
     ]);
 
@@ -57,11 +81,12 @@ export default function EventsPage() {
             <ScrollView>
                 {mockEvents.map((event) => (
                     <EventCard
+                        key={event.id}
                         id={event.id}
-                        image={event.image}
-                        date={event.date}
+                        image={event.coverImage}
+                        startTime={event.startTime}
                         name={event.name}
-                        location={event.location}
+                        place={event.place}
                     />
                 ))}
             </ScrollView>
