@@ -63,9 +63,9 @@ export const eventDetailsPageStyles = StyleSheet.create({
     bottomBar: {
         backgroundColor: colors.white,
         height: "9%",
-        shadowOffset: { width: 0, height: -25 }, // Positive height value for the shadow to appear at the top
+        shadowOffset: { width: 0, height: -25 },
         shadowOpacity: 0.2,
-        shadowRadius: 10, // Increased shadow radius for a softer effect
+        shadowRadius: 10,
         elevation: 3,
     },
     button: {
