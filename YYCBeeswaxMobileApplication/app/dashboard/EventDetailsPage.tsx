@@ -1,11 +1,27 @@
-import React, { useState } from "react";
-import { View, ScrollView } from "react-native";
+import React, { useEffect, useState } from "react";
+import {
+    View,
+    ScrollView,
+    Text,
+    Image,
+    TouchableOpacity,
+    Linking,
+} from "react-native";
+import Icon from "react-native-vector-icons/MaterialIcons";
 
-import EventCard from "@/components/eventCard";
+import { selectedEventID } from "@/components/eventCard";
 import Header from "@/components/header";
+import { eventDetailsPageStyles } from "@/styles/eventDetailsPageStyles";
 import { mainStyles } from "@/styles/mainStyles";
 
-export default function EventsPage() {
+export default function EventDetailsPage() {
+    const [eventImage, setEventImage] = useState(null);
+    const [eventName, setEventName] = useState(String);
+    const [eventStartTime, setEventStartTime] = useState(String);
+    const [eventPlace, setEventPlace] = useState(String);
+    const [eventDescription, setEventDescription] = useState(String);
+    const [eventTicketUrl, setEventTicketUrl] = useState(String);
+
     const [mockEvents] = useState([
         {
             id: 1,
@@ -75,21 +91,77 @@ export default function EventsPage() {
         },
     ]);
 
+    useEffect(() => {
+        const selectedEvent = mockEvents.find(
+            (event) => event.id === selectedEventID,
+        );
+
+        if (selectedEvent) {
+            setEventImage(selectedEvent.coverImage);
+            setEventName(selectedEvent.name);
+            setEventStartTime(selectedEvent.startTime);
+            setEventPlace(selectedEvent.place);
+            setEventDescription(selectedEvent.description);
+            setEventTicketUrl(selectedEvent.ticketUrl);
+        } else {
+            console.log(`Event with id ${selectedEventID} not found.`);
+        }
+    }, [selectedEventID]);
+
     return (
         <View style={mainStyles.container}>
-            <Header header="Upcoming Events" />
+            <Header header="Event Details" />
             <ScrollView>
-                {mockEvents.map((event) => (
-                    <EventCard
-                        key={event.id}
-                        id={event.id}
-                        image={event.coverImage}
-                        startTime={event.startTime}
-                        name={event.name}
-                        place={event.place}
+                {eventImage && (
+                    <Image
+                        style={eventDetailsPageStyles.image}
+                        source={eventImage}
                     />
-                ))}
+                )}
+                <Text style={eventDetailsPageStyles.title}>{eventName}</Text>
+                <View style={eventDetailsPageStyles.eventInfoContainer}>
+                    <View style={eventDetailsPageStyles.iconContainer}>
+                        <Icon
+                            name="calendar-today"
+                            style={eventDetailsPageStyles.icon}
+                        />
+                    </View>
+                    <View style={eventDetailsPageStyles.innerDetailsContainer}>
+                        <Text style={eventDetailsPageStyles.infoHeaderText}>
+                            {eventStartTime}
+                        </Text>
+                    </View>
+                </View>
+                <View style={eventDetailsPageStyles.eventInfoContainer}>
+                    <View style={eventDetailsPageStyles.iconContainer}>
+                        <Icon
+                            name="location-pin"
+                            style={eventDetailsPageStyles.icon}
+                        />
+                    </View>
+                    <View style={eventDetailsPageStyles.innerDetailsContainer}>
+                        <Text style={eventDetailsPageStyles.infoHeaderText}>
+                            {eventPlace}
+                        </Text>
+                    </View>
+                </View>
+                <Text style={eventDetailsPageStyles.eventTextHeader}>
+                    About this Event:
+                </Text>
+                <Text style={eventDetailsPageStyles.eventText}>
+                    {eventDescription}
+                </Text>
             </ScrollView>
+            <View style={eventDetailsPageStyles.bottomBar}>
+                <TouchableOpacity
+                    style={eventDetailsPageStyles.button}
+                    onPress={() => Linking.openURL(eventTicketUrl)}
+                >
+                    <Text style={eventDetailsPageStyles.buttonText}>
+                        Buy Tickets
+                    </Text>
+                </TouchableOpacity>
+            </View>
         </View>
     );
 }
