@@ -11,11 +11,12 @@ import Popup from "@/components/popup";
 import ProfileOption from "@/components/profileOption";
 import { auth } from "@/firebase/config";
 import useAuth from "@/firebase/hooks/useAuth";
+import { useUser } from "@/firebase/userProvider";
 import { mainStyles } from "@/styles/mainStyles";
 import { profilePageStyles } from "@/styles/profilePageStyles";
 
 export default function ProfilePage() {
-    const { user } = useAuth();
+    const { user } = useUser();
     const [logoutPopupVisible, setLogoutPopupVisible] = useState(false);
 
     function logout() {
