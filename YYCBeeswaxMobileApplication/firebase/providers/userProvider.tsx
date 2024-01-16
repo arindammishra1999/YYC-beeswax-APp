@@ -1,15 +1,8 @@
-import {
-    createContext,
-    Dispatch,
-    ReactNode,
-    SetStateAction,
-    useContext,
-} from "react";
-
-interface IUser {}
+import { User } from "firebase/auth";
+import { createContext, ReactNode, useContext } from "react";
 
 interface IUserContext {
-    user: IUser | null;
+    user: User | null;
     // setUser: Dispatch<SetStateAction<IUser>>;
 }
 

@@ -3,7 +3,7 @@ import { useCallback } from "react";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 
 import useAuth from "@/firebase/hooks/useAuth";
-import { UserProvider } from "@/firebase/userProvider";
+import { UserProvider } from "@/firebase/providers/userProvider";
 import { mainStyles } from "@/styles/mainStyles";
 
 // Keep the splash screen visible while we fetch resources

@@ -10,8 +10,7 @@ import Navbar from "@/components/navbar";
 import Popup from "@/components/popup";
 import ProfileOption from "@/components/profileOption";
 import { auth } from "@/firebase/config";
-import useAuth from "@/firebase/hooks/useAuth";
-import { useUser } from "@/firebase/userProvider";
+import { useUser } from "@/firebase/providers/userProvider";
 import { mainStyles } from "@/styles/mainStyles";
 import { profilePageStyles } from "@/styles/profilePageStyles";
 
