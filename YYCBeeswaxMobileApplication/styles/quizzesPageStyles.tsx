@@ -1,0 +1,51 @@
+import { StyleSheet } from "react-native";
+
+import { colors } from "@/consts/styles";
+import { viewportWidth } from "@/consts/viewport";
+
+export const quizzesPageStyles = StyleSheet.create({
+    container: {
+        paddingVertical: 20,
+        paddingHorizontal: 30,
+    },
+    card: { flexDirection: "row", gap: 30 },
+    imageContainer: {
+        borderRadius: 10,
+        overflow: "hidden",
+    },
+    image: {
+        width: viewportWidth / 4,
+        height: viewportWidth / 4,
+    },
+    imageText: {
+        position: "absolute",
+        backgroundColor: colors.yellow,
+        right: 0,
+        paddingHorizontal: 10,
+        paddingVertical: 5,
+        borderBottomLeftRadius: 10,
+        fontSize: 10,
+        color: "white",
+    },
+    textContainer: {
+        flexDirection: "column",
+        justifyContent: "space-between",
+        flex: 1,
+    },
+    title: {
+        fontWeight: "bold",
+        fontSize: 24,
+    },
+    detailsContainer: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "flex-end",
+    },
+    countContainer: {
+        backgroundColor: colors.yellow,
+        paddingHorizontal: 15,
+        paddingVertical: 5,
+        borderRadius: 10,
+        color: "white",
+    },
+});
