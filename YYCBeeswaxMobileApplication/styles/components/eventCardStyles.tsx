@@ -25,7 +25,7 @@ export const eventCardStyles = StyleSheet.create({
     },
     textContainer: {
         alignSelf: "center",
-        height: "80%",
+        height: "85%",
         width: "55%",
         justifyContent: "space-between",
         flexWrap: "wrap",
