@@ -17,7 +17,7 @@ import {
 import Button from "@/components/button";
 import Header from "@/components/header";
 import HideableInput from "@/components/hideableInput";
-import useAuth from "@/firebase/hooks/useAuth";
+import { useUser } from "@/firebase/providers/userProvider";
 import { accountStyles } from "@/styles/accountStyles";
 import { changePasswordPageStyles } from "@/styles/changePasswordPageStyles";
 
@@ -29,7 +29,7 @@ export default function ChangePasswordPage() {
     const [successfulPopupVisible, setSuccessfulPopupVisible] = useState(false);
     const [reloginPopupVisible, setReloginPopupVisible] = useState(false);
 
-    const { user } = useAuth();
+    const { user } = useUser();
 
     async function changePassword() {
         try {

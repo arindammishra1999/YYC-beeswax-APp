@@ -6,7 +6,7 @@ import {
 import { useIdTokenAuthRequest } from "expo-auth-session/build/providers/Google";
 import { useCallback, useEffect } from "react";
 
-import { auth } from "./config";
+import { auth } from "@/firebase/config";
 
 export function useLoginWithGoogle() {
     const [, authSessionResult, promptGoogle] = useIdTokenAuthRequest({

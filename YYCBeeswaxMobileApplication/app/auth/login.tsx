@@ -9,7 +9,7 @@ import Header from "@/components/header";
 import HideableInput from "@/components/hideableInput";
 import Input from "@/components/input";
 import { auth } from "@/firebase/config";
-import { useLoginWithGoogle } from "@/firebase/loginWithGoogle";
+import { useLoginWithGoogle } from "@/firebase/hooks/loginWithGoogle";
 import { accountStyles } from "@/styles/accountStyles";
 import { loginPageStyles } from "@/styles/loginPageStyles";
 
