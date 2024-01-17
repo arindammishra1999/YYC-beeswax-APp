@@ -1,14 +1,13 @@
 import { router } from "expo-router";
 import React, { useEffect, useState } from "react";
-import { Text, View, Image, TextInput, ScrollView } from "react-native";
+import { Image, ScrollView, Text, TextInput, View } from "react-native";
 import Icon from "react-native-vector-icons/Feather";
-
-import { getProductData } from "../../firebase/getCollections/getProducts";
 
 import CategoryCard from "@/components/categoryCard";
 import ItemCard from "@/components/itemCard";
 import Navbar from "@/components/navbar";
 import { colors } from "@/consts/styles";
+import { getProductData } from "@/firebase/getCollections/getProducts";
 import { homePageStyles } from "@/styles/homePageStyles";
 import { mainStyles } from "@/styles/mainStyles";
 
@@ -59,9 +58,18 @@ export default function HomePage() {
                         Shop by Category
                     </Text>
                     <View style={homePageStyles.categoriesContainer}>
-                        <CategoryCard iconName="candle" title="Candles" />
-                        <CategoryCard iconName="lipstick" title="Lip Balm" />
-                        <CategoryCard iconName="lotion" title="Lotion" />
+                        <ScrollView
+                            horizontal
+                            showsHorizontalScrollIndicator={false}
+                        >
+                            <CategoryCard iconName="candle" title="Candles" />
+                            <CategoryCard
+                                iconName="lipstick"
+                                title="Lip Balm"
+                            />
+                            <CategoryCard iconName="lotion" title="Lotion" />
+                            <CategoryCard iconName="store" title="Other" />
+                        </ScrollView>
                     </View>
                     <Text style={homePageStyles.headerText}>New Arrivals</Text>
                     <View style={homePageStyles.horizontalScrollContainer}>

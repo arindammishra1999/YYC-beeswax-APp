@@ -10,12 +10,12 @@ import Navbar from "@/components/navbar";
 import Popup from "@/components/popup";
 import ProfileOption from "@/components/profileOption";
 import { auth } from "@/firebase/config";
-import useAuth from "@/firebase/hooks/useAuth";
+import { useUser } from "@/firebase/providers/userProvider";
 import { mainStyles } from "@/styles/mainStyles";
 import { profilePageStyles } from "@/styles/profilePageStyles";
 
 export default function ProfilePage() {
-    const { user } = useAuth();
+    const { user } = useUser();
     const [logoutPopupVisible, setLogoutPopupVisible] = useState(false);
 
     function logout() {
@@ -71,7 +71,7 @@ export default function ProfilePage() {
                 <View style={profilePageStyles.optionContainer}>
                     <ProfileOption
                         onPress={() =>
-                            router.push("/dashboard/EditProfilePage")
+                            router.push("/dashboard/ProfileDataPage")
                         }
                         label="Edit Profile"
                         iconName="edit"

@@ -1,14 +1,9 @@
 import LandingPage from "./LandingPage";
 import HomePage from "./dashboard/HomePage";
 
-import useAuth from "@/firebase/hooks/useAuth";
+import { useUser } from "@/firebase/providers/userProvider";
 
 export default function App() {
-    const { user } = useAuth();
-
-    if (!user) {
-        return <LandingPage />;
-    } else {
-        return <HomePage />;
-    }
+    const { user } = useUser();
+    return user ? <HomePage /> : <LandingPage />;
 }

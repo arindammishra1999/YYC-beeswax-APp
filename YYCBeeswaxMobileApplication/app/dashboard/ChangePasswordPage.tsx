@@ -17,9 +17,10 @@ import {
 import Button from "@/components/button";
 import Header from "@/components/header";
 import HideableInput from "@/components/hideableInput";
-import useAuth from "@/firebase/hooks/useAuth";
+import { useUser } from "@/firebase/providers/userProvider";
 import { accountStyles } from "@/styles/accountStyles";
 import { changePasswordPageStyles } from "@/styles/changePasswordPageStyles";
+import { mainStyles } from "@/styles/mainStyles";
 
 export default function ChangePasswordPage() {
     const [currentPassword, setCurrentPassword] = useState("");
@@ -29,12 +30,16 @@ export default function ChangePasswordPage() {
     const [successfulPopupVisible, setSuccessfulPopupVisible] = useState(false);
     const [reloginPopupVisible, setReloginPopupVisible] = useState(false);
 
-    const { user } = useAuth();
+    const { user } = useUser();
 
     async function changePassword() {
         try {
             if (!user) {
                 setError("Password Reset Failed - Invalid user");
+                return;
+            }
+            if (password == "") {
+                setError("Password Reset Failed - Passwords is empty");
                 return;
             }
             if (password != confirmPassword) {
@@ -85,7 +90,7 @@ export default function ChangePasswordPage() {
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-            <View style={accountStyles.container}>
+            <View style={mainStyles.container}>
                 <Header header="Change Password" />
                 <View style={accountStyles.form}>
                     <Fontisto

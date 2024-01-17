@@ -14,18 +14,18 @@ export let selectedCategory: string = "";
 
 export default function CategoryCard(props: Props) {
     return (
-        <View style={categoryCardStyles.cardContainer}>
-            <TouchableOpacity
-                onPress={() => {
-                    selectedCategory = props.title;
-                    router.push("../dashboard/CategoryPage");
-                }}
-            >
+        <TouchableOpacity
+            onPress={() => {
+                selectedCategory = props.title;
+                router.push("../dashboard/CategoryPage");
+            }}
+        >
+            <View style={categoryCardStyles.cardContainer}>
                 <Icon name={props.iconName} style={categoryCardStyles.icon} />
                 <Text style={categoryCardStyles.text} numberOfLines={1}>
                     {props.title}
                 </Text>
-            </TouchableOpacity>
-        </View>
+            </View>
+        </TouchableOpacity>
     );
 }
