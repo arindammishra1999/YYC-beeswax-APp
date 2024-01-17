@@ -62,11 +62,13 @@ export const eventDetailsPageStyles = StyleSheet.create({
     },
     bottomBar: {
         backgroundColor: colors.white,
-        height: "9%",
-        shadowOffset: { width: 0, height: -25 },
+        height: "11%",
+        elevation: 3,
+        shadowColor: "black",
         shadowOpacity: 0.2,
         shadowRadius: 10,
-        elevation: 3,
+        shadowOffset: { width: 0, height: -25 },
+        justifyContent: "center",
     },
     button: {
         backgroundColor: colors.yellow,
@@ -75,8 +77,6 @@ export const eventDetailsPageStyles = StyleSheet.create({
         paddingTop: 15,
         paddingBottom: 15,
         borderRadius: 30,
-        position: "absolute",
-        bottom: "5%",
     },
     buttonText: {
         fontSize: 21,
