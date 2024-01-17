@@ -5,8 +5,8 @@ import { View, Image, TouchableOpacity, Text, ScrollView } from "react-native";
 import Header from "@/components/header";
 import { selectedProductID } from "@/components/productSimpleCard";
 import { getProductDataById } from "@/firebase/getCollections/getProductByID";
-import { productPageStyles } from "@/styles/productPageStyles";
 import { mainStyles } from "@/styles/mainStyles";
+import { productPageStyles } from "@/styles/productPageStyles";
 
 export default function ProductPage() {
     const [productName, setProductName] = useState(String);
