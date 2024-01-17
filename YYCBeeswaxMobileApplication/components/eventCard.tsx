@@ -23,10 +23,10 @@ export let selectedEventID: number;
 
 export default function EventCard(props: Props) {
     const date = convertTimestampToDateTime(props.startTime.seconds);
-    const compare = secondsToDate(props.startTime.seconds);
+    const eventDate = secondsToDate(props.startTime.seconds);
     const today = new Date();
 
-    if (compare < today) {
+    if (eventDate < today) {
         return;
     }
 
