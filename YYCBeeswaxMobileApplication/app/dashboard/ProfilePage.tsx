@@ -20,7 +20,7 @@ export default function ProfilePage() {
 
     function logout() {
         signOut(auth);
-        router.push("/");
+        router.replace("/");
     }
 
     if (!user) {
@@ -33,7 +33,7 @@ export default function ProfilePage() {
                 </Text>
                 <TouchableOpacity
                     style={profilePageStyles.button}
-                    onPress={() => router.replace("/auth/login")}
+                    onPress={() => router.push("/auth/login")}
                 >
                     <Text style={profilePageStyles.buttonText}>Login</Text>
                 </TouchableOpacity>
@@ -44,7 +44,7 @@ export default function ProfilePage() {
                     <TouchableOpacity>
                         <Text
                             style={profilePageStyles.signUpLink}
-                            onPress={() => router.replace("/auth/signup")}
+                            onPress={() => router.push("/auth/signup")}
                         >
                             Sign Up
                         </Text>
