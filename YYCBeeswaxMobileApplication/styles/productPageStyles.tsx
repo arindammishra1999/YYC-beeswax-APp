@@ -3,9 +3,6 @@ import { StyleSheet } from "react-native";
 import { colors } from "@/consts/styles";
 import { viewportWidth, viewportHeight } from "@/consts/viewport";
 export const productPageStyles = StyleSheet.create({
-    container: {
-        flex: 1,
-    },
     display: {
         flexDirection: "column",
         alignItems: "center",

@@ -5,6 +5,7 @@ import { View, Text, TouchableOpacity, ScrollView, Alert } from "react-native";
 
 import WarningHeader from "@/components/warningHeader";
 import { languagePageStyles } from "@/styles/languagePageStyles";
+import { mainStyles } from "@/styles/mainStyles";
 
 const LanguageSelectionPage = () => {
     const [selectedLanguage, setSelectedLanguage] = useState("English");
@@ -68,7 +69,7 @@ const LanguageSelectionPage = () => {
     };
 
     return (
-        <View style={languagePageStyles.container}>
+        <View style={mainStyles.container}>
             <WarningHeader header="Language" onPress={handleBackPress} />
             <View>
                 <Text style={languagePageStyles.sectionHeader}>

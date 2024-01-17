@@ -1,5 +1,5 @@
-import { Slot, SplashScreen } from "expo-router";
-import { useCallback } from "react";
+import { Stack, usePathname, SplashScreen } from "expo-router";
+import React, { useCallback } from "react";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 
 import useAuth from "@/firebase/hooks/useAuth";
@@ -11,6 +11,7 @@ SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
     const { user, loading } = useAuth();
+    const pathname = usePathname();
 
     const onLayoutRootView = useCallback(async () => {
         if (!loading) {
@@ -21,6 +22,14 @@ export default function RootLayout() {
     if (loading) {
         return null;
     }
+
+    const mainPaths = new Set([
+        "/dashboard/HomePage",
+        "/dashboard/MorePage",
+        "/dashboard/ProfilePage",
+        "/dashboard/CartPage",
+    ]);
+
     return (
         <SafeAreaProvider>
             <SafeAreaView
@@ -28,7 +37,15 @@ export default function RootLayout() {
                 onLayout={onLayoutRootView}
             >
                 <UserProvider data={{ user }}>
-                    <Slot />
+                    <Stack
+                        initialRouteName="Home"
+                        screenOptions={{
+                            headerShown: false,
+                            animation: mainPaths.has(pathname)
+                                ? "none"
+                                : "default",
+                        }}
+                    />
                 </UserProvider>
             </SafeAreaView>
         </SafeAreaProvider>

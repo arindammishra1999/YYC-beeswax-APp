@@ -7,6 +7,7 @@ import Header from "@/components/header";
 import { db } from "@/firebase/config";
 import { useUser } from "@/firebase/providers/userProvider";
 import { loginPageStyles } from "@/styles/loginPageStyles";
+import { mainStyles } from "@/styles/mainStyles";
 import { profileDataPageStyles } from "@/styles/profileDataPageStyles";
 
 export default function ProfileDataPage() {
@@ -39,7 +40,7 @@ export default function ProfileDataPage() {
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-            <View style={profileDataPageStyles.container}>
+            <View style={mainStyles.container}>
                 <Header header="User Profile" />
                 <View style={profileDataPageStyles.mainContainer}>
                     <View style={profileDataPageStyles.dataContainer}>

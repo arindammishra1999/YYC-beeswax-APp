@@ -20,6 +20,7 @@ import HideableInput from "@/components/hideableInput";
 import { useUser } from "@/firebase/providers/userProvider";
 import { accountStyles } from "@/styles/accountStyles";
 import { changePasswordPageStyles } from "@/styles/changePasswordPageStyles";
+import { mainStyles } from "@/styles/mainStyles";
 
 export default function ChangePasswordPage() {
     const [currentPassword, setCurrentPassword] = useState("");
@@ -89,7 +90,7 @@ export default function ChangePasswordPage() {
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-            <View style={accountStyles.container}>
+            <View style={mainStyles.container}>
                 <Header header="Change Password" />
                 <View style={accountStyles.form}>
                     <Fontisto

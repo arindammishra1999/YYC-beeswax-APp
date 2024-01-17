@@ -2,8 +2,8 @@ import { router } from "expo-router";
 import React from "react";
 import { Image, Text, TouchableOpacity, View } from "react-native";
 
+import Button from "@/components/button";
 import LandingCarousel from "@/components/landingCarousel";
-import LinkButton from "@/components/linkButton";
 import { mainStyles } from "@/styles/mainStyles";
 import { rootPageStyles } from "@/styles/rootPageStyles";
 
@@ -28,14 +28,14 @@ export default function LandingPage() {
             </View>
             <LandingCarousel items={items} />
             <View style={rootPageStyles.buttonGroup}>
-                <LinkButton
+                <Button
                     title="Login"
-                    href="/auth/login"
+                    onPress={() => router.push("/auth/login")}
                     style={rootPageStyles.button}
                 />
-                <LinkButton
+                <Button
                     title="Browse as Guest"
-                    href="/dashboard/HomePage"
+                    onPress={() => router.replace("/dashboard/HomePage")}
                     style={rootPageStyles.button}
                 />
             </View>

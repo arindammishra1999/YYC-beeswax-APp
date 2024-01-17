@@ -9,6 +9,7 @@ import Input from "@/components/input";
 import { db } from "@/firebase/config";
 import { useUser } from "@/firebase/providers/userProvider";
 import { accountStyles } from "@/styles/accountStyles";
+import { mainStyles } from "@/styles/mainStyles";
 
 export default function EditProfilePage() {
     const [firstName, setFirstName] = useState("");
@@ -45,7 +46,7 @@ export default function EditProfilePage() {
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-            <View style={accountStyles.container}>
+            <View style={mainStyles.container}>
                 <Header header="Edit Profile" />
                 <View style={accountStyles.form}>
                     <Input
