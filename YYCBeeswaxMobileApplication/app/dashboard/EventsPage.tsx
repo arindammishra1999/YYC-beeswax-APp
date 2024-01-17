@@ -12,6 +12,9 @@ export default function EventsPage() {
     useEffect(() => {
         getEventData().then((events) => {
             if (events) {
+                events.sort(
+                    (one, two) => one.data.time.seconds - two.data.time.seconds,
+                );
                 setAllEvents(events);
             } else {
                 console.log("Issue getting events");

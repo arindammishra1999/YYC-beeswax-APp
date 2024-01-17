@@ -1,4 +1,4 @@
-export default function convertTimestampToDateTime(seconds: number): string {
+export function convertTimestampToDateTime(seconds: number): string {
     const dateTime = new Date(0);
     dateTime.setUTCSeconds(seconds);
 
@@ -11,4 +11,11 @@ export default function convertTimestampToDateTime(seconds: number): string {
     }).format(dateTime);
 
     return formattedDate;
+}
+
+export function secondsToDate(seconds: number): Date {
+    const dateTime = new Date(0);
+    dateTime.setUTCSeconds(seconds);
+
+    return dateTime;
 }

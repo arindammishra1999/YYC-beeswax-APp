@@ -4,7 +4,10 @@ import React from "react";
 import { View, Image, TouchableOpacity, Text } from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
 
-import convertTimestampToDateTime from "@/functions/TimeConversions";
+import {
+    convertTimestampToDateTime,
+    secondsToDate,
+} from "@/functions/TimeConversions";
 import { eventCardStyles } from "@/styles/components/eventCardStyles";
 import { mainStyles } from "@/styles/mainStyles";
 
@@ -20,6 +23,12 @@ export let selectedEventID: number;
 
 export default function EventCard(props: Props) {
     const date = convertTimestampToDateTime(props.startTime.seconds);
+    const compare = secondsToDate(props.startTime.seconds);
+    const today = new Date();
+
+    if (compare < today) {
+        return;
+    }
 
     return (
         <View style={mainStyles.container}>
