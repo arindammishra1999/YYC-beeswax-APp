@@ -7,8 +7,8 @@ import Header from "@/components/header";
 import { db } from "@/firebase/config";
 import { useUser } from "@/firebase/providers/userProvider";
 import { loginPageStyles } from "@/styles/loginPageStyles";
-import { profileDataPageStyles } from "@/styles/profileDataPageStyles";
 import { mainStyles } from "@/styles/mainStyles";
+import { profileDataPageStyles } from "@/styles/profileDataPageStyles";
 
 export default function ProfileDataPage() {
     const [firstName, setFirstName] = useState("");

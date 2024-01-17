@@ -6,6 +6,7 @@ import Header from "@/components/header";
 import { selectedProductID } from "@/components/productSimpleCard";
 import { getProductDataById } from "@/firebase/getCollections/getProductByID";
 import { productPageStyles } from "@/styles/productPageStyles";
+import { mainStyles } from "@/styles/mainStyles";
 
 export default function ProductPage() {
     const [productName, setProductName] = useState(String);
@@ -38,7 +39,7 @@ export default function ProductPage() {
     }, []);
 
     return (
-        <View style={productPageStyles.container}>
+        <View style={mainStyles.container}>
             <Header header="" />
             <ScrollView contentContainerStyle={productPageStyles.display}>
                 <Image
