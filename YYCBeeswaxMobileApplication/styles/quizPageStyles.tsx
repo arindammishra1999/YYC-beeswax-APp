@@ -40,25 +40,33 @@ export const quizPageStyles = StyleSheet.create({
     answerContainer: {
         flexDirection: "row",
         gap: 20,
+        flexWrap: "wrap",
     },
     answerTextContainer: {
+        flexBasis: "40%",
         flex: 1,
-        flexWrap: "wrap",
         paddingVertical: 30,
         paddingHorizontal: 20,
         alignContent: "center",
     },
     selectedAnswerTextContainer: {
-        flex: 1,
-        flexWrap: "wrap",
-        paddingVertical: 30,
-        paddingHorizontal: 20,
-        alignContent: "center",
         shadowColor: "#000",
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.5,
-        shadowRadius: 2,
-        elevation: 8,
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.23,
+        shadowRadius: 2.62,
+
+        elevation: 4,
+
+        backgroundColor: "#ffab0e",
+    },
+    correctAnswer: {
+        backgroundColor: "#77DD77",
+    },
+    incorrectAnswer: {
+        backgroundColor: "#FF6961",
     },
     answer: {
         fontSize: 18,

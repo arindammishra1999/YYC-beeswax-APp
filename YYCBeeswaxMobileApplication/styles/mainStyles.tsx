@@ -11,4 +11,7 @@ export const mainStyles = StyleSheet.create({
     centerText: {
         textAlign: "center",
     },
+    disabled: {
+        backgroundColor: "#ffd696",
+    },
 });

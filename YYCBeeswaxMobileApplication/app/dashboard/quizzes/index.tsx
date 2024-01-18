@@ -1,5 +1,5 @@
-import { router } from "expo-router";
-import { collection, getCountFromServer, getDocs } from "firebase/firestore";
+import { Href, router } from "expo-router";
+import { collection, getDocs } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { Image, Text, TouchableOpacity, View } from "react-native";
 
@@ -7,14 +7,7 @@ import Header from "@/components/header";
 import { db } from "@/firebase/config";
 import { mainStyles } from "@/styles/mainStyles";
 import { quizzesPageStyles } from "@/styles/quizzesPageStyles";
-
-interface IQuiz {
-    id: string;
-    title: string;
-    description: string;
-    difficulty: string;
-    count: number;
-}
+import { DateTime } from "luxon";
 
 export default function Quizzes() {
     const [quizzes, setQuizzes] = useState<IQuiz[]>([]);
@@ -28,12 +21,6 @@ export default function Quizzes() {
                     ...doc.data(),
                 } as IQuiz;
             });
-            for (const quiz of data) {
-                const count = await getCountFromServer(
-                    collection(db, "quizzes", quiz.id, "questions"),
-                );
-                quiz.count = count.data().count;
-            }
             setQuizzes(data);
         })();
     }, []);
@@ -47,7 +34,9 @@ export default function Quizzes() {
                         key={quiz.id}
                         style={quizzesPageStyles.card}
                         onPress={() =>
-                            router.push(`/dashboard/quizzes/${quiz.id}`)
+                            router.push(
+                                `/dashboard/quizzes/${quiz.type.toLowerCase()}/${quiz.id}` as Href<unknown>,
+                            )
                         }
                     >
                         <View style={quizzesPageStyles.imageContainer}>
@@ -63,13 +52,20 @@ export default function Quizzes() {
                             </Text>
                         </View>
                         <View style={quizzesPageStyles.textContainer}>
-                            <Text style={quizzesPageStyles.title}>
-                                {quiz.title}
-                            </Text>
+                            <View>
+                                <Text style={quizzesPageStyles.title}>
+                                    {quiz.title}
+                                </Text>
+                                <Text>{quiz.type} Quiz</Text>
+                            </View>
                             <View style={quizzesPageStyles.detailsContainer}>
-                                <Text>2 Days ago</Text>
+                                <Text>
+                                    {DateTime.fromJSDate(
+                                        quiz.created.toDate(),
+                                    ).toRelative()}
+                                </Text>
                                 <Text style={quizzesPageStyles.countContainer}>
-                                    24 Plays
+                                    {quiz.plays} Plays
                                 </Text>
                             </View>
                         </View>

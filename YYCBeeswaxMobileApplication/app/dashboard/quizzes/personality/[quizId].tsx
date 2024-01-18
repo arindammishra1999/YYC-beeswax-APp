@@ -9,35 +9,17 @@ import { db } from "@/firebase/config";
 import { mainStyles } from "@/styles/mainStyles";
 import { quizPageStyles } from "@/styles/quizPageStyles";
 
-interface IQuiz {
-    id: string;
-    title: string;
-    description: string;
-    difficulty: string;
-    count: number;
-}
-
-interface IQuestion {
-    id: string;
-    question: string;
-    difficulty: string;
-    correctAnswer: string;
-    incorrectAnswer1: string;
-    incorrectAnswer2: string;
-    incorrectAnswer3: string;
-    answers: string[];
-}
-
 export default function Quiz() {
     const { quizId } = useLocalSearchParams() as Record<string, string>;
 
     const [quiz, setQuiz] = useState<IQuiz | null>(null);
-    const [questions, setQuestions] = useState<IQuestion[]>([]);
+    const [questions, setQuestions] = useState<IPersonalityQuestion[]>([]);
 
     const [currentIndex, setCurrentIndex] = useState(-1);
     const currentQuestion = questions[currentIndex];
 
-    const [selectedAnswer, setSelectedAnswer] = useState(-1);
+    const [selectedAnswerIndex, setSelectedAnswerIndex] = useState(-1);
+    const [results, setResults] = useState<{ [key: string]: number }>({});
 
     useEffect(() => {
         (async () => {
@@ -54,22 +36,18 @@ export default function Quiz() {
                 return {
                     id: doc.id,
                     ...doc.data(),
-                } as IQuestion;
+                } as IPersonalityQuestion;
             });
-
-            data.forEach((question) => {
-                question.answers = [
-                    question.correctAnswer,
-                    question.incorrectAnswer1,
-                    question.incorrectAnswer2,
-                    question.incorrectAnswer3,
-                ];
-            });
-
-            quiz.count = data.length;
 
             setQuiz(quiz);
             setQuestions(data);
+
+            setResults((prev) => {
+                Object.keys(quiz.weights).forEach((weight) => {
+                    prev[weight] = 0;
+                });
+                return { ...prev };
+            });
         })();
     }, []);
 
@@ -89,7 +67,7 @@ export default function Quiz() {
                     <View style={quizPageStyles.details}>
                         <View style={quizPageStyles.stats}>
                             <Text>Played</Text>
-                            <Text>2</Text>
+                            <Text>{quiz?.plays}</Text>
                         </View>
                         <View style={quizPageStyles.stats}>
                             <Text>Questions</Text>
@@ -128,65 +106,53 @@ export default function Quiz() {
                     </Text>
 
                     <View style={quizPageStyles.answerContainer}>
-                        <Button
-                            style={
-                                selectedAnswer == 0
-                                    ? quizPageStyles.selectedAnswerTextContainer
-                                    : quizPageStyles.answerTextContainer
-                            }
-                            textStyle={quizPageStyles.answer}
-                            title={currentQuestion.answers[0]}
-                            onPress={() => setSelectedAnswer(0)}
-                        />
-                        <Button
-                            style={
-                                selectedAnswer == 1
-                                    ? quizPageStyles.selectedAnswerTextContainer
-                                    : quizPageStyles.answerTextContainer
-                            }
-                            textStyle={quizPageStyles.answer}
-                            title={currentQuestion.answers[1]}
-                            onPress={() => setSelectedAnswer(1)}
-                        />
-                    </View>
-
-                    <View style={quizPageStyles.answerContainer}>
-                        <Button
-                            style={
-                                selectedAnswer == 2
-                                    ? quizPageStyles.selectedAnswerTextContainer
-                                    : quizPageStyles.answerTextContainer
-                            }
-                            textStyle={quizPageStyles.answer}
-                            title={currentQuestion.answers[2]}
-                            onPress={() => setSelectedAnswer(2)}
-                        />
-                        <Button
-                            style={
-                                selectedAnswer == 3
-                                    ? quizPageStyles.selectedAnswerTextContainer
-                                    : quizPageStyles.answerTextContainer
-                            }
-                            textStyle={quizPageStyles.answer}
-                            title={currentQuestion.answers[3]}
-                            onPress={() => setSelectedAnswer(3)}
-                        />
-                    </View>
-                    {selectedAnswer != -1 && (
-                        <View style={quizPageStyles.nextButton}>
+                        {currentQuestion.options.map((option, index) => (
                             <Button
-                                title="Next"
-                                onPress={() => {
-                                    setSelectedAnswer(-1);
-                                    setCurrentIndex((prev) => prev + 1);
-                                }}
+                                key={index}
+                                style={[
+                                    quizPageStyles.answerTextContainer,
+                                    selectedAnswerIndex == index
+                                        ? quizPageStyles.selectedAnswerTextContainer
+                                        : {},
+                                ]}
+                                textStyle={quizPageStyles.answer}
+                                title={option.value}
+                                onPress={() => setSelectedAnswerIndex(index)}
                             />
-                        </View>
-                    )}
+                        ))}
+                    </View>
+                    <View style={quizPageStyles.nextButton}>
+                        <Button
+                            title="Next"
+                            onPress={() => {
+                                setResults((prev) => {
+                                    const selectedAnswer =
+                                        currentQuestion.options[
+                                            selectedAnswerIndex
+                                        ].weights;
+                                    Object.keys(selectedAnswer).forEach(
+                                        (weight) => {
+                                            prev[weight] +=
+                                                selectedAnswer[weight];
+                                        },
+                                    );
+                                    return { ...prev };
+                                });
+                                setSelectedAnswerIndex(-1);
+                                setCurrentIndex((prev) => prev + 1);
+                            }}
+                        />
+                    </View>
                 </View>
             </View>
         );
     }
+
+    const sorted = Object.entries(results).sort(
+        (prev, next) => prev[1] - next[1],
+    );
+    const match = (sorted.pop() as [string, number])[0];
+    const matchDescription = quiz?.weights[match];
 
     return (
         <View style={mainStyles.container}>
@@ -199,17 +165,14 @@ export default function Quiz() {
                 style={quizPageStyles.image}
             />
             <View style={quizPageStyles.container}>
-                <Text style={quizPageStyles.title}>
-                    Your chakra is pink rock
-                </Text>
-                <Text>
-                    This rock is so pink holy smokes. You are a quirky
-                    engineering student.
-                </Text>
-                <Button
-                    title="Back to Quizzes"
-                    onPress={() => router.push("/dashboard/quizzes/")}
-                />
+                <Text style={quizPageStyles.title}>{match}</Text>
+                <Text>{matchDescription}</Text>
+                <View style={quizPageStyles.nextButton}>
+                    <Button
+                        title="Back to Quizzes"
+                        onPress={() => router.push("/dashboard/quizzes/")}
+                    />
+                </View>
             </View>
         </View>
     );

@@ -7,6 +7,7 @@ export const quizzesPageStyles = StyleSheet.create({
     container: {
         paddingVertical: 20,
         paddingHorizontal: 30,
+        gap: 30,
     },
     card: { flexDirection: "row", gap: 30 },
     imageContainer: {
@@ -34,7 +35,7 @@ export const quizzesPageStyles = StyleSheet.create({
     },
     title: {
         fontWeight: "bold",
-        fontSize: 24,
+        fontSize: 20,
     },
     detailsContainer: {
         flexDirection: "row",
