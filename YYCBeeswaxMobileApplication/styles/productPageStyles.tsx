@@ -1,7 +1,8 @@
 import { StyleSheet } from "react-native";
 
 import { colors } from "@/consts/styles";
-import { viewportWidth, viewportHeight } from "@/consts/viewport";
+import { viewportHeight, viewportWidth } from "@/consts/viewport";
+
 export const productPageStyles = StyleSheet.create({
     display: {
         flexDirection: "column",
@@ -12,10 +13,16 @@ export const productPageStyles = StyleSheet.create({
         height: viewportWidth,
     },
     productDetails: {
+        width: "100%",
         top: -20,
         backgroundColor: colors.white,
         borderRadius: 20,
         paddingHorizontal: 20,
+    },
+    productHeadingContainer: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        paddingBottom: 20,
     },
     productName: {
         paddingTop: 20,
@@ -23,7 +30,6 @@ export const productPageStyles = StyleSheet.create({
         alignSelf: "flex-start",
         fontWeight: "bold",
     },
-
     productShortDescription: {
         color: colors.grey,
         fontSize: 12,
@@ -60,11 +66,36 @@ export const productPageStyles = StyleSheet.create({
         color: colors.grey,
         fontSize: 16,
     },
+    productPriceContainer: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+    },
     productPrice: {
         fontSize: 30,
         alignSelf: "flex-start",
         fontWeight: "bold",
         color: colors.blue,
+    },
+    productVariantsContainer: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        gap: 10,
+    },
+    productVariantsTitle: {
+        fontWeight: "bold",
+        fontSize: 16,
+    },
+    productDropdown: {
+        width: 100,
+        paddingVertical: 0,
+        paddingHorizontal: 10,
+        borderWidth: 1,
+        borderColor: "gray",
+        borderRadius: 8,
+    },
+    productDropdownText: {
+        fontSize: 14,
     },
     productDescription: {
         color: colors.grey,
@@ -74,13 +105,13 @@ export const productPageStyles = StyleSheet.create({
     bottomSection: {
         borderTopLeftRadius: 25,
         borderTopRightRadius: 25,
-        height: viewportHeight / 8,
+        height: viewportHeight / 10,
         backgroundColor: colors.white,
-        borderColor: colors.darkGrey,
-        borderStyle: "solid",
-        borderWidth: 1,
         justifyContent: "center",
         alignItems: "center",
+        borderColor: "rgba(0, 0, 0, .2)",
+        borderStyle: "solid",
+        borderWidth: 1,
     },
     button: {
         backgroundColor: colors.yellow,
