@@ -6,9 +6,9 @@ import { Image, Text, View } from "react-native";
 import Button from "@/components/button";
 import Header from "@/components/header";
 import { db } from "@/firebase/config";
+import { shuffleArray } from "@/lib/utility";
 import { mainStyles } from "@/styles/mainStyles";
 import { quizPageStyles } from "@/styles/quizPageStyles";
-import { shuffleArray } from "@/lib/utility";
 
 export default function Quiz() {
     const { quizId } = useLocalSearchParams() as Record<string, string>;

@@ -1,5 +1,6 @@
 import { Href, router } from "expo-router";
 import { collection, getDocs } from "firebase/firestore";
+import { DateTime } from "luxon";
 import React, { useEffect, useState } from "react";
 import { Image, Text, TouchableOpacity, View } from "react-native";
 
@@ -7,7 +8,6 @@ import Header from "@/components/header";
 import { db } from "@/firebase/config";
 import { mainStyles } from "@/styles/mainStyles";
 import { quizzesPageStyles } from "@/styles/quizzesPageStyles";
-import { DateTime } from "luxon";
 
 export default function Quizzes() {
     const [quizzes, setQuizzes] = useState<IQuiz[]>([]);
@@ -35,7 +35,9 @@ export default function Quizzes() {
                         style={quizzesPageStyles.card}
                         onPress={() =>
                             router.push(
-                                `/dashboard/quizzes/${quiz.type.toLowerCase()}/${quiz.id}` as Href<unknown>,
+                                `/dashboard/quizzes/${quiz.type.toLowerCase()}/${
+                                    quiz.id
+                                }` as Href<unknown>,
                             )
                         }
                     >
