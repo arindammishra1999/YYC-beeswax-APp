@@ -1,14 +1,13 @@
 import { router } from "expo-router";
 import React, { useEffect, useState } from "react";
-import { Text, View, Image, TextInput, ScrollView } from "react-native";
+import { Image, ScrollView, Text, TextInput, View } from "react-native";
 import Icon from "react-native-vector-icons/Feather";
-
-import { getProductData } from "../../firebase/getCollections/getProducts";
 
 import CategoryCard from "@/components/categoryCard";
 import ItemCard from "@/components/itemCard";
 import Navbar from "@/components/navbar";
 import { colors } from "@/consts/styles";
+import { getProductData } from "@/firebase/getCollections/getProducts";
 import { homePageStyles } from "@/styles/homePageStyles";
 import { mainStyles } from "@/styles/mainStyles";
 

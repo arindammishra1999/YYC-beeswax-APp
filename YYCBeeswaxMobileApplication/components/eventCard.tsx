@@ -1,15 +1,20 @@
 import { router } from "expo-router";
+import { Timestamp } from "firebase/firestore";
 import React from "react";
 import { View, Image, TouchableOpacity, Text } from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
 
+import {
+    convertTimestampToDateTime,
+    secondsToDate,
+} from "@/functions/TimeConversions";
 import { eventCardStyles } from "@/styles/components/eventCardStyles";
 import { mainStyles } from "@/styles/mainStyles";
 
 type Props = {
     id: any;
     image: any;
-    startTime: string;
+    startTime: Timestamp;
     name: string;
     place: string;
 };
@@ -17,6 +22,14 @@ type Props = {
 export let selectedEventID: number;
 
 export default function EventCard(props: Props) {
+    const date = convertTimestampToDateTime(props.startTime.seconds);
+    const eventDate = secondsToDate(props.startTime.seconds);
+    const today = new Date();
+
+    if (eventDate < today) {
+        return;
+    }
+
     return (
         <View style={mainStyles.container}>
             <TouchableOpacity
@@ -28,13 +41,11 @@ export default function EventCard(props: Props) {
                 <View style={eventCardStyles.cardContainer}>
                     <Image
                         resizeMode="contain"
-                        source={props.image}
+                        source={{ uri: props.image }}
                         style={eventCardStyles.image}
                     />
                     <View style={eventCardStyles.textContainer}>
-                        <Text style={eventCardStyles.dateText}>
-                            {props.startTime}
-                        </Text>
+                        <Text style={eventCardStyles.dateText}>{date}</Text>
                         <Text style={eventCardStyles.nameText}>
                             {props.name}
                         </Text>

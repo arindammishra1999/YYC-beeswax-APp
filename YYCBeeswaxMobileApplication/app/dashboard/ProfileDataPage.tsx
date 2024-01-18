@@ -5,20 +5,20 @@ import { Keyboard, Text, TouchableWithoutFeedback, View } from "react-native";
 
 import Header from "@/components/header";
 import { db } from "@/firebase/config";
-import useAuth from "@/firebase/hooks/useAuth";
+import { useUser } from "@/firebase/providers/userProvider";
 import { loginPageStyles } from "@/styles/loginPageStyles";
+import { mainStyles } from "@/styles/mainStyles";
 import { profileDataPageStyles } from "@/styles/profileDataPageStyles";
 
 export default function ProfileDataPage() {
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
-    const [email, setEmail] = useState("");
 
-    const { user } = useAuth();
+    const { user } = useUser();
+    const email = user?.email ?? "Not Found";
 
     useEffect(() => {
         (async () => {
-            setEmail(user?.email ?? "Not Found");
             const userId = user?.uid;
             if (userId) {
                 const docRef = doc(db, "users", userId);
@@ -40,7 +40,7 @@ export default function ProfileDataPage() {
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-            <View style={profileDataPageStyles.container}>
+            <View style={mainStyles.container}>
                 <Header header="User Profile" />
                 <View style={profileDataPageStyles.mainContainer}>
                     <View style={profileDataPageStyles.dataContainer}>

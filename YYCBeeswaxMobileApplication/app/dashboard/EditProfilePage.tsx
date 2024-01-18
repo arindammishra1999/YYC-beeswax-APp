@@ -7,15 +7,16 @@ import Button from "@/components/button";
 import Header from "@/components/header";
 import Input from "@/components/input";
 import { db } from "@/firebase/config";
-import useAuth from "@/firebase/hooks/useAuth";
+import { useUser } from "@/firebase/providers/userProvider";
 import { accountStyles } from "@/styles/accountStyles";
+import { mainStyles } from "@/styles/mainStyles";
 
 export default function EditProfilePage() {
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [error, setError] = useState("");
 
-    const { user } = useAuth();
+    const { user } = useUser();
 
     async function login() {
         const userId = user?.uid;
@@ -45,7 +46,7 @@ export default function EditProfilePage() {
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-            <View style={accountStyles.container}>
+            <View style={mainStyles.container}>
                 <Header header="Edit Profile" />
                 <View style={accountStyles.form}>
                     <Input

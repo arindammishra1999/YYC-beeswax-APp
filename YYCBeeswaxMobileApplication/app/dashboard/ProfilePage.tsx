@@ -10,17 +10,17 @@ import Navbar from "@/components/navbar";
 import Popup from "@/components/popup";
 import ProfileOption from "@/components/profileOption";
 import { auth } from "@/firebase/config";
-import useAuth from "@/firebase/hooks/useAuth";
+import { useUser } from "@/firebase/providers/userProvider";
 import { mainStyles } from "@/styles/mainStyles";
 import { profilePageStyles } from "@/styles/profilePageStyles";
 
 export default function ProfilePage() {
-    const { user } = useAuth();
+    const { user } = useUser();
     const [logoutPopupVisible, setLogoutPopupVisible] = useState(false);
 
     function logout() {
         signOut(auth);
-        router.push("/");
+        router.replace("/");
     }
 
     if (!user) {
@@ -33,7 +33,7 @@ export default function ProfilePage() {
                 </Text>
                 <TouchableOpacity
                     style={profilePageStyles.button}
-                    onPress={() => router.replace("/auth/login")}
+                    onPress={() => router.push("/auth/login")}
                 >
                     <Text style={profilePageStyles.buttonText}>Login</Text>
                 </TouchableOpacity>
@@ -44,7 +44,7 @@ export default function ProfilePage() {
                     <TouchableOpacity>
                         <Text
                             style={profilePageStyles.signUpLink}
-                            onPress={() => router.replace("/auth/signup")}
+                            onPress={() => router.push("/auth/signup")}
                         >
                             Sign Up
                         </Text>

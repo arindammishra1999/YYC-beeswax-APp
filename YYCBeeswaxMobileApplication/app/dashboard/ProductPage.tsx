@@ -5,6 +5,7 @@ import { View, Image, TouchableOpacity, Text, ScrollView } from "react-native";
 import Header from "@/components/header";
 import { selectedProductID } from "@/components/productSimpleCard";
 import { getProductDataById } from "@/firebase/getCollections/getProductByID";
+import { mainStyles } from "@/styles/mainStyles";
 import { productPageStyles } from "@/styles/productPageStyles";
 
 export default function ProductPage() {
@@ -38,7 +39,7 @@ export default function ProductPage() {
     }, []);
 
     return (
-        <View style={productPageStyles.container}>
+        <View style={mainStyles.container}>
             <Header header="" />
             <ScrollView contentContainerStyle={productPageStyles.display}>
                 <Image
