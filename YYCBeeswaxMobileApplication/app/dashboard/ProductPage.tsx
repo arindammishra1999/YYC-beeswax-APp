@@ -99,7 +99,7 @@ export default function ProductPage() {
             <View style={productPageStyles.bottomSection}>
                 <TouchableOpacity
                     style={productPageStyles.button}
-                    onPress={() => router.replace("./HomePage")}
+                    onPress={() => router.replace("/dashboard/HomePage")}
                 >
                     <Text style={productPageStyles.buttonText}>
                         Add to Cart

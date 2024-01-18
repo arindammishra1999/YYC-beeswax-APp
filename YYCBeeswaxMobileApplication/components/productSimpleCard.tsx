@@ -19,7 +19,7 @@ export default function ProductSimpleCard(props: Props) {
             <TouchableOpacity
                 onPress={() => {
                     selectedProductID = props.id;
-                    router.push("../dashboard/ProductPage");
+                    router.push("/dashboard/ProductPage");
                 }}
             >
                 <Image
