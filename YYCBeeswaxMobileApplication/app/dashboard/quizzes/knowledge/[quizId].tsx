@@ -6,9 +6,13 @@ import { Image, Text, View } from "react-native";
 import Button from "@/components/button";
 import Header from "@/components/header";
 import { db } from "@/firebase/config";
+import { useUnsavedChangesCheck } from "@/lib/hooks/useUnsavedChangesCheck";
 import { shuffleArray } from "@/lib/utility";
 import { mainStyles } from "@/styles/mainStyles";
 import { quizPageStyles } from "@/styles/quizPageStyles";
+
+const TMP_IMG =
+    "https://firebasestorage.googleapis.com/v0/b/yyc-mobile.appspot.com/o/ProductImages%2FYYC-Beeswax-041-min-324x324.jpg?alt=media&token=291aef00-df21-44df-9879-39e780f2bac7";
 
 export default function Quiz() {
     const { quizId } = useLocalSearchParams() as Record<string, string>;
@@ -56,6 +60,8 @@ export default function Quiz() {
         })();
     }, []);
 
+    useUnsavedChangesCheck(currentIndex, questions.length);
+
     if (currentIndex == -1) {
         return (
             <View style={mainStyles.container}>
@@ -63,7 +69,7 @@ export default function Quiz() {
                 <Image
                     resizeMode="contain"
                     source={{
-                        uri: "https://firebasestorage.googleapis.com/v0/b/yyc-mobile.appspot.com/o/ProductImages%2FYYC-Beeswax-041-min-324x324.jpg?alt=media&token=291aef00-df21-44df-9879-39e780f2bac7",
+                        uri: TMP_IMG,
                     }}
                     style={quizPageStyles.image}
                 />
@@ -94,16 +100,13 @@ export default function Quiz() {
     if (currentIndex < questions.length) {
         return (
             <View style={mainStyles.container}>
-                <Header
-                    header={`${currentIndex + 1}/${questions.length}`}
-                    noBackArrow
-                />
+                <Header header={`${currentIndex + 1}/${questions.length}`} />
                 <View style={quizPageStyles.container}>
                     <View style={quizPageStyles.questionImageContainer}>
                         <Image
                             resizeMode="cover"
                             source={{
-                                uri: "https://firebasestorage.googleapis.com/v0/b/yyc-mobile.appspot.com/o/ProductImages%2FYYC-Beeswax-041-min-324x324.jpg?alt=media&token=291aef00-df21-44df-9879-39e780f2bac7",
+                                uri: TMP_IMG,
                             }}
                             style={quizPageStyles.questionImage}
                         />
@@ -180,7 +183,7 @@ export default function Quiz() {
             <Image
                 resizeMode="contain"
                 source={{
-                    uri: "https://firebasestorage.googleapis.com/v0/b/yyc-mobile.appspot.com/o/ProductImages%2FYYC-Beeswax-041-min-324x324.jpg?alt=media&token=291aef00-df21-44df-9879-39e780f2bac7",
+                    uri: TMP_IMG,
                 }}
                 style={quizPageStyles.image}
             />

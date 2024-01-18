@@ -16,6 +16,7 @@ export const quizPageStyles = StyleSheet.create({
     title: {
         fontWeight: "bold",
         fontSize: 32,
+        textAlign: "center",
     },
     details: {
         flexDirection: "row",
@@ -73,7 +74,7 @@ export const quizPageStyles = StyleSheet.create({
         textAlign: "center",
     },
     nextButton: {
-        justifyContent: "center",
+        justifyContent: "flex-end",
         flexGrow: 1,
     },
 });

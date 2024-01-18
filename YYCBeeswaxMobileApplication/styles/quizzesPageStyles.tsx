@@ -5,11 +5,25 @@ import { viewportWidth } from "@/consts/viewport";
 
 export const quizzesPageStyles = StyleSheet.create({
     container: {
-        paddingVertical: 20,
-        paddingHorizontal: 30,
-        gap: 30,
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+        gap: 20,
     },
-    card: { flexDirection: "row", gap: 30 },
+    card: {
+        flexDirection: "row",
+        gap: 20,
+        padding: 10,
+        borderRadius: 15,
+        backgroundColor: "white",
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.23,
+        shadowRadius: 2.62,
+        elevation: 4,
+    },
     imageContainer: {
         borderRadius: 10,
         overflow: "hidden",

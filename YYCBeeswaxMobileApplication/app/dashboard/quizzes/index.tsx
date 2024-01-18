@@ -9,6 +9,9 @@ import { db } from "@/firebase/config";
 import { mainStyles } from "@/styles/mainStyles";
 import { quizzesPageStyles } from "@/styles/quizzesPageStyles";
 
+const TMP_IMG =
+    "https://firebasestorage.googleapis.com/v0/b/yyc-mobile.appspot.com/o/ProductImages%2FYYC-Beeswax-041-min-324x324.jpg?alt=media&token=291aef00-df21-44df-9879-39e780f2bac7";
+
 export default function Quizzes() {
     const [quizzes, setQuizzes] = useState<IQuiz[]>([]);
 
@@ -45,7 +48,7 @@ export default function Quizzes() {
                             <Image
                                 resizeMode="contain"
                                 source={{
-                                    uri: "https://firebasestorage.googleapis.com/v0/b/yyc-mobile.appspot.com/o/ProductImages%2FYYC-Beeswax-041-min-324x324.jpg?alt=media&token=291aef00-df21-44df-9879-39e780f2bac7",
+                                    uri: TMP_IMG,
                                 }}
                                 style={quizzesPageStyles.image}
                             />
