@@ -23,7 +23,7 @@ export default function Login() {
     async function login() {
         try {
             await signInWithEmailAndPassword(auth, email, password);
-            router.replace("../dashboard/HomePage");
+            router.push("../dashboard/HomePage");
         } catch (err: any) {
             console.log(err);
             if (err?.code === "auth/invalid-email") {

@@ -3,12 +3,13 @@ import * as Linking from "expo-linking";
 import { router } from "expo-router";
 import { signOut } from "firebase/auth";
 import React, { useState } from "react";
-import { Text, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, Text, TouchableOpacity, View } from "react-native";
 
 import Header from "@/components/header";
 import Navbar from "@/components/navbar";
 import Popup from "@/components/popup";
 import ProfileOption from "@/components/profileOption";
+import { colors } from "@/consts/styles";
 import { auth } from "@/firebase/config";
 import { useUser } from "@/firebase/providers/userProvider";
 import { mainStyles } from "@/styles/mainStyles";
@@ -17,10 +18,19 @@ import { profilePageStyles } from "@/styles/profilePageStyles";
 export default function ProfilePage() {
     const { user } = useUser();
     const [logoutPopupVisible, setLogoutPopupVisible] = useState(false);
+    const [logoutSpinner, setLogoutSpinner] = useState(false);
 
-    function logout() {
-        signOut(auth);
-        router.replace("/");
+    async function logout() {
+        try {
+            setLogoutSpinner(true);
+            setLogoutPopupVisible(false);
+            await signOut(auth);
+        } catch (error) {
+            console.error("Error during logout:", error);
+        } finally {
+            setLogoutSpinner(false);
+        }
+        router.replace("/LandingPage");
     }
 
     if (!user) {
@@ -56,6 +66,11 @@ export default function ProfilePage() {
     } else {
         return (
             <View style={mainStyles.container}>
+                {logoutSpinner && (
+                    <View style={mainStyles.spinnerOverlay}>
+                        <ActivityIndicator size="large" color={colors.yellow} />
+                    </View>
+                )}
                 <Header header="Your Profile" noBackArrow />
                 <Ionicons
                     name="person-outline"

@@ -16,7 +16,7 @@ export default function Navbar(props: Props) {
             <View style={navbarStyles.optionContainer}>
                 <NavbarOption
                     iconName="home"
-                    onPress={() => router.replace("/dashboard/HomePage")}
+                    onPress={() => router.push("/dashboard/HomePage")}
                     color={
                         props.currentPage === "Home"
                             ? colors.yellow
@@ -25,7 +25,7 @@ export default function Navbar(props: Props) {
                 />
                 <NavbarOption
                     iconName="shopping-cart"
-                    onPress={() => router.replace("/dashboard/CartPage")}
+                    onPress={() => router.push("/dashboard/CartPage")}
                     color={
                         props.currentPage === "Cart"
                             ? colors.yellow
@@ -34,7 +34,7 @@ export default function Navbar(props: Props) {
                 />
                 <NavbarOption
                     iconName="layers"
-                    onPress={() => router.replace("/dashboard/MorePage")}
+                    onPress={() => router.push("/dashboard/MorePage")}
                     color={
                         props.currentPage === "More"
                             ? colors.yellow
@@ -43,7 +43,7 @@ export default function Navbar(props: Props) {
                 />
                 <NavbarOption
                     iconName="account-circle"
-                    onPress={() => router.replace("/dashboard/ProfilePage")}
+                    onPress={() => router.push("/dashboard/ProfilePage")}
                     color={
                         props.currentPage === "Profile"
                             ? colors.yellow

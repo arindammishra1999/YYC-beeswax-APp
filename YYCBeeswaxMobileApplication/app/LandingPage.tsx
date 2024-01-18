@@ -35,7 +35,7 @@ export default function LandingPage() {
                 />
                 <Button
                     title="Browse as Guest"
-                    onPress={() => router.replace("/dashboard/HomePage")}
+                    onPress={() => router.push("/dashboard/HomePage")}
                     style={rootPageStyles.button}
                 />
             </View>

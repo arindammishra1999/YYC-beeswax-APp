@@ -63,7 +63,7 @@ export default function Signup() {
                 [
                     {
                         text: "OK",
-                        onPress: () => router.replace("../dashboard/HomePage"),
+                        onPress: () => router.push("../dashboard/HomePage"),
                     },
                 ],
             );

@@ -24,10 +24,11 @@ export default function RootLayout() {
     }
 
     const mainPaths = new Set([
+        "/LandingPage",
         "/dashboard/HomePage",
+        "/dashboard/CartPage",
         "/dashboard/MorePage",
         "/dashboard/ProfilePage",
-        "/dashboard/CartPage",
     ]);
 
     return (
@@ -41,6 +42,7 @@ export default function RootLayout() {
                         initialRouteName="Home"
                         screenOptions={{
                             headerShown: false,
+                            gestureEnabled: !mainPaths.has(pathname),
                             animation: mainPaths.has(pathname)
                                 ? "none"
                                 : "default",
