@@ -32,7 +32,7 @@ export default function HomePage() {
                 <View style={homePageStyles.container}>
                     <Image
                         resizeMode="contain"
-                        source={require("../../assets/YYCBeeswaxFullLogo.png")}
+                        source={require("@/assets/YYCBeeswaxFullLogo.png")}
                         style={homePageStyles.logo}
                     />
                     <View style={homePageStyles.searchBarContainer}>
