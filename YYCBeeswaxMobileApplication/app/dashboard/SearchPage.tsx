@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { View, ScrollView } from "react-native";
 
-import { searchTerm } from "./HomePage";
-
+import { searchTerm } from "@/app/dashboard/HomePage";
 import Header from "@/components/header";
 import ProductSimpleCard from "@/components/productSimpleCard";
 import { getProductData } from "@/firebase/getCollections/getProducts";

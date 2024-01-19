@@ -85,7 +85,7 @@ export default function ChangePasswordPage() {
     }
 
     function returnToHome() {
-        router.push("../dashboard/HomePage");
+        router.push("/dashboard/HomePage");
     }
 
     return (
