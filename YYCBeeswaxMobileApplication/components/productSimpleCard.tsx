@@ -1,6 +1,6 @@
 import { router } from "expo-router";
 import React from "react";
-import { View, Image, TouchableOpacity, Text } from "react-native";
+import { Image, Text, TouchableOpacity, View } from "react-native";
 
 import { productSimpleCardStyles } from "@/styles/components/productSimpleCardStyles";
 
@@ -11,15 +11,12 @@ type Props = {
     price: number;
 };
 
-export let selectedProductID: string = "";
-
 export default function ProductSimpleCard(props: Props) {
     return (
         <View style={productSimpleCardStyles.cardContainer}>
             <TouchableOpacity
                 onPress={() => {
-                    selectedProductID = props.id;
-                    router.push("/dashboard/ProductPage");
+                    router.push(`/dashboard/product/${props.id}`);
                 }}
             >
                 <Image
