@@ -37,17 +37,19 @@ export const productPageStyles = StyleSheet.create({
     productQuantitySection: {
         alignSelf: "flex-end",
         flexDirection: "row",
-        gap: 10,
+        gap: 12,
     },
     productQuantity: {
         fontSize: 18,
+        alignSelf: "center",
     },
     quantityButton: {
         backgroundColor: colors.yellow,
         borderRadius: 10,
         justifyContent: "center",
         alignItems: "center",
-        width: 25,
+        width: 35,
+        height: 35,
     },
     quantityButtonText: {
         color: colors.black,
@@ -69,6 +71,7 @@ export const productPageStyles = StyleSheet.create({
     productPriceContainer: {
         flexDirection: "row",
         justifyContent: "space-between",
+        paddingBottom: 15,
     },
     productPrice: {
         fontSize: 30,
@@ -112,6 +115,7 @@ export const productPageStyles = StyleSheet.create({
         borderColor: "rgba(0, 0, 0, .2)",
         borderStyle: "solid",
         borderWidth: 1,
+        borderBottomWidth: 0,
     },
     button: {
         backgroundColor: colors.yellow,
