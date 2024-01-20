@@ -55,7 +55,9 @@ export default function Quiz() {
         })();
     }, []);
 
-    useUnsavedChangesCheck(currentIndex, questions.length);
+    useUnsavedChangesCheck(
+        currentIndex == -1 || currentIndex >= questions.length,
+    );
 
     if (currentIndex == -1) {
         return (
