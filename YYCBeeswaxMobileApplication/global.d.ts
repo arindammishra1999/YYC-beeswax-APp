@@ -32,17 +32,4 @@ interface IPersonalityQuestion {
         value: string;
         weights: { [key: string]: number };
     }[];
-    // option2: {
-    //     value: string;
-    //     weights: { [key: string]: number };
-    // };
-    // option3: {
-    //     value: string;
-    //     weights: { [key: string]: number };
-    // };
-    // option4: {
-    //     value: string;
-    //     weights: { [key: string]: number };
-    // };
-    // options: string[];
 }

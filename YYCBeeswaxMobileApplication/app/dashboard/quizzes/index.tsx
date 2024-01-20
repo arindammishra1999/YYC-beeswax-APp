@@ -2,7 +2,7 @@ import { Href, router } from "expo-router";
 import { collection, getDocs } from "firebase/firestore";
 import { DateTime } from "luxon";
 import React, { useEffect, useState } from "react";
-import { Image, Text, TouchableOpacity, View } from "react-native";
+import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
 
 import Header from "@/components/header";
 import { db } from "@/firebase/config";
@@ -29,7 +29,7 @@ export default function Quizzes() {
     }, []);
 
     return (
-        <View style={mainStyles.container}>
+        <ScrollView style={mainStyles.container}>
             <Header header="Quizzes" />
             <View style={quizzesPageStyles.container}>
                 {quizzes.map((quiz) => (
@@ -77,6 +77,6 @@ export default function Quizzes() {
                     </TouchableOpacity>
                 ))}
             </View>
-        </View>
+        </ScrollView>
     );
 }

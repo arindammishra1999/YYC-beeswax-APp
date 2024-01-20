@@ -44,11 +44,11 @@ export const quizPageStyles = StyleSheet.create({
         flexWrap: "wrap",
     },
     answerTextContainer: {
-        flexBasis: "40%",
+        flexBasis: "45%",
         flex: 1,
         paddingVertical: 30,
         paddingHorizontal: 20,
-        alignContent: "center",
+        minHeight: 150,
     },
     selectedAnswerTextContainer: {
         shadowColor: "#000",
@@ -61,7 +61,7 @@ export const quizPageStyles = StyleSheet.create({
 
         elevation: 4,
 
-        backgroundColor: "#ffab0e",
+        backgroundColor: "#d38e0c",
     },
     correctAnswer: {
         backgroundColor: "#77DD77",
