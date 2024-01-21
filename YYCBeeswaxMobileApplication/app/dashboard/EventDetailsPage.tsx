@@ -1,3 +1,4 @@
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import React, { useEffect, useState } from "react";
 import {
     View,
@@ -7,7 +8,6 @@ import {
     TouchableOpacity,
     Linking,
 } from "react-native";
-import Icon from "react-native-vector-icons/MaterialIcons";
 
 import { selectedEventID } from "@/components/eventCard";
 import Header from "@/components/header";
@@ -53,7 +53,7 @@ export default function EventDetailsPage() {
                 <Text style={eventDetailsPageStyles.title}>{eventName}</Text>
                 <View style={eventDetailsPageStyles.eventInfoContainer}>
                     <View style={eventDetailsPageStyles.iconContainer}>
-                        <Icon
+                        <MaterialIcons
                             name="calendar-today"
                             style={eventDetailsPageStyles.icon}
                         />
@@ -66,7 +66,7 @@ export default function EventDetailsPage() {
                 </View>
                 <View style={eventDetailsPageStyles.eventInfoContainer}>
                     <View style={eventDetailsPageStyles.iconContainer}>
-                        <Icon
+                        <MaterialIcons
                             name="location-pin"
                             style={eventDetailsPageStyles.icon}
                         />
