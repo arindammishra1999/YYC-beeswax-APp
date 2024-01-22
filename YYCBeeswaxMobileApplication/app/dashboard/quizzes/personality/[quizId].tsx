@@ -101,9 +101,8 @@ export default function Quiz() {
                                 key={index}
                                 style={[
                                     quizPageStyles.answerTextContainer,
-                                    selectedAnswerIndex == index
-                                        ? quizPageStyles.selectedAnswerTextContainer
-                                        : {},
+                                    selectedAnswerIndex == index &&
+                                        quizPageStyles.selectedAnswerTextContainer,
                                 ]}
                                 textStyle={quizPageStyles.answer}
                                 title={option.value}

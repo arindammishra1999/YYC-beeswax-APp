@@ -105,15 +105,12 @@ export default function Quiz() {
                                 key={index}
                                 style={[
                                     quizPageStyles.answerTextContainer,
-                                    selectedAnswer == index
-                                        ? quizPageStyles.selectedAnswerTextContainer
-                                        : {},
-                                    !confirm
-                                        ? {}
-                                        : currentQuestion.correctAnswer ==
-                                            answer
-                                          ? quizPageStyles.correctAnswer
-                                          : quizPageStyles.incorrectAnswer,
+                                    selectedAnswer == index &&
+                                        quizPageStyles.selectedAnswerTextContainer,
+                                    confirm &&
+                                        (currentQuestion.correctAnswer == answer
+                                            ? quizPageStyles.correctAnswer
+                                            : quizPageStyles.incorrectAnswer),
                                 ]}
                                 disabled={confirm}
                                 textStyle={quizPageStyles.answer}
@@ -131,9 +128,7 @@ export default function Quiz() {
                                     setConfirm(true);
                                 }}
                                 style={
-                                    selectedAnswer == -1
-                                        ? mainStyles.disabled
-                                        : {}
+                                    selectedAnswer == -1 && mainStyles.disabled
                                 }
                                 disabled={selectedAnswer == -1}
                             />
