@@ -36,4 +36,30 @@ export const cartPageStyles = StyleSheet.create({
         height: 240,
         width: 320,
     },
+
+    headerContainer: {
+        padding: 20,
+        borderBottomColor: "#ddd",
+        marginBottom: 10,
+    },
+
+    productContainer: {
+        alignSelf: "center", // Align the content horizontally
+        width: "80%",
+        padding: 20,
+        marginBottom: 10,
+        borderRadius: 10,
+        marginTop: 10, // Add margin to create space at the top
+        backgroundColor: "#fff", // Add your desired background color
+        shadowColor: "#000",
+        elevation: 5,
+    },
+    productName: {
+        fontSize: 16,
+        fontWeight: "bold",
+    },
+    productPrice: {
+        fontSize: 16,
+        fontWeight: "bold",
+    },
 });
