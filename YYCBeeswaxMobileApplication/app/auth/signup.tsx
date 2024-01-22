@@ -51,8 +51,8 @@ export default function Signup() {
 
             setSignupSuccess(true);
             Alert.alert(
-                "Sign Up Successful",
-                "You have successfully signed up!",
+                "Sign Up Successful!",
+                "You have successfully signed up.",
                 [
                     {
                         text: "OK",
