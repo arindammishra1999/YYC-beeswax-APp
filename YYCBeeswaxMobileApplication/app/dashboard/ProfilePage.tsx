@@ -30,7 +30,7 @@ export default function ProfilePage() {
         } finally {
             setLogoutSpinner(false);
         }
-        router.replace("/LandingPage");
+        router.replace("/");
     }
 
     if (!user) {

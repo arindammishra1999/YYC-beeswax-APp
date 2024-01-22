@@ -25,6 +25,6 @@ export const mainStyles = StyleSheet.create({
         backgroundColor: colors.white,
         justifyContent: "center",
         alignItems: "center",
-        zIndex: 999, // Ensure the overlay is above other components
+        zIndex: 999,
     },
 });
