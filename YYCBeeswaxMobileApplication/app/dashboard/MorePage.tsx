@@ -14,7 +14,7 @@ export default function MorePage() {
             <MoreOption
                 label="Events"
                 iconName="calendar"
-                onPress={() => router.push("./events")}
+                onPress={() => router.push("./EventsPage")}
             />
             <MoreOption
                 label="Quizzes"
