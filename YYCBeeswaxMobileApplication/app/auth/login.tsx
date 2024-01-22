@@ -1,7 +1,13 @@
 import { Link, router } from "expo-router";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import React, { useState } from "react";
-import { Keyboard, Text, TouchableWithoutFeedback, View } from "react-native";
+import {
+    Alert,
+    Keyboard,
+    Text,
+    TouchableWithoutFeedback,
+    View,
+} from "react-native";
 
 import Button from "@/components/button";
 import Divider from "@/components/divider";
@@ -20,6 +26,13 @@ export default function Login() {
 
     const { handleLoginGoogle } = useLoginWithGoogle();
 
+    const showAccountDisabledMessage = () =>
+        Alert.alert(
+            "Account Temporarily Disabled!",
+            "Access to this account has been temporarily disabled due to too many failed login attempts. Please try again later.",
+            [{ text: "OK", onPress: () => router.back() }],
+        );
+
     async function login() {
         try {
             await signInWithEmailAndPassword(auth, email, password);
@@ -27,12 +40,15 @@ export default function Login() {
         } catch (err: any) {
             console.log(err);
             if (err?.code === "auth/invalid-email") {
-                setError("Login Failed - Enter a valid email.");
+                setError("Login Failed - Please enter a valid email.");
             } else if (err?.code === "auth/missing-password") {
-                setError("Login Failed - Must input a password.");
+                setError("Login Failed - You must input a password.");
             } else if (err?.code === "auth/invalid-login-credentials") {
-                setError("Login Failed - Username or password did not match.");
-            }
+                setError("Login Failed - Username and password did not match.");
+            } else if (err?.code === "auth/invalid-credential") {
+                setError("Login Failed - Username and password did not match.");
+            } else if (err?.code === "auth/too-many-requests")
+                showAccountDisabledMessage();
         }
     }
 
