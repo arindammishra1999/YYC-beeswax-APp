@@ -80,6 +80,7 @@ export default function HomePage() {
                             {allProducts.map((product: any) => (
                                 <ItemCard
                                     key={product.id}
+                                    id={product.id}
                                     image={product.data.url}
                                 />
                             ))}
@@ -94,6 +95,7 @@ export default function HomePage() {
                             {allProducts.map((product: any) => (
                                 <ItemCard
                                     key={product.id}
+                                    id={product.id}
                                     image={product.data.url}
                                 />
                             ))}
@@ -110,6 +112,7 @@ export default function HomePage() {
                             {allProducts.map((product: any) => (
                                 <ItemCard
                                     key={product.id}
+                                    id={product.id}
                                     image={product.data.url}
                                 />
                             ))}
