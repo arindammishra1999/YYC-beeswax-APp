@@ -6,6 +6,10 @@ import Header from "@/components/header";
 import ProductSimpleCard from "@/components/productSimpleCard";
 import { getProductData } from "@/firebase/getCollections/getProducts";
 import { queryPageStyles } from "@/styles/queryPageStyles";
+import { Text, TouchableOpacity } from "react-native";
+import { mainStyles } from "@/styles/mainStyles";
+import { profilePageStyles } from "@/styles/profilePageStyles";
+import { router } from "expo-router";
 
 export default function SearchPage() {
     const [allProducts, setAllProducts] = useState([] as any);
@@ -35,23 +39,40 @@ export default function SearchPage() {
         });
     }
 
-    return (
-        <View style={queryPageStyles.container}>
-            <Header header={"Results for: " + searchTerm} />
-            <View>
-                <ScrollView contentContainerStyle={queryPageStyles.display}>
-                    {productsInCategory.map((product: any) => (
-                        <ProductSimpleCard
-                            key={product.id}
-                            image={product.data.url}
-                            name={product.data.name}
-                            price={product.data.price}
-                            id={product.id}
-                        />
-                    ))}
-                    <View style={queryPageStyles.extraSpace} />
-                </ScrollView>
+    if (productsInCategory.length > 0) {
+        return (
+            <View style={queryPageStyles.container}>
+                <Header header={"Results for: " + searchTerm} />
+                <View>
+                    <ScrollView contentContainerStyle={queryPageStyles.display}>
+                        {productsInCategory.map((product: any) => (
+                            <ProductSimpleCard
+                                key={product.id}
+                                image={product.data.url}
+                                name={product.data.name}
+                                price={product.data.price}
+                                id={product.id}
+                            />
+                        ))}
+                        <View style={queryPageStyles.extraSpace} />
+                    </ScrollView>
+                </View>
             </View>
-        </View>
-    );
+        );
+    } else {
+        return (
+            <View style={mainStyles.container}>
+                <Header header={"Search Results"} />
+                <Text style={profilePageStyles.messageText}>
+                    Sorry, nothing was found for {searchTerm}.
+                </Text>
+                <TouchableOpacity
+                    style={profilePageStyles.button}
+                    onPress={() => router.push("/dashboard/HomePage")}
+                >
+                    <Text style={profilePageStyles.buttonText}>Browse Now</Text>
+                </TouchableOpacity>
+            </View>
+        );
+    }
 }
