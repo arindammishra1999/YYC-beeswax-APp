@@ -1,8 +1,8 @@
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { router } from "expo-router";
 import { Timestamp } from "firebase/firestore";
 import React from "react";
 import { View, Image, TouchableOpacity, Text } from "react-native";
-import Icon from "react-native-vector-icons/MaterialIcons";
 
 import {
     convertTimestampToDateTime,
@@ -35,7 +35,7 @@ export default function EventCard(props: Props) {
             <TouchableOpacity
                 onPress={() => {
                     selectedEventID = props.id;
-                    router.push("../dashboard/EventDetailsPage");
+                    router.push("/dashboard/EventDetailsPage");
                 }}
             >
                 <View style={eventCardStyles.cardContainer}>
@@ -50,7 +50,7 @@ export default function EventCard(props: Props) {
                             {props.name}
                         </Text>
                         <View style={eventCardStyles.locationContainer}>
-                            <Icon
+                            <MaterialIcons
                                 name="location-pin"
                                 style={eventCardStyles.icon}
                             />

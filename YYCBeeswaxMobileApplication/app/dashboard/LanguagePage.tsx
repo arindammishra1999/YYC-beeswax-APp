@@ -1,7 +1,7 @@
 import { router } from "expo-router";
 import * as SecureStore from "expo-secure-store";
-import React, { useState, useEffect } from "react";
-import { View, Text, TouchableOpacity, ScrollView, Alert } from "react-native";
+import React, { useEffect, useState } from "react";
+import { Alert, ScrollView, Text, TouchableOpacity, View } from "react-native";
 
 import WarningHeader from "@/components/warningHeader";
 import { languagePageStyles } from "@/styles/languagePageStyles";
@@ -85,11 +85,11 @@ const LanguageSelectionPage = () => {
                     >
                         <View style={languagePageStyles.languageContainer}>
                             <Text
-                                style={
-                                    (languagePageStyles.languageText,
+                                style={[
+                                    languagePageStyles.languageText,
                                     selectedLanguage === language &&
-                                        languagePageStyles.selectedLanguageText)
-                                }
+                                        languagePageStyles.selectedLanguageText,
+                                ]}
                             >
                                 {language}
                             </Text>

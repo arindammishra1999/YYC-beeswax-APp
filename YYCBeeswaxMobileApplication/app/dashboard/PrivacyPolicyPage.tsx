@@ -1,6 +1,5 @@
 import React from "react";
-import { Linking, Text, View } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
+import { Linking, Text, View, ScrollView } from "react-native";
 
 import Header from "@/components/header";
 import { mainStyles } from "@/styles/mainStyles";

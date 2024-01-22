@@ -62,7 +62,7 @@ export const eventDetailsPageStyles = StyleSheet.create({
     },
     bottomBar: {
         backgroundColor: colors.white,
-        height: "11%",
+        height: "9%",
         elevation: 3,
         shadowColor: "black",
         shadowOpacity: 0.2,

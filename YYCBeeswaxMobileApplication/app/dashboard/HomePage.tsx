@@ -1,7 +1,7 @@
+import Feather from "@expo/vector-icons/Feather";
 import { router } from "expo-router";
 import React, { useEffect, useState } from "react";
 import { Image, ScrollView, Text, TextInput, View } from "react-native";
-import Icon from "react-native-vector-icons/Feather";
 
 import CategoryCard from "@/components/categoryCard";
 import ItemCard from "@/components/itemCard";
@@ -32,11 +32,11 @@ export default function HomePage() {
                 <View style={homePageStyles.container}>
                     <Image
                         resizeMode="contain"
-                        source={require("../../assets/YYCBeeswaxFullLogo.png")}
+                        source={require("@/assets/YYCBeeswaxFullLogo.png")}
                         style={homePageStyles.logo}
                     />
                     <View style={homePageStyles.searchBarContainer}>
-                        <Icon
+                        <Feather
                             name="search"
                             size={20}
                             color="black"
@@ -80,6 +80,7 @@ export default function HomePage() {
                             {allProducts.map((product: any) => (
                                 <ItemCard
                                     key={product.id}
+                                    id={product.id}
                                     image={product.data.url}
                                 />
                             ))}
@@ -94,6 +95,7 @@ export default function HomePage() {
                             {allProducts.map((product: any) => (
                                 <ItemCard
                                     key={product.id}
+                                    id={product.id}
                                     image={product.data.url}
                                 />
                             ))}
@@ -110,6 +112,7 @@ export default function HomePage() {
                             {allProducts.map((product: any) => (
                                 <ItemCard
                                     key={product.id}
+                                    id={product.id}
                                     image={product.data.url}
                                 />
                             ))}

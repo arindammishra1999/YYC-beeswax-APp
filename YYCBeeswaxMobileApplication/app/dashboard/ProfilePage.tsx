@@ -78,7 +78,9 @@ export default function ProfilePage() {
                 />
                 <View style={profilePageStyles.optionContainer}>
                     <ProfileOption
-                        onPress={() => router.push("./OrderHistoryPage")}
+                        onPress={() =>
+                            router.push("/dashboard/OrderHistoryPage")
+                        }
                         label="Order History"
                         iconName="history"
                     />
@@ -92,12 +94,14 @@ export default function ProfilePage() {
                         iconName="edit"
                     />
                     <ProfileOption
-                        onPress={() => router.push("./NotificationPage")}
+                        onPress={() =>
+                            router.push("/dashboard/NotificationPage")
+                        }
                         label="Notifications"
                         iconName="notifications"
                     />
                     <ProfileOption
-                        onPress={() => router.push("./LanguagePage")}
+                        onPress={() => router.push("/dashboard/LanguagePage")}
                         label="Language"
                         iconName="language"
                     />
@@ -120,7 +124,9 @@ export default function ProfilePage() {
                         iconName="message"
                     />
                     <ProfileOption
-                        onPress={() => router.push("./PrivacyPolicyPage")}
+                        onPress={() =>
+                            router.push("/dashboard/PrivacyPolicyPage")
+                        }
                         label="Privacy Policy"
                         iconName="lock-outline"
                     />
