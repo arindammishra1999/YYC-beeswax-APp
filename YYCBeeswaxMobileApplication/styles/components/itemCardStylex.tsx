@@ -5,7 +5,7 @@ import { colors } from "@/consts/styles";
 export const itemCardStyles = StyleSheet.create({
     cardContainer: {
         width: 150,
-        height: 150,
+        height: 200,
         alignItems: "center",
         shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.2,
@@ -22,4 +22,6 @@ export const itemCardStyles = StyleSheet.create({
         width: 120,
         borderRadius: 5,
     },
+    title: {},
+    price: {},
 });
