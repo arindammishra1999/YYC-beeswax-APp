@@ -2,7 +2,7 @@ import { collection, setDoc, doc, addDoc } from "firebase/firestore";
 
 import { db } from "@/firebase/config";
 
-export async function newOrder(userId: any, orderData: any) {
+export async function newOrder(userId: string, orderData: any) {
     try {
         const userDocRef = doc(db, "users", userId);
 
