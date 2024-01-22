@@ -3,7 +3,7 @@ interface IQuiz {
     title: string;
     description: string;
     count: number;
-    type: string;
+    type: "Knowledge" | "Personality";
     created: firebase.firestore.Timestamp;
     plays: number;
 

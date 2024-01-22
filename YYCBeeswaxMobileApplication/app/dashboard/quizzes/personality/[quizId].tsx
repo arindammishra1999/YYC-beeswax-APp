@@ -1,11 +1,13 @@
 import { router, useLocalSearchParams } from "expo-router";
-import { collection, doc, getDoc, getDocs } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { Image, Text, View } from "react-native";
 
 import Button from "@/components/button";
 import Header from "@/components/header";
-import { db } from "@/firebase/config";
+import { QuizEndScreen } from "@/components/quiz/quizEndScreen";
+import { QuizStartScreen } from "@/components/quiz/quizStartScreen";
+import { getQuizById } from "@/firebase/getCollections/getQuizById";
+import { updateQuiz } from "@/firebase/update/updateQuiz";
 import { useUnsavedChangesCheck } from "@/lib/hooks/useUnsavedChangesCheck";
 import { mainStyles } from "@/styles/mainStyles";
 import { quizPageStyles } from "@/styles/quizPageStyles";
@@ -27,27 +29,15 @@ export default function Quiz() {
 
     useEffect(() => {
         (async () => {
-            const docSnap = await getDoc(doc(db, "quizzes", quizId));
-            const quiz = {
-                id: docSnap.id,
-                ...docSnap.data(),
-            } as IQuiz;
+            const data = await getQuizById<IPersonalityQuestion>(quizId);
 
-            const query = await getDocs(
-                collection(db, "quizzes", quiz.id, "questions"),
-            );
-            const data = query.docs.map((doc) => {
-                return {
-                    id: doc.id,
-                    ...doc.data(),
-                } as IPersonalityQuestion;
-            });
+            if (!data) return;
 
-            setQuiz(quiz);
-            setQuestions(data);
+            setQuiz(data.quiz);
+            setQuestions(data.questions);
 
             setResults((prev) => {
-                Object.keys(quiz.weights).forEach((weight) => {
+                Object.keys(data.quiz.weights).forEach((weight) => {
                     prev[weight] = 0;
                 });
                 return { ...prev };
@@ -59,36 +49,31 @@ export default function Quiz() {
         currentIndex == -1 || currentIndex >= questions.length,
     );
 
+    function onStart() {
+        setCurrentIndex(0);
+    }
+
+    function onEnd() {
+        updateQuiz(quizId);
+        router.push("/dashboard/quizzes/");
+    }
+
+    function onNext() {
+        const selectedAnswer =
+            currentQuestion.options[selectedAnswerIndex].weights;
+        setResults((prev) => {
+            Object.keys(selectedAnswer).forEach((weight) => {
+                prev[weight] += selectedAnswer[weight];
+            });
+            return { ...prev };
+        });
+        setSelectedAnswerIndex(-1);
+        setCurrentIndex((prev) => prev + 1);
+    }
+
     if (currentIndex == -1) {
         return (
-            <View style={mainStyles.container}>
-                <Header header="Quiz" />
-                <Image
-                    resizeMode="contain"
-                    source={{
-                        uri: TMP_IMG,
-                    }}
-                    style={quizPageStyles.image}
-                />
-                <View style={quizPageStyles.container}>
-                    <Text style={quizPageStyles.title}>{quiz?.title}</Text>
-                    <View style={quizPageStyles.details}>
-                        <View style={quizPageStyles.stats}>
-                            <Text>Played</Text>
-                            <Text>{quiz?.plays}</Text>
-                        </View>
-                        <View style={quizPageStyles.stats}>
-                            <Text>Questions</Text>
-                            <Text>{quiz?.count}</Text>
-                        </View>
-                    </View>
-                    <Text>{quiz?.description}</Text>
-                    <Button
-                        title="Start Quiz"
-                        onPress={() => setCurrentIndex(0)}
-                    />
-                </View>
-            </View>
+            <QuizStartScreen quiz={quiz} onStart={onStart} imageURI={TMP_IMG} />
         );
     }
 
@@ -127,26 +112,7 @@ export default function Quiz() {
                         ))}
                     </View>
                     <View style={quizPageStyles.nextButton}>
-                        <Button
-                            title="Next"
-                            onPress={() => {
-                                setResults((prev) => {
-                                    const selectedAnswer =
-                                        currentQuestion.options[
-                                            selectedAnswerIndex
-                                        ].weights;
-                                    Object.keys(selectedAnswer).forEach(
-                                        (weight) => {
-                                            prev[weight] +=
-                                                selectedAnswer[weight];
-                                        },
-                                    );
-                                    return { ...prev };
-                                });
-                                setSelectedAnswerIndex(-1);
-                                setCurrentIndex((prev) => prev + 1);
-                            }}
-                        />
+                        <Button title="Next" onPress={onNext} />
                     </View>
                 </View>
             </View>
@@ -157,28 +123,14 @@ export default function Quiz() {
         (prev, next) => prev[1] - next[1],
     );
     const match = (sorted.pop() as [string, number])[0];
-    const matchDescription = quiz?.weights[match];
+    const matchDescription = quiz?.weights[match] ?? "";
 
     return (
-        <View style={mainStyles.container}>
-            <Header header="Quiz Results" />
-            <Image
-                resizeMode="contain"
-                source={{
-                    uri: TMP_IMG,
-                }}
-                style={quizPageStyles.image}
-            />
-            <View style={quizPageStyles.container}>
-                <Text style={quizPageStyles.title}>{match}</Text>
-                <Text>{matchDescription}</Text>
-                <View style={quizPageStyles.nextButton}>
-                    <Button
-                        title="Back to Quizzes"
-                        onPress={() => router.push("/dashboard/quizzes/")}
-                    />
-                </View>
-            </View>
-        </View>
+        <QuizEndScreen
+            title={match}
+            description={matchDescription}
+            imageURI={TMP_IMG}
+            onEnd={onEnd}
+        />
     );
 }

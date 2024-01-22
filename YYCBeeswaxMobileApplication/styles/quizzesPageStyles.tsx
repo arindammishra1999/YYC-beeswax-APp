@@ -5,7 +5,8 @@ import { viewportWidth } from "@/consts/viewport";
 
 export const quizzesPageStyles = StyleSheet.create({
     container: {
-        paddingVertical: 10,
+        paddingTop: 10,
+        paddingBottom: 30,
         paddingHorizontal: 20,
         gap: 20,
     },

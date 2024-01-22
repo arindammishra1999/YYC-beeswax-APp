@@ -1,11 +1,13 @@
 import { router, useLocalSearchParams } from "expo-router";
-import { collection, doc, getDoc, getDocs } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { Image, Text, View } from "react-native";
 
 import Button from "@/components/button";
 import Header from "@/components/header";
-import { db } from "@/firebase/config";
+import { QuizEndScreen } from "@/components/quiz/quizEndScreen";
+import { QuizStartScreen } from "@/components/quiz/quizStartScreen";
+import { getQuizById } from "@/firebase/getCollections/getQuizById";
+import { updateQuiz } from "@/firebase/update/updateQuiz";
 import { useUnsavedChangesCheck } from "@/lib/hooks/useUnsavedChangesCheck";
 import { shuffleArray } from "@/lib/utility";
 import { mainStyles } from "@/styles/mainStyles";
@@ -29,23 +31,11 @@ export default function Quiz() {
 
     useEffect(() => {
         (async () => {
-            const docSnap = await getDoc(doc(db, "quizzes", quizId));
-            const quiz = {
-                id: docSnap.id,
-                ...docSnap.data(),
-            } as IQuiz;
+            const data = await getQuizById<IKnowledgeQuestion>(quizId);
 
-            const query = await getDocs(
-                collection(db, "quizzes", quiz.id, "questions"),
-            );
-            const data = query.docs.map((doc) => {
-                return {
-                    id: doc.id,
-                    ...doc.data(),
-                } as IKnowledgeQuestion;
-            });
+            if (!data) return;
 
-            data.forEach((question) => {
+            data.questions.forEach((question) => {
                 question.answers = [
                     question.correctAnswer,
                     question.incorrectAnswer1,
@@ -55,8 +45,8 @@ export default function Quiz() {
                 shuffleArray(question.answers);
             });
 
-            setQuiz(quiz);
-            setQuestions(data);
+            setQuiz(data.quiz);
+            setQuestions(data.questions);
         })();
     }, []);
 
@@ -64,38 +54,30 @@ export default function Quiz() {
         currentIndex == -1 || currentIndex >= questions.length,
     );
 
+    function onStart() {
+        setCurrentIndex(0);
+    }
+
+    function onEnd() {
+        updateQuiz(quizId);
+        router.push("/dashboard/quizzes/");
+    }
+
+    function onNext() {
+        if (
+            currentQuestion.correctAnswer ==
+            currentQuestion.answers[selectedAnswer]
+        ) {
+            setCorrectCount((prev) => prev + 1);
+        }
+        setSelectedAnswer(-1);
+        setConfirm(false);
+        setCurrentIndex((prev) => prev + 1);
+    }
+
     if (currentIndex == -1) {
         return (
-            <View style={mainStyles.container}>
-                <Header header="Quiz" />
-                <Image
-                    resizeMode="contain"
-                    source={{
-                        uri: TMP_IMG,
-                    }}
-                    style={quizPageStyles.image}
-                />
-                <View style={quizPageStyles.container}>
-                    <Text style={quizPageStyles.title}>{quiz?.title}</Text>
-                    <View style={quizPageStyles.details}>
-                        <View style={quizPageStyles.stats}>
-                            <Text>Played</Text>
-                            <Text>{quiz?.plays}</Text>
-                        </View>
-                        <View style={quizPageStyles.stats}>
-                            <Text>Questions</Text>
-                            <Text>{quiz?.count}</Text>
-                        </View>
-                    </View>
-                    <Text>{quiz?.description}</Text>
-                    <View style={quizPageStyles.nextButton}>
-                        <Button
-                            title="Start Quiz"
-                            onPress={() => setCurrentIndex(0)}
-                        />
-                    </View>
-                </View>
-            </View>
+            <QuizStartScreen quiz={quiz} onStart={onStart} imageURI={TMP_IMG} />
         );
     }
 
@@ -158,20 +140,7 @@ export default function Quiz() {
                         </View>
                     ) : (
                         <View style={quizPageStyles.nextButton}>
-                            <Button
-                                title="Next"
-                                onPress={() => {
-                                    if (
-                                        currentQuestion.correctAnswer ==
-                                        currentQuestion.answers[selectedAnswer]
-                                    ) {
-                                        setCorrectCount((prev) => prev + 1);
-                                    }
-                                    setSelectedAnswer(-1);
-                                    setConfirm(false);
-                                    setCurrentIndex((prev) => prev + 1);
-                                }}
-                            />
+                            <Button title="Next" onPress={onNext} />
                         </View>
                     )}
                 </View>
@@ -180,27 +149,11 @@ export default function Quiz() {
     }
 
     return (
-        <View style={mainStyles.container}>
-            <Header header="Quiz Results" />
-            <Image
-                resizeMode="contain"
-                source={{
-                    uri: TMP_IMG,
-                }}
-                style={quizPageStyles.image}
-            />
-            <View style={quizPageStyles.container}>
-                <Text style={quizPageStyles.title}>
-                    Your scored {correctCount} out of {quiz?.count}
-                </Text>
-                <Text>Good job!</Text>
-                <View style={quizPageStyles.nextButton}>
-                    <Button
-                        title="Back to Quizzes"
-                        onPress={() => router.push("/dashboard/quizzes/")}
-                    />
-                </View>
-            </View>
-        </View>
+        <QuizEndScreen
+            title={`Your scored ${correctCount} out of ${quiz?.count}`}
+            description="Good Job!"
+            imageURI={TMP_IMG}
+            onEnd={onEnd}
+        />
     );
 }
