@@ -29,9 +29,9 @@ export default function App() {
             setLoginPopupVisible(true);
         } catch (err: any) {
             if (err?.code == "auth/missing-email") {
-                setError("Password Reset Failed - Enter your email.");
+                setError("Password Reset Failed - Please enter your email.");
             } else if (err?.code == "auth/invalid-email") {
-                setError("Password Reset Failed - Enter a valid email.");
+                setError("Password Reset Failed - Please enter a valid email.");
             } else {
                 setError("Password Reset Failed");
             }

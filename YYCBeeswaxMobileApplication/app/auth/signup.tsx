@@ -56,7 +56,7 @@ export default function Signup() {
                 [
                     {
                         text: "OK",
-                        onPress: () => router.replace("../dashboard/HomePage"),
+                        onPress: () => router.replace("/dashboard/HomePage"),
                     },
                 ],
             );
@@ -64,15 +64,21 @@ export default function Signup() {
             console.error("Error creating user:", error);
             // Handle different error cases
             if (error.code === "auth/invalid-email") {
-                setError("Signup Failed - Enter a valid email.");
+                setError("Signup Failed - Please enter a valid email.");
             } else if (error.code === "auth/missing-password") {
-                setError("Signup Failed - No password entered.");
+                setError("Signup Failed - You must input a password.");
             } else if (error.code === "auth/weak-password") {
-                setError("Signup Failed - Password is too weak.");
+                setError(
+                    "Signup Failed - This password is too weak. Please try something stronger",
+                );
             } else if (error.code === "auth/email-already-in-use") {
-                setError("Signup Failed - Email is already in use.");
+                setError(
+                    "Signup Failed - This email address is already in use.",
+                );
             } else {
-                setError("Error creating user. Please try again.");
+                setError(
+                    "An error occurred creating this user. Please try again later.",
+                );
             }
         }
     }
