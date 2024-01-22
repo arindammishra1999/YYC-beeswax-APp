@@ -24,6 +24,7 @@ function HideableInput(props: Props) {
                     value={props.value}
                     onChangeText={props.onChangeText}
                     secureTextEntry={hide}
+                    autoCapitalize="none"
                 />
                 <FontAwesome
                     name={hideIconName}
