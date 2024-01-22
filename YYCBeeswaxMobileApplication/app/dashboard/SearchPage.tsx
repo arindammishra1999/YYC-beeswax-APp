@@ -1,15 +1,14 @@
+import { router } from "expo-router";
 import React, { useEffect, useState } from "react";
-import { View, ScrollView } from "react-native";
+import { View, ScrollView, Text, TouchableOpacity } from "react-native";
 
 import { searchTerm } from "@/app/dashboard/HomePage";
 import Header from "@/components/header";
 import ProductSimpleCard from "@/components/productSimpleCard";
 import { getProductData } from "@/firebase/getCollections/getProducts";
-import { queryPageStyles } from "@/styles/queryPageStyles";
-import { Text, TouchableOpacity } from "react-native";
 import { mainStyles } from "@/styles/mainStyles";
 import { profilePageStyles } from "@/styles/profilePageStyles";
-import { router } from "expo-router";
+import { queryPageStyles } from "@/styles/queryPageStyles";
 
 export default function SearchPage() {
     const [allProducts, setAllProducts] = useState([] as any);
@@ -62,7 +61,7 @@ export default function SearchPage() {
     } else {
         return (
             <View style={mainStyles.container}>
-                <Header header={"Search Results"} />
+                <Header header="Search Results" />
                 <Text style={profilePageStyles.messageText}>
                     Sorry, nothing was found for {searchTerm}.
                 </Text>
@@ -70,7 +69,9 @@ export default function SearchPage() {
                     style={profilePageStyles.button}
                     onPress={() => router.push("/dashboard/HomePage")}
                 >
-                    <Text style={profilePageStyles.buttonText}>Browse Now</Text>
+                    <Text style={profilePageStyles.buttonText}>
+                        Shop Other Products
+                    </Text>
                 </TouchableOpacity>
             </View>
         );
