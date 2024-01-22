@@ -1,7 +1,7 @@
+import Feather from "@expo/vector-icons/Feather";
 import { router } from "expo-router";
 import React, { useEffect, useState } from "react";
 import { Image, ScrollView, Text, TextInput, View } from "react-native";
-import Icon from "react-native-vector-icons/Feather";
 
 import CategoryCard from "@/components/categoryCard";
 import ItemCard from "@/components/itemCard";
@@ -36,7 +36,7 @@ export default function HomePage() {
                         style={homePageStyles.logo}
                     />
                     <View style={homePageStyles.searchBarContainer}>
-                        <Icon
+                        <Feather
                             name="search"
                             size={20}
                             color="black"

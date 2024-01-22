@@ -1,7 +1,7 @@
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { router } from "expo-router";
 import React from "react";
 import { View, Text, TouchableOpacity } from "react-native";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 import { categoryCardStyles } from "@/styles/components/categoryCardStyles";
 
@@ -21,7 +21,10 @@ export default function CategoryCard(props: Props) {
             }}
         >
             <View style={categoryCardStyles.cardContainer}>
-                <Icon name={props.iconName} style={categoryCardStyles.icon} />
+                <MaterialCommunityIcons
+                    name={props.iconName}
+                    style={categoryCardStyles.icon}
+                />
                 <Text style={categoryCardStyles.text} numberOfLines={1}>
                     {props.title}
                 </Text>
