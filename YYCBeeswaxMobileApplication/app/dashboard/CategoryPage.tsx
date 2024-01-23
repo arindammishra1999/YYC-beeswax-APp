@@ -47,13 +47,7 @@ export default function CategoryPage() {
 
     if (isLoading) {
         return (
-            <View
-                style={{
-                    flex: 1,
-                    justifyContent: "center",
-                    alignItems: "center",
-                }}
-            >
+            <View style={mainStyles.spinnerOverlay}>
                 <ActivityIndicator size="large" />
             </View>
         );
