@@ -1,6 +1,12 @@
 import { router } from "expo-router";
 import React, { useEffect, useState } from "react";
-import { View, ScrollView, Text, TouchableOpacity } from "react-native";
+import {
+    View,
+    ScrollView,
+    Text,
+    TouchableOpacity,
+    ActivityIndicator,
+} from "react-native";
 
 import { selectedCategory } from "@/components/categoryCard";
 import Header from "@/components/header";
@@ -11,6 +17,7 @@ import { profilePageStyles } from "@/styles/profilePageStyles";
 import { queryPageStyles } from "@/styles/queryPageStyles";
 
 export default function CategoryPage() {
+    const [isLoading, setIsLoading] = useState(true);
     const [allProducts, setAllProducts] = useState([] as any);
     useEffect(() => {
         getProductData().then((products) => {
@@ -19,6 +26,7 @@ export default function CategoryPage() {
             } else {
                 console.log("Issue getting products");
             }
+            setIsLoading(false);
         });
     }, []);
 
@@ -36,6 +44,20 @@ export default function CategoryPage() {
                 productsInCategory.push(product);
             }
         });
+    }
+
+    if (isLoading) {
+        return (
+            <View
+                style={{
+                    flex: 1,
+                    justifyContent: "center",
+                    alignItems: "center",
+                }}
+            >
+                <ActivityIndicator size="large" />
+            </View>
+        );
     }
 
     if (productsInCategory.length > 0) {
