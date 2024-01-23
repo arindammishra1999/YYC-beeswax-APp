@@ -13,7 +13,11 @@ export default function App() {
     const { user } = useUser();
 
     if (user) {
-        return <Redirect href="/dashboard/HomePage" />;
+        if (user.emailVerified) {
+            return <Redirect href="/dashboard/HomePage" />;
+        } else {
+            return <Redirect href="/auth/emailVerification" />;
+        }
     }
 
     const items: {

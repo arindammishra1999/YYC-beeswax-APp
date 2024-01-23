@@ -16,6 +16,9 @@ export const mainStyles = StyleSheet.create({
     disabled: {
         backgroundColor: "#ffd696",
     },
+    bold: {
+        fontWeight: "bold",
+    },
     spinnerOverlay: {
         position: "absolute",
         top: 0,
