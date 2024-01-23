@@ -39,11 +39,11 @@ export const homePageStyles = StyleSheet.create({
         justifyContent: "space-between",
     },
     horizontalScrollContainer: {
-        height: 220,
+        height: 240,
         flexDirection: "row",
     },
     lastHorizontalScrollContainer: {
-        height: 220,
+        height: 240,
         flexDirection: "row",
         marginBottom: "50%",
     },

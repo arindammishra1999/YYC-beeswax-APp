@@ -14,13 +14,13 @@ export default function ItemCard(props: Props) {
         <View style={itemCardStyles.cardContainer}>
             <TouchableOpacity onPress={() => {}}>
                 <Image
-                    resizeMode="contain"
+                    resizeMode="cover"
                     source={{ uri: props.image }}
                     style={itemCardStyles.image}
                 />
                 <Text style={itemCardStyles.title}>{props.title}</Text>
                 <Text style={itemCardStyles.price}>
-                    {props.price.toString().padStart(2, "0")}
+                    ${props.price.toFixed(2)}
                 </Text>
             </TouchableOpacity>
         </View>
