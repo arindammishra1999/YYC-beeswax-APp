@@ -11,6 +11,7 @@ import {
 import { selectedCategory } from "@/components/categoryCard";
 import Header from "@/components/header";
 import ProductSimpleCard from "@/components/productSimpleCard";
+import { colors } from "@/consts/styles";
 import { getProductData } from "@/firebase/getCollections/getProducts";
 import { mainStyles } from "@/styles/mainStyles";
 import { queryPageStyles } from "@/styles/queryPageStyles";
@@ -48,7 +49,7 @@ export default function CategoryPage() {
     if (isLoading) {
         return (
             <View style={mainStyles.spinnerOverlay}>
-                <ActivityIndicator size="large" />
+                <ActivityIndicator size="large" color={colors.yellow} />
             </View>
         );
     }
