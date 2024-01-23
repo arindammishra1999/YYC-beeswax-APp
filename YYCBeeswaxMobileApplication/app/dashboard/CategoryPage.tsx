@@ -13,7 +13,6 @@ import Header from "@/components/header";
 import ProductSimpleCard from "@/components/productSimpleCard";
 import { getProductData } from "@/firebase/getCollections/getProducts";
 import { mainStyles } from "@/styles/mainStyles";
-import { profilePageStyles } from "@/styles/profilePageStyles";
 import { queryPageStyles } from "@/styles/queryPageStyles";
 
 export default function CategoryPage() {
@@ -84,16 +83,14 @@ export default function CategoryPage() {
         return (
             <View style={mainStyles.container}>
                 <Header header={selectedCategory} />
-                <Text style={profilePageStyles.messageText}>
+                <Text style={queryPageStyles.messageText}>
                     Sorry, nothing was found for {selectedCategory}.
                 </Text>
                 <TouchableOpacity
-                    style={profilePageStyles.button}
+                    style={queryPageStyles.button}
                     onPress={() => router.push("/dashboard/HomePage")}
                 >
-                    <Text style={profilePageStyles.buttonText}>
-                        Return Home
-                    </Text>
+                    <Text style={queryPageStyles.buttonText}>Return Home</Text>
                 </TouchableOpacity>
             </View>
         );
