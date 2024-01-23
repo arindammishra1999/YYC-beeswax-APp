@@ -167,7 +167,7 @@ export default function ProductId() {
             <View style={productPageStyles.bottomSection}>
                 <TouchableOpacity
                     style={productPageStyles.button}
-                    onPress={() => router.replace("/dashboard/HomePage")}
+                    onPress={() => router.push("/dashboard/HomePage")}
                 >
                     <Text style={productPageStyles.buttonText}>
                         Add to Cart
