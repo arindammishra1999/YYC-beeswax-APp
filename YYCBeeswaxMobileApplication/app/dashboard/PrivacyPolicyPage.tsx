@@ -1,5 +1,6 @@
+import * as WebBrowser from "expo-web-browser";
 import React from "react";
-import { Linking, Text, View, ScrollView } from "react-native";
+import { ScrollView, Text, View } from "react-native";
 
 import Header from "@/components/header";
 import { mainStyles } from "@/styles/mainStyles";
@@ -107,7 +108,9 @@ export default function PrivacyPolicyPage() {
                     <Text
                         style={privacyPolicyPageStyles.linkText}
                         onPress={() =>
-                            Linking.openURL("https://www.hotjar.com/privacy/")
+                            WebBrowser.openBrowserAsync(
+                                "https://www.hotjar.com/privacy/",
+                            )
                         }
                     >
                         here.
@@ -144,7 +147,9 @@ export default function PrivacyPolicyPage() {
                     <Text
                         style={privacyPolicyPageStyles.linkText}
                         onPress={() =>
-                            Linking.openURL("https://yycwax.com/contact-us/")
+                            WebBrowser.openBrowserAsync(
+                                "https://yycwax.com/contact-us/",
+                            )
                         }
                     >
                         contact us
@@ -157,7 +162,9 @@ export default function PrivacyPolicyPage() {
                     <Text
                         style={privacyPolicyPageStyles.linkText}
                         onPress={() =>
-                            Linking.openURL("https://www.priv.gc.ca/")
+                            WebBrowser.openBrowserAsync(
+                                "https://www.priv.gc.ca/",
+                            )
                         }
                     >
                         Privacy Commissioner of Canada
@@ -167,7 +174,9 @@ export default function PrivacyPolicyPage() {
                     </Text>
                     <Text
                         style={privacyPolicyPageStyles.linkText}
-                        onPress={() => Linking.openURL("https://oipc.ab.ca/")}
+                        onPress={() =>
+                            WebBrowser.openBrowserAsync("https://oipc.ab.ca/")
+                        }
                     >
                         Office of the Information and Privacy Commissioner of
                         Alberta
