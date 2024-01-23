@@ -51,12 +51,12 @@ export default function Signup() {
 
             setSignupSuccess(true);
             Alert.alert(
-                "Sign Up Successful",
-                "You have successfully signed up!",
+                "Sign Up Successful!",
+                "You have successfully signed up.",
                 [
                     {
                         text: "OK",
-                        onPress: () => router.replace("/dashboard/HomePage"),
+                        onPress: () => router.push("../dashboard/HomePage"),
                     },
                 ],
             );
