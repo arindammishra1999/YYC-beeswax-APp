@@ -56,7 +56,7 @@ export default function Signup() {
                 [
                     {
                         text: "OK",
-                        onPress: () => router.push("../dashboard/HomePage"),
+                        onPress: () => router.push("/dashboard/HomePage"),
                     },
                 ],
             );

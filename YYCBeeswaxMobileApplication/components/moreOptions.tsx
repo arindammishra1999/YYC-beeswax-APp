@@ -1,13 +1,13 @@
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import React from "react";
 import { Text, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 import { moreOptionsStyles } from "@/styles/components/moreOptionsStyles";
 
 type Props = {
     label: string;
-    iconName: string;
+    iconName: keyof typeof MaterialCommunityIcons.glyphMap;
     onPress: () => void;
 };
 
@@ -18,7 +18,7 @@ export default function MoreOption(props: Props) {
             onPress={props.onPress}
         >
             <View style={moreOptionsStyles.option}>
-                <Icon
+                <MaterialCommunityIcons
                     style={moreOptionsStyles.optionIcon}
                     color="black"
                     name={props.iconName}

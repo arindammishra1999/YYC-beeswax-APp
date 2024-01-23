@@ -19,7 +19,7 @@ function QuizCard({ quiz }: { quiz: IQuiz }) {
                 router.push(
                     `/dashboard/quizzes/${quiz.type.toLowerCase()}/${
                         quiz.id
-                    }` as Href<unknown>,
+                    }` as Href<any>,
                 )
             }
         >
