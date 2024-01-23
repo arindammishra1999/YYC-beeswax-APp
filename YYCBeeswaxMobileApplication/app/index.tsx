@@ -1,3 +1,4 @@
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { Redirect, router } from "expo-router";
 import React from "react";
 import { Image, Text, TouchableOpacity, View } from "react-native";
@@ -15,7 +16,10 @@ export default function App() {
         return <Redirect href="/dashboard/HomePage" />;
     }
 
-    const items = [
+    const items: {
+        text: string;
+        iconName: keyof typeof MaterialIcons.glyphMap;
+    }[] = [
         {
             text: "Shop for all your favourite YYC Beeswax products",
             iconName: "add-shopping-cart",

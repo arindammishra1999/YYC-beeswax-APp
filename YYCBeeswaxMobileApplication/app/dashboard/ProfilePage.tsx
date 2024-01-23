@@ -1,6 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
-import * as Linking from "expo-linking";
 import { router } from "expo-router";
+import * as WebBrowser from "expo-web-browser";
 import { signOut } from "firebase/auth";
 import React, { useState } from "react";
 import { ActivityIndicator, Text, TouchableOpacity, View } from "react-native";
@@ -109,7 +109,7 @@ export default function ProfilePage() {
                 <View style={profilePageStyles.optionContainer}>
                     <ProfileOption
                         onPress={() =>
-                            Linking.openURL(
+                            WebBrowser.openBrowserAsync(
                                 "https://yycwax.com/about/frequently-asked-questions/",
                             )
                         }
@@ -118,7 +118,9 @@ export default function ProfilePage() {
                     />
                     <ProfileOption
                         onPress={() =>
-                            Linking.openURL("https://yycwax.com/contact-us/")
+                            WebBrowser.openBrowserAsync(
+                                "https://yycwax.com/contact-us/",
+                            )
                         }
                         label="Contact Us"
                         iconName="message"
