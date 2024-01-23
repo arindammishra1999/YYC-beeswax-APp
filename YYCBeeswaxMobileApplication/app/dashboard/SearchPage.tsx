@@ -1,3 +1,4 @@
+import levenshtein from "damerau-levenshtein";
 import { router } from "expo-router";
 import React, { useEffect, useState } from "react";
 import {
@@ -16,6 +17,12 @@ import { getProductData } from "@/firebase/getCollections/getProducts";
 import { mainStyles } from "@/styles/mainStyles";
 import { queryPageStyles } from "@/styles/queryPageStyles";
 
+interface LevenshteinResponse {
+    steps: number;
+    relative: number;
+    similarity: number;
+}
+
 export default function SearchPage() {
     const [isLoading, setIsLoading] = useState(true);
     const [allProducts, setAllProducts] = useState([] as any);
@@ -30,21 +37,68 @@ export default function SearchPage() {
         });
     }, []);
 
-    //This is a temporary fix until we get access to the database.
-    //This quickly filters out the products, only returning the products
-    //that contain the catergory name in their name.
-    const productsInCategory: any[] = [];
-    if (allProducts) {
-        let categoryName: string = searchTerm.toLowerCase();
-        if (categoryName[categoryName.length - 1] == "s")
-            categoryName = categoryName.substring(0, categoryName.length - 1);
-        allProducts.forEach((product: any) => {
-            const productName = product.data.name.toLowerCase();
-            if (productName.includes(categoryName)) {
-                productsInCategory.push(product);
-            }
-        });
+    function searchAlorithm(allProducts: any): void {
+        //This is the algorithm to filter out products based off of a users search
+        //It starts by iterating through the list of all of the products
+        //It prepares two lists, one contains the search terms, and the other contains the values to compare them against
+        //The first comparisons checks if a substring of a product term exists in their search
+        //The second comparisons uses a fuzzy search by comparing string metrics using the Damerau-Levenshtein distance
+        //Whenever a match is made, the product gets added to the screen, and the loop moves to the next product
+
+        //These values can be changed, they appear valid with current data set
+        const minSimilarity: number = 0.8;
+        const maxStepCount: number = 3;
+        const minWordLength: number = 2; //Used along side valid step count, otherwise single letters can be converted into numbers too easily
+        if (allProducts) {
+            allProducts.forEach((product: any) => {
+                const productCategories: string[] = product.data.categories;
+                const productNameTerms: string[] = product.data.name.split(" ");
+
+                //Combine to search through them using a single for loop
+                const productTerms: string[] = productCategories
+                    .concat(productNameTerms)
+                    .map((v) => v.toLowerCase()); //lower case as case conversion counts as a step
+
+                //When the user searches using multiple terms, iterate through them
+                const searchTerms: string[] = searchTerm
+                    .split(" ")
+                    .map((v) => v.toLowerCase());
+
+                for (let i = 0; i < productTerms.length; i++) {
+                    const foundSubstring = searchTerms.some((r) =>
+                        productTerms[i].includes(r),
+                    );
+                    if (foundSubstring) {
+                        productsInCategory.push(product);
+                        break;
+                    }
+
+                    let includeProduct: boolean = false;
+                    for (let j = 0; j < searchTerms.length; j++) {
+                        const lev: LevenshteinResponse = levenshtein(
+                            productTerms[i],
+                            searchTerms[j],
+                        );
+                        if (
+                            lev.similarity > minSimilarity ||
+                            (lev.steps < maxStepCount &&
+                                productTerms[i].length > minWordLength)
+                        ) {
+                            includeProduct = true;
+                            break;
+                        }
+                    }
+                    if (includeProduct) {
+                        productsInCategory.push(product);
+                        break;
+                    }
+                }
+            });
+        }
     }
+
+    const productsInCategory: any[] = [];
+    searchAlorithm(allProducts);
 
     if (isLoading) {
         return (
