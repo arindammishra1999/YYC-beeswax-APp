@@ -1,7 +1,5 @@
 import { StyleSheet } from "react-native";
 
-import { viewportHeight, viewportWidth } from "@/consts/viewport";
-
 export const headerStyles = StyleSheet.create({
     header: {
         flexDirection: "row",
