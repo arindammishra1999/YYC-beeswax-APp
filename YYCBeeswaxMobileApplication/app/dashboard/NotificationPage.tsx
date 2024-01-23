@@ -113,11 +113,19 @@ export default function NotificationsPage() {
     const handleBackPress = () => {
         if (changesMade) {
             Alert.alert(
-                "Unsaved Changes!",
-                "Are you sure you want to leave this page? Changes you have made will not be saved.",
+                "Discard Changes?",
+                "You have unsaved changes. Are you sure you want to discard them and leave this screen?",
                 [
-                    { text: "Cancel" },
-                    { text: "Leave", onPress: () => router.back() },
+                    {
+                        text: "Don't Leave",
+                        style: "cancel",
+                        onPress: () => {},
+                    },
+                    {
+                        text: "Discard",
+                        style: "destructive",
+                        onPress: () => router.back(),
+                    },
                 ],
             );
         } else {

@@ -1,3 +1,4 @@
+import { router } from "expo-router";
 import React from "react";
 import { View, Image, TouchableOpacity, Text } from "react-native";
 
@@ -7,12 +8,17 @@ type Props = {
     image: any;
     title: string;
     price: number;
+    id: string;
 };
 
 export default function ItemCard(props: Props) {
     return (
         <View style={itemCardStyles.cardContainer}>
-            <TouchableOpacity onPress={() => {}}>
+            <TouchableOpacity
+                onPress={() => {
+                    router.push(`/dashboard/product/${props.id}`);
+                }}
+            >
                 <Image
                     resizeMode="cover"
                     source={{ uri: props.image }}

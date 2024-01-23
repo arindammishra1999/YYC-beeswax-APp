@@ -1,6 +1,5 @@
 import { useRouter } from "expo-router";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import { getDatabase, ref, push } from "firebase/database";
 import React, { useState } from "react";
 import { Text, ScrollView, View, Alert } from "react-native";
 
@@ -8,6 +7,7 @@ import Button from "@/components/button";
 import Header from "@/components/header";
 import HideableInput from "@/components/hideableInput";
 import Input from "@/components/input";
+import { setUser } from "@/firebase/setCollections/setUser";
 import { accountStyles } from "@/styles/accountStyles";
 import { loginPageStyles } from "@/styles/loginPageStyles";
 
@@ -23,7 +23,6 @@ export default function Signup() {
 
     async function signup() {
         try {
-            const database = getDatabase();
             const auth = getAuth();
 
             if (!firstName || !lastName) {
@@ -44,26 +43,20 @@ export default function Signup() {
                 password,
             );
 
-            // Save user info to the database
-            const usersRef = ref(database, "users"); // Reference to 'users' collection
-            if (userCredential?.user) {
-                const { uid } = userCredential.user;
-                await push(usersRef, {
-                    userId: uid,
-                    firstName,
-                    lastName,
-                    email,
-                });
-            }
+            await setUser(userCredential.user.uid, {
+                email,
+                firstName,
+                lastName,
+            });
 
             setSignupSuccess(true);
             Alert.alert(
-                "Sign Up Successful",
-                "You have successfully signed up!",
+                "Sign Up Successful!",
+                "You have successfully signed up.",
                 [
                     {
                         text: "OK",
-                        onPress: () => router.replace("/dashboard/HomePage"),
+                        onPress: () => router.push("/dashboard/HomePage"),
                     },
                 ],
             );

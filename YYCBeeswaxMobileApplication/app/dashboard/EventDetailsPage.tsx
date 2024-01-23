@@ -1,13 +1,7 @@
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import * as WebBrowser from "expo-web-browser";
 import React, { useEffect, useState } from "react";
-import {
-    View,
-    ScrollView,
-    Text,
-    Image,
-    TouchableOpacity,
-    Linking,
-} from "react-native";
+import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
 
 import { selectedEventID } from "@/components/eventCard";
 import Header from "@/components/header";
@@ -87,7 +81,7 @@ export default function EventDetailsPage() {
             <View style={eventDetailsPageStyles.bottomBar}>
                 <TouchableOpacity
                     style={eventDetailsPageStyles.button}
-                    onPress={() => Linking.openURL(eventTicketUrl)}
+                    onPress={() => WebBrowser.openBrowserAsync(eventTicketUrl)}
                 >
                     <Text style={eventDetailsPageStyles.buttonText}>
                         Buy Tickets
