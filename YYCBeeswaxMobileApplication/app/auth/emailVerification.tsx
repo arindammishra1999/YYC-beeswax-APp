@@ -2,7 +2,7 @@ import { Fontisto } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { sendEmailVerification } from "firebase/auth";
 import React, { useState } from "react";
-import { Text, View } from "react-native";
+import { Alert, Text, View } from "react-native";
 
 import Button from "@/components/button";
 import Header from "@/components/header";
@@ -16,15 +16,24 @@ export default function EmailVerification() {
     const { user } = useUser();
 
     async function resend() {
-        if (user) {
-            try {
-                await sendEmailVerification(user);
-            } catch (e) {
-                console.error(e);
-                setError("Email Resend Failed.");
+        if (!user) {
+            setError("Email Resend Failed - User is invalid.");
+            return;
+        }
+        try {
+            await sendEmailVerification(user);
+            Alert.alert(
+                "Email Sent Successfully!",
+                "Please click on the link that has been sent to your email account to verify your email.",
+                [{ text: "OK" }],
+            );
+        } catch (err: any) {
+            console.error(err);
+            if (err?.code === "auth/too-many-requests") {
+                setError("Email Resend Failed - Too many requests.");
+            } else {
+                setError("Email Resend Failed");
             }
-        } else {
-            setError("User is invalid.");
         }
     }
 
