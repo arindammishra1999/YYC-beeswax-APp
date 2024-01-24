@@ -43,4 +43,10 @@ export const accountStyles = StyleSheet.create({
         color: colors.red,
         alignSelf: "center",
     },
+    forgot: {
+        alignSelf: "center",
+        color: colors.blue,
+        fontSize: 16,
+        textDecorationLine: "underline",
+    },
 });

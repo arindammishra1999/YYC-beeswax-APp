@@ -16,6 +16,7 @@ import HideableInput from "@/components/hideableInput";
 import Input from "@/components/input";
 import { auth } from "@/firebase/config";
 import { useLoginWithGoogle } from "@/firebase/hooks/loginWithGoogle";
+import { useUser } from "@/firebase/providers/userProvider";
 import { accountStyles } from "@/styles/accountStyles";
 import { loginPageStyles } from "@/styles/loginPageStyles";
 
@@ -25,6 +26,7 @@ export default function Login() {
     const [error, setError] = useState("");
 
     const { handleLoginGoogle } = useLoginWithGoogle();
+    const { user } = useUser();
 
     const showAccountDisabledMessage = () =>
         Alert.alert(
@@ -36,7 +38,11 @@ export default function Login() {
     async function login() {
         try {
             await signInWithEmailAndPassword(auth, email, password);
-            router.push("/dashboard/HomePage");
+            if (user?.emailVerified) {
+                router.push("/dashboard/HomePage");
+            } else {
+                router.push("/auth/emailVerification");
+            }
         } catch (err: any) {
             console.log(err);
             if (err?.code === "auth/invalid-email") {
