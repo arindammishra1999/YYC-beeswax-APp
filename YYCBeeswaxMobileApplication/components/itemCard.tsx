@@ -24,7 +24,13 @@ export default function ItemCard(props: Props) {
                     source={{ uri: props.image }}
                     style={itemCardStyles.image}
                 />
-                <Text style={itemCardStyles.title}>{props.title}</Text>
+                <Text
+                    style={itemCardStyles.title}
+                    numberOfLines={1}
+                    ellipsizeMode="tail"
+                >
+                    {props.title}
+                </Text>
                 <Text style={itemCardStyles.price}>
                     ${props.price.toFixed(2)}
                 </Text>

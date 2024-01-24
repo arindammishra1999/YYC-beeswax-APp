@@ -6,6 +6,7 @@ export const itemCardStyles = StyleSheet.create({
     cardContainer: {
         flex: 1,
         height: 220,
+        width: 160,
         alignItems: "center",
         shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.2,
@@ -27,6 +28,7 @@ export const itemCardStyles = StyleSheet.create({
         alignSelf: "center",
         fontWeight: "bold",
         marginTop: 5,
+        paddingHorizontal: "5%",
     },
     price: {
         alignSelf: "center",
