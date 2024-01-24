@@ -6,13 +6,7 @@ import {
     updatePassword,
 } from "firebase/auth";
 import React, { useState } from "react";
-import {
-    Keyboard,
-    Modal,
-    Text,
-    TouchableWithoutFeedback,
-    View,
-} from "react-native";
+import { Modal, ScrollView, Text, View } from "react-native";
 
 import Button from "@/components/button";
 import Header from "@/components/header";
@@ -20,7 +14,6 @@ import HideableInput from "@/components/hideableInput";
 import { useUser } from "@/firebase/providers/userProvider";
 import { accountStyles } from "@/styles/accountStyles";
 import { changePasswordPageStyles } from "@/styles/changePasswordPageStyles";
-import { mainStyles } from "@/styles/mainStyles";
 
 export default function ChangePasswordPage() {
     const [currentPassword, setCurrentPassword] = useState("");
@@ -89,9 +82,9 @@ export default function ChangePasswordPage() {
     }
 
     return (
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-            <View style={mainStyles.container}>
-                <Header header="Change Password" />
+        <View style={accountStyles.container}>
+            <Header header="Change Password" />
+            <ScrollView contentContainerStyle={accountStyles.formContainer}>
                 <View style={accountStyles.form}>
                     <Fontisto
                         name="locked"
@@ -117,51 +110,51 @@ export default function ChangePasswordPage() {
                     {error && <Text style={accountStyles.error}>{error}</Text>}
                 </View>
                 <Button title="Confirm" onPress={changePassword} />
-                <Modal
-                    animationType="slide"
-                    visible={successfulPopupVisible}
-                    transparent
-                    onRequestClose={() => {
-                        setSuccessfulPopupVisible(!successfulPopupVisible);
-                    }}
-                >
-                    <View style={changePasswordPageStyles.viewContainer}>
-                        <View style={changePasswordPageStyles.popupContainer}>
-                            <Text style={changePasswordPageStyles.popupText}>
-                                Password reset successful!
-                            </Text>
-                            <Button title="Confirm" onPress={returnToHome} />
-                        </View>
+            </ScrollView>
+            <Modal
+                animationType="slide"
+                visible={successfulPopupVisible}
+                transparent
+                onRequestClose={() => {
+                    setSuccessfulPopupVisible(!successfulPopupVisible);
+                }}
+            >
+                <View style={changePasswordPageStyles.viewContainer}>
+                    <View style={changePasswordPageStyles.popupContainer}>
+                        <Text style={changePasswordPageStyles.popupText}>
+                            Password reset successful!
+                        </Text>
+                        <Button title="Confirm" onPress={returnToHome} />
                     </View>
-                </Modal>
-                <Modal
-                    animationType="slide"
-                    visible={reloginPopupVisible}
-                    transparent
-                    onRequestClose={() => {
-                        setReloginPopupVisible(!reloginPopupVisible);
-                    }}
-                >
-                    <View style={changePasswordPageStyles.viewContainer}>
-                        <View style={changePasswordPageStyles.popupContainer}>
-                            <Text style={changePasswordPageStyles.popupText}>
-                                Please enter your old password for account
-                                verification.
-                            </Text>
-                            <HideableInput
-                                label="Old Password"
-                                placeholder="Enter Old Password"
-                                value={currentPassword}
-                                onChangeText={setCurrentPassword}
-                            />
-                            <Button
-                                title="Confirm"
-                                onPress={changePasswordWithRelogin}
-                            />
-                        </View>
+                </View>
+            </Modal>
+            <Modal
+                animationType="slide"
+                visible={reloginPopupVisible}
+                transparent
+                onRequestClose={() => {
+                    setReloginPopupVisible(!reloginPopupVisible);
+                }}
+            >
+                <View style={changePasswordPageStyles.viewContainer}>
+                    <View style={changePasswordPageStyles.popupContainer}>
+                        <Text style={changePasswordPageStyles.popupText}>
+                            Please enter your old password for account
+                            verification.
+                        </Text>
+                        <HideableInput
+                            label="Old Password"
+                            placeholder="Enter Old Password"
+                            value={currentPassword}
+                            onChangeText={setCurrentPassword}
+                        />
+                        <Button
+                            title="Confirm"
+                            onPress={changePasswordWithRelogin}
+                        />
                     </View>
-                </Modal>
-            </View>
-        </TouchableWithoutFeedback>
+                </View>
+            </Modal>
+        </View>
     );
 }

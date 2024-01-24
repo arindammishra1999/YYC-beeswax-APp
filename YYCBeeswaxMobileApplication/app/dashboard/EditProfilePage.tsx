@@ -1,7 +1,7 @@
 import { router } from "expo-router";
 import { doc, setDoc } from "firebase/firestore";
 import React, { useState } from "react";
-import { Keyboard, Text, TouchableWithoutFeedback, View } from "react-native";
+import { Text, View } from "react-native";
 
 import Button from "@/components/button";
 import Header from "@/components/header";
@@ -9,7 +9,6 @@ import Input from "@/components/input";
 import { db } from "@/firebase/config";
 import { useUser } from "@/firebase/providers/userProvider";
 import { accountStyles } from "@/styles/accountStyles";
-import { mainStyles } from "@/styles/mainStyles";
 
 export default function EditProfilePage() {
     const [firstName, setFirstName] = useState("");
@@ -29,9 +28,8 @@ export default function EditProfilePage() {
                 setError("Fields are empty");
                 return;
             }
-            const docRef = doc(db, "users/" + userId);
             await setDoc(
-                docRef,
+                doc(db, "users", userId),
                 {
                     ...(firstName != "" && { firstName }),
                     ...(lastName != "" && { lastName }),
@@ -45,28 +43,26 @@ export default function EditProfilePage() {
     }
 
     return (
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-            <View style={mainStyles.container}>
-                <Header header="Edit Profile" />
-                <View style={accountStyles.form}>
-                    <Input
-                        label="First Name"
-                        placeholder="Enter First Name"
-                        value={firstName}
-                        onChangeText={setFirstName}
-                        autoCapitalize={false}
-                    />
-                    <Input
-                        label="Last Name"
-                        placeholder="Enter Last Name"
-                        value={lastName}
-                        onChangeText={setLastName}
-                        autoCapitalize={false}
-                    />
-                    {error && <Text style={accountStyles.error}>{error}</Text>}
-                </View>
-                <Button title="Confirm" onPress={login} />
+        <View style={accountStyles.container}>
+            <Header header="Edit Profile" />
+            <View style={accountStyles.form}>
+                <Input
+                    label="First Name"
+                    placeholder="Enter First Name"
+                    value={firstName}
+                    onChangeText={setFirstName}
+                    autoCapitalize={false}
+                />
+                <Input
+                    label="Last Name"
+                    placeholder="Enter Last Name"
+                    value={lastName}
+                    onChangeText={setLastName}
+                    autoCapitalize={false}
+                />
+                {error && <Text style={accountStyles.error}>{error}</Text>}
             </View>
-        </TouchableWithoutFeedback>
+            <Button title="Confirm" onPress={login} />
+        </View>
     );
 }

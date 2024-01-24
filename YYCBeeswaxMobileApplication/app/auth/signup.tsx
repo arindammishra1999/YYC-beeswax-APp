@@ -7,6 +7,7 @@ import Button from "@/components/button";
 import Header from "@/components/header";
 import HideableInput from "@/components/hideableInput";
 import Input from "@/components/input";
+import { auth } from "@/firebase/config";
 import { setUser } from "@/firebase/setCollections/setUser";
 import { accountStyles } from "@/styles/accountStyles";
 import { loginPageStyles } from "@/styles/loginPageStyles";
@@ -23,8 +24,6 @@ export default function Signup() {
 
     async function signup() {
         try {
-            const auth = getAuth();
-
             if (!firstName || !lastName) {
                 setError("First name and Last name are required.");
                 return;
@@ -86,7 +85,7 @@ export default function Signup() {
     return (
         <View style={accountStyles.container}>
             <Header header="Create Account" />
-            <ScrollView>
+            <ScrollView contentContainerStyle={accountStyles.formContainer}>
                 <View style={accountStyles.form}>
                     <Input
                         label="First Name"
@@ -128,8 +127,8 @@ export default function Signup() {
                         </View>
                     )}
                 </View>
+                <Button title="Create Account" onPress={signup} />
             </ScrollView>
-            <Button title="Create Account" onPress={signup} />
         </View>
     );
 }

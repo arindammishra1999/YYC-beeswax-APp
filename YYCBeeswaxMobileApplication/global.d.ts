@@ -33,3 +33,9 @@ interface IPersonalityQuestion {
         weights: { [key: string]: number };
     }[];
 }
+
+interface IUser {
+    email: string;
+    firstName: string;
+    lastName: string;
+}
