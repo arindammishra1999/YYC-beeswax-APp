@@ -1,5 +1,5 @@
 import { useRouter } from "expo-router";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import React, { useState } from "react";
 import { Text, ScrollView, View, Alert } from "react-native";
 

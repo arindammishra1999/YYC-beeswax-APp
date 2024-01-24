@@ -5,9 +5,9 @@ import { Text, View } from "react-native";
 import Header from "@/components/header";
 import { getUserById } from "@/firebase/getCollections/getUserById";
 import { useUser } from "@/firebase/providers/userProvider";
+import { accountStyles } from "@/styles/accountStyles";
 import { loginPageStyles } from "@/styles/loginPageStyles";
 import { profileDataPageStyles } from "@/styles/profileDataPageStyles";
-import { accountStyles } from "@/styles/accountStyles";
 
 export default function ProfileDataPage() {
     const [userDetails, setUserDetails] = useState<IUser>({
