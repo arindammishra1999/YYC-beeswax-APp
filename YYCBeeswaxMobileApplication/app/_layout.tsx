@@ -1,7 +1,7 @@
-import { Stack, usePathname, SplashScreen } from "expo-router";
+import { SplashScreen, Stack, usePathname } from "expo-router";
 import React, { useCallback, useEffect } from "react";
 import { BackHandler } from "react-native";
-import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 import useAuth from "@/firebase/hooks/useAuth";
 import { UserProvider } from "@/firebase/providers/userProvider";
@@ -41,24 +41,17 @@ export default function RootLayout() {
     ]);
 
     return (
-        <SafeAreaProvider>
-            <SafeAreaView
-                style={mainStyles.container}
-                onLayout={onLayoutRootView}
-            >
-                <UserProvider data={{ user }}>
-                    <Stack
-                        initialRouteName="Home"
-                        screenOptions={{
-                            headerShown: false,
-                            gestureEnabled: !mainPaths.has(pathname),
-                            animation: mainPaths.has(pathname)
-                                ? "none"
-                                : "default",
-                        }}
-                    />
-                </UserProvider>
-            </SafeAreaView>
-        </SafeAreaProvider>
+        <SafeAreaView style={mainStyles.container} onLayout={onLayoutRootView}>
+            <UserProvider data={{ user }}>
+                <Stack
+                    initialRouteName="Home"
+                    screenOptions={{
+                        headerShown: false,
+                        gestureEnabled: !mainPaths.has(pathname),
+                        animation: mainPaths.has(pathname) ? "none" : "default",
+                    }}
+                />
+            </UserProvider>
+        </SafeAreaView>
     );
 }
