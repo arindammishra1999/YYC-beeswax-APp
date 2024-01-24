@@ -1,3 +1,4 @@
+import { useIsFocused } from "@react-navigation/core";
 import { Link } from "expo-router";
 import React, { useEffect, useState } from "react";
 import { Text, View } from "react-native";
@@ -18,22 +19,24 @@ export default function ProfileDataPage() {
 
     const { user } = useUser();
 
+    const isFocused = useIsFocused();
+
     useEffect(() => {
         (async () => {
             if (user?.uid) {
                 const userDetails = await getUserById(user.uid);
                 if (userDetails) {
                     setUserDetails(userDetails);
-                } else {
-                    setUserDetails({
-                        email: "Not Found",
-                        firstName: "Not Found",
-                        lastName: "Not Found",
-                    });
+                    return;
                 }
             }
+            setUserDetails({
+                email: "Not Found",
+                firstName: "Not Found",
+                lastName: "Not Found",
+            });
         })();
-    }, [user]);
+    }, [isFocused]);
 
     return (
         <View style={accountStyles.container}>
