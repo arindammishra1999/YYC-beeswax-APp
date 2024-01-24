@@ -82,6 +82,8 @@ export default function HomePage() {
                                     key={product.id}
                                     id={product.id}
                                     image={product.data.url}
+                                    title={product.data.name}
+                                    price={product.data.price}
                                 />
                             ))}
                         </ScrollView>
@@ -97,6 +99,8 @@ export default function HomePage() {
                                     key={product.id}
                                     id={product.id}
                                     image={product.data.url}
+                                    title={product.data.name}
+                                    price={product.data.price}
                                 />
                             ))}
                         </ScrollView>
@@ -114,6 +118,8 @@ export default function HomePage() {
                                     key={product.id}
                                     id={product.id}
                                     image={product.data.url}
+                                    title={product.data.name}
+                                    price={product.data.price}
                                 />
                             ))}
                         </ScrollView>
