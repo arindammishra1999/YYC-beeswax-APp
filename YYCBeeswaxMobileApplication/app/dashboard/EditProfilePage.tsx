@@ -1,7 +1,7 @@
 import { router } from "expo-router";
 import { doc, setDoc } from "firebase/firestore";
 import React, { useState } from "react";
-import { Text, View } from "react-native";
+import { Keyboard, Text, TouchableWithoutFeedback, View } from "react-native";
 
 import Button from "@/components/button";
 import Header from "@/components/header";
@@ -43,26 +43,28 @@ export default function EditProfilePage() {
     }
 
     return (
-        <View style={accountStyles.container}>
-            <Header header="Edit Profile" />
-            <View style={accountStyles.form}>
-                <Input
-                    label="First Name"
-                    placeholder="Enter First Name"
-                    value={firstName}
-                    onChangeText={setFirstName}
-                    autoCapitalize={false}
-                />
-                <Input
-                    label="Last Name"
-                    placeholder="Enter Last Name"
-                    value={lastName}
-                    onChangeText={setLastName}
-                    autoCapitalize={false}
-                />
-                {error && <Text style={accountStyles.error}>{error}</Text>}
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <View style={accountStyles.container}>
+                <Header header="Edit Profile" />
+                <View style={accountStyles.form}>
+                    <Input
+                        label="First Name"
+                        placeholder="Enter First Name"
+                        value={firstName}
+                        onChangeText={setFirstName}
+                        autoCapitalize={false}
+                    />
+                    <Input
+                        label="Last Name"
+                        placeholder="Enter Last Name"
+                        value={lastName}
+                        onChangeText={setLastName}
+                        autoCapitalize={false}
+                    />
+                    {error && <Text style={accountStyles.error}>{error}</Text>}
+                </View>
+                <Button title="Confirm" onPress={login} />
             </View>
-            <Button title="Confirm" onPress={login} />
-        </View>
+        </TouchableWithoutFeedback>
     );
 }
