@@ -5,13 +5,14 @@ export const headerStyles = StyleSheet.create({
         flexDirection: "row",
         width: "100%",
         alignItems: "center",
-        justifyContent: "flex-end",
+        justifyContent: "center",
         paddingVertical: 15,
     },
     headerText: {
         fontSize: 22,
         fontWeight: "bold",
-        width: "85%",
+        flex: 0.8,
+        textAlign: "center",
     },
     backButton: { position: "absolute", left: 10 },
 });

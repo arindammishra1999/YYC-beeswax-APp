@@ -25,11 +25,11 @@ interface LevenshteinResponse {
 
 export default function SearchPage() {
     const [isLoading, setIsLoading] = useState(true);
-    const [allProducts, setAllProducts] = useState([] as any);
+    const [validProducts, setValidProducts] = useState([] as any);
     useEffect(() => {
         getProductData().then((products) => {
             if (products) {
-                setAllProducts(products);
+                setValidProducts(searchAlorithm(products));
             } else {
                 console.log("Issue getting products");
             }
@@ -37,7 +37,7 @@ export default function SearchPage() {
         });
     }, []);
 
-    function searchAlorithm(allProducts: any): void {
+    function searchAlorithm(allProducts: any): any[] {
         //This is the algorithm to filter out products based off of a users search
         //It starts by iterating through the list of all of the products
         //It prepares two lists, one contains the search terms, and the other contains the values to compare them against
@@ -49,56 +49,57 @@ export default function SearchPage() {
         const minSimilarity: number = 0.8;
         const maxStepCount: number = 3;
         const minWordLength: number = 2; //Used along side valid step count, otherwise single letters can be converted into numbers too easily
-        if (allProducts) {
-            allProducts.forEach((product: any) => {
-                const productCategories: string[] = product.data.categories;
-                const productNameTerms: string[] = product.data.name.split(" ");
+        const productsInCategory: any[] = [];
 
-                //Combine to search through them using a single for loop
-                const productTerms: string[] = productCategories
-                    .concat(productNameTerms)
-                    .map((v) => v.toLowerCase()); //lower case as case conversion counts as a step
+        allProducts.forEach((product: any) => {
+            const productCategories: string[] = product.data.categories;
+            const productNameTerms: string[] = product.data.name.split(" ");
 
-                //When the user searches using multiple terms, iterate through them
-                const searchTerms: string[] = searchTerm
-                    .split(" ")
-                    .map((v) => v.toLowerCase());
+            //Combine to search through them using a single for loop
+            const productTerms: string[] = productCategories
+                .concat(productNameTerms)
+                .map((v) => v.toLowerCase()); //lower case as case conversion counts as a step
 
-                for (let i = 0; i < productTerms.length; i++) {
-                    const foundSubstring = searchTerms.some((r) =>
-                        productTerms[i].includes(r),
+            //When the user searches using multiple terms, iterate through them
+            const searchTerms: string[] = searchTerm
+                .split(" ")
+                .map((v) => v.toLowerCase());
+
+            for (let i = 0; i < productTerms.length; i++) {
+                //Check if the search term exists as a substring, and also is more than 2 characters long
+                const foundSubstring = searchTerms.some(
+                    (r) =>
+                        productTerms[i].includes(r) && r.length > minWordLength,
+                );
+                if (foundSubstring) {
+                    productsInCategory.push(product);
+                    break;
+                }
+
+                //If the search term isn't found as a substring, do a fuzzy search
+                let includeProduct: boolean = false;
+                for (let j = 0; j < searchTerms.length; j++) {
+                    const lev: LevenshteinResponse = levenshtein(
+                        productTerms[i],
+                        searchTerms[j],
                     );
-                    if (foundSubstring) {
-                        productsInCategory.push(product);
-                        break;
-                    }
-
-                    let includeProduct: boolean = false;
-                    for (let j = 0; j < searchTerms.length; j++) {
-                        const lev: LevenshteinResponse = levenshtein(
-                            productTerms[i],
-                            searchTerms[j],
-                        );
-                        if (
-                            lev.similarity > minSimilarity ||
-                            (lev.steps < maxStepCount &&
-                                productTerms[i].length > minWordLength)
-                        ) {
-                            includeProduct = true;
-                            break;
-                        }
-                    }
-                    if (includeProduct) {
-                        productsInCategory.push(product);
+                    if (
+                        lev.similarity > minSimilarity ||
+                        (lev.steps < maxStepCount &&
+                            productTerms[i].length > minWordLength)
+                    ) {
+                        includeProduct = true;
                         break;
                     }
                 }
-            });
-        }
+                if (includeProduct) {
+                    productsInCategory.push(product);
+                    break;
+                }
+            }
+        });
+        return productsInCategory;
     }
-
-    const productsInCategory: any[] = [];
-    searchAlorithm(allProducts);
 
     if (isLoading) {
         return (
@@ -108,13 +109,13 @@ export default function SearchPage() {
         );
     }
 
-    if (productsInCategory.length > 0) {
+    if (validProducts.length > 0) {
         return (
             <View style={queryPageStyles.container}>
                 <Header header={"Results for: " + searchTerm} />
                 <View>
                     <ScrollView contentContainerStyle={queryPageStyles.display}>
-                        {productsInCategory.map((product: any) => (
+                        {validProducts.map((product: any) => (
                             <ProductSimpleCard
                                 key={product.id}
                                 image={product.data.url}
