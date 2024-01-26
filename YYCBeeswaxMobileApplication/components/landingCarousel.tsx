@@ -1,14 +1,14 @@
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import React, { useState } from "react";
 import { View, Text } from "react-native";
 import Carousel, { Pagination } from "react-native-snap-carousel";
-import Icon from "react-native-vector-icons/MaterialIcons";
 
 import { viewportWidth } from "@/consts/viewport";
 import { landingCarouselStyles } from "@/styles/components/landingCarouselStyles";
 
 type item = {
     text: string;
-    iconName: string;
+    iconName: keyof typeof MaterialIcons.glyphMap;
 };
 
 type Props = {
@@ -22,7 +22,7 @@ export default function LandingCarousel(props: Props) {
     const _renderItem = ({ item }: { item: item }) => {
         return (
             <View style={landingCarouselStyles.option}>
-                <Icon name={item.iconName} size={200} />
+                <MaterialIcons name={item.iconName} size={200} />
                 <Text style={landingCarouselStyles.caption}>{item.text}</Text>
             </View>
         );

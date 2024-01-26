@@ -1,6 +1,5 @@
 import { useRouter } from "expo-router";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import { getDatabase, ref, push } from "firebase/database";
 import React, { useState } from "react";
 import { Text, ScrollView, View, Alert } from "react-native";
 
@@ -8,6 +7,7 @@ import Button from "@/components/button";
 import Header from "@/components/header";
 import HideableInput from "@/components/hideableInput";
 import Input from "@/components/input";
+import { setUser } from "@/firebase/setCollections/setUser";
 import { accountStyles } from "@/styles/accountStyles";
 import { loginPageStyles } from "@/styles/loginPageStyles";
 
@@ -23,7 +23,6 @@ export default function Signup() {
 
     async function signup() {
         try {
-            const database = getDatabase();
             const auth = getAuth();
 
             if (!firstName || !lastName) {
@@ -44,26 +43,20 @@ export default function Signup() {
                 password,
             );
 
-            // Save user info to the database
-            const usersRef = ref(database, "users"); // Reference to 'users' collection
-            if (userCredential?.user) {
-                const { uid } = userCredential.user;
-                await push(usersRef, {
-                    userId: uid,
-                    firstName,
-                    lastName,
-                    email,
-                });
-            }
+            await setUser(userCredential.user.uid, {
+                email,
+                firstName,
+                lastName,
+            });
 
             setSignupSuccess(true);
             Alert.alert(
-                "Sign Up Successful",
-                "You have successfully signed up!",
+                "Sign Up Successful!",
+                "You have successfully signed up.",
                 [
                     {
                         text: "OK",
-                        onPress: () => router.push("../dashboard/HomePage"),
+                        onPress: () => router.push("/auth/emailVerification"),
                     },
                 ],
             );
@@ -71,15 +64,21 @@ export default function Signup() {
             console.error("Error creating user:", error);
             // Handle different error cases
             if (error.code === "auth/invalid-email") {
-                setError("Signup Failed - Enter a valid email.");
+                setError("Signup Failed - Please enter a valid email.");
             } else if (error.code === "auth/missing-password") {
-                setError("Signup Failed - No password entered.");
+                setError("Signup Failed - You must input a password.");
             } else if (error.code === "auth/weak-password") {
-                setError("Signup Failed - Password is too weak.");
+                setError(
+                    "Signup Failed - This password is too weak. Please try something stronger",
+                );
             } else if (error.code === "auth/email-already-in-use") {
-                setError("Signup Failed - Email is already in use.");
+                setError(
+                    "Signup Failed - This email address is already in use.",
+                );
             } else {
-                setError("Error creating user. Please try again.");
+                setError(
+                    "An error occurred creating this user. Please try again later.",
+                );
             }
         }
     }

@@ -22,7 +22,7 @@ export default function OrderHistoryPage() {
             numberProducts: 2,
             order: orderStatus.Shipped,
             date: "Feb 12, 2023",
-            imageLink: require("../../assets/tempImages/chakra.jpg"),
+            imageLink: require("@/assets/tempImages/chakra.jpg"),
         },
         {
             id: 2,
@@ -30,7 +30,7 @@ export default function OrderHistoryPage() {
             numberProducts: 1,
             order: orderStatus.Delivered,
             date: "Jan 20, 2023",
-            imageLink: require("../../assets/tempImages/miniSelfCare.jpg"),
+            imageLink: require("@/assets/tempImages/miniSelfCare.jpg"),
         },
         {
             id: 3,
@@ -38,7 +38,7 @@ export default function OrderHistoryPage() {
             numberProducts: 2,
             order: orderStatus.Delivered,
             date: "Jan 4, 2023",
-            imageLink: require("../../assets/tempImages/onlineRolled.jpg"),
+            imageLink: require("@/assets/tempImages/onlineRolled.jpg"),
         },
         {
             id: 4,
@@ -46,7 +46,7 @@ export default function OrderHistoryPage() {
             numberProducts: 2,
             order: orderStatus.Placed,
             date: "Jan 5, 2023",
-            imageLink: require("../../assets/tempImages/onlineRolled.jpg"),
+            imageLink: require("@/assets/tempImages/onlineRolled.jpg"),
         },
         {
             id: 5,
@@ -54,7 +54,7 @@ export default function OrderHistoryPage() {
             numberProducts: 1,
             order: orderStatus.Shipped,
             date: "Jan 6, 2023",
-            imageLink: require("../../assets/tempImages/onlineRolled.jpg"),
+            imageLink: require("@/assets/tempImages/onlineRolled.jpg"),
         },
         {
             id: 6,
@@ -62,7 +62,7 @@ export default function OrderHistoryPage() {
             numberProducts: 2,
             order: orderStatus.Delivered,
             date: "Jan 7, 2023",
-            imageLink: require("../../assets/tempImages/onlineRolled.jpg"),
+            imageLink: require("@/assets/tempImages/onlineRolled.jpg"),
         },
         {
             id: 7,
@@ -70,7 +70,7 @@ export default function OrderHistoryPage() {
             numberProducts: 5,
             order: orderStatus.Cancelled,
             date: "Jan 8, 2023",
-            imageLink: require("../../assets/tempImages/onlineRolled.jpg"),
+            imageLink: require("@/assets/tempImages/onlineRolled.jpg"),
         },
         {
             id: 8,
@@ -78,7 +78,7 @@ export default function OrderHistoryPage() {
             numberProducts: 2,
             order: orderStatus.Cancelled,
             date: "Jan 4, 2023",
-            imageLink: require("../../assets/tempImages/onlineRolled.jpg"),
+            imageLink: require("@/assets/tempImages/onlineRolled.jpg"),
         },
     ];
 
@@ -165,12 +165,12 @@ export default function OrderHistoryPage() {
                 </Text>
                 <Image
                     resizeMode="contain"
-                    source={require("../../assets/shopping.gif")}
+                    source={require("@/assets/shopping.gif")}
                     style={orderHistoryPageStyles.gif}
                 />
                 <TouchableOpacity
                     style={orderHistoryPageStyles.button}
-                    onPress={() => router.replace("./HomePage")}
+                    onPress={() => router.push("/dashboard/HomePage")}
                 >
                     <Text style={orderHistoryPageStyles.buttonText}>
                         Shop Now

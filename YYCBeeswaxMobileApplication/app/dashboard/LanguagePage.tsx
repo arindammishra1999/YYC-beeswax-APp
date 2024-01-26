@@ -1,10 +1,11 @@
 import { router } from "expo-router";
 import * as SecureStore from "expo-secure-store";
-import React, { useState, useEffect } from "react";
-import { View, Text, TouchableOpacity, ScrollView, Alert } from "react-native";
+import React, { useEffect, useState } from "react";
+import { Alert, ScrollView, Text, TouchableOpacity, View } from "react-native";
 
 import WarningHeader from "@/components/warningHeader";
 import { languagePageStyles } from "@/styles/languagePageStyles";
+import { mainStyles } from "@/styles/mainStyles";
 
 const LanguageSelectionPage = () => {
     const [selectedLanguage, setSelectedLanguage] = useState("English");
@@ -55,11 +56,19 @@ const LanguageSelectionPage = () => {
     const handleBackPress = () => {
         if (changesMade) {
             Alert.alert(
-                "Unsaved Changes!",
-                "Are you sure you want to leave this page? Changes you have made will not be saved.",
+                "Discard Changes?",
+                "You have unsaved changes. Are you sure you want to discard them and leave this screen?",
                 [
-                    { text: "Cancel" },
-                    { text: "Leave", onPress: () => router.back() },
+                    {
+                        text: "Don't Leave",
+                        style: "cancel",
+                        onPress: () => {},
+                    },
+                    {
+                        text: "Discard",
+                        style: "destructive",
+                        onPress: () => router.back(),
+                    },
                 ],
             );
         } else {
@@ -68,7 +77,7 @@ const LanguageSelectionPage = () => {
     };
 
     return (
-        <View style={languagePageStyles.container}>
+        <View style={mainStyles.container}>
             <WarningHeader header="Language" onPress={handleBackPress} />
             <View>
                 <Text style={languagePageStyles.sectionHeader}>
@@ -84,11 +93,11 @@ const LanguageSelectionPage = () => {
                     >
                         <View style={languagePageStyles.languageContainer}>
                             <Text
-                                style={
-                                    (languagePageStyles.languageText,
+                                style={[
+                                    languagePageStyles.languageText,
                                     selectedLanguage === language &&
-                                        languagePageStyles.selectedLanguageText)
-                                }
+                                        languagePageStyles.selectedLanguageText,
+                                ]}
                             >
                                 {language}
                             </Text>

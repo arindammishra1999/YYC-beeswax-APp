@@ -1,14 +1,13 @@
+import Feather from "@expo/vector-icons/Feather";
 import { router } from "expo-router";
 import React, { useEffect, useState } from "react";
-import { Text, View, Image, TextInput, ScrollView } from "react-native";
-import Icon from "react-native-vector-icons/Feather";
-
-import { getProductData } from "../../firebase/getCollections/getProducts";
+import { Image, ScrollView, Text, TextInput, View } from "react-native";
 
 import CategoryCard from "@/components/categoryCard";
 import ItemCard from "@/components/itemCard";
 import Navbar from "@/components/navbar";
 import { colors } from "@/consts/styles";
+import { getProductData } from "@/firebase/getCollections/getProducts";
 import { homePageStyles } from "@/styles/homePageStyles";
 import { mainStyles } from "@/styles/mainStyles";
 
@@ -33,11 +32,11 @@ export default function HomePage() {
                 <View style={homePageStyles.container}>
                     <Image
                         resizeMode="contain"
-                        source={require("../../assets/YYCBeeswaxFullLogo.png")}
+                        source={require("@/assets/YYCBeeswaxFullLogo.png")}
                         style={homePageStyles.logo}
                     />
                     <View style={homePageStyles.searchBarContainer}>
-                        <Icon
+                        <Feather
                             name="search"
                             size={20}
                             color="black"
@@ -81,7 +80,10 @@ export default function HomePage() {
                             {allProducts.map((product: any) => (
                                 <ItemCard
                                     key={product.id}
+                                    id={product.id}
                                     image={product.data.url}
+                                    title={product.data.name}
+                                    price={product.data.price}
                                 />
                             ))}
                         </ScrollView>
@@ -95,7 +97,10 @@ export default function HomePage() {
                             {allProducts.map((product: any) => (
                                 <ItemCard
                                     key={product.id}
+                                    id={product.id}
                                     image={product.data.url}
+                                    title={product.data.name}
+                                    price={product.data.price}
                                 />
                             ))}
                         </ScrollView>
@@ -111,7 +116,10 @@ export default function HomePage() {
                             {allProducts.map((product: any) => (
                                 <ItemCard
                                     key={product.id}
+                                    id={product.id}
                                     image={product.data.url}
+                                    title={product.data.name}
+                                    price={product.data.price}
                                 />
                             ))}
                         </ScrollView>

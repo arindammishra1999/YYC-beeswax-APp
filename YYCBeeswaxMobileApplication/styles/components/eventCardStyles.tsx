@@ -19,13 +19,14 @@ export const eventCardStyles = StyleSheet.create({
     image: {
         height: "80%",
         width: "32%",
+        resizeMode: "cover",
         borderRadius: 10,
         alignSelf: "center",
         marginHorizontal: 15,
     },
     textContainer: {
         alignSelf: "center",
-        height: "80%",
+        height: "85%",
         width: "55%",
         justifyContent: "space-between",
         flexWrap: "wrap",

@@ -1,13 +1,23 @@
+import { router } from "expo-router";
 import React, { useEffect, useState } from "react";
-import { View, ScrollView } from "react-native";
+import {
+    View,
+    ScrollView,
+    Text,
+    TouchableOpacity,
+    ActivityIndicator,
+} from "react-native";
 
 import { selectedCategory } from "@/components/categoryCard";
 import Header from "@/components/header";
 import ProductSimpleCard from "@/components/productSimpleCard";
+import { colors } from "@/consts/styles";
 import { getProductData } from "@/firebase/getCollections/getProducts";
+import { mainStyles } from "@/styles/mainStyles";
 import { queryPageStyles } from "@/styles/queryPageStyles";
 
 export default function CategoryPage() {
+    const [isLoading, setIsLoading] = useState(true);
     const [allProducts, setAllProducts] = useState([] as any);
     useEffect(() => {
         getProductData().then((products) => {
@@ -16,6 +26,7 @@ export default function CategoryPage() {
             } else {
                 console.log("Issue getting products");
             }
+            setIsLoading(false);
         });
     }, []);
 
@@ -35,23 +46,48 @@ export default function CategoryPage() {
         });
     }
 
-    return (
-        <View style={queryPageStyles.container}>
-            <Header header={selectedCategory + " Page"} />
-            <View>
-                <ScrollView contentContainerStyle={queryPageStyles.display}>
-                    {productsInCategory.map((product: any) => (
-                        <ProductSimpleCard
-                            key={product.id}
-                            image={product.data.url}
-                            name={product.data.name}
-                            price={product.data.price}
-                            id={product.id}
-                        />
-                    ))}
-                    <View style={queryPageStyles.extraSpace} />
-                </ScrollView>
+    if (isLoading) {
+        return (
+            <View style={mainStyles.spinnerOverlay}>
+                <ActivityIndicator size="large" color={colors.yellow} />
             </View>
-        </View>
-    );
+        );
+    }
+
+    if (productsInCategory.length > 0) {
+        return (
+            <View style={queryPageStyles.container}>
+                <Header header={selectedCategory + " Page"} />
+                <View>
+                    <ScrollView contentContainerStyle={queryPageStyles.display}>
+                        {productsInCategory.map((product: any) => (
+                            <ProductSimpleCard
+                                key={product.id}
+                                image={product.data.url}
+                                name={product.data.name}
+                                price={product.data.price}
+                                id={product.id}
+                            />
+                        ))}
+                        <View style={queryPageStyles.extraSpace} />
+                    </ScrollView>
+                </View>
+            </View>
+        );
+    } else {
+        return (
+            <View style={mainStyles.container}>
+                <Header header={selectedCategory} />
+                <Text style={queryPageStyles.messageText}>
+                    Sorry, nothing was found for {selectedCategory}.
+                </Text>
+                <TouchableOpacity
+                    style={queryPageStyles.button}
+                    onPress={() => router.push("/dashboard/HomePage")}
+                >
+                    <Text style={queryPageStyles.buttonText}>Return Home</Text>
+                </TouchableOpacity>
+            </View>
+        );
+    }
 }

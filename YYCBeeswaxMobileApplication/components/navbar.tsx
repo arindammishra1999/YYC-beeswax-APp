@@ -1,8 +1,7 @@
 import { router } from "expo-router";
 import { View } from "react-native";
 
-import NavbarOption from "./navbarOption";
-
+import NavbarOption from "@/components/navbarOption";
 import { colors } from "@/consts/styles";
 import { navbarStyles } from "@/styles/components/navbarStyles";
 
@@ -16,7 +15,10 @@ export default function Navbar(props: Props) {
             <View style={navbarStyles.optionContainer}>
                 <NavbarOption
                     iconName="home"
-                    onPress={() => router.push("/dashboard/HomePage")}
+                    onPress={() =>
+                        props.currentPage !== "Home" &&
+                        router.push("/dashboard/HomePage")
+                    }
                     color={
                         props.currentPage === "Home"
                             ? colors.yellow
@@ -25,7 +27,10 @@ export default function Navbar(props: Props) {
                 />
                 <NavbarOption
                     iconName="shopping-cart"
-                    onPress={() => router.push("/dashboard/CartPage")}
+                    onPress={() =>
+                        props.currentPage !== "Cart" &&
+                        router.push("/dashboard/CartPage")
+                    }
                     color={
                         props.currentPage === "Cart"
                             ? colors.yellow
@@ -34,7 +39,10 @@ export default function Navbar(props: Props) {
                 />
                 <NavbarOption
                     iconName="layers"
-                    onPress={() => router.push("/dashboard/MorePage")}
+                    onPress={() =>
+                        props.currentPage !== "More" &&
+                        router.push("/dashboard/MorePage")
+                    }
                     color={
                         props.currentPage === "More"
                             ? colors.yellow
@@ -43,7 +51,10 @@ export default function Navbar(props: Props) {
                 />
                 <NavbarOption
                     iconName="account-circle"
-                    onPress={() => router.push("/dashboard/ProfilePage")}
+                    onPress={() =>
+                        props.currentPage !== "Profile" &&
+                        router.push("/dashboard/ProfilePage")
+                    }
                     color={
                         props.currentPage === "Profile"
                             ? colors.yellow
