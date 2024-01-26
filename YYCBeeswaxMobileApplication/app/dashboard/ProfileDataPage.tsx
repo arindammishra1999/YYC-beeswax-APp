@@ -91,25 +91,21 @@ export default function ProfileDataPage() {
                     <Text style={profileDataPageStyles.text}>
                         {userDetails.lastName}
                     </Text>
-                    <View style={profileDataPageStyles.emailContainer}>
-                        <Text style={profileDataPageStyles.mainText}>
-                            Email:
-                        </Text>
-                        <Text style={profileDataPageStyles.text}>
-                            {userDetails.email}
-                        </Text>
-                        <Text
-                            style={
-                                user?.emailVerified
-                                    ? profileDataPageStyles.verifiedText
-                                    : profileDataPageStyles.notVerifiedText
-                            }
-                        >
-                            {user?.emailVerified
-                                ? "Email Verified!"
-                                : "Email Not Verified"}
-                        </Text>
-                    </View>
+                    <Text style={profileDataPageStyles.mainText}>Email:</Text>
+                    <Text style={profileDataPageStyles.text}>
+                        {userDetails.email}
+                    </Text>
+                    <Text
+                        style={
+                            user?.emailVerified
+                                ? profileDataPageStyles.verifiedText
+                                : profileDataPageStyles.notVerifiedText
+                        }
+                    >
+                        {user?.emailVerified
+                            ? "Email Verified!"
+                            : "Email Not Verified"}
+                    </Text>
                 </View>
                 {!user?.emailVerified && (
                     <Button

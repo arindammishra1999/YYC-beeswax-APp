@@ -20,16 +20,11 @@ export const profileDataPageStyles = StyleSheet.create({
     text: {
         fontSize: 18,
     },
-    emailContainer: {
-        backgroundColor: "white",
-    },
     verifiedText: {
-        paddingTop: 5,
         fontSize: 18,
         color: "green",
     },
     notVerifiedText: {
-        paddingTop: 5,
         fontSize: 18,
         color: "red",
     },
