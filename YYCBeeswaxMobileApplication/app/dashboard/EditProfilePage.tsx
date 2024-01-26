@@ -9,7 +9,6 @@ import Input from "@/components/input";
 import { db } from "@/firebase/config";
 import { useUser } from "@/firebase/providers/userProvider";
 import { accountStyles } from "@/styles/accountStyles";
-import { mainStyles } from "@/styles/mainStyles";
 
 export default function EditProfilePage() {
     const [firstName, setFirstName] = useState("");
@@ -29,9 +28,8 @@ export default function EditProfilePage() {
                 setError("Fields are empty");
                 return;
             }
-            const docRef = doc(db, "users/" + userId);
             await setDoc(
-                docRef,
+                doc(db, "users", userId),
                 {
                     ...(firstName != "" && { firstName }),
                     ...(lastName != "" && { lastName }),
@@ -46,7 +44,7 @@ export default function EditProfilePage() {
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-            <View style={mainStyles.container}>
+            <View style={accountStyles.container}>
                 <Header header="Edit Profile" />
                 <View style={accountStyles.form}>
                     <Input

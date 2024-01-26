@@ -9,6 +9,7 @@ import React, { useState } from "react";
 import {
     Keyboard,
     Modal,
+    ScrollView,
     Text,
     TouchableWithoutFeedback,
     View,
@@ -20,7 +21,6 @@ import HideableInput from "@/components/hideableInput";
 import { useUser } from "@/firebase/providers/userProvider";
 import { accountStyles } from "@/styles/accountStyles";
 import { changePasswordPageStyles } from "@/styles/changePasswordPageStyles";
-import { mainStyles } from "@/styles/mainStyles";
 
 export default function ChangePasswordPage() {
     const [currentPassword, setCurrentPassword] = useState("");
@@ -90,33 +90,37 @@ export default function ChangePasswordPage() {
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-            <View style={mainStyles.container}>
+            <View style={accountStyles.container}>
                 <Header header="Change Password" />
-                <View style={accountStyles.form}>
-                    <Fontisto
-                        name="locked"
-                        size={80}
-                        color="black"
-                        style={accountStyles.logo}
-                    />
-                    <Text style={accountStyles.text}>
-                        Please enter your new password.
-                    </Text>
-                    <HideableInput
-                        label="New Password"
-                        placeholder="Enter New Password"
-                        value={password}
-                        onChangeText={setPassword}
-                    />
-                    <HideableInput
-                        label="Confirm New Password"
-                        placeholder="Renter New Password"
-                        value={confirmPassword}
-                        onChangeText={setConfirmPassword}
-                    />
-                    {error && <Text style={accountStyles.error}>{error}</Text>}
-                </View>
-                <Button title="Confirm" onPress={changePassword} />
+                <ScrollView contentContainerStyle={accountStyles.formContainer}>
+                    <View style={accountStyles.form}>
+                        <Fontisto
+                            name="locked"
+                            size={80}
+                            color="black"
+                            style={accountStyles.logo}
+                        />
+                        <Text style={accountStyles.text}>
+                            Please enter your new password.
+                        </Text>
+                        <HideableInput
+                            label="New Password"
+                            placeholder="Enter New Password"
+                            value={password}
+                            onChangeText={setPassword}
+                        />
+                        <HideableInput
+                            label="Confirm New Password"
+                            placeholder="Renter New Password"
+                            value={confirmPassword}
+                            onChangeText={setConfirmPassword}
+                        />
+                        {error && (
+                            <Text style={accountStyles.error}>{error}</Text>
+                        )}
+                    </View>
+                    <Button title="Confirm" onPress={changePassword} />
+                </ScrollView>
                 <Modal
                     animationType="slide"
                     visible={successfulPopupVisible}
