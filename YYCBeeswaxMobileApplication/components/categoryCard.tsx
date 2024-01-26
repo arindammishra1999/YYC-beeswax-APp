@@ -10,14 +10,11 @@ type Props = {
     iconName: any;
 };
 
-export let selectedCategory: string = "";
-
 export default function CategoryCard(props: Props) {
     return (
         <TouchableOpacity
             onPress={() => {
-                selectedCategory = props.title;
-                router.push("/dashboard/CategoryPage");
+                router.push(`/dashboard/category/${props.title}`);
             }}
         >
             <View style={categoryCardStyles.cardContainer}>
