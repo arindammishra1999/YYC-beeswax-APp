@@ -1,7 +1,5 @@
 const admin = require("firebase-admin");
 
-// you can find this json file in firebase under
-// project overview (cogwheel) -> project settings -> service accounts -> generate new private key -> rename it
 const serviceAccount = require("./ServiceAccountKey.json");
 
 const filename = "beeSpeciesSurvey.json"; //specify the file to upload
