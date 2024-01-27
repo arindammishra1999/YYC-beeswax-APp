@@ -1,16 +1,16 @@
 import { useIsFocused } from "@react-navigation/core";
 import { Link } from "expo-router";
+import { sendEmailVerification } from "firebase/auth";
 import React, { useEffect, useState } from "react";
 import { Alert, Text, View } from "react-native";
 
+import Button from "@/components/button";
 import Header from "@/components/header";
 import { getUserById } from "@/firebase/getCollections/getUserById";
 import { useUser } from "@/firebase/providers/userProvider";
 import { accountStyles } from "@/styles/accountStyles";
 import { loginPageStyles } from "@/styles/loginPageStyles";
 import { profileDataPageStyles } from "@/styles/profileDataPageStyles";
-import Button from "@/components/button";
-import { sendEmailVerification } from "firebase/auth";
 
 export default function ProfileDataPage() {
     const [userDetails, setUserDetails] = useState<IUser>({
