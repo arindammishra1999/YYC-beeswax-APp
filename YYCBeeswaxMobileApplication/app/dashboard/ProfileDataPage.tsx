@@ -1,8 +1,10 @@
 import { useIsFocused } from "@react-navigation/core";
 import { Link } from "expo-router";
+import { sendEmailVerification } from "firebase/auth";
 import React, { useEffect, useState } from "react";
-import { Text, View } from "react-native";
+import { Alert, Text, View } from "react-native";
 
+import Button from "@/components/button";
 import Header from "@/components/header";
 import { getUserById } from "@/firebase/getCollections/getUserById";
 import { useUser } from "@/firebase/providers/userProvider";
@@ -38,6 +40,40 @@ export default function ProfileDataPage() {
         })();
     }, [isFocused]);
 
+    async function emailVerificationPressed() {
+        if (!user) {
+            Alert.alert(
+                "Verification Email Error!",
+                "Verification Email Failed - User is invalid.",
+                [{ text: "OK" }],
+            );
+            return;
+        }
+        try {
+            await sendEmailVerification(user);
+            Alert.alert(
+                "Email Sent Successfully!",
+                "Please click on the link that has been sent to your email account to verify your email.",
+                [{ text: "OK" }],
+            );
+        } catch (err: any) {
+            console.error(err);
+            if (err?.code === "auth/too-many-requests") {
+                Alert.alert(
+                    "Verification Email Error!",
+                    "Verification Email Failed - There were too many requests, please try again later.",
+                    [{ text: "OK" }],
+                );
+            } else {
+                Alert.alert(
+                    "Verification Email Error!",
+                    "Verification Email Failed - User is invalid.",
+                    [{ text: "OK" }],
+                );
+            }
+        }
+    }
+
     return (
         <View style={accountStyles.container}>
             <Header header="User Profile" />
@@ -59,7 +95,24 @@ export default function ProfileDataPage() {
                     <Text style={profileDataPageStyles.text}>
                         {userDetails.email}
                     </Text>
+                    <Text
+                        style={
+                            user?.emailVerified
+                                ? profileDataPageStyles.verifiedText
+                                : profileDataPageStyles.notVerifiedText
+                        }
+                    >
+                        {user?.emailVerified
+                            ? "Email Verified!"
+                            : "Email Not Verified"}
+                    </Text>
                 </View>
+                {!user?.emailVerified && (
+                    <Button
+                        title="Verify Email"
+                        onPress={emailVerificationPressed}
+                    />
+                )}
                 <View style={profileDataPageStyles.buttonContainer}>
                     <Link href="/dashboard/EditProfilePage" asChild>
                         <Text style={loginPageStyles.forgot}>Edit Profile</Text>

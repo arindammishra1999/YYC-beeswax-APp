@@ -6,17 +6,26 @@ export const profileDataPageStyles = StyleSheet.create({
     },
     dataContainer: {
         gap: 5,
-        paddingBottom: 60,
+        paddingBottom: 30,
     },
     buttonContainer: {
+        paddingTop: 30,
         gap: 20,
     },
     mainText: {
         fontWeight: "bold",
         fontSize: 20,
+        paddingTop: 20,
     },
     text: {
         fontSize: 18,
-        paddingBottom: 20,
+    },
+    verifiedText: {
+        fontSize: 18,
+        color: "green",
+    },
+    notVerifiedText: {
+        fontSize: 18,
+        color: "red",
     },
 });
