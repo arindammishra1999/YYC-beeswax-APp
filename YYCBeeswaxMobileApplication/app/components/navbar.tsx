@@ -17,7 +17,7 @@ export default function Navbar(props: Props) {
                     iconName="home"
                     onPress={() =>
                         props.currentPage !== "Home" &&
-                        router.push("/dashboard/HomePage")
+                        router.push("/pages/dashboard/HomePage")
                     }
                     color={
                         props.currentPage === "Home"
@@ -29,7 +29,7 @@ export default function Navbar(props: Props) {
                     iconName="shopping-cart"
                     onPress={() =>
                         props.currentPage !== "Cart" &&
-                        router.push("/dashboard/CartPage")
+                        router.push("/pages/dashboard/CartPage")
                     }
                     color={
                         props.currentPage === "Cart"
@@ -41,7 +41,7 @@ export default function Navbar(props: Props) {
                     iconName="layers"
                     onPress={() =>
                         props.currentPage !== "More" &&
-                        router.push("/dashboard/MorePage")
+                        router.push("/pages/dashboard/MorePage")
                     }
                     color={
                         props.currentPage === "More"
@@ -53,7 +53,7 @@ export default function Navbar(props: Props) {
                     iconName="account-circle"
                     onPress={() =>
                         props.currentPage !== "Profile" &&
-                        router.push("/dashboard/ProfilePage")
+                        router.push("/pages/dashboard/ProfilePage")
                     }
                     color={
                         props.currentPage === "Profile"
