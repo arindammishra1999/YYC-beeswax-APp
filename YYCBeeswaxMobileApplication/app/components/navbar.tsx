@@ -1,7 +1,7 @@
 import { router } from "expo-router";
 import { View } from "react-native";
 
-import NavbarOption from "@/components/navbarOption";
+import NavbarOption from "@/app/components/navbarOption";
 import { colors } from "@/consts/styles";
 import { navbarStyles } from "@/styles/components/navbarStyles";
 

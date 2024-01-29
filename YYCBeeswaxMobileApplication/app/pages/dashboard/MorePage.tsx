@@ -2,9 +2,9 @@ import { router } from "expo-router";
 import React from "react";
 import { View } from "react-native";
 
-import Header from "@/components/header";
-import MoreOption from "@/components/moreOptions";
-import Navbar from "@/components/navbar";
+import Header from "@/app/components/header";
+import MoreOption from "@/app/components/moreOptions";
+import Navbar from "@/app/components/navbar";
 import { mainStyles } from "@/styles/mainStyles";
 
 export default function MorePage() {

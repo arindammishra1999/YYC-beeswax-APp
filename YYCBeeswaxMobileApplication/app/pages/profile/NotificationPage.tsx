@@ -10,7 +10,7 @@ import {
     Alert,
 } from "react-native";
 
-import WarningHeader from "@/components/warningHeader";
+import WarningHeader from "@/app/components/warningHeader";
 import { colors } from "@/consts/styles";
 import { mainStyles } from "@/styles/mainStyles";
 import { notificationPageStyles } from "@/styles/notificationPageStyles";

@@ -3,9 +3,9 @@ import { router } from "expo-router";
 import React, { useEffect, useState } from "react";
 import { Image, ScrollView, Text, TextInput, View } from "react-native";
 
-import CategoryCard from "@/components/cards/categoryCard";
-import ItemCard from "@/components/cards/itemCard";
-import Navbar from "@/components/navbar";
+import CategoryCard from "@/app/components/cards/categoryCard";
+import ItemCard from "@/app/components/cards/itemCard";
+import Navbar from "@/app/components/navbar";
 import { colors } from "@/consts/styles";
 import { getProductData } from "@/firebase/getCollections/getProducts";
 import { homePageStyles } from "@/styles/homePageStyles";

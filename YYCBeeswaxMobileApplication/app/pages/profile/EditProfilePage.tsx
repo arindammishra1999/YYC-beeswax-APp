@@ -3,9 +3,9 @@ import { doc, setDoc } from "firebase/firestore";
 import React, { useState } from "react";
 import { Keyboard, Text, TouchableWithoutFeedback, View } from "react-native";
 
-import Button from "@/components/button";
-import Header from "@/components/header";
-import Input from "@/components/input";
+import Button from "@/app/components/button";
+import Header from "@/app/components/header";
+import Input from "@/app/components/input";
 import { db } from "@/firebase/config";
 import { useUser } from "@/firebase/providers/userProvider";
 import { accountStyles } from "@/styles/accountStyles";

@@ -2,10 +2,10 @@ import { router, useLocalSearchParams } from "expo-router";
 import React, { useEffect, useState } from "react";
 import { Image, Text, View } from "react-native";
 
-import Button from "@/components/button";
-import Header from "@/components/header";
-import { QuizEndScreen } from "@/components/quiz/quizEndScreen";
-import { QuizStartScreen } from "@/components/quiz/quizStartScreen";
+import Button from "@/app/components/button";
+import Header from "@/app/components/header";
+import { QuizEndScreen } from "@/app/components/quiz/quizEndScreen";
+import { QuizStartScreen } from "@/app/components/quiz/quizStartScreen";
 import { getQuizById } from "@/firebase/getCollections/getQuizById";
 import { updateQuiz } from "@/firebase/update/updateQuiz";
 import { useUnsavedChangesCheck } from "@/lib/hooks/useUnsavedChangesCheck";

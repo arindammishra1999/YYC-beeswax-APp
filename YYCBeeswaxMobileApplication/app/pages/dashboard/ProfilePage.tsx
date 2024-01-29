@@ -5,10 +5,10 @@ import { signOut } from "firebase/auth";
 import React, { useState } from "react";
 import { ActivityIndicator, Text, TouchableOpacity, View } from "react-native";
 
-import Header from "@/components/header";
-import Navbar from "@/components/navbar";
-import Popup from "@/components/popup";
-import ProfileOption from "@/components/profileOption";
+import Header from "@/app/components/header";
+import Navbar from "@/app/components/navbar";
+import Popup from "@/app/components/popup";
+import ProfileOption from "@/app/components/profileOption";
 import { colors } from "@/consts/styles";
 import { auth } from "@/firebase/config";
 import { useUser } from "@/firebase/providers/userProvider";
@@ -43,7 +43,7 @@ export default function ProfilePage() {
                 </Text>
                 <TouchableOpacity
                     style={profilePageStyles.button}
-                    onPress={() => router.push("/auth/login")}
+                    onPress={() => router.push("/pages/auth/login")}
                 >
                     <Text style={profilePageStyles.buttonText}>Login</Text>
                 </TouchableOpacity>
@@ -54,7 +54,7 @@ export default function ProfilePage() {
                     <TouchableOpacity>
                         <Text
                             style={profilePageStyles.signUpLink}
-                            onPress={() => router.push("/auth/signup")}
+                            onPress={() => router.push("/pages/auth/signup")}
                         >
                             Sign Up
                         </Text>

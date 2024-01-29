@@ -2,8 +2,8 @@ import { useLocalSearchParams } from "expo-router";
 import React, { useEffect, useState } from "react";
 import { ScrollView, View } from "react-native";
 
-import ProductSimpleCard from "@/components/cards/productSimpleCard";
-import Header from "@/components/header";
+import ProductSimpleCard from "@/app/components/cards/productSimpleCard";
+import Header from "@/app/components/header";
 import { getProductDataByCategory } from "@/firebase/getCollections/getProductByCategory";
 import { queryPageStyles } from "@/styles/queryPageStyles";
 

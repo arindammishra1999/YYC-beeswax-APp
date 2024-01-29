@@ -2,7 +2,7 @@ import * as WebBrowser from "expo-web-browser";
 import React from "react";
 import { ScrollView, Text, View } from "react-native";
 
-import Header from "@/components/header";
+import Header from "@/app/components/header";
 import { mainStyles } from "@/styles/mainStyles";
 import { privacyPolicyPageStyles } from "@/styles/privacyPolicyPageStyles";
 

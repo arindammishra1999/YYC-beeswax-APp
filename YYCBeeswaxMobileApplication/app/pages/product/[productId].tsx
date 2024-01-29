@@ -3,7 +3,7 @@ import React, { Suspense, useEffect, useState } from "react";
 import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 
-import Header from "@/components/header";
+import Header from "@/app/components/header";
 import { getProductDataById } from "@/firebase/getCollections/getProductByID";
 import { mainStyles } from "@/styles/mainStyles";
 import { productPageStyles } from "@/styles/productPageStyles";

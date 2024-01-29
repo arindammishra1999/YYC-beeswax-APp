@@ -3,7 +3,7 @@ import * as SecureStore from "expo-secure-store";
 import React, { useEffect, useState } from "react";
 import { Alert, ScrollView, Text, TouchableOpacity, View } from "react-native";
 
-import WarningHeader from "@/components/warningHeader";
+import WarningHeader from "@/app/components/warningHeader";
 import { languagePageStyles } from "@/styles/languagePageStyles";
 import { mainStyles } from "@/styles/mainStyles";
 

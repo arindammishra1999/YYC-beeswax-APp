@@ -2,8 +2,8 @@ import { router } from "expo-router";
 import React, { useState } from "react";
 import { Text, TouchableOpacity, View, Image } from "react-native";
 
-import Header from "@/components/header";
-import Navbar from "@/components/navbar";
+import Header from "@/app/components/header";
+import Navbar from "@/app/components/navbar";
 import { cartPageStyles } from "@/styles/cartPageStyles";
 import { mainStyles } from "@/styles/mainStyles";
 

@@ -11,9 +11,9 @@ import {
     View,
 } from "react-native";
 
-import Button from "@/components/button";
-import Header from "@/components/header";
-import Input from "@/components/input";
+import Button from "@/app/components/button";
+import Header from "@/app/components/header";
+import Input from "@/app/components/input";
 import { auth } from "@/firebase/config";
 import { loginPopupStyles } from "@/styles/components/loginPopupStyles";
 import { forgotPageStyles } from "@/styles/forgotPageStyles";

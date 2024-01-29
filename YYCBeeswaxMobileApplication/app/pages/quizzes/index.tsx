@@ -3,7 +3,7 @@ import { DateTime } from "luxon";
 import React, { useEffect, useState } from "react";
 import { FlatList, Image, Text, TouchableOpacity, View } from "react-native";
 
-import Header from "@/components/header";
+import Header from "@/app/components/header";
 import { getQuizzes } from "@/firebase/getCollections/getQuizzes";
 import { mainStyles } from "@/styles/mainStyles";
 import { quizzesPageStyles } from "@/styles/quizzesPageStyles";

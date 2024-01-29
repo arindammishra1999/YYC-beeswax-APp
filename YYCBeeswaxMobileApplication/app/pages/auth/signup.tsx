@@ -3,10 +3,10 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import React, { useState } from "react";
 import { Text, ScrollView, View, Alert } from "react-native";
 
-import Button from "@/components/button";
-import Header from "@/components/header";
-import HideableInput from "@/components/hideableInput";
-import Input from "@/components/input";
+import Button from "@/app/components/button";
+import Header from "@/app/components/header";
+import HideableInput from "@/app/components/hideableInput";
+import Input from "@/app/components/input";
 import { auth } from "@/firebase/config";
 import { setUser } from "@/firebase/setCollections/setUser";
 import { accountStyles } from "@/styles/accountStyles";
@@ -55,7 +55,8 @@ export default function Signup() {
                 [
                     {
                         text: "OK",
-                        onPress: () => router.push("/auth/emailVerification"),
+                        onPress: () =>
+                            router.push("/pages/auth/emailVerification"),
                     },
                 ],
             );

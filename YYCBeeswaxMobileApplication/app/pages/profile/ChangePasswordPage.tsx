@@ -15,9 +15,9 @@ import {
     View,
 } from "react-native";
 
-import Button from "@/components/button";
-import Header from "@/components/header";
-import HideableInput from "@/components/hideableInput";
+import Button from "@/app/components/button";
+import Header from "@/app/components/header";
+import HideableInput from "@/app/components/hideableInput";
 import { useUser } from "@/firebase/providers/userProvider";
 import { accountStyles } from "@/styles/accountStyles";
 import { changePasswordPageStyles } from "@/styles/changePasswordPageStyles";

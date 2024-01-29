@@ -2,7 +2,7 @@ import { router } from "expo-router";
 import React, { useState } from "react";
 import { FlatList, Text, View, Image, TouchableOpacity } from "react-native";
 
-import Header from "@/components/header";
+import Header from "@/app/components/header";
 import { orderHistoryPageStyles } from "@/styles/orderHistoryPageStyles";
 
 export default function OrderHistoryPage() {

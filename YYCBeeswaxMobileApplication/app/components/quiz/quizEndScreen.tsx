@@ -1,8 +1,8 @@
 import React from "react";
 import { Image, Text, View } from "react-native";
 
-import Button from "@/components/button";
-import Header from "@/components/header";
+import Button from "@/app/components/button";
+import Header from "@/app/components/header";
 import { mainStyles } from "@/styles/mainStyles";
 import { quizPageStyles } from "@/styles/quizPageStyles";
 

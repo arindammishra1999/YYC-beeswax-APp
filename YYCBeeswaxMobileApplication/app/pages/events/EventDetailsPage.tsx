@@ -3,8 +3,8 @@ import * as WebBrowser from "expo-web-browser";
 import React, { useEffect, useState } from "react";
 import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
 
-import { selectedEventID } from "@/components/cards/eventCard";
-import Header from "@/components/header";
+import { selectedEventID } from "@/app/components/cards/eventCard";
+import Header from "@/app/components/header";
 import { getEventDataById } from "@/firebase/getCollections/getEventById";
 import { convertTimestampToDateTime } from "@/functions/TimeConversions";
 import { eventDetailsPageStyles } from "@/styles/eventDetailsPageStyles";

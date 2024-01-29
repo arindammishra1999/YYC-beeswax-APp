@@ -9,11 +9,11 @@ import {
     View,
 } from "react-native";
 
-import Button from "@/components/button";
-import Divider from "@/components/divider";
-import Header from "@/components/header";
-import HideableInput from "@/components/hideableInput";
-import Input from "@/components/input";
+import Button from "@/app/components/button";
+import Divider from "@/app/components/divider";
+import Header from "@/app/components/header";
+import HideableInput from "@/app/components/hideableInput";
+import Input from "@/app/components/input";
 import { auth } from "@/firebase/config";
 import { useLoginWithGoogle } from "@/firebase/hooks/loginWithGoogle";
 import { useUser } from "@/firebase/providers/userProvider";
@@ -41,7 +41,7 @@ export default function Login() {
             if (user?.emailVerified) {
                 router.push("/pages/dashboard/HomePage");
             } else {
-                router.push("/auth/emailVerification");
+                router.push("/pages/auth/emailVerification");
             }
         } catch (err: any) {
             console.log(err);
@@ -76,7 +76,7 @@ export default function Login() {
                         value={password}
                         onChangeText={setPassword}
                     />
-                    <Link href="/auth/forgotPassword" asChild>
+                    <Link href="/pages/auth/forgotPassword" asChild>
                         <Text style={loginPageStyles.forgot}>
                             Forgot password?
                         </Text>

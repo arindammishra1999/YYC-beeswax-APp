@@ -4,8 +4,8 @@ import { sendEmailVerification } from "firebase/auth";
 import React, { useEffect, useState } from "react";
 import { Alert, Text, View } from "react-native";
 
-import Button from "@/components/button";
-import Header from "@/components/header";
+import Button from "@/app/components/button";
+import Header from "@/app/components/header";
 import { getUserById } from "@/firebase/getCollections/getUserById";
 import { useUser } from "@/firebase/providers/userProvider";
 import { accountStyles } from "@/styles/accountStyles";

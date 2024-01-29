@@ -3,8 +3,8 @@ import { Redirect, router } from "expo-router";
 import React from "react";
 import { Image, Text, TouchableOpacity, View } from "react-native";
 
-import Button from "@/components/button";
-import LandingCarousel from "@/components/landingCarousel";
+import Button from "@/app/components/button";
+import LandingCarousel from "@/app/components/landingCarousel";
 import { useUser } from "@/firebase/providers/userProvider";
 import { mainStyles } from "@/styles/mainStyles";
 import { rootPageStyles } from "@/styles/rootPageStyles";
@@ -16,7 +16,7 @@ export default function App() {
         if (user.emailVerified) {
             return <Redirect href="/pages/dashboard/HomePage" />;
         } else {
-            return <Redirect href="/auth/emailVerification" />;
+            return <Redirect href="/pages/auth/emailVerification" />;
         }
     }
 
@@ -45,7 +45,7 @@ export default function App() {
             <View style={rootPageStyles.buttonGroup}>
                 <Button
                     title="Login"
-                    onPress={() => router.push("/auth/login")}
+                    onPress={() => router.push("/pages/auth/login")}
                     style={rootPageStyles.button}
                 />
                 <Button
@@ -58,7 +58,9 @@ export default function App() {
                 <Text style={rootPageStyles.signupText}>
                     Don't have an account?
                 </Text>
-                <TouchableOpacity onPress={() => router.push("/auth/signup")}>
+                <TouchableOpacity
+                    onPress={() => router.push("/pages/auth/signup")}
+                >
                     <Text style={rootPageStyles.signupLinkText}>Sign Up</Text>
                 </TouchableOpacity>
             </View>

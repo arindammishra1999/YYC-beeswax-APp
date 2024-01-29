@@ -9,9 +9,9 @@ import {
     ActivityIndicator,
 } from "react-native";
 
+import ProductSimpleCard from "@/app/components/cards/productSimpleCard";
+import Header from "@/app/components/header";
 import { searchTerm } from "@/app/pages/dashboard/HomePage";
-import ProductSimpleCard from "@/components/cards/productSimpleCard";
-import Header from "@/components/header";
 import { colors } from "@/consts/styles";
 import { getProductData } from "@/firebase/getCollections/getProducts";
 import { mainStyles } from "@/styles/mainStyles";
