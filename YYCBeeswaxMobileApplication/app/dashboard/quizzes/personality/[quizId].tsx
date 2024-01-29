@@ -111,7 +111,14 @@ export default function Quiz() {
                         ))}
                     </View>
                     <View style={quizPageStyles.nextButton}>
-                        <Button title="Next" onPress={onNext} />
+                        <Button
+                            title="Next"
+                            onPress={onNext}
+                            style={
+                                selectedAnswerIndex == -1 && mainStyles.disabled
+                            }
+                            disabled={selectedAnswerIndex == -1}
+                        />
                     </View>
                 </View>
             </View>
