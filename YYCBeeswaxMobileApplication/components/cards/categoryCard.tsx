@@ -14,7 +14,7 @@ export default function CategoryCard(props: Props) {
     return (
         <TouchableOpacity
             onPress={() => {
-                router.push(`/pages/product/${props.title}`);
+                router.push(`/pages/category/${props.title}`);
             }}
         >
             <View style={categoryCardStyles.cardContainer}>
