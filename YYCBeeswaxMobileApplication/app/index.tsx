@@ -3,8 +3,8 @@ import { Redirect, router } from "expo-router";
 import React from "react";
 import { Image, Text, TouchableOpacity, View } from "react-native";
 
-import Button from "@/app/components/button";
-import LandingCarousel from "@/app/components/landingCarousel";
+import Button from "@/components/button";
+import LandingCarousel from "@/components/landingCarousel";
 import { useUser } from "@/firebase/providers/userProvider";
 import { mainStyles } from "@/styles/mainStyles";
 import { rootPageStyles } from "@/styles/rootPageStyles";
@@ -14,9 +14,9 @@ export default function App() {
 
     if (user) {
         if (user.emailVerified) {
-            return <Redirect href="/pages/dashboard/HomePage" />;
+            return <Redirect href="/dashboard/HomePage" />;
         } else {
-            return <Redirect href="/pages/auth/emailVerification" />;
+            return <Redirect href="/auth/emailVerification" />;
         }
     }
 
@@ -45,12 +45,12 @@ export default function App() {
             <View style={rootPageStyles.buttonGroup}>
                 <Button
                     title="Login"
-                    onPress={() => router.push("/pages/auth/login")}
+                    onPress={() => router.push("/auth/login")}
                     style={rootPageStyles.button}
                 />
                 <Button
                     title="Browse as Guest"
-                    onPress={() => router.replace("/pages/dashboard/HomePage")}
+                    onPress={() => router.replace("/dashboard/HomePage")}
                     style={rootPageStyles.button}
                 />
             </View>
@@ -58,9 +58,7 @@ export default function App() {
                 <Text style={rootPageStyles.signupText}>
                     Don't have an account?
                 </Text>
-                <TouchableOpacity
-                    onPress={() => router.push("/pages/auth/signup")}
-                >
+                <TouchableOpacity onPress={() => router.push("/auth/signup")}>
                     <Text style={rootPageStyles.signupLinkText}>Sign Up</Text>
                 </TouchableOpacity>
             </View>
