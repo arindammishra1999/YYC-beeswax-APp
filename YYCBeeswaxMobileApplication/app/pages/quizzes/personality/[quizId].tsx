@@ -55,7 +55,7 @@ export default function Quiz() {
 
     function onEnd() {
         updateQuiz(quizId);
-        router.push("/dashboard/quizzes/");
+        router.push("/pages/quizzes/");
     }
 
     function onNext() {

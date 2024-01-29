@@ -39,7 +39,7 @@ export default function Login() {
         try {
             await signInWithEmailAndPassword(auth, email, password);
             if (user?.emailVerified) {
-                router.push("/dashboard/HomePage");
+                router.push("/pages/dashboard/HomePage");
             } else {
                 router.push("/auth/emailVerification");
             }

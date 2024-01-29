@@ -59,7 +59,7 @@ export default function EmailVerification() {
                     <Button
                         title="Skip for now"
                         onPress={() => {
-                            router.push("/dashboard/HomePage");
+                            router.push("/pages/dashboard/HomePage");
                         }}
                     />
                     <Text style={accountStyles.forgot} onPress={resend}>

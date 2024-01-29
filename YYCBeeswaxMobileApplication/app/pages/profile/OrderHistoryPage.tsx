@@ -170,7 +170,7 @@ export default function OrderHistoryPage() {
                 />
                 <TouchableOpacity
                     style={orderHistoryPageStyles.button}
-                    onPress={() => router.push("/dashboard/HomePage")}
+                    onPress={() => router.push("/pages/dashboard/HomePage")}
                 >
                     <Text style={orderHistoryPageStyles.buttonText}>
                         Shop Now

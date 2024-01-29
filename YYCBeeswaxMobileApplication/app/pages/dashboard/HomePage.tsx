@@ -3,8 +3,8 @@ import { router } from "expo-router";
 import React, { useEffect, useState } from "react";
 import { Image, ScrollView, Text, TextInput, View } from "react-native";
 
-import CategoryCard from "@/components/categoryCard";
-import ItemCard from "@/components/itemCard";
+import CategoryCard from "@/components/cards/categoryCard";
+import ItemCard from "@/components/cards/itemCard";
 import Navbar from "@/components/navbar";
 import { colors } from "@/consts/styles";
 import { getProductData } from "@/firebase/getCollections/getProducts";
@@ -49,7 +49,7 @@ export default function HomePage() {
                             onChangeText={setSearchQuery}
                             onSubmitEditing={() => {
                                 searchTerm = searchQuery;
-                                router.push("/dashboard/SearchPage");
+                                router.push("/pages/product/SearchPage");
                             }}
                             returnKeyType="search"
                         />

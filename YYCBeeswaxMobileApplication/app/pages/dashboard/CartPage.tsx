@@ -24,7 +24,7 @@ export default function CartPage() {
                 />
                 <TouchableOpacity
                     style={cartPageStyles.button}
-                    onPress={() => router.push("/dashboard/HomePage")}
+                    onPress={() => router.push("/pages/dashboard/HomePage")}
                 >
                     <Text style={cartPageStyles.buttonText}>Shop Now</Text>
                 </TouchableOpacity>

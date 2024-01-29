@@ -79,7 +79,7 @@ export default function ProfilePage() {
                 <View style={profilePageStyles.optionContainer}>
                     <ProfileOption
                         onPress={() =>
-                            router.push("/dashboard/OrderHistoryPage")
+                            router.push("/pages/profile/OrderHistoryPage")
                         }
                         label="Order History"
                         iconName="history"
@@ -88,20 +88,22 @@ export default function ProfilePage() {
                 <View style={profilePageStyles.optionContainer}>
                     <ProfileOption
                         onPress={() =>
-                            router.push("/dashboard/ProfileDataPage")
+                            router.push("/pages/profile/ProfileDataPage")
                         }
                         label="Edit Profile"
                         iconName="edit"
                     />
                     <ProfileOption
                         onPress={() =>
-                            router.push("/dashboard/NotificationPage")
+                            router.push("/pages/profile/NotificationPage")
                         }
                         label="Notifications"
                         iconName="notifications"
                     />
                     <ProfileOption
-                        onPress={() => router.push("/dashboard/LanguagePage")}
+                        onPress={() =>
+                            router.push("/pages/profile/LanguagePage")
+                        }
                         label="Language"
                         iconName="language"
                     />
@@ -127,7 +129,7 @@ export default function ProfilePage() {
                     />
                     <ProfileOption
                         onPress={() =>
-                            router.push("/dashboard/PrivacyPolicyPage")
+                            router.push("/pages/profile/PrivacyPolicyPage")
                         }
                         label="Privacy Policy"
                         iconName="lock-outline"

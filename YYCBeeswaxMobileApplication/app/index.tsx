@@ -14,7 +14,7 @@ export default function App() {
 
     if (user) {
         if (user.emailVerified) {
-            return <Redirect href="/dashboard/HomePage" />;
+            return <Redirect href="/pages/dashboard/HomePage" />;
         } else {
             return <Redirect href="/auth/emailVerification" />;
         }
@@ -50,7 +50,7 @@ export default function App() {
                 />
                 <Button
                     title="Browse as Guest"
-                    onPress={() => router.replace("/dashboard/HomePage")}
+                    onPress={() => router.replace("/pages/dashboard/HomePage")}
                     style={rootPageStyles.button}
                 />
             </View>

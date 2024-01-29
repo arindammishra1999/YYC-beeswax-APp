@@ -36,7 +36,7 @@ export default function EditProfilePage() {
                 },
                 { merge: true },
             );
-            router.push("/dashboard/ProfileDataPage");
+            router.push("/pages/profile/ProfileDataPage");
         } catch {
             setError("Failed to update profile");
         }

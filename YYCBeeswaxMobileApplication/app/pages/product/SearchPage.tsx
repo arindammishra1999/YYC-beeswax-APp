@@ -9,9 +9,9 @@ import {
     ActivityIndicator,
 } from "react-native";
 
-import { searchTerm } from "@/app/dashboard/HomePage";
+import { searchTerm } from "@/app/pages/dashboard/HomePage";
+import ProductSimpleCard from "@/components/cards/productSimpleCard";
 import Header from "@/components/header";
-import ProductSimpleCard from "@/components/productSimpleCard";
 import { colors } from "@/consts/styles";
 import { getProductData } from "@/firebase/getCollections/getProducts";
 import { mainStyles } from "@/styles/mainStyles";
@@ -138,7 +138,7 @@ export default function SearchPage() {
                 </Text>
                 <TouchableOpacity
                     style={queryPageStyles.button}
-                    onPress={() => router.push("/dashboard/HomePage")}
+                    onPress={() => router.push("/pages/dashboard/HomePage")}
                 >
                     <Text style={queryPageStyles.buttonText}>
                         Shop Other Products

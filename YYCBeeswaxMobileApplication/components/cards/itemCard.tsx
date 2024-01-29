@@ -16,7 +16,7 @@ export default function ItemCard(props: Props) {
         <View style={itemCardStyles.cardContainer}>
             <TouchableOpacity
                 onPress={() => {
-                    router.push(`/dashboard/product/${props.id}`);
+                    router.push(`/pages/product/${props.id}`);
                 }}
             >
                 <Image
