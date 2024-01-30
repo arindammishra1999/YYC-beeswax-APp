@@ -27,6 +27,7 @@ export default function EventsPage() {
         <View style={mainStyles.container}>
             <Header header="Upcoming Events" />
             <FlashList
+                estimatedItemSize={144}
                 data={allEvents}
                 renderItem={({ item }: any) => (
                     <EventCard
