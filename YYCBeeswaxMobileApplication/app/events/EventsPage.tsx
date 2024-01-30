@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { View, ScrollView } from "react-native";
 
-import EventCard from "@/components/eventCard";
+import EventCard from "@/components/cards/eventCard";
 import Header from "@/components/header";
 import { getEventData } from "@/firebase/getCollections/getEvents";
 import { mainStyles } from "@/styles/mainStyles";

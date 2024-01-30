@@ -14,12 +14,12 @@ export default function MorePage() {
             <MoreOption
                 label="Events"
                 iconName="calendar"
-                onPress={() => router.push("/dashboard/EventsPage")}
+                onPress={() => router.push("/events/EventsPage")}
             />
             <MoreOption
                 label="Quizzes"
                 iconName="comment-question"
-                onPress={() => router.push("/dashboard/quizzes/")}
+                onPress={() => router.push("/quizzes/")}
             />
             <Navbar currentPage="More" />
         </View>

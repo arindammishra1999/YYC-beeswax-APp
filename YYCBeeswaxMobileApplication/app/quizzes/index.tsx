@@ -17,7 +17,7 @@ function QuizCard({ quiz }: { quiz: IQuiz }) {
             style={quizzesPageStyles.card}
             onPress={() =>
                 router.push(
-                    `/dashboard/quizzes/${quiz.type.toLowerCase()}/${
+                    `/quizzes/${quiz.type.toLowerCase()}/${
                         quiz.id
                     }` as Href<any>,
                 )

@@ -16,7 +16,7 @@ export default function ProductSimpleCard(props: Props) {
         <View style={productSimpleCardStyles.cardContainer}>
             <TouchableOpacity
                 onPress={() => {
-                    router.push(`/dashboard/product/${props.id}`);
+                    router.push(`/product/${props.id}`);
                 }}
             >
                 <Image

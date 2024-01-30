@@ -35,7 +35,7 @@ export default function EventCard(props: Props) {
             <TouchableOpacity
                 onPress={() => {
                     selectedEventID = props.id;
-                    router.push("/dashboard/EventDetailsPage");
+                    router.push("/events/EventDetailsPage");
                 }}
             >
                 <View style={eventCardStyles.cardContainer}>
