@@ -1,7 +1,8 @@
+import { FlashList } from "@shopify/flash-list";
 import { Href, router } from "expo-router";
 import { DateTime } from "luxon";
 import React, { useEffect, useState } from "react";
-import { FlatList, Image, Text, TouchableOpacity, View } from "react-native";
+import { Image, Text, TouchableOpacity, View } from "react-native";
 
 import Header from "@/components/header";
 import { getQuizzes } from "@/firebase/getCollections/getQuizzes";
@@ -68,10 +69,14 @@ export default function Quizzes() {
     return (
         <View style={mainStyles.container}>
             <Header header="Quizzes" />
-            <FlatList
+            <FlashList
                 contentContainerStyle={quizzesPageStyles.container}
-                data={quizzes}
                 renderItem={({ item }) => <QuizCard quiz={item} />}
+                ItemSeparatorComponent={() => (
+                    <View style={quizzesPageStyles.cardSpacing} />
+                )}
+                data={quizzes}
+                estimatedItemSize={100}
             />
         </View>
     );

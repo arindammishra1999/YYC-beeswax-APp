@@ -36,7 +36,8 @@
     "react-native-snap-carousel": "^4.0.0-beta.6",
     "react-native-web": "~0.19.9",
     "react-navigation": "^5.0.0",
-    "react-refresh": "^0.14.0"
+    "react-refresh": "^0.14.0",
+    "@shopify/flash-list": "1.4.3"
   },
   "devDependencies": {
     "@babel/core": "^7.23.5",
