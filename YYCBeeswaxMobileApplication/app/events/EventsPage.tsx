@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { View, ScrollView } from "react-native";
+import React, { useEffect, useState } from "react";
+import { FlatList, View } from "react-native";
 
 import EventCard from "@/components/cards/eventCard";
 import Header from "@/components/header";
@@ -25,18 +25,19 @@ export default function EventsPage() {
     return (
         <View style={mainStyles.container}>
             <Header header="Upcoming Events" />
-            <ScrollView>
-                {allEvents.map((event: any) => (
+            <FlatList
+                data={allEvents}
+                renderItem={({ item }) => (
                     <EventCard
-                        key={event.id}
-                        id={event.id}
-                        image={event.data.photo}
-                        startTime={event.data.time}
-                        name={event.data.name}
-                        place={event.data.place}
+                        key={item.id}
+                        id={item.id}
+                        image={item.data.photo}
+                        startTime={item.data.time}
+                        name={item.data.name}
+                        place={item.data.place}
                     />
-                ))}
-            </ScrollView>
+                )}
+            />
         </View>
     );
 }
