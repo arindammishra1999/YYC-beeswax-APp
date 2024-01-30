@@ -78,30 +78,24 @@ export default function ProfilePage() {
                 />
                 <View style={profilePageStyles.optionContainer}>
                     <ProfileOption
-                        onPress={() =>
-                            router.push("/dashboard/OrderHistoryPage")
-                        }
+                        onPress={() => router.push("/profile/OrderHistoryPage")}
                         label="Order History"
                         iconName="history"
                     />
                 </View>
                 <View style={profilePageStyles.optionContainer}>
                     <ProfileOption
-                        onPress={() =>
-                            router.push("/dashboard/ProfileDataPage")
-                        }
+                        onPress={() => router.push("/profile/ProfileDataPage")}
                         label="Edit Profile"
                         iconName="edit"
                     />
                     <ProfileOption
-                        onPress={() =>
-                            router.push("/dashboard/NotificationPage")
-                        }
+                        onPress={() => router.push("/profile/NotificationPage")}
                         label="Notifications"
                         iconName="notifications"
                     />
                     <ProfileOption
-                        onPress={() => router.push("/dashboard/LanguagePage")}
+                        onPress={() => router.push("/profile/LanguagePage")}
                         label="Language"
                         iconName="language"
                     />
@@ -127,7 +121,7 @@ export default function ProfilePage() {
                     />
                     <ProfileOption
                         onPress={() =>
-                            router.push("/dashboard/PrivacyPolicyPage")
+                            router.push("/profile/PrivacyPolicyPage")
                         }
                         label="Privacy Policy"
                         iconName="lock-outline"

@@ -114,10 +114,10 @@ export default function ProfileDataPage() {
                     />
                 )}
                 <View style={profileDataPageStyles.buttonContainer}>
-                    <Link href="/dashboard/EditProfilePage" asChild>
+                    <Link href="/profile/EditProfilePage" asChild>
                         <Text style={loginPageStyles.forgot}>Edit Profile</Text>
                     </Link>
-                    <Link href="/dashboard/ChangePasswordPage" asChild>
+                    <Link href="/profile/ChangePasswordPage" asChild>
                         <Text style={loginPageStyles.forgot}>
                             Change password
                         </Text>
