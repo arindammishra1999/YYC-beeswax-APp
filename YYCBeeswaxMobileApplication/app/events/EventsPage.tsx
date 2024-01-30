@@ -1,5 +1,6 @@
+import { FlashList } from "@shopify/flash-list";
 import React, { useEffect, useState } from "react";
-import { FlatList, View } from "react-native";
+import { View } from "react-native";
 
 import EventCard from "@/components/cards/eventCard";
 import Header from "@/components/header";
@@ -25,9 +26,9 @@ export default function EventsPage() {
     return (
         <View style={mainStyles.container}>
             <Header header="Upcoming Events" />
-            <FlatList
+            <FlashList
                 data={allEvents}
-                renderItem={({ item }) => (
+                renderItem={({ item }: any) => (
                     <EventCard
                         key={item.id}
                         id={item.id}
