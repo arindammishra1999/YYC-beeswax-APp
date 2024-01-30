@@ -6,7 +6,6 @@ import React, { useState } from "react";
 import { ActivityIndicator, Text, TouchableOpacity, View } from "react-native";
 
 import Header from "@/components/header";
-import Navbar from "@/components/navbar";
 import Popup from "@/components/popup";
 import ProfileOption from "@/components/profileOption";
 import { colors } from "@/consts/styles";
@@ -60,7 +59,6 @@ export default function ProfilePage() {
                         </Text>
                     </TouchableOpacity>
                 </View>
-                <Navbar currentPage="Profile" />
             </View>
         );
     } else {
@@ -144,7 +142,6 @@ export default function ProfilePage() {
                     option1Action={() => setLogoutPopupVisible(false)}
                     option2Action={logout}
                 />
-                <Navbar currentPage="Profile" />
             </View>
         );
     }

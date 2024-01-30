@@ -4,7 +4,6 @@ import { View } from "react-native";
 
 import Header from "@/components/header";
 import MoreOption from "@/components/moreOptions";
-import Navbar from "@/components/navbar";
 import { mainStyles } from "@/styles/mainStyles";
 
 export default function MorePage() {
@@ -21,7 +20,6 @@ export default function MorePage() {
                 iconName="comment-question"
                 onPress={() => router.push("/quizzes/")}
             />
-            <Navbar currentPage="More" />
         </View>
     );
 }
