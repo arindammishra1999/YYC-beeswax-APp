@@ -60,14 +60,6 @@ export default function RootLayout() {
                         options={{ gestureEnabled: false, animation: "none" }}
                     />
                     <Stack.Screen
-                        name="dashboard/LanguagePage"
-                        options={{ gestureEnabled: false }}
-                    />
-                    <Stack.Screen
-                        name="dashboard/NotificationPage"
-                        options={{ gestureEnabled: false }}
-                    />
-                    <Stack.Screen
                         name="auth/emailVerification"
                         options={{
                             gestureEnabled: false,
@@ -75,11 +67,11 @@ export default function RootLayout() {
                         }}
                     />
                     <Stack.Screen
-                        name="dashboard/quizzes/knowledge/[quizId]"
+                        name="quizzes/knowledge/[quizId]"
                         options={{ gestureEnabled: false }}
                     />
                     <Stack.Screen
-                        name="dashboard/quizzes/personality/[quizId]"
+                        name="quizzes/personality/[quizId]"
                         options={{ gestureEnabled: false }}
                     />
                 </Stack>
