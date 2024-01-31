@@ -4,6 +4,19 @@ module.exports = {
     ignorePatterns: ["expo-env.d.ts"],
     rules: {
         eqeqeq: "off",
+        "no-restricted-imports": [
+            "error",
+            {
+                paths: [
+                    {
+                        name: "react-native",
+                        importNames: ["Image"],
+                        message:
+                            "Please import 'Image' from 'expo-image' instead.",
+                    },
+                ],
+            },
+        ],
     },
     overrides: [
         {
