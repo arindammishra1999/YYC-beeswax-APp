@@ -1,8 +1,9 @@
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import { Image } from "expo-image";
 import { router } from "expo-router";
 import { Timestamp } from "firebase/firestore";
 import React from "react";
-import { View, Image, TouchableOpacity, Text } from "react-native";
+import { View, TouchableOpacity, Text } from "react-native";
 
 import {
     convertTimestampToDateTime,
@@ -40,7 +41,7 @@ export default function EventCard(props: Props) {
             >
                 <View style={eventCardStyles.cardContainer}>
                     <Image
-                        resizeMode="contain"
+                        contentFit="cover"
                         source={{ uri: props.image }}
                         style={eventCardStyles.image}
                     />

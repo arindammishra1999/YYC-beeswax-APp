@@ -1,8 +1,9 @@
 import { FlashList } from "@shopify/flash-list";
+import { Image } from "expo-image";
 import { Href, router } from "expo-router";
 import { DateTime } from "luxon";
 import React, { useEffect, useState } from "react";
-import { Image, Text, TouchableOpacity, View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 
 import Header from "@/components/header";
 import { getQuizzes } from "@/firebase/getCollections/getQuizzes";
@@ -26,7 +27,6 @@ function QuizCard({ quiz }: { quiz: IQuiz }) {
         >
             <View style={quizzesPageStyles.imageContainer}>
                 <Image
-                    resizeMode="contain"
                     source={{
                         uri: TMP_IMG,
                     }}
