@@ -8,11 +8,18 @@ import { navbarStyles } from "@/styles/components/navbarStyles";
 export default function Layout() {
     return (
         <Tabs
+            safeAreaInsets={{ bottom: 0 }}
             screenOptions={{
                 headerShown: false,
                 tabBarActiveTintColor: colors.yellow,
                 tabBarInactiveTintColor: "black",
                 tabBarShowLabel: false,
+                tabBarStyle: {
+                    height: "7%",
+                    backgroundColor: colors.white,
+                    position: "absolute",
+                    bottom: "0%",
+                },
             }}
         >
             <Tabs.Screen
