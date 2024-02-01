@@ -1,6 +1,7 @@
+import { Image } from "expo-image";
 import { router, useLocalSearchParams } from "expo-router";
 import React, { useEffect, useState } from "react";
-import { Image, Text, View } from "react-native";
+import { Text, View } from "react-native";
 
 import Button from "@/components/button";
 import Header from "@/components/header";
@@ -84,7 +85,7 @@ export default function Quiz() {
                 <View style={quizPageStyles.container}>
                     <View style={quizPageStyles.questionImageContainer}>
                         <Image
-                            resizeMode="cover"
+                            contentFit="cover"
                             source={{
                                 uri: TMP_IMG,
                             }}

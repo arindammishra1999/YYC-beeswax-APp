@@ -1,6 +1,7 @@
+import { Image } from "expo-image";
 import { router, useLocalSearchParams } from "expo-router";
 import React, { Suspense, useEffect, useState } from "react";
-import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 
 import Header from "@/components/header";
@@ -65,7 +66,7 @@ export default function ProductId() {
             <ScrollView contentContainerStyle={productPageStyles.display}>
                 <Suspense fallback={<Text>Loading...</Text>}>
                     <Image
-                        resizeMode="cover"
+                        contentFit="cover"
                         source={{ uri: product.url }}
                         style={productPageStyles.image}
                     />

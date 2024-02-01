@@ -1,6 +1,8 @@
+import { FlashList } from "@shopify/flash-list";
+import { Image } from "expo-image";
 import { router } from "expo-router";
 import React, { useState } from "react";
-import { FlatList, Text, View, Image, TouchableOpacity } from "react-native";
+import { Text, View, TouchableOpacity } from "react-native";
 
 import Header from "@/components/header";
 import { orderHistoryPageStyles } from "@/styles/orderHistoryPageStyles";
@@ -140,7 +142,7 @@ export default function OrderHistoryPage() {
         return (
             <View style={orderHistoryPageStyles.container}>
                 <Header header="Order History" />
-                <FlatList
+                <FlashList
                     data={listings}
                     renderItem={({ item }) => (
                         <Item
@@ -164,7 +166,7 @@ export default function OrderHistoryPage() {
                     products.
                 </Text>
                 <Image
-                    resizeMode="contain"
+                    contentFit="contain"
                     source={require("@/assets/shopping.gif")}
                     style={orderHistoryPageStyles.gif}
                 />
