@@ -5,7 +5,6 @@ import { Image, ScrollView, Text, TextInput, View } from "react-native";
 
 import CategoryCard from "@/components/cards/categoryCard";
 import ItemCard from "@/components/cards/itemCard";
-import Navbar from "@/components/navbar";
 import { colors } from "@/consts/styles";
 import { getProductData } from "@/firebase/getCollections/getProducts";
 import { homePageStyles } from "@/styles/homePageStyles";
@@ -126,7 +125,6 @@ export default function HomePage() {
                     </View>
                 </View>
             </ScrollView>
-            <Navbar currentPage="Home" />
         </View>
     );
 }

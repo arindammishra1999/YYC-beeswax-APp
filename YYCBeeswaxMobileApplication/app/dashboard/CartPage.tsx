@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import { Text, TouchableOpacity, View, Image } from "react-native";
 
 import Header from "@/components/header";
-import Navbar from "@/components/navbar";
 import { cartPageStyles } from "@/styles/cartPageStyles";
 import { mainStyles } from "@/styles/mainStyles";
 
@@ -28,14 +27,12 @@ export default function CartPage() {
                 >
                     <Text style={cartPageStyles.buttonText}>Shop Now</Text>
                 </TouchableOpacity>
-                <Navbar currentPage="Cart" />
             </View>
         );
     } else {
         return (
             <View style={mainStyles.container}>
                 <Text>Cart Page</Text>
-                <Navbar currentPage="Cart" />
             </View>
         );
     }
