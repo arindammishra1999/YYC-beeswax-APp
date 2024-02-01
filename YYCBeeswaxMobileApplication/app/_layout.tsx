@@ -40,26 +40,6 @@ export default function RootLayout() {
                     }}
                 >
                     <Stack.Screen
-                        name="index"
-                        options={{ gestureEnabled: false, animation: "none" }}
-                    />
-                    <Stack.Screen
-                        name="dashboard/HomePage"
-                        options={{ gestureEnabled: false, animation: "none" }}
-                    />
-                    <Stack.Screen
-                        name="dashboard/CartPage"
-                        options={{ gestureEnabled: false, animation: "none" }}
-                    />
-                    <Stack.Screen
-                        name="dashboard/MorePage"
-                        options={{ gestureEnabled: false, animation: "none" }}
-                    />
-                    <Stack.Screen
-                        name="dashboard/ProfilePage"
-                        options={{ gestureEnabled: false, animation: "none" }}
-                    />
-                    <Stack.Screen
                         name="auth/emailVerification"
                         options={{
                             gestureEnabled: false,
