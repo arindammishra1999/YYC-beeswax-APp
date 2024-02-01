@@ -40,6 +40,13 @@ export default function RootLayout() {
                     }}
                 >
                     <Stack.Screen
+                        name="dashboard"
+                        options={{
+                            gestureEnabled: false,
+                            animation: "none",
+                        }}
+                    />
+                    <Stack.Screen
                         name="auth/emailVerification"
                         options={{
                             gestureEnabled: false,
