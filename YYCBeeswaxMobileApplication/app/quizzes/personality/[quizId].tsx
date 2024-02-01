@@ -85,7 +85,7 @@ export default function Quiz() {
                 <View style={quizPageStyles.container}>
                     <View style={quizPageStyles.questionImageContainer}>
                         <Image
-                            resizeMode="cover"
+                            contentFit="cover"
                             source={{
                                 uri: TMP_IMG,
                             }}

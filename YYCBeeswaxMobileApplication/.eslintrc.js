@@ -10,9 +10,9 @@ module.exports = {
                 paths: [
                     {
                         name: "react-native",
-                        importNames: ["Image"],
+                        importNames: ["Image", "FlatList"],
                         message:
-                            "Please import 'Image' from 'expo-image' instead.",
+                            "Please import 'Image' from 'expo-image' and 'FlashList' from '@shopify/flash-list' instead.",
                     },
                 ],
             },

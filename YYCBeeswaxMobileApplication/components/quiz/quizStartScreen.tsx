@@ -1,5 +1,6 @@
+import { Image } from "expo-image";
 import React from "react";
-import { Image, Text, View } from "react-native";
+import { Text, View } from "react-native";
 
 import Button from "@/components/button";
 import Header from "@/components/header";
@@ -17,7 +18,7 @@ export function QuizStartScreen({ quiz, onStart, imageURI }: Props) {
         <View style={mainStyles.container}>
             <Header header="Quiz" />
             <Image
-                resizeMode="contain"
+                contentFit="contain"
                 source={{
                     uri: imageURI,
                 }}

@@ -1,6 +1,7 @@
+import { Image } from "expo-image";
 import { router } from "expo-router";
 import React, { useState } from "react";
-import { Text, TouchableOpacity, View, Image } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 
 import Header from "@/components/header";
 import Navbar from "@/components/navbar";
@@ -18,7 +19,7 @@ export default function CartPage() {
                     Your cart is empty! Go ahead and check out our products.
                 </Text>
                 <Image
-                    resizeMode="contain"
+                    contentFit="contain"
                     source={require("@/assets/shopping.gif")}
                     style={cartPageStyles.gif}
                 />

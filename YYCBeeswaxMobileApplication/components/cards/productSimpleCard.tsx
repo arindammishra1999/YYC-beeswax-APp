@@ -1,6 +1,7 @@
+import { Image } from "expo-image";
 import { router } from "expo-router";
 import React from "react";
-import { Image, Text, TouchableOpacity, View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 
 import { productSimpleCardStyles } from "@/styles/components/productSimpleCardStyles";
 
@@ -20,7 +21,7 @@ export default function ProductSimpleCard(props: Props) {
                 }}
             >
                 <Image
-                    resizeMode="contain"
+                    contentFit="contain"
                     source={{ uri: props.image }}
                     style={productSimpleCardStyles.image}
                 />
