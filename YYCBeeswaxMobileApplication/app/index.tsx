@@ -8,6 +8,7 @@ import LandingCarousel from "@/components/landingCarousel";
 import { useUser } from "@/firebase/providers/userProvider";
 import { mainStyles } from "@/styles/mainStyles";
 import { rootPageStyles } from "@/styles/rootPageStyles";
+import AdminDashboardPage from "./admin/adminDashboardPage";
 
 export default function App() {
     const { user } = useUser();
@@ -32,6 +33,7 @@ export default function App() {
         { text: "Discover upcoming events", iconName: "event" },
     ];
 
+    return <AdminDashboardPage />;
     return (
         <View style={mainStyles.container}>
             <View style={mainStyles.center}>
