@@ -3,9 +3,14 @@ import { StyleSheet } from "react-native";
 import { colors } from "@/consts/styles";
 
 export const rootPageStyles = StyleSheet.create({
+    imageContainer: {
+        alignItems: "center",
+        height: "35%",
+    },
     image: {
         width: "80%",
         top: "5%",
+        flex: 1,
     },
     caption: { height: 300 },
     buttonGroup: {

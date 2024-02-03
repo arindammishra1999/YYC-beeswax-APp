@@ -42,12 +42,14 @@ export default function Signup() {
                 password,
             );
 
+            const name = firstName + " " + lastName;
+
             await setUser(userCredential.user.uid, {
                 email,
-                firstName,
-                lastName,
+                name,
             });
 
+            setError("");
             setSignupSuccess(true);
             Alert.alert(
                 "Sign Up Successful!",

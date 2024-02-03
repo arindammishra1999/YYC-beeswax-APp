@@ -6,7 +6,6 @@ import React, { useState } from "react";
 import { ActivityIndicator, Text, TouchableOpacity, View } from "react-native";
 
 import Header from "@/components/header";
-import Navbar from "@/components/navbar";
 import Popup from "@/components/popup";
 import ProfileOption from "@/components/profileOption";
 import { colors } from "@/consts/styles";
@@ -60,7 +59,6 @@ export default function ProfilePage() {
                         </Text>
                     </TouchableOpacity>
                 </View>
-                <Navbar currentPage="Profile" />
             </View>
         );
     } else {
@@ -78,30 +76,24 @@ export default function ProfilePage() {
                 />
                 <View style={profilePageStyles.optionContainer}>
                     <ProfileOption
-                        onPress={() =>
-                            router.push("/dashboard/OrderHistoryPage")
-                        }
+                        onPress={() => router.push("/profile/OrderHistoryPage")}
                         label="Order History"
                         iconName="history"
                     />
                 </View>
                 <View style={profilePageStyles.optionContainer}>
                     <ProfileOption
-                        onPress={() =>
-                            router.push("/dashboard/ProfileDataPage")
-                        }
+                        onPress={() => router.push("/profile/ProfileDataPage")}
                         label="Edit Profile"
                         iconName="edit"
                     />
                     <ProfileOption
-                        onPress={() =>
-                            router.push("/dashboard/NotificationPage")
-                        }
+                        onPress={() => router.push("/profile/NotificationPage")}
                         label="Notifications"
                         iconName="notifications"
                     />
                     <ProfileOption
-                        onPress={() => router.push("/dashboard/LanguagePage")}
+                        onPress={() => router.push("/profile/LanguagePage")}
                         label="Language"
                         iconName="language"
                     />
@@ -127,7 +119,7 @@ export default function ProfilePage() {
                     />
                     <ProfileOption
                         onPress={() =>
-                            router.push("/dashboard/PrivacyPolicyPage")
+                            router.push("/profile/PrivacyPolicyPage")
                         }
                         label="Privacy Policy"
                         iconName="lock-outline"
@@ -150,7 +142,6 @@ export default function ProfilePage() {
                     option1Action={() => setLogoutPopupVisible(false)}
                     option2Action={logout}
                 />
-                <Navbar currentPage="Profile" />
             </View>
         );
     }

@@ -5,7 +5,6 @@ import { View, Text } from "react-native";
 
 import Header from "@/components/header";
 import MoreOption from "@/components/moreOptions";
-import Navbar from "@/components/navbar";
 import { mainStyles } from "@/styles/mainStyles";
 
 export default function MorePage() {
@@ -15,12 +14,12 @@ export default function MorePage() {
             <MoreOption
                 label="Events"
                 iconName="calendar"
-                onPress={() => router.push("/dashboard/EventsPage")}
+                onPress={() => router.push("/events/EventsPage")}
             />
             <MoreOption
                 label="Quizzes"
                 iconName="comment-question"
-                onPress={() => router.push("/dashboard/quizzes/")}
+                onPress={() => router.push("/quizzes/")}
             />
             <MoreOption
                 label="Facebook"

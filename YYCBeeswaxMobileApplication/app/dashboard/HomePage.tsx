@@ -1,11 +1,11 @@
 import Feather from "@expo/vector-icons/Feather";
+import { Image } from "expo-image";
 import { router } from "expo-router";
 import React, { useEffect, useState } from "react";
-import { Image, ScrollView, Text, TextInput, View } from "react-native";
+import { ScrollView, Text, TextInput, View } from "react-native";
 
-import CategoryCard from "@/components/categoryCard";
-import ItemCard from "@/components/itemCard";
-import Navbar from "@/components/navbar";
+import CategoryCard from "@/components/cards/categoryCard";
+import ItemCard from "@/components/cards/itemCard";
 import { colors } from "@/consts/styles";
 import { getProductData } from "@/firebase/getCollections/getProducts";
 import { homePageStyles } from "@/styles/homePageStyles";
@@ -31,7 +31,7 @@ export default function HomePage() {
             <ScrollView>
                 <View style={homePageStyles.container}>
                     <Image
-                        resizeMode="contain"
+                        contentFit="contain"
                         source={require("@/assets/YYCBeeswaxFullLogo.png")}
                         style={homePageStyles.logo}
                     />
@@ -49,7 +49,7 @@ export default function HomePage() {
                             onChangeText={setSearchQuery}
                             onSubmitEditing={() => {
                                 searchTerm = searchQuery;
-                                router.push("/dashboard/SearchPage");
+                                router.push("/product/SearchPage");
                             }}
                             returnKeyType="search"
                         />
@@ -126,7 +126,6 @@ export default function HomePage() {
                     </View>
                 </View>
             </ScrollView>
-            <Navbar currentPage="Home" />
         </View>
     );
 }

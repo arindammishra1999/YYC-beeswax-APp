@@ -1,7 +1,9 @@
+import { FlashList } from "@shopify/flash-list";
+import { Image } from "expo-image";
 import { Href, router } from "expo-router";
 import { DateTime } from "luxon";
 import React, { useEffect, useState } from "react";
-import { FlatList, Image, Text, TouchableOpacity, View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 
 import Header from "@/components/header";
 import { getQuizzes } from "@/firebase/getCollections/getQuizzes";
@@ -17,7 +19,7 @@ function QuizCard({ quiz }: { quiz: IQuiz }) {
             style={quizzesPageStyles.card}
             onPress={() =>
                 router.push(
-                    `/dashboard/quizzes/${quiz.type.toLowerCase()}/${
+                    `/quizzes/${quiz.type.toLowerCase()}/${
                         quiz.id
                     }` as Href<any>,
                 )
@@ -25,7 +27,6 @@ function QuizCard({ quiz }: { quiz: IQuiz }) {
         >
             <View style={quizzesPageStyles.imageContainer}>
                 <Image
-                    resizeMode="contain"
                     source={{
                         uri: TMP_IMG,
                     }}
@@ -68,10 +69,14 @@ export default function Quizzes() {
     return (
         <View style={mainStyles.container}>
             <Header header="Quizzes" />
-            <FlatList
+            <FlashList
                 contentContainerStyle={quizzesPageStyles.container}
-                data={quizzes}
                 renderItem={({ item }) => <QuizCard quiz={item} />}
+                ItemSeparatorComponent={() => (
+                    <View style={quizzesPageStyles.cardSpacing} />
+                )}
+                data={quizzes}
+                estimatedItemSize={100}
             />
         </View>
     );
