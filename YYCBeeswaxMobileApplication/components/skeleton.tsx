@@ -10,8 +10,13 @@ type Props = {
 };
 
 function Skeleton(props: Props) {
-    const [layoutWidth, setLayoutWidth] = React.useState<number>(0);
+    const [layoutWidth, setLayoutWidth] = useState(1000);
     const [translation] = useState(new Animated.Value(0));
+
+    const interpolated = translation.interpolate({
+        inputRange: [0, 1],
+        outputRange: [-layoutWidth * 2, layoutWidth * 2],
+    });
 
     useEffect(() => {
         Animated.loop(
@@ -50,13 +55,7 @@ function Skeleton(props: Props) {
                     height: "100%",
                     transform: [
                         {
-                            translateX: translation.interpolate({
-                                inputRange: [0, 1],
-                                outputRange: [
-                                    -layoutWidth * 2,
-                                    layoutWidth * 2,
-                                ],
-                            }),
+                            translateX: interpolated,
                         },
                     ],
                 }}
