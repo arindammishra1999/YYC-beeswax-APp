@@ -1,13 +1,13 @@
 import { StyleSheet } from "react-native";
 
 import { colors } from "@/consts/styles";
-import { viewportWidth } from "@/consts/viewport";
+import { viewportHeight, viewportWidth } from "@/consts/viewport";
 
 export const morePageStyles = StyleSheet.create({
     topContainer: {
         flexDirection: "row",
         justifyContent: "space-between",
-        height: "42%",
+        height: viewportHeight / 5,
         marginVertical: 20,
     },
     extrasContainer: {
@@ -37,7 +37,7 @@ export const morePageStyles = StyleSheet.create({
     },
 
     socialsContainer: {
-        height: "30%",
+        height: viewportHeight / 7,
         marginHorizontal: 15,
         borderRadius: 20,
         shadowOffset: { width: 0, height: 4 },
@@ -64,7 +64,7 @@ export const morePageStyles = StyleSheet.create({
 
     factsContainer: {
         marginTop: 20,
-        height: "84%",
+        height: viewportHeight / 2.8,
         marginHorizontal: 15,
         borderRadius: 20,
         shadowOffset: { width: 0, height: 4 },
