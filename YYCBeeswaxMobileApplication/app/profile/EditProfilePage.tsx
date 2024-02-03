@@ -26,13 +26,13 @@ export default function EditProfilePage() {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [error, setError] = useState("");
+    const [confirmPressed, setConfirmPressed] = useState(false);
 
     const { user } = useUser();
 
     const isFocused = useIsFocused();
 
     useEffect(() => {
-        console.log("user effect called");
         (async () => {
             if (user?.uid) {
                 const userDetails = await getUserById(user.uid);
@@ -42,7 +42,7 @@ export default function EditProfilePage() {
                 }
             }
         })();
-    }, [isFocused]);
+    }, [isFocused, confirmPressed]);
 
     async function login() {
         const userId = user?.uid;
@@ -56,20 +56,29 @@ export default function EditProfilePage() {
                 return;
             }
             let emailUpdateSuccess = true;
-            try {
-                await updateEmail(user, email);
-            } catch (err: any) {
-                if (err.code === "auth/operation-not-allowed") {
+            if (email !== user?.email) {
+                try {
+                    await updateEmail(user, email);
+                } catch (err: any) {
                     emailUpdateSuccess = false;
-                    Alert.alert(
-                        "Error!",
-                        "You must verify the current email address before you can change it.",
-                        [{ text: "OK" }],
-                    );
-                } else {
-                    setError(
-                        "Failed to update account information. Please try again later.",
-                    );
+                    if (err.code === "auth/operation-not-allowed") {
+                        Alert.alert(
+                            "Error!",
+                            "You must verify the current email address before you can change it.",
+                            [{ text: "OK" }],
+                        );
+                    } else if (err.code === "auth/invalid-email") {
+                        Alert.alert(
+                            "Error!",
+                            "You must enter a valid email address.",
+                            [{ text: "OK" }],
+                        );
+                    } else {
+                        console.log(err.code, err.message);
+                        setError(
+                            "Failed to update account information. Please try again later.",
+                        );
+                    }
                 }
             }
             if (emailUpdateSuccess) {
@@ -93,6 +102,7 @@ export default function EditProfilePage() {
                 "Failed to update account information. Please try again later.",
             );
         }
+        setConfirmPressed(!confirmPressed);
     }
 
     async function emailVerificationPressed() {
