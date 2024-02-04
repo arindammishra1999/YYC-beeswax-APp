@@ -1,5 +1,6 @@
+import { Image } from "expo-image";
 import React from "react";
-import { Image, Text, View } from "react-native";
+import { Text, View } from "react-native";
 
 import Button from "@/components/button";
 import Header from "@/components/header";
@@ -18,7 +19,7 @@ export function QuizEndScreen({ title, description, imageURI, onEnd }: Props) {
         <View style={mainStyles.container}>
             <Header header="Quiz Results" />
             <Image
-                resizeMode="contain"
+                contentFit="contain"
                 source={{
                     uri: imageURI,
                 }}

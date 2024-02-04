@@ -1,7 +1,8 @@
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import { Image } from "expo-image";
 import { Redirect, router } from "expo-router";
 import React from "react";
-import { Image, Text, TouchableOpacity, View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 
 import Button from "@/components/button";
 import LandingCarousel from "@/components/landingCarousel";
@@ -36,9 +37,9 @@ export default function App() {
     return <AdminDashboardPage />;
     return (
         <View style={mainStyles.container}>
-            <View style={mainStyles.center}>
+            <View style={rootPageStyles.imageContainer}>
                 <Image
-                    resizeMode="contain"
+                    contentFit="contain"
                     source={require("@/assets/YYCBeeswaxFullLogo.png")}
                     style={rootPageStyles.image}
                 />
