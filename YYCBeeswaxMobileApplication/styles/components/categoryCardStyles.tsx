@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+
 import { colors } from "@/consts/styles";
 
 export const categoryCardStyles = StyleSheet.create({
@@ -13,8 +14,10 @@ export const categoryCardStyles = StyleSheet.create({
         paddingVertical: 5,
         elevation: 3,
         borderRadius: 20,
-        paddingTop: 10,
         justifyContent: "center",
+        marginRight: 15,
+        marginTop: 5,
+        marginBottom: 15,
     },
     icon: {
         fontSize: 45,

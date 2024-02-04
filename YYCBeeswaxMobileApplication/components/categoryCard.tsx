@@ -1,25 +1,34 @@
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import { router } from "expo-router";
 import React from "react";
 import { View, Text, TouchableOpacity } from "react-native";
+
 import { categoryCardStyles } from "@/styles/components/categoryCardStyles";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 type Props = {
     title: string;
     iconName: any;
 };
 
+export let selectedCategory: string = "";
+
 export default function CategoryCard(props: Props) {
     return (
-        <View style={categoryCardStyles.cardContainer}>
-            <TouchableOpacity onPress={() => {}}>
-                <Icon
+        <TouchableOpacity
+            onPress={() => {
+                selectedCategory = props.title;
+                router.push("/dashboard/CategoryPage");
+            }}
+        >
+            <View style={categoryCardStyles.cardContainer}>
+                <MaterialCommunityIcons
                     name={props.iconName}
                     style={categoryCardStyles.icon}
-                ></Icon>
+                />
                 <Text style={categoryCardStyles.text} numberOfLines={1}>
                     {props.title}
                 </Text>
-            </TouchableOpacity>
-        </View>
+            </View>
+        </TouchableOpacity>
     );
 }

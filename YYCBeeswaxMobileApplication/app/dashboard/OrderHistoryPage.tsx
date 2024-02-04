@@ -1,11 +1,12 @@
+import { router } from "expo-router";
 import React, { useState } from "react";
 import { FlatList, Text, View, Image, TouchableOpacity } from "react-native";
-import { orderHistoryPageStyles } from "@/styles/orderHistoryPageStyles";
+
 import Header from "@/components/header";
-import { router } from "expo-router";
+import { orderHistoryPageStyles } from "@/styles/orderHistoryPageStyles";
 
 export default function OrderHistoryPage() {
-    const [orderHistory, setOrderHistory] = useState(false);
+    const [orderHistory] = useState(false);
 
     enum orderStatus {
         Placed = "Placed",
@@ -21,7 +22,7 @@ export default function OrderHistoryPage() {
             numberProducts: 2,
             order: orderStatus.Shipped,
             date: "Feb 12, 2023",
-            imageLink: require("../../assets/tempImages/chakra.jpg"),
+            imageLink: require("@/assets/tempImages/chakra.jpg"),
         },
         {
             id: 2,
@@ -29,7 +30,7 @@ export default function OrderHistoryPage() {
             numberProducts: 1,
             order: orderStatus.Delivered,
             date: "Jan 20, 2023",
-            imageLink: require("../../assets/tempImages/miniSelfCare.jpg"),
+            imageLink: require("@/assets/tempImages/miniSelfCare.jpg"),
         },
         {
             id: 3,
@@ -37,7 +38,7 @@ export default function OrderHistoryPage() {
             numberProducts: 2,
             order: orderStatus.Delivered,
             date: "Jan 4, 2023",
-            imageLink: require("../../assets/tempImages/onlineRolled.jpg"),
+            imageLink: require("@/assets/tempImages/onlineRolled.jpg"),
         },
         {
             id: 4,
@@ -45,7 +46,7 @@ export default function OrderHistoryPage() {
             numberProducts: 2,
             order: orderStatus.Placed,
             date: "Jan 5, 2023",
-            imageLink: require("../../assets/tempImages/onlineRolled.jpg"),
+            imageLink: require("@/assets/tempImages/onlineRolled.jpg"),
         },
         {
             id: 5,
@@ -53,7 +54,7 @@ export default function OrderHistoryPage() {
             numberProducts: 1,
             order: orderStatus.Shipped,
             date: "Jan 6, 2023",
-            imageLink: require("../../assets/tempImages/onlineRolled.jpg"),
+            imageLink: require("@/assets/tempImages/onlineRolled.jpg"),
         },
         {
             id: 6,
@@ -61,7 +62,7 @@ export default function OrderHistoryPage() {
             numberProducts: 2,
             order: orderStatus.Delivered,
             date: "Jan 7, 2023",
-            imageLink: require("../../assets/tempImages/onlineRolled.jpg"),
+            imageLink: require("@/assets/tempImages/onlineRolled.jpg"),
         },
         {
             id: 7,
@@ -69,7 +70,7 @@ export default function OrderHistoryPage() {
             numberProducts: 5,
             order: orderStatus.Cancelled,
             date: "Jan 8, 2023",
-            imageLink: require("../../assets/tempImages/onlineRolled.jpg"),
+            imageLink: require("@/assets/tempImages/onlineRolled.jpg"),
         },
         {
             id: 8,
@@ -77,7 +78,7 @@ export default function OrderHistoryPage() {
             numberProducts: 2,
             order: orderStatus.Cancelled,
             date: "Jan 4, 2023",
-            imageLink: require("../../assets/tempImages/onlineRolled.jpg"),
+            imageLink: require("@/assets/tempImages/onlineRolled.jpg"),
         },
     ];
 
@@ -87,6 +88,20 @@ export default function OrderHistoryPage() {
         order: orderStatus;
         date: string;
         imageLink: string;
+    };
+
+    const setOrderStatusType = (order: orderStatus) => {
+        switch (order) {
+            case orderStatus.Delivered:
+                return orderHistoryPageStyles.orderDetailsDelivered;
+            case orderStatus.Shipped:
+                return orderHistoryPageStyles.orderDetailsShipped;
+            case orderStatus.Placed:
+                return orderHistoryPageStyles.orderDetailsPlaced;
+            case orderStatus.Cancelled:
+                return orderHistoryPageStyles.orderDetailsCancelled;
+            default:
+        }
     };
 
     const Item = ({
@@ -109,31 +124,11 @@ export default function OrderHistoryPage() {
                     {title}
                 </Text>
                 <View style={orderHistoryPageStyles.orderDetails}>
-                    <Text
-                        style={
-                            order == orderStatus.Delivered
-                                ? orderHistoryPageStyles.orderDetailsDelivered
-                                : order == orderStatus.Shipped
-                                  ? orderHistoryPageStyles.orderDetailsShipped
-                                  : order == orderStatus.Placed
-                                    ? orderHistoryPageStyles.orderDetailsPlaced
-                                    : orderHistoryPageStyles.orderDetailsCancelled
-                        }
-                    >
+                    <Text style={setOrderStatusType(order)}>
                         {numberProducts} product{numberProducts > 1 ? "s" : ""}{" "}
                         -{" "}
                     </Text>
-                    <Text
-                        style={
-                            order == orderStatus.Delivered
-                                ? orderHistoryPageStyles.orderDetailsDelivered
-                                : order == orderStatus.Shipped
-                                  ? orderHistoryPageStyles.orderDetailsShipped
-                                  : order == orderStatus.Placed
-                                    ? orderHistoryPageStyles.orderDetailsPlaced
-                                    : orderHistoryPageStyles.orderDetailsCancelled
-                        }
-                    >
+                    <Text style={setOrderStatusType(order)}>
                         {order} on {date}
                     </Text>
                 </View>
@@ -170,12 +165,12 @@ export default function OrderHistoryPage() {
                 </Text>
                 <Image
                     resizeMode="contain"
-                    source={require("../../assets/shopping.gif")}
+                    source={require("@/assets/shopping.gif")}
                     style={orderHistoryPageStyles.gif}
                 />
                 <TouchableOpacity
                     style={orderHistoryPageStyles.button}
-                    onPress={() => router.replace("./HomePage")}
+                    onPress={() => router.replace("/dashboard/HomePage")}
                 >
                     <Text style={orderHistoryPageStyles.buttonText}>
                         Shop Now

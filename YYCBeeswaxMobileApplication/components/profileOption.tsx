@@ -1,12 +1,12 @@
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import React from "react";
-import { Text, View } from "react-native";
-import Icon from "react-native-vector-icons/MaterialIcons";
+import { Text, TouchableOpacity, View } from "react-native";
+
 import { profilePageStyles } from "@/styles/profilePageStyles";
-import { TouchableOpacity } from "react-native-gesture-handler";
 
 type Props = {
     label: string;
-    iconName: string;
+    iconName: keyof typeof MaterialIcons.glyphMap;
     onPress: () => void;
 };
 
@@ -14,7 +14,7 @@ export default function ProfileOption(props: Props) {
     return (
         <TouchableOpacity onPress={props.onPress}>
             <View style={profilePageStyles.option}>
-                <Icon
+                <MaterialIcons
                     name={props.iconName}
                     style={profilePageStyles.optionIcon}
                 />

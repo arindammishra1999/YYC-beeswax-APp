@@ -1,42 +1,157 @@
-import React, { useState, useEffect } from "react";
-import { Text, TouchableOpacity, View, Image, FlatList } from "react-native";
-import Navbar from "@/components/navbar";
-import { mainStyles } from "@/styles/mainStyles";
-import ItemCard from "@/components/itemCard";
+import { useFocusEffect } from "@react-navigation/native";
 import { router } from "expo-router";
-import Header from "@/components/header";
-import { cartPageStyles } from "@/styles/cartPageStyles";
-import { getProductData } from "../../firebase/getCollections/getProducts"; // Import the function to fetch product details
+import * as SecureStore from "expo-secure-store";
+import React, { useState } from "react";
+import { Text, TouchableOpacity, View, Image } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
 
-interface CartItem {
-    id: number;
-    productId: string;
-}
+import { getProductData } from "../../firebase/getCollections/getProducts";
+
+import CartProductCard from "@/components/cartProductCard";
+import Header from "@/components/header";
+import Navbar from "@/components/navbar";
+import TotalBillCard from "@/components/totalBillCard";
+import { cartPageStyles } from "@/styles/cartPageStyles";
 
 export default function CartPage() {
     const [emptyCart, setEmptyCart] = useState(true);
-    const [cartItems, setCartItems] = useState<CartItem[]>([
-        // Replace this with your cart items fetched from the database
-        { id: 1, productId: "Product 1" },
-        { id: 2, productId: "Mason candle beeswax" },
-    ]);
+    const [cartItems, setCartItems] = useState<any[]>([]);
 
-    const [allProducts, setAllProducts] = useState([] as any);
+    const calculateTotalItemsCost = (items: any[]) => {
+        return items.reduce(
+            (total, item) => total + item.quantity * item.data.price,
+            0
+        );
+    };
 
-    useEffect(() => {
-        getProductData().then((products) => {
-            if (products) {
-                setAllProducts(products);
-            } else {
-                console.log("Issue getting products");
-            }
+    const calculateGSTCost = (items: any[]) => {
+        const totalItemsCost = calculateTotalItemsCost(items);
+        const gstRate = 0.05;
+        return totalItemsCost * gstRate;
+    };
+
+    const calculateTotalBill = (items: any[]) => {
+        const totalItemsCost = calculateTotalItemsCost(items);
+        const shippingFee = 10; // Set your shipping fee
+        const gstCost = calculateGSTCost(items);
+
+        return totalItemsCost + shippingFee + gstCost;
+    };
+
+    const handleQuantityChange = (productId: string, newQuantity: number) => {
+        setCartItems((prevCartItems) => {
+            return prevCartItems.map((item) => {
+                if (item.id === productId) {
+                    return { ...item, quantity: newQuantity };
+                }
+                return item;
+            });
         });
-    }, []);
+    };
 
-    if (!emptyCart) {
+    const handleRemoveProduct = async (productId: string) => {
+        try {
+            const cartData = await SecureStore.getItemAsync("cart");
+
+            if (cartData) {
+                const parsedCart = JSON.parse(cartData) as {
+                    productId: string;
+                    quantity: number;
+                }[];
+
+                const updatedCart = parsedCart.filter(
+                    (item) => item.productId !== productId
+                );
+
+                await SecureStore.setItemAsync(
+                    "cart",
+                    JSON.stringify(updatedCart)
+                );
+            }
+        } catch (error) {
+            console.error("Error removing product from SecureStore:", error);
+        }
+
+        setCartItems((prevCartItems) =>
+            prevCartItems.filter((item) => item.id !== productId)
+        );
+    };
+
+    useFocusEffect(
+        React.useCallback(() => {
+            const fetchCartData = async () => {
+                try {
+                    const cartData = await SecureStore.getItemAsync("cart");
+
+                    if (cartData) {
+                        const parsedCart = JSON.parse(cartData) as {
+                            productId: string;
+                            quantity: number;
+                        }[];
+
+                        // Fetch product details for each item in the cart
+                        const productDetails = await Promise.all(
+                            parsedCart.map(async ({ productId, quantity }) => {
+                                try {
+                                    // Use getProductData to get product details
+                                    const products = await getProductData();
+                                    if (products) {
+                                        // Check if products is not undefined
+                                        const product = products.find(
+                                            (product) =>
+                                                product.id === productId
+                                        );
+
+                                        if (product) {
+                                            return {
+                                                ...product,
+                                                quantity,
+                                            };
+                                        } else {
+                                            // If the product is not found, you might want to handle it
+                                            console.warn(
+                                                `Product with ID ${productId} not found.`
+                                            );
+                                            return null;
+                                        }
+                                    } else {
+                                        console.error("Products is undefined.");
+                                        return null;
+                                    }
+                                } catch (error) {
+                                    console.error(
+                                        "Error fetching products:",
+                                        error
+                                    );
+                                    return null;
+                                }
+                            })
+                        );
+
+                        // Filter out any null values (products not found)
+                        const filteredProductDetails = productDetails.filter(
+                            (product) => product !== null
+                        );
+
+                        setCartItems(filteredProductDetails);
+                        setEmptyCart(filteredProductDetails.length === 0);
+                    } else {
+                        setEmptyCart(true);
+                    }
+                } catch (error) {
+                    console.error("Error fetching cart data:", error);
+                    setEmptyCart(true);
+                }
+            };
+
+            fetchCartData();
+        }, [])
+    );
+
+    if (cartItems.length == 0) {
         return (
             <View style={cartPageStyles.container}>
-                <Header header="Your Cart" noBackArrow={true} />
+                <Header header="Your Cart" noBackArrow />
                 <Text style={cartPageStyles.messageText}>
                     Your cart is empty! Go ahead and check out our products.
                 </Text>
@@ -47,7 +162,7 @@ export default function CartPage() {
                 />
                 <TouchableOpacity
                     style={cartPageStyles.button}
-                    onPress={() => router.replace("./HomePage")}
+                    onPress={() => router.replace("/dashboard/HomePage")}
                 >
                     <Text style={cartPageStyles.buttonText}>Shop Now</Text>
                 </TouchableOpacity>
@@ -58,16 +173,30 @@ export default function CartPage() {
         return (
             <View style={cartPageStyles.container}>
                 <View style={cartPageStyles.headerContainer}>
-                    <Header header="Your Cart" />
+                    <Header header="Your Cart" noBackArrow />
                 </View>
-                {allProducts.map((product: any) => (
-                    <View
-                        key={product.id}
-                        style={cartPageStyles.productContainer}
-                    >
-                        <ItemCard key={product.id} image={product.data.url} />
-                    </View>
-                ))}
+                <ScrollView contentContainerStyle={{ paddingBottom: 40 }}>
+                    {cartItems.map((product: any) => (
+                        <CartProductCard
+                            key={product.id}
+                            id={product.id}
+                            name={product.data.name}
+                            image={product.data.url}
+                            price={product.data.price}
+                            quantity={product.quantity}
+                            onQuantityChange={handleQuantityChange}
+                            onRemoveProduct={handleRemoveProduct}
+                        />
+                    ))}
+                    {cartItems.length > 0 && (
+                        <TotalBillCard
+                            totalItemsCost={calculateTotalItemsCost(cartItems)}
+                            shippingCost={10}
+                            gstCost={calculateGSTCost(cartItems)}
+                            totalBill={calculateTotalBill(cartItems)}
+                        />
+                    )}
+                </ScrollView>
                 <Navbar currentPage="Cart" />
             </View>
         );

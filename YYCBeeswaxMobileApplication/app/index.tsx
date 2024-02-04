@@ -1,13 +1,59 @@
-import useAuth from "@/firebase/hooks/useAuth";
-import LandingPage from "./LandingPage";
-import HomePage from "./dashboard/HomePage";
+import { Redirect, router } from "expo-router";
+import React from "react";
+import { Image, Text, TouchableOpacity, View } from "react-native";
+
+import Button from "@/components/button";
+import LandingCarousel from "@/components/landingCarousel";
+import { useUser } from "@/firebase/providers/userProvider";
+import { mainStyles } from "@/styles/mainStyles";
+import { rootPageStyles } from "@/styles/rootPageStyles";
 
 export default function App() {
-    const { user } = useAuth();
+    const { user } = useUser();
 
-    if (!user) {
-        return <LandingPage />;
-    } else {
-        return <HomePage />;
+    if (user) {
+        return <Redirect href="/dashboard/HomePage" />;
     }
+
+    const items = [
+        {
+            text: "Shop for all your favourite YYC Beeswax products",
+            iconName: "add-shopping-cart",
+        },
+        { text: "Take YYC Beeswax related quizzes", iconName: "list-alt" },
+        { text: "Discover upcoming events", iconName: "event" },
+    ];
+
+    return (
+        <View style={mainStyles.container}>
+            <View style={mainStyles.center}>
+                <Image
+                    resizeMode="contain"
+                    source={require("@/assets/YYCBeeswaxFullLogo.png")}
+                    style={rootPageStyles.image}
+                />
+            </View>
+            <LandingCarousel items={items} />
+            <View style={rootPageStyles.buttonGroup}>
+                <Button
+                    title="Login"
+                    onPress={() => router.push("/auth/login")}
+                    style={rootPageStyles.button}
+                />
+                <Button
+                    title="Browse as Guest"
+                    onPress={() => router.replace("/dashboard/HomePage")}
+                    style={rootPageStyles.button}
+                />
+            </View>
+            <View style={rootPageStyles.textGroup}>
+                <Text style={rootPageStyles.signupText}>
+                    Don't have an account?
+                </Text>
+                <TouchableOpacity onPress={() => router.push("/auth/signup")}>
+                    <Text style={rootPageStyles.signupLinkText}>Sign Up</Text>
+                </TouchableOpacity>
+            </View>
+        </View>
+    );
 }

@@ -1,5 +1,7 @@
 import { StyleSheet } from "react-native";
+
 import { colors } from "@/consts/styles";
+import { viewportHeight, viewportWidth } from "@/consts/viewport";
 
 export const navbarStyles = StyleSheet.create({
     container: {
@@ -15,11 +17,15 @@ export const navbarStyles = StyleSheet.create({
         flexDirection: "row",
         width: "100%",
         justifyContent: "space-between",
-        paddingHorizontal: "5%",
-        paddingVertical: "2%",
         borderTopWidth: 0.5,
     },
     optionIcon: {
         fontSize: 34,
+    },
+    optionHitbox: {
+        height: viewportHeight / 17,
+        width: viewportWidth / 4,
+        alignItems: "center",
+        justifyContent: "center",
     },
 });

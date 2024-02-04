@@ -1,6 +1,9 @@
 module.exports = {
     root: true,
     extends: ["universe/native", "universe/shared/typescript-analysis"],
+    ignorePatterns: ["expo-env.d.ts"],
+    parser: "@typescript-eslint/parser",
+    plugins: ["@typescript-eslint"],
     rules: {
         eqeqeq: "off",
     },
@@ -8,15 +11,8 @@ module.exports = {
         {
             files: ["*.ts", "*.tsx", "*.d.ts"],
             parserOptions: {
-                project: "./tsconfig.json",
+                project: "**/tsconfig.json",
             },
-        },
-    ],
-    "prettier/prettier": [
-        "error",
-        {
-            endOfLine: "auto",
-            tabWidth: 4,
         },
     ],
 };

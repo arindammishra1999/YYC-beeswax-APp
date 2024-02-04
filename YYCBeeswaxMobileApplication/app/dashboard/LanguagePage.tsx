@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from "react";
-import { View, Text, TouchableOpacity, ScrollView, Alert } from "react-native";
-import { languagePageStyles } from "../../styles/languagePageStyles";
-import * as SecureStore from "expo-secure-store";
-import WarningHeader from "@/components/warningHeader";
 import { router } from "expo-router";
+import * as SecureStore from "expo-secure-store";
+import React, { useEffect, useState } from "react";
+import { Alert, ScrollView, Text, TouchableOpacity, View } from "react-native";
+
+import WarningHeader from "@/components/warningHeader";
+import { languagePageStyles } from "@/styles/languagePageStyles";
+import { mainStyles } from "@/styles/mainStyles";
 
 const LanguageSelectionPage = () => {
     const [selectedLanguage, setSelectedLanguage] = useState("English");
@@ -59,7 +61,7 @@ const LanguageSelectionPage = () => {
                 [
                     { text: "Cancel" },
                     { text: "Leave", onPress: () => router.back() },
-                ]
+                ],
             );
         } else {
             router.back();
@@ -67,7 +69,7 @@ const LanguageSelectionPage = () => {
     };
 
     return (
-        <View style={languagePageStyles.container}>
+        <View style={mainStyles.container}>
             <WarningHeader header="Language" onPress={handleBackPress} />
             <View>
                 <Text style={languagePageStyles.sectionHeader}>
@@ -83,11 +85,11 @@ const LanguageSelectionPage = () => {
                     >
                         <View style={languagePageStyles.languageContainer}>
                             <Text
-                                style={
-                                    (languagePageStyles.languageText,
+                                style={[
+                                    languagePageStyles.languageText,
                                     selectedLanguage === language &&
-                                        languagePageStyles.selectedLanguageText)
-                                }
+                                        languagePageStyles.selectedLanguageText,
+                                ]}
                             >
                                 {language}
                             </Text>

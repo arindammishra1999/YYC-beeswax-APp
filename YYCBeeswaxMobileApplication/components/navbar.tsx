@@ -1,8 +1,9 @@
-import { View } from "react-native";
-import NavbarOption from "./navbarOption";
 import { router } from "expo-router";
-import { navbarStyles } from "@/styles/components/navbarStyles";
+import { View } from "react-native";
+
+import NavbarOption from "@/components/navbarOption";
 import { colors } from "@/consts/styles";
+import { navbarStyles } from "@/styles/components/navbarStyles";
 
 type Props = {
     currentPage: string;
@@ -14,7 +15,7 @@ export default function Navbar(props: Props) {
             <View style={navbarStyles.optionContainer}>
                 <NavbarOption
                     iconName="home"
-                    onPress={() => router.push("/dashboard/HomePage")}
+                    onPress={() => router.replace("/dashboard/HomePage")}
                     color={
                         props.currentPage === "Home"
                             ? colors.yellow
@@ -23,7 +24,7 @@ export default function Navbar(props: Props) {
                 />
                 <NavbarOption
                     iconName="shopping-cart"
-                    onPress={() => router.push("/dashboard/CartPage")}
+                    onPress={() => router.replace("/dashboard/CartPage")}
                     color={
                         props.currentPage === "Cart"
                             ? colors.yellow
@@ -32,7 +33,7 @@ export default function Navbar(props: Props) {
                 />
                 <NavbarOption
                     iconName="layers"
-                    onPress={() => router.push("/dashboard/MorePage")}
+                    onPress={() => router.replace("/dashboard/MorePage")}
                     color={
                         props.currentPage === "More"
                             ? colors.yellow
@@ -41,7 +42,7 @@ export default function Navbar(props: Props) {
                 />
                 <NavbarOption
                     iconName="account-circle"
-                    onPress={() => router.push("/dashboard/ProfilePage")}
+                    onPress={() => router.replace("/dashboard/ProfilePage")}
                     color={
                         props.currentPage === "Profile"
                             ? colors.yellow

@@ -1,17 +1,21 @@
+import Feather from "@expo/vector-icons/Feather";
+import { router } from "expo-router";
 import React, { useEffect, useState } from "react";
-import { Text, View, Image, TextInput, ScrollView } from "react-native";
-import Navbar from "@/components/navbar";
-import { mainStyles } from "@/styles/mainStyles";
-import { homePageStyles } from "@/styles/homePageStyles";
+import { Image, ScrollView, Text, TextInput, View } from "react-native";
+
 import CategoryCard from "@/components/categoryCard";
 import ItemCard from "@/components/itemCard";
-import Icon from "react-native-vector-icons/Feather";
+import Navbar from "@/components/navbar";
 import { colors } from "@/consts/styles";
-import { getProductData } from "../../firebase/getCollections/getProducts";
+import { getProductData } from "@/firebase/getCollections/getProducts";
+import { homePageStyles } from "@/styles/homePageStyles";
+import { mainStyles } from "@/styles/mainStyles";
+
+export let searchTerm: string = "";
 
 export default function HomePage() {
     const [allProducts, setAllProducts] = useState([] as any);
-
+    const [searchQuery, setSearchQuery] = useState("");
     useEffect(() => {
         getProductData().then((products) => {
             if (products) {
@@ -28,11 +32,11 @@ export default function HomePage() {
                 <View style={homePageStyles.container}>
                     <Image
                         resizeMode="contain"
-                        source={require("../../assets/YYCBeeswaxFullLogo.png")}
+                        source={require("@/assets/YYCBeeswaxFullLogo.png")}
                         style={homePageStyles.logo}
                     />
                     <View style={homePageStyles.searchBarContainer}>
-                        <Icon
+                        <Feather
                             name="search"
                             size={20}
                             color="black"
@@ -42,9 +46,11 @@ export default function HomePage() {
                             style={homePageStyles.searchBar}
                             placeholder="Search all Products"
                             placeholderTextColor={colors.darkGrey}
-                            onSubmitEditing={() =>
-                                console.log("Search bar clicked")
-                            }
+                            onChangeText={setSearchQuery}
+                            onSubmitEditing={() => {
+                                searchTerm = searchQuery;
+                                router.push("/dashboard/SearchPage");
+                            }}
                             returnKeyType="search"
                         />
                     </View>
@@ -52,28 +58,29 @@ export default function HomePage() {
                         Shop by Category
                     </Text>
                     <View style={homePageStyles.categoriesContainer}>
-                        <CategoryCard
-                            iconName="candle"
-                            title="Candles"
-                        ></CategoryCard>
-                        <CategoryCard
-                            iconName="lipstick"
-                            title="Lip Balm"
-                        ></CategoryCard>
-                        <CategoryCard
-                            iconName="lotion"
-                            title="Lotion"
-                        ></CategoryCard>
+                        <ScrollView
+                            horizontal
+                            showsHorizontalScrollIndicator={false}
+                        >
+                            <CategoryCard iconName="candle" title="Candles" />
+                            <CategoryCard
+                                iconName="lipstick"
+                                title="Lip Balm"
+                            />
+                            <CategoryCard iconName="lotion" title="Lotion" />
+                            <CategoryCard iconName="store" title="Other" />
+                        </ScrollView>
                     </View>
                     <Text style={homePageStyles.headerText}>New Arrivals</Text>
                     <View style={homePageStyles.horizontalScrollContainer}>
                         <ScrollView
-                            horizontal={true}
+                            horizontal
                             showsHorizontalScrollIndicator={false}
                         >
                             {allProducts.map((product: any) => (
                                 <ItemCard
                                     key={product.id}
+                                    id={product.id}
                                     image={product.data.url}
                                 />
                             ))}
@@ -82,12 +89,13 @@ export default function HomePage() {
                     <Text style={homePageStyles.headerText}>Best Sellers</Text>
                     <View style={homePageStyles.horizontalScrollContainer}>
                         <ScrollView
-                            horizontal={true}
+                            horizontal
                             showsHorizontalScrollIndicator={false}
                         >
                             {allProducts.map((product: any) => (
                                 <ItemCard
                                     key={product.id}
+                                    id={product.id}
                                     image={product.data.url}
                                 />
                             ))}
@@ -98,12 +106,13 @@ export default function HomePage() {
                     </Text>
                     <View style={homePageStyles.lastHorizontalScrollContainer}>
                         <ScrollView
-                            horizontal={true}
+                            horizontal
                             showsHorizontalScrollIndicator={false}
                         >
                             {allProducts.map((product: any) => (
                                 <ItemCard
                                     key={product.id}
+                                    id={product.id}
                                     image={product.data.url}
                                 />
                             ))}

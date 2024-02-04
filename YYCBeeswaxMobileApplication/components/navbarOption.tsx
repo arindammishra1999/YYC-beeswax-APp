@@ -1,23 +1,25 @@
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import React from "react";
-import { Text, View } from "react-native";
-import Icon from "react-native-vector-icons/MaterialIcons";
+import { View, TouchableOpacity } from "react-native";
+
 import { navbarStyles } from "@/styles/components/navbarStyles";
-import { TouchableOpacity } from "react-native-gesture-handler";
 
 type Props = {
-    iconName: string;
+    iconName: keyof typeof MaterialIcons.glyphMap;
     onPress: () => void;
-    color: string
+    color: string;
 };
 
 export default function NavbarOption(props: Props) {
     return (
         <TouchableOpacity onPress={props.onPress}>
-            <Icon
-                name={props.iconName}
-                style={navbarStyles.optionIcon}
-                color={props.color}
-            />
+            <View style={navbarStyles.optionHitbox}>
+                <MaterialIcons
+                    name={props.iconName}
+                    style={navbarStyles.optionIcon}
+                    color={props.color}
+                />
+            </View>
         </TouchableOpacity>
     );
 }

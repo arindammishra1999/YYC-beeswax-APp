@@ -1,6 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import React from "react";
 import { Text, View } from "react-native";
+
 import { headerStyles } from "@/styles/components/headerStyles";
 
 type Props = {

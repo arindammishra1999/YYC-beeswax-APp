@@ -1,11 +1,8 @@
 import { StyleSheet } from "react-native";
+
 import { colors } from "@/consts/styles";
 
 export const languagePageStyles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: "space-between",
-    },
     languageList: {
         flex: 1,
     },

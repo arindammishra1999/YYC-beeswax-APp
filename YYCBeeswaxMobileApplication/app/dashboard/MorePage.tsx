@@ -1,13 +1,27 @@
+import { router } from "expo-router";
 import React from "react";
-import { Text, View } from "react-native";
+import { View } from "react-native";
+
+import Header from "@/components/header";
+import MoreOption from "@/components/moreOptions";
 import Navbar from "@/components/navbar";
 import { mainStyles } from "@/styles/mainStyles";
 
 export default function MorePage() {
     return (
         <View style={mainStyles.container}>
-            <Text>More Page</Text>
-            <Navbar currentPage="More"/>
+            <Header header="More" noBackArrow />
+            <MoreOption
+                label="Events"
+                iconName="calendar"
+                onPress={() => router.push("./EventsPage")}
+            />
+            <MoreOption
+                label="Quizzes"
+                iconName="comment-question"
+                onPress={() => router.push("./quizzes")}
+            />
+            <Navbar currentPage="More" />
         </View>
     );
 }

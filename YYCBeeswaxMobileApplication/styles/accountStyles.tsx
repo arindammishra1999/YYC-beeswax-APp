@@ -8,14 +8,19 @@ export const accountStyles = StyleSheet.create({
         paddingBottom: 10,
         flex: 1,
         alignContent: "space-between",
+        backgroundColor: colors.white,
     },
-    form: { flex: 1, paddingTop: 10, gap: 20 },
+    form: { flex: 1, paddingTop: 10, gap: 20, paddingHorizontal: 10 },
     logo: {
         width: 80,
         height: 80,
         alignSelf: "center",
         marginTop: 50,
         marginBottom: 20,
+    },
+    text: {
+        textAlign: "center",
+        fontSize: 18,
     },
     header: {
         fontSize: 20,
