@@ -3,7 +3,7 @@ import { createContext, ReactNode, useContext } from "react";
 
 interface IUserContext {
     user: User | null;
-    // setUser: Dispatch<SetStateAction<IUser>>;
+    isAdmin: boolean | null;
 }
 
 const UserContext = createContext<IUserContext | null>(null);

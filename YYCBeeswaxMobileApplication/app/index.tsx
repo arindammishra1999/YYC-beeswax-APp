@@ -12,10 +12,12 @@ import { rootPageStyles } from "@/styles/rootPageStyles";
 import AdminDashboardPage from "./admin/adminDashboardPage";
 
 export default function App() {
-    const { user } = useUser();
-
+    const { user, isAdmin } = useUser();
     if (user) {
-        if (user.emailVerified) {
+        if (isAdmin) {
+            // change to admin dashboard
+            return <Redirect href="/dashboard/MorePage" />;
+        } else if (user.emailVerified) {
             return <Redirect href="/dashboard/HomePage" />;
         } else {
             return <Redirect href="/auth/emailVerification" />;
