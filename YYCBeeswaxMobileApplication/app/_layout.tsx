@@ -11,7 +11,7 @@ import { mainStyles } from "@/styles/mainStyles";
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
-    const { user, loading } = useAuth();
+    const { user, loading, isAdmin } = useAuth();
 
     useEffect(() => {
         const backHandler = BackHandler.addEventListener(
@@ -33,7 +33,7 @@ export default function RootLayout() {
 
     return (
         <SafeAreaView style={mainStyles.container} onLayout={onLayoutRootView}>
-            <UserProvider data={{ user }}>
+            <UserProvider data={{ user, isAdmin }}>
                 <Stack
                     screenOptions={{
                         headerShown: false,
