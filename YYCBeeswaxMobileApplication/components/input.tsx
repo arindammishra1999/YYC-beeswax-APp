@@ -9,7 +9,6 @@ type Props = {
     value?: string;
     onChangeText?: (value: string) => void;
     autoCapitalize: boolean;
-    placeholderColor?: string;
 };
 
 function Input(props: Props) {
@@ -22,9 +21,6 @@ function Input(props: Props) {
                 value={props.value}
                 onChangeText={props.onChangeText}
                 autoCapitalize={props.autoCapitalize ? "words" : "none"}
-                placeholderTextColor={
-                    props.placeholderColor ? props.placeholderColor : undefined
-                }
             />
         </View>
     );

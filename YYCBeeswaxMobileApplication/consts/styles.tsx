@@ -9,7 +9,6 @@ export const colors = {
     darkGrey: "#0c0c0c",
     grey: "#333",
     blue: "#1f36ff",
-    green: "#008000",
 };
 
 export const fonts = {

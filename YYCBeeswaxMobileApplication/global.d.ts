@@ -36,5 +36,6 @@ interface IPersonalityQuestion {
 
 interface IUser {
     email: string;
-    name: string;
+    firstName: string;
+    lastName: string;
 }
