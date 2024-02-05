@@ -30,7 +30,7 @@ export default function Login() {
     const [logoutSpinner, setLogoutSpinner] = useState(false);
 
     const { handleLoginGoogle } = useLoginWithGoogle();
-    const { user, isAdmin, loading } = useUser();
+    const { user, isAdmin } = useUser();
 
     const showAccountDisabledMessage = () =>
         Alert.alert(
