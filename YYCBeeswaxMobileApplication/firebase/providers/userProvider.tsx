@@ -4,7 +4,6 @@ import { createContext, ReactNode, useContext } from "react";
 interface IUserContext {
     user: User | null;
     isAdmin: boolean | null;
-    loading: boolean | null;
 }
 
 const UserContext = createContext<IUserContext | null>(null);
