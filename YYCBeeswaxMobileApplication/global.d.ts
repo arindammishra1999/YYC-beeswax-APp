@@ -39,3 +39,11 @@ interface IUser {
     firstName: string;
     lastName: string;
 }
+
+interface IReview {
+    id: string;
+    userId: string;
+    title: string;
+    review: string;
+    rating: number;
+}

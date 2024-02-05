@@ -8,6 +8,7 @@ import Header from "@/components/header";
 import { getProductDataById } from "@/firebase/getCollections/getProductByID";
 import { mainStyles } from "@/styles/mainStyles";
 import { productPageStyles } from "@/styles/productPageStyles";
+import Reviews from "@/components/reviews";
 
 interface IProduct {
     name: string;
@@ -59,6 +60,8 @@ export default function ProductId() {
             }
         })();
     }, []);
+
+    const [onDetails, setOnDetails] = useState(true);
 
     return (
         <View style={mainStyles.container}>
@@ -152,17 +155,34 @@ export default function ProductId() {
                         )}
                     </View>
                     <View style={productPageStyles.productNavBar}>
-                        <Text style={productPageStyles.productNavBarSelected}>
+                        <Text
+                            style={
+                                onDetails
+                                    ? productPageStyles.productNavBarSelected
+                                    : productPageStyles.productNavBarUnselected
+                            }
+                            onPress={() => setOnDetails(true)}
+                        >
                             Details
                         </Text>
-                        <Text style={productPageStyles.productNavBarUnselected}>
+                        <Text
+                            style={
+                                onDetails
+                                    ? productPageStyles.productNavBarUnselected
+                                    : productPageStyles.productNavBarSelected
+                            }
+                            onPress={() => setOnDetails(false)}
+                        >
                             Reviews
                         </Text>
                     </View>
-
-                    <Text style={productPageStyles.productDescription}>
-                        {product.description}
-                    </Text>
+                    {onDetails ? (
+                        <Text style={productPageStyles.productDescription}>
+                            {product.description}
+                        </Text>
+                    ) : (
+                        <Reviews id={productId} />
+                    )}
                 </View>
             </ScrollView>
             <View style={productPageStyles.bottomSection}>
