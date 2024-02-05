@@ -11,6 +11,7 @@ import {
     TouchableOpacity,
     TouchableWithoutFeedback,
     View,
+    ScrollView,
 } from "react-native";
 
 import Button from "@/components/button";
@@ -141,7 +142,7 @@ export default function EditProfilePage() {
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-            <View style={accountStyles.container}>
+            <ScrollView contentContainerStyle={accountStyles.formContainer}>
                 <Header header="My Account" />
                 <MaterialIcons
                     name="account-edit-outline"
@@ -199,7 +200,7 @@ export default function EditProfilePage() {
                     title="Confirm Changes"
                     onPress={login}
                 />
-            </View>
+            </ScrollView>
         </TouchableWithoutFeedback>
     );
 }

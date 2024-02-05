@@ -10,7 +10,7 @@ export const accountStyles = StyleSheet.create({
         alignContent: "space-between",
         backgroundColor: colors.white,
     },
-    formContainer: { gap: 30, flexGrow: 1 },
+    formContainer: { backgroundColor: colors.white, gap: 30, flexGrow: 1 },
     form: { flex: 1, paddingTop: 10, gap: 20, paddingHorizontal: 10 },
     logo: {
         width: 80,
