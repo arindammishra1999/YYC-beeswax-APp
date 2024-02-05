@@ -4,19 +4,19 @@ import { Redirect, router } from "expo-router";
 import React from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 
+import AdminDashboardPage from "./admin/adminDashboardPage";
+
 import Button from "@/components/button";
 import LandingCarousel from "@/components/landingCarousel";
 import { useUser } from "@/firebase/providers/userProvider";
 import { mainStyles } from "@/styles/mainStyles";
 import { rootPageStyles } from "@/styles/rootPageStyles";
-import AdminDashboardPage from "./admin/adminDashboardPage";
 
 export default function App() {
     const { user, isAdmin } = useUser();
     if (user) {
         if (isAdmin) {
-            // change to admin dashboard
-            return <Redirect href="/dashboard/MorePage" />;
+            return <Redirect href="/admin/adminDashboardPage" />;
         } else if (user.emailVerified) {
             return <Redirect href="/dashboard/HomePage" />;
         } else {

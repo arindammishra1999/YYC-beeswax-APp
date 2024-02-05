@@ -1,0 +1,40 @@
+import React from "react";
+import { View, Text } from "react-native";
+
+import { adminDashboardPageStyles } from "@/styles/adminDashboardPageStyles";
+
+type Props = {
+    title: string;
+    figure: string;
+    isNegative: boolean;
+    change: string;
+};
+
+export default function AdminOverviewSection(props: Props) {
+    return (
+        <View style={adminDashboardPageStyles.overviewSection}>
+            <Text style={adminDashboardPageStyles.overviewText}>
+                {props.title}
+            </Text>
+            <View>
+                <Text style={adminDashboardPageStyles.figureText}>
+                    {props.figure}
+                </Text>
+                <View
+                    style={
+                        props.isNegative
+                            ? adminDashboardPageStyles.changeNegative
+                            : adminDashboardPageStyles.changePositive
+                    }
+                >
+                    <Text style={adminDashboardPageStyles.change}>
+                        <Text style={adminDashboardPageStyles.arrow}>
+                            {props.isNegative ? "\u2191" : "\u2193"}
+                        </Text>
+                        {props.change}
+                    </Text>
+                </View>
+            </View>
+        </View>
+    );
+}

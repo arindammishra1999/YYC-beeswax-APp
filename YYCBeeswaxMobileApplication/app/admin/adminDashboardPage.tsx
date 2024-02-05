@@ -1,13 +1,26 @@
 import React from "react";
-import { View } from "react-native";
+import { ScrollView, View, Text } from "react-native";
 
-import OverviewCard from "@/components/cards/overviewCard";
+import Button from "@/components/button";
+import AdminOverviewCard from "@/components/cards/adminOverviewCard";
+import { adminDashboardPageStyles } from "@/styles/adminDashboardPageStyles";
 import { mainStyles } from "@/styles/mainStyles";
 
 export default function AdminDashboardPage() {
     return (
-        <View style={mainStyles.container}>
-            <OverviewCard />
-        </View>
+        <ScrollView
+            style={[mainStyles.container, adminDashboardPageStyles.page]}
+        >
+            <View style={adminDashboardPageStyles.header}>
+                <Text style={adminDashboardPageStyles.headerTitle}>
+                    Dashboard
+                </Text>
+                <Button
+                    title="Sign Out"
+                    style={adminDashboardPageStyles.button}
+                />
+            </View>
+            <AdminOverviewCard />
+        </ScrollView>
     );
 }
