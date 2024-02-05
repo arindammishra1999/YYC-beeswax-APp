@@ -22,7 +22,6 @@ import { getUserById } from "@/firebase/getCollections/getUserById";
 import { useUser } from "@/firebase/providers/userProvider";
 import { accountStyles } from "@/styles/accountStyles";
 import { editProfilePageStyles } from "@/styles/editProfilePageStyles";
-import { mainStyles } from "@/styles/mainStyles";
 
 export default function EditProfilePage() {
     const [name, setName] = useState("");
@@ -143,9 +142,11 @@ export default function EditProfilePage() {
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-            <View style={mainStyles.container}>
+            <View style={accountStyles.container}>
                 <Header header="My Account" />
-                <ScrollView style={editProfilePageStyles.container}>
+                <ScrollView
+                    contentContainerStyle={editProfilePageStyles.container}
+                >
                     <MaterialIcons
                         name="account-edit-outline"
                         style={editProfilePageStyles.icon}
@@ -209,12 +210,12 @@ export default function EditProfilePage() {
                             Change Password
                         </Text>
                     </TouchableOpacity>
+                    <Button
+                        style={editProfilePageStyles.confirmButton}
+                        title="Confirm Changes"
+                        onPress={login}
+                    />
                 </ScrollView>
-                <Button
-                    style={editProfilePageStyles.confirmButton}
-                    title="Confirm Changes"
-                    onPress={login}
-                />
             </View>
         </TouchableWithoutFeedback>
     );
