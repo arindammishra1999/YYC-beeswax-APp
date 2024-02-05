@@ -26,7 +26,7 @@ export default function Login() {
     const [error, setError] = useState("");
 
     const { handleLoginGoogle } = useLoginWithGoogle();
-    const { user } = useUser();
+    const { user, isAdmin } = useUser();
 
     const showAccountDisabledMessage = () =>
         Alert.alert(
@@ -38,7 +38,10 @@ export default function Login() {
     async function login() {
         try {
             await signInWithEmailAndPassword(auth, email, password);
-            if (user?.emailVerified) {
+            if (isAdmin) {
+                // change to admin dashboard
+                return router.push("/dashboard/MorePage");
+            } else if (user?.emailVerified) {
                 router.push("/dashboard/HomePage");
             } else {
                 router.push("/auth/emailVerification");
