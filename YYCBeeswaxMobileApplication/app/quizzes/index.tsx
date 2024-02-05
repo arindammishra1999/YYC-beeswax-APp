@@ -21,13 +21,13 @@ function LoadingQuizCard() {
                 <Skeleton style={quizzesPageStyles.image} />
             </View>
             <View style={quizzesPageStyles.textContainer}>
-                <View style={{ gap: 10 }}>
-                    <Skeleton style={{ height: 24 }} />
-                    <Skeleton style={{ height: 16, width: "80%" }} />
+                <View style={quizzesPageStyles.textGroup}>
+                    <Skeleton height={24} />
+                    <Skeleton height={16} width="80%" />
                 </View>
                 <View style={quizzesPageStyles.detailsContainer}>
-                    <Skeleton style={{ height: 20, width: "40%" }} />
-                    <Skeleton style={{ height: 20, width: "30%" }} />
+                    <Skeleton height={20} width="40%" />
+                    <Skeleton height={20} width="30%" />
                 </View>
             </View>
         </View>
@@ -93,19 +93,15 @@ export default function Quizzes() {
         <View style={mainStyles.container}>
             <Header header="Quizzes" />
             {loading ? (
-                <View style={quizzesPageStyles.container}>
-                    <LoadingQuizCard />
-                    <View style={quizzesPageStyles.cardSpacing} />
-                    <LoadingQuizCard />
-                    <View style={quizzesPageStyles.cardSpacing} />
-                    <LoadingQuizCard />
-                    <View style={quizzesPageStyles.cardSpacing} />
-                    <LoadingQuizCard />
-                    <View style={quizzesPageStyles.cardSpacing} />
-                    <LoadingQuizCard />
-                    <View style={quizzesPageStyles.cardSpacing} />
-                    <LoadingQuizCard />
-                </View>
+                <FlashList
+                    contentContainerStyle={quizzesPageStyles.container}
+                    renderItem={() => <LoadingQuizCard />}
+                    ItemSeparatorComponent={() => (
+                        <View style={quizzesPageStyles.cardSpacing} />
+                    )}
+                    data={Array(6)}
+                    estimatedItemSize={100}
+                />
             ) : (
                 <FlashList
                     contentContainerStyle={quizzesPageStyles.container}

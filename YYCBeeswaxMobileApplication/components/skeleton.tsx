@@ -36,7 +36,7 @@ function Skeleton(props: Props) {
             }}
             style={[
                 {
-                    width: props.width,
+                    width: props.width ?? "100%",
                     height: props.height ?? 12,
                     backgroundColor: "#c0c0c0",
                     overflow: "hidden",
