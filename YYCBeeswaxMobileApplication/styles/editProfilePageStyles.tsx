@@ -3,10 +3,13 @@ import { StyleSheet } from "react-native";
 import { colors } from "@/consts/styles";
 
 export const editProfilePageStyles = StyleSheet.create({
+    container: {
+        backgroundColor: colors.white,
+    },
     icon: {
-        paddingVertical: 10,
+        paddingVertical: 5,
         alignSelf: "center",
-        fontSize: 110,
+        fontSize: 100,
     },
     emailNotVerifiedBox: {
         paddingVertical: 20,
