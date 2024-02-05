@@ -1,6 +1,6 @@
 import { Link, router } from "expo-router";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import React, { useState } from "react";
+import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
+import React, { useState, useEffect } from "react";
 import {
     Alert,
     Keyboard,
@@ -30,7 +30,7 @@ export default function Login() {
     const [logoutSpinner, setLogoutSpinner] = useState(false);
 
     const { handleLoginGoogle } = useLoginWithGoogle();
-    const { user, isAdmin } = useUser();
+    const { isAdmin } = useUser();
 
     const showAccountDisabledMessage = () =>
         Alert.alert(
@@ -56,17 +56,26 @@ export default function Login() {
             } else if (err?.code === "auth/too-many-requests")
                 showAccountDisabledMessage();
         } finally {
-            if (isAdmin) {
-                // change to admin dashboard
-                return router.push("/dashboard/MorePage");
-            } else if (user?.emailVerified) {
-                router.push("/dashboard/HomePage");
-            } else {
-                router.push("/auth/emailVerification");
-            }
             setLogoutSpinner(false);
         }
     }
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // User is logged in
+                if (isAdmin) {
+                    router.push("/dashboard/MorePage");
+                } else if (user.emailVerified) {
+                    router.push("/dashboard/HomePage");
+                } else {
+                    router.push("/auth/emailVerification");
+                }
+            }
+        });
+
+        // Clean up the listener when the component unmounts
+        return () => unsubscribe();
+    }, [auth, router, isAdmin]);
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
