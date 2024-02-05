@@ -50,6 +50,9 @@ export const quizzesPageStyles = StyleSheet.create({
         justifyContent: "space-between",
         flex: 1,
     },
+    textGroup: {
+        gap: 10,
+    },
     title: {
         fontWeight: "bold",
         fontSize: 20,
