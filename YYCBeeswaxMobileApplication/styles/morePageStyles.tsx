@@ -63,7 +63,7 @@ export const morePageStyles = StyleSheet.create({
     },
 
     factsContainer: {
-        marginTop: 20,
+        marginVertical: 20,
         height: viewportHeight / 2.8,
         marginHorizontal: 15,
         borderRadius: 20,
