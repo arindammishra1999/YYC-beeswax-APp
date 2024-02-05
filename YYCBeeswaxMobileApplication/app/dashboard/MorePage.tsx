@@ -34,7 +34,7 @@ export default function MorePage() {
     const selectThreeFacts = () => {
         const threeFacts = [];
         for (let i = 0; i < 3 && i < allFunFacts.length; i++) {
-            threeFacts.push(allFunFacts[i].data.fact);
+            threeFacts.push(allFunFacts[i].data);
         }
         setThreeFacts(threeFacts);
     };
@@ -150,18 +150,18 @@ export default function MorePage() {
                         style={morePageStyles.factsImage}
                     />
                     <View style={morePageStyles.threeFactsContainer}>
-                        {threeFacts.map((fact: string, index: any) => (
+                        {threeFacts.map((item: any) => (
                             <View
-                                key={index}
+                                key={item.fact}
                                 style={morePageStyles.factContainer}
                             >
                                 <MaterialCommunityIcons
                                     style={morePageStyles.factIcon}
-                                    color={colors.yellow}
-                                    name="star"
+                                    color={colors.black}
+                                    name={item.icon}
                                 />
                                 <Text style={morePageStyles.factText}>
-                                    {fact}
+                                    {item.fact}
                                 </Text>
                             </View>
                         ))}

@@ -14,7 +14,6 @@ export async function getAllFunFacts() {
                 data: doc.data(),
             };
         });
-
         return facts;
     } catch (error) {
         console.error("Error getting documents: ", error);
