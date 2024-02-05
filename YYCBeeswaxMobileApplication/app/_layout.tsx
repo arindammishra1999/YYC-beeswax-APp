@@ -33,7 +33,7 @@ export default function RootLayout() {
 
     return (
         <SafeAreaView style={mainStyles.container} onLayout={onLayoutRootView}>
-            <UserProvider data={{ user, isAdmin }}>
+            <UserProvider data={{ user, isAdmin, loading }}>
                 <Stack
                     screenOptions={{
                         headerShown: false,

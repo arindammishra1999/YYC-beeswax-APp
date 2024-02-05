@@ -7,6 +7,7 @@ import {
     Text,
     TouchableWithoutFeedback,
     View,
+    ActivityIndicator,
 } from "react-native";
 
 import Button from "@/components/button";
@@ -14,19 +15,22 @@ import Divider from "@/components/divider";
 import Header from "@/components/header";
 import HideableInput from "@/components/hideableInput";
 import Input from "@/components/input";
+import { colors } from "@/consts/styles";
 import { auth } from "@/firebase/config";
 import { useLoginWithGoogle } from "@/firebase/hooks/loginWithGoogle";
 import { useUser } from "@/firebase/providers/userProvider";
 import { accountStyles } from "@/styles/accountStyles";
 import { loginPageStyles } from "@/styles/loginPageStyles";
+import { mainStyles } from "@/styles/mainStyles";
 
 export default function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
+    const [logoutSpinner, setLogoutSpinner] = useState(false);
 
     const { handleLoginGoogle } = useLoginWithGoogle();
-    const { user, isAdmin } = useUser();
+    const { user, isAdmin, loading } = useUser();
 
     const showAccountDisabledMessage = () =>
         Alert.alert(
@@ -37,15 +41,8 @@ export default function Login() {
 
     async function login() {
         try {
+            setLogoutSpinner(true);
             await signInWithEmailAndPassword(auth, email, password);
-            if (isAdmin) {
-                // change to admin dashboard
-                return router.push("/dashboard/MorePage");
-            } else if (user?.emailVerified) {
-                router.push("/dashboard/HomePage");
-            } else {
-                router.push("/auth/emailVerification");
-            }
         } catch (err: any) {
             console.log(err);
             if (err?.code === "auth/invalid-email") {
@@ -58,12 +55,27 @@ export default function Login() {
                 setError("Login Failed - Username and password did not match.");
             } else if (err?.code === "auth/too-many-requests")
                 showAccountDisabledMessage();
+        } finally {
+            if (isAdmin) {
+                // change to admin dashboard
+                return router.push("/dashboard/MorePage");
+            } else if (user?.emailVerified) {
+                router.push("/dashboard/HomePage");
+            } else {
+                router.push("/auth/emailVerification");
+            }
+            setLogoutSpinner(false);
         }
     }
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View style={accountStyles.container}>
+                {logoutSpinner && (
+                    <View style={mainStyles.spinnerOverlay}>
+                        <ActivityIndicator size="large" color={colors.yellow} />
+                    </View>
+                )}
                 <Header header="Login" />
                 <View style={accountStyles.form}>
                     <Input
