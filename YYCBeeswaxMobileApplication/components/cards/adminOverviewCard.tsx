@@ -1,12 +1,15 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { View } from "react-native";
 
 import AdminOverviewSection from "./adminOverviewSection";
+import AdminCardHeader from "../adminCardHeader";
+
 import { adminDashboardPageStyles } from "@/styles/adminDashboardPageStyles";
 
 export default function AdminOverviewCard() {
     return (
         <View style={adminDashboardPageStyles.cardContainer}>
+            <AdminCardHeader title="Overview" />
             <AdminOverviewSection
                 title="Customers"
                 figure="1234"
@@ -18,6 +21,18 @@ export default function AdminOverviewCard() {
                 figure="101k"
                 change="12.4%"
                 isNegative
+            />
+            <AdminOverviewSection
+                title="Average Order Value"
+                figure="$ 40.08"
+                change="32.4%"
+                isNegative
+            />
+            <AdminOverviewSection
+                title="Total Orders"
+                figure="500"
+                change="20.4%"
+                isNegative={false}
             />
         </View>
     );

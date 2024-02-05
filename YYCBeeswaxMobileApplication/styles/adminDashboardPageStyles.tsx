@@ -38,6 +38,7 @@ export const adminDashboardPageStyles = StyleSheet.create({
         marginVertical: 20,
         display: "flex",
         flexDirection: "row",
+        flexWrap: "wrap",
     },
     overviewSection: {
         width: "40%",
@@ -48,26 +49,38 @@ export const adminDashboardPageStyles = StyleSheet.create({
         fontWeight: "bold",
         fontSize: 12,
     },
+    figure: {
+        alignItems: "center",
+        justifyContent: "center",
+    },
     figureText: {
         fontWeight: "900",
         fontSize: 35,
-    },
-    change: {
-        alignSelf: "flex-start",
-        borderRadius: 4,
-        paddingHorizontal: 5,
-        backgroundColor: colors.red,
     },
     arrow: {
         fontSize: 20,
         fontWeight: "bold",
     },
-    changePositive: {
+    change: {
+        fontWeight: "bold",
+        alignSelf: "flex-start",
         borderRadius: 4,
-        flex: 1,
-        width: "auto",
+        paddingHorizontal: 5,
+    },
+    changePositive: {
+        backgroundColor: colors.greenTransparent,
+        color: colors.green,
     },
     changeNegative: {
-        width: "40%",
+        backgroundColor: colors.redTransparent,
+        color: colors.red,
+    },
+    headerContainer: {
+        backgroundColor: colors.lightGrey,
+        width: "90%",
+        marginHorizontal: "5%",
+    },
+    dropdown: {
+        backgroundColor: colors.lightGrey,
     },
 });

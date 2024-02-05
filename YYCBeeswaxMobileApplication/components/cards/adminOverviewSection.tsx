@@ -16,20 +16,21 @@ export default function AdminOverviewSection(props: Props) {
             <Text style={adminDashboardPageStyles.overviewText}>
                 {props.title}
             </Text>
-            <View>
+            <View style={adminDashboardPageStyles.figure}>
                 <Text style={adminDashboardPageStyles.figureText}>
                     {props.figure}
                 </Text>
-                <View
-                    style={
-                        props.isNegative
-                            ? adminDashboardPageStyles.changeNegative
-                            : adminDashboardPageStyles.changePositive
-                    }
-                >
-                    <Text style={adminDashboardPageStyles.change}>
+                <View>
+                    <Text
+                        style={[
+                            props.isNegative
+                                ? adminDashboardPageStyles.changePositive
+                                : adminDashboardPageStyles.changeNegative,
+                            adminDashboardPageStyles.change,
+                        ]}
+                    >
                         <Text style={adminDashboardPageStyles.arrow}>
-                            {props.isNegative ? "\u2191" : "\u2193"}
+                            {props.isNegative ? "\u2191\u00A0" : "\u2193\u00A0"}
                         </Text>
                         {props.change}
                     </Text>

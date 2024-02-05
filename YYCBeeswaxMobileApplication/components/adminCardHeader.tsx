@@ -1,34 +1,41 @@
 import React, { useState } from "react";
-import { View, Text } from "react-native";
-import RNPickerSelect from "react-native-picker-select";
+import { ScrollView, View, Text } from "react-native";
+import DropDownPicker from "react-native-dropdown-picker";
 
-import { buttonStyles } from "@/styles/components/buttonStyles";
+import { adminDashboardPageStyles } from "@/styles/adminDashboardPageStyles";
 
 type Props = {
     title: string;
 };
 
 export default function AdminCardHeader(props: Props) {
-    const [selectedValue, setSelectedValue] = useState("option1");
+    const [open, setOpen] = useState(false);
+    const [value, setValue] = useState("Select Item");
+    const [items, setItems] = useState([
+        { label: "Last Day", value: "Last Day" },
+        { label: "Last Week", value: "Last Week" },
+        { label: "Last Month", value: "Last Month" },
+        { label: "Last 3 Months", value: "Last 3 Months" },
+        { label: "Last 6 Months", value: "Last 6 Months" },
+        { label: "Last 12 Months", value: "Last 12 Months" },
+        { label: "All Time", value: "All Time" },
+    ]);
 
-    const placeholder = {
-        label: "Select an option...",
-        value: null,
-        color: "#9EA0A4",
-    };
     return (
-        <View>
-            <Text>Select an option:</Text>
-            <RNPickerSelect
-                placeholder={placeholder}
-                onValueChange={(value) => setSelectedValue(value)}
-                items={[
-                    { label: "Option 1", value: "option1" },
-                    { label: "Option 2", value: "option2" },
-                    { label: "Option 3", value: "option3" },
-                ]}
+        <View style={adminDashboardPageStyles.headerContainer}>
+            <Text style={adminDashboardPageStyles.headerTitle}>
+                {props.title}
+            </Text>
+            <DropDownPicker
+                open={open}
+                value={value}
+                items={items}
+                setOpen={setOpen}
+                setValue={setValue}
+                setItems={setItems}
+                style={adminDashboardPageStyles.dropdown}
+                dropDownContainerStyle={adminDashboardPageStyles.dropdown}
             />
-            <Text>Selected value: {selectedValue}</Text>
         </View>
     );
 }
