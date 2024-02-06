@@ -19,7 +19,6 @@ export const eventCardStyles = StyleSheet.create({
     image: {
         height: "80%",
         width: "32%",
-        resizeMode: "cover",
         borderRadius: 10,
         alignSelf: "center",
         marginHorizontal: 15,
@@ -31,6 +30,7 @@ export const eventCardStyles = StyleSheet.create({
         justifyContent: "space-between",
         flexWrap: "wrap",
     },
+    description: { marginBottom: 20 },
     dateText: {
         color: colors.blue,
         fontSize: 14,

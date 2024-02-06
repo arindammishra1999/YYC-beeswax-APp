@@ -28,11 +28,11 @@ export function useUnsavedChangesCheck(isUnsaved: boolean) {
 
             // Prompt the user before leaving the screen
             Alert.alert(
-                "Discard changes?",
-                "You have unsaved changes. Are you sure to discard them and leave the screen?",
+                "Discard Changes?",
+                "You have unsaved changes. Are you sure you want to discard them and leave this screen?",
                 [
                     {
-                        text: "Don't leave",
+                        text: "Don't Leave",
                         style: "cancel",
                         onPress: () => {},
                     },

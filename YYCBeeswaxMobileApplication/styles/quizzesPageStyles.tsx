@@ -8,7 +8,9 @@ export const quizzesPageStyles = StyleSheet.create({
         paddingTop: 10,
         paddingBottom: 30,
         paddingHorizontal: 20,
-        gap: 20,
+    },
+    cardSpacing: {
+        height: 20,
     },
     card: {
         flexDirection: "row",
@@ -47,6 +49,9 @@ export const quizzesPageStyles = StyleSheet.create({
         flexDirection: "column",
         justifyContent: "space-between",
         flex: 1,
+    },
+    textGroup: {
+        gap: 10,
     },
     title: {
         fontWeight: "bold",

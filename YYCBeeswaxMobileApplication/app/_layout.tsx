@@ -1,6 +1,7 @@
-import { Stack, usePathname, SplashScreen } from "expo-router";
-import React, { useCallback } from "react";
-import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+import { SplashScreen, Stack } from "expo-router";
+import React, { useCallback, useEffect } from "react";
+import { BackHandler } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 import useAuth from "@/firebase/hooks/useAuth";
 import { UserProvider } from "@/firebase/providers/userProvider";
@@ -10,8 +11,15 @@ import { mainStyles } from "@/styles/mainStyles";
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
-    const { user, loading } = useAuth();
-    const pathname = usePathname();
+    const { user, loading, isAdmin } = useAuth();
+
+    useEffect(() => {
+        const backHandler = BackHandler.addEventListener(
+            "hardwareBackPress",
+            () => true,
+        );
+        return () => backHandler.remove();
+    }, []);
 
     const onLayoutRootView = useCallback(async () => {
         if (!loading) {
@@ -23,31 +31,45 @@ export default function RootLayout() {
         return null;
     }
 
-    const mainPaths = new Set([
-        "/dashboard/HomePage",
-        "/dashboard/MorePage",
-        "/dashboard/ProfilePage",
-        "/dashboard/CartPage",
-    ]);
-
     return (
-        <SafeAreaProvider>
-            <SafeAreaView
-                style={mainStyles.container}
-                onLayout={onLayoutRootView}
-            >
-                <UserProvider data={{ user }}>
-                    <Stack
-                        initialRouteName="Home"
-                        screenOptions={{
-                            headerShown: false,
-                            animation: mainPaths.has(pathname)
-                                ? "none"
-                                : "default",
+        <SafeAreaView style={mainStyles.container} onLayout={onLayoutRootView}>
+            <UserProvider data={{ user, isAdmin }}>
+                <Stack
+                    screenOptions={{
+                        headerShown: false,
+                    }}
+                >
+                    <Stack.Screen
+                        name="index"
+                        options={{
+                            gestureEnabled: false,
+                            animation: "none",
                         }}
                     />
-                </UserProvider>
-            </SafeAreaView>
-        </SafeAreaProvider>
+                    <Stack.Screen
+                        name="dashboard"
+                        options={{
+                            gestureEnabled: false,
+                            animation: "none",
+                        }}
+                    />
+                    <Stack.Screen
+                        name="auth/emailVerification"
+                        options={{
+                            gestureEnabled: false,
+                            animation: "slide_from_bottom",
+                        }}
+                    />
+                    <Stack.Screen
+                        name="quizzes/knowledge/[quizId]"
+                        options={{ gestureEnabled: false }}
+                    />
+                    <Stack.Screen
+                        name="quizzes/personality/[quizId]"
+                        options={{ gestureEnabled: false }}
+                    />
+                </Stack>
+            </UserProvider>
+        </SafeAreaView>
     );
 }

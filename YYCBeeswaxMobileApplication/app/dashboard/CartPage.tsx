@@ -1,15 +1,15 @@
 import { useFocusEffect } from "@react-navigation/native";
+import { Image } from "expo-image";
 import { router } from "expo-router";
 import * as SecureStore from "expo-secure-store";
 import React, { useState } from "react";
-import { Text, TouchableOpacity, View, Image } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 
 import { getProductData } from "../../firebase/getCollections/getProducts";
 
 import CartProductCard from "@/components/cartProductCard";
 import Header from "@/components/header";
-import Navbar from "@/components/navbar";
 import TotalBillCard from "@/components/totalBillCard";
 import { cartPageStyles } from "@/styles/cartPageStyles";
 
@@ -156,17 +156,16 @@ export default function CartPage() {
                     Your cart is empty! Go ahead and check out our products.
                 </Text>
                 <Image
-                    resizeMode="contain"
+                    contentFit="contain"
                     source={require("@/assets/shopping.gif")}
                     style={cartPageStyles.gif}
                 />
                 <TouchableOpacity
                     style={cartPageStyles.button}
-                    onPress={() => router.replace("/dashboard/HomePage")}
+                    onPress={() => router.push("/dashboard/HomePage")}
                 >
                     <Text style={cartPageStyles.buttonText}>Shop Now</Text>
                 </TouchableOpacity>
-                <Navbar currentPage="Cart" />
             </View>
         );
     } else {
@@ -197,7 +196,6 @@ export default function CartPage() {
                         />
                     )}
                 </ScrollView>
-                <Navbar currentPage="Cart" />
             </View>
         );
     }

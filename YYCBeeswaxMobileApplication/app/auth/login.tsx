@@ -1,12 +1,13 @@
 import { Link, router } from "expo-router";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import React, { useState } from "react";
+import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
+import React, { useState, useEffect } from "react";
 import {
     Alert,
     Keyboard,
     Text,
     TouchableWithoutFeedback,
     View,
+    ActivityIndicator,
 } from "react-native";
 
 import Button from "@/components/button";
@@ -14,17 +15,22 @@ import Divider from "@/components/divider";
 import Header from "@/components/header";
 import HideableInput from "@/components/hideableInput";
 import Input from "@/components/input";
+import { colors } from "@/consts/styles";
 import { auth } from "@/firebase/config";
 import { useLoginWithGoogle } from "@/firebase/hooks/loginWithGoogle";
+import { useUser } from "@/firebase/providers/userProvider";
 import { accountStyles } from "@/styles/accountStyles";
 import { loginPageStyles } from "@/styles/loginPageStyles";
+import { mainStyles } from "@/styles/mainStyles";
 
 export default function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
+    const [logoutSpinner, setLogoutSpinner] = useState(false);
 
     const { handleLoginGoogle } = useLoginWithGoogle();
+    const { isAdmin } = useUser();
 
     const showAccountDisabledMessage = () =>
         Alert.alert(
@@ -35,8 +41,8 @@ export default function Login() {
 
     async function login() {
         try {
+            setLogoutSpinner(true);
             await signInWithEmailAndPassword(auth, email, password);
-            router.replace("/dashboard/HomePage");
         } catch (err: any) {
             console.log(err);
             if (err?.code === "auth/invalid-email") {
@@ -49,12 +55,36 @@ export default function Login() {
                 setError("Login Failed - Username and password did not match.");
             } else if (err?.code === "auth/too-many-requests")
                 showAccountDisabledMessage();
+        } finally {
+            setLogoutSpinner(false);
         }
     }
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // User is logged in
+                if (isAdmin) {
+                    router.push("/dashboard/MorePage");
+                } else if (user.emailVerified) {
+                    router.push("/dashboard/HomePage");
+                } else {
+                    router.push("/auth/emailVerification");
+                }
+            }
+        });
+
+        // Clean up the listener when the component unmounts
+        return () => unsubscribe();
+    }, [auth, router, isAdmin]);
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View style={accountStyles.container}>
+                {logoutSpinner && (
+                    <View style={mainStyles.spinnerOverlay}>
+                        <ActivityIndicator size="large" color={colors.yellow} />
+                    </View>
+                )}
                 <Header header="Login" />
                 <View style={accountStyles.form}>
                     <Input

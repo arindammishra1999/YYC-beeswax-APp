@@ -1,7 +1,8 @@
 import { router } from "expo-router";
+import { Image } from "expo-image";
 //import { Timestamp } from "firebase/firestore";
 import React, { useState } from "react";
-import { View, Image, TouchableOpacity, Text } from "react-native";
+import { View, TouchableOpacity, Text } from "react-native";
 import * as SecureStore from "expo-secure-store";
 
 import { cartProductCardStyles } from "@/styles/components/cartProductCardStyles";

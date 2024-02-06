@@ -10,6 +10,7 @@ export const accountStyles = StyleSheet.create({
         alignContent: "space-between",
         backgroundColor: colors.white,
     },
+    formContainer: { gap: 30, flexGrow: 1 },
     form: { flex: 1, paddingTop: 10, gap: 20, paddingHorizontal: 10 },
     logo: {
         width: 80,
@@ -42,5 +43,11 @@ export const accountStyles = StyleSheet.create({
     error: {
         color: colors.red,
         alignSelf: "center",
+    },
+    forgot: {
+        alignSelf: "center",
+        color: colors.blue,
+        fontSize: 16,
+        textDecorationLine: "underline",
     },
 });

@@ -1,6 +1,8 @@
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import { Image } from "expo-image";
 import { Redirect, router } from "expo-router";
 import React from "react";
-import { Image, Text, TouchableOpacity, View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 
 import Button from "@/components/button";
 import LandingCarousel from "@/components/landingCarousel";
@@ -9,13 +11,22 @@ import { mainStyles } from "@/styles/mainStyles";
 import { rootPageStyles } from "@/styles/rootPageStyles";
 
 export default function App() {
-    const { user } = useUser();
-
+    const { user, isAdmin } = useUser();
     if (user) {
-        return <Redirect href="/dashboard/HomePage" />;
+        if (isAdmin) {
+            // change to admin dashboard
+            return <Redirect href="/dashboard/MorePage" />;
+        } else if (user.emailVerified) {
+            return <Redirect href="/dashboard/HomePage" />;
+        } else {
+            return <Redirect href="/auth/emailVerification" />;
+        }
     }
 
-    const items = [
+    const items: {
+        text: string;
+        iconName: keyof typeof MaterialIcons.glyphMap;
+    }[] = [
         {
             text: "Shop for all your favourite YYC Beeswax products",
             iconName: "add-shopping-cart",
@@ -26,9 +37,9 @@ export default function App() {
 
     return (
         <View style={mainStyles.container}>
-            <View style={mainStyles.center}>
+            <View style={rootPageStyles.imageContainer}>
                 <Image
-                    resizeMode="contain"
+                    contentFit="contain"
                     source={require("@/assets/YYCBeeswaxFullLogo.png")}
                     style={rootPageStyles.image}
                 />

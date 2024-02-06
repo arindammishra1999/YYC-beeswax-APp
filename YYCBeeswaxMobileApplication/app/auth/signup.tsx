@@ -1,5 +1,5 @@
 import { useRouter } from "expo-router";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import React, { useState } from "react";
 import { Text, ScrollView, View, Alert } from "react-native";
 
@@ -7,6 +7,7 @@ import Button from "@/components/button";
 import Header from "@/components/header";
 import HideableInput from "@/components/hideableInput";
 import Input from "@/components/input";
+import { auth } from "@/firebase/config";
 import { setUser } from "@/firebase/setCollections/setUser";
 import { accountStyles } from "@/styles/accountStyles";
 import { loginPageStyles } from "@/styles/loginPageStyles";
@@ -23,8 +24,6 @@ export default function Signup() {
 
     async function signup() {
         try {
-            const auth = getAuth();
-
             if (!firstName || !lastName) {
                 setError("First name and Last name are required.");
                 return;
@@ -43,20 +42,22 @@ export default function Signup() {
                 password,
             );
 
+            const name = firstName + " " + lastName;
+
             await setUser(userCredential.user.uid, {
                 email,
-                firstName,
-                lastName,
+                name,
             });
 
+            setError("");
             setSignupSuccess(true);
             Alert.alert(
-                "Sign Up Successful",
-                "You have successfully signed up!",
+                "Sign Up Successful!",
+                "You have successfully signed up.",
                 [
                     {
                         text: "OK",
-                        onPress: () => router.replace("/dashboard/HomePage"),
+                        onPress: () => router.push("/auth/emailVerification"),
                     },
                 ],
             );
@@ -86,7 +87,7 @@ export default function Signup() {
     return (
         <View style={accountStyles.container}>
             <Header header="Create Account" />
-            <ScrollView>
+            <ScrollView contentContainerStyle={accountStyles.formContainer}>
                 <View style={accountStyles.form}>
                     <Input
                         label="First Name"
@@ -128,8 +129,8 @@ export default function Signup() {
                         </View>
                     )}
                 </View>
+                <Button title="Create Account" onPress={signup} />
             </ScrollView>
-            <Button title="Create Account" onPress={signup} />
         </View>
     );
 }
