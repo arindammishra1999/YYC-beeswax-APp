@@ -64,7 +64,7 @@ interface IProduct {
 }
 
 interface IReview {
-    id: string;
+    id?: string;
     userId: string;
     username: string;
     title: string;

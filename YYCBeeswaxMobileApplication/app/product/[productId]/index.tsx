@@ -10,7 +10,7 @@ import { getProductDataById } from "@/firebase/getCollections/getProductByID";
 import { mainStyles } from "@/styles/mainStyles";
 import { productPageStyles } from "@/styles/productPageStyles";
 
-export default function ProductId() {
+export default function Product() {
     const { productId } = useLocalSearchParams() as Record<string, string>;
 
     const [product, setProduct] = useState<IProduct>({
@@ -36,18 +36,6 @@ export default function ProductId() {
         (async () => {
             const products = await getProductDataById(productId);
             if (products) {
-                if (products.reviews) {
-                    products.reviews.count = 0;
-                    products.reviews.avg = 0;
-                    for (const i of ["1", "2", "3", "4", "5"] as const) {
-                        products.reviews.count += products.reviews[i] ?? 0;
-                        products.reviews.avg +=
-                            (products.reviews[i] ?? 0) * parseInt(i, 10);
-                        console.log(products.reviews);
-                    }
-                    products.reviews.avg /= products.reviews.count;
-                }
-                console.log(products.reviews);
                 setProduct(products);
                 if (products.variants) {
                     setSelectedVariant(products.variants.values[0]);
