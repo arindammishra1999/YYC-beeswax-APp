@@ -7,7 +7,7 @@ import { useNavigation } from "expo-router";
 import { useEffect } from "react";
 import { Alert } from "react-native";
 
-export function useUnsavedChangesCheck(isUnsaved: boolean) {
+export function useUnsavedChangesCheck(isSaved: boolean) {
     const navigation = useNavigation();
 
     useEffect(() => {
@@ -18,7 +18,7 @@ export function useUnsavedChangesCheck(isUnsaved: boolean) {
                 EventMapCore<NavigationState>["beforeRemove"]["data"]
             >,
         ) {
-            if (isUnsaved) {
+            if (isSaved) {
                 // If we don't have unsaved changes, then we don't need to do anything
                 return;
             }
@@ -52,5 +52,5 @@ export function useUnsavedChangesCheck(isUnsaved: boolean) {
         return () => {
             navigation.removeListener("beforeRemove", unsavedChanges);
         };
-    }, [isUnsaved]);
+    }, [isSaved]);
 }

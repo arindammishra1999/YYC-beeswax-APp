@@ -7,6 +7,7 @@ import { Dropdown } from "react-native-element-dropdown";
 import Header from "@/components/header";
 import Reviews from "@/components/reviews";
 import { getProductDataById } from "@/firebase/getCollections/getProductByID";
+import { useReviews } from "@/firebase/providers/reviewsProvider";
 import { mainStyles } from "@/styles/mainStyles";
 import { productPageStyles } from "@/styles/productPageStyles";
 
@@ -46,10 +47,15 @@ export default function Product() {
 
     const [tab, setTab] = useState("details");
 
+    const { getMoreReviews } = useReviews();
+
     return (
         <View style={mainStyles.container}>
             <Header header={product.name} />
-            <ScrollView contentContainerStyle={productPageStyles.display}>
+            <ScrollView
+                contentContainerStyle={productPageStyles.display}
+                onScrollEndDrag={getMoreReviews}
+            >
                 <Suspense fallback={<Text>Loading...</Text>}>
                     <Image
                         contentFit="cover"

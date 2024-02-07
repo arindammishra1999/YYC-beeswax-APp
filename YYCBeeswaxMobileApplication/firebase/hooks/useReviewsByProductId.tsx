@@ -31,10 +31,10 @@ async function getReviewsByProductId(
         constraints.push(orderBy("userId"));
         constraints.push(where("userId", "!=", userId));
     }
+    constraints.push(orderBy("lastUpdated", "desc"));
     if (lastVisible) {
         constraints.push(startAfter(lastVisible));
     }
-    constraints.push(orderBy("lastUpdated", "desc"));
     constraints.push(limit(4));
     const querySnap = await getDocs(query(col, ...constraints));
     return {

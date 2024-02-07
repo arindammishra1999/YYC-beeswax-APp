@@ -1,4 +1,3 @@
-import { FlashList } from "@shopify/flash-list";
 import { router } from "expo-router";
 import { DateTime } from "luxon";
 import React from "react";
@@ -42,60 +41,10 @@ function ProgressBar({ progress }: { progress: number }) {
     );
 }
 
-// function CircularProgress(props) {
-//     const { size, strokeWidth, text } = props;
-//     const radius = (size - strokeWidth) / 2;
-//     const circum = radius * 2 * Math.PI;
-//     const svgProgress = 100 - props.progressPercent;
-//
-//     return (
-//         <View style={{margin: 10}}>
-//             <Svg width={size} height={size}>
-//                 {/* Background Circle */}
-//                 <Circle
-//                     stroke={props.bgColor ? props.bgColor : "#f2f2f2"}
-//                     fill="none"
-//                     cx={size / 2}
-//                     cy={size / 2}
-//                     r={radius}
-//                     {...{strokeWidth}}
-//                 />
-//
-//                 {/* Progress Circle */}
-//                 <Circle
-//                     stroke={props.pgColor ? props.pgColor : "#3b5998"}
-//                     fill="none"
-//                     cx={size / 2}
-//                     cy={size / 2}
-//                     r={radius}
-//                     strokeDasharray={`${circum} ${circum}`}
-//                     strokeDashoffset={radius * Math.PI * 2 * (svgProgress/100)}
-//                     strokeLinecap="round"
-//                     transform={`rotate(-90, ${size/2}, ${size/2})`}
-//                     {...{strokeWidth}}
-//                 />
-//
-//                 {/* Text */}
-//                 <SVGText
-//                     fontSize={props.textSize ? props.textSize : "10"}
-//                     x={size / 2}
-//                     y={size / 2 + (props.textSize ?  (props.textSize / 2) - 1 : 5)}
-//                     textAnchor="middle"
-//                     fill={props.textColor ? props.textColor : "#333333"}
-//                 >
-//                     {text}
-//                 </SVGText>
-//             </Svg>
-//         </View>
-//     )
-// }
-
 function Review({ review }: { review: IReview }) {
     return (
         <View
             style={{
-                // backgroundColor: "blue",
-                // marginBottom: 30,
                 gap: 5,
             }}
         >
@@ -143,7 +92,7 @@ function Review({ review }: { review: IReview }) {
 }
 
 export default function Reviews(props: Props) {
-    const { reviews, getMoreReviews, userReview } = useReviews();
+    const { reviews, userReview } = useReviews();
     const { user } = useUser();
     return (
         <View>
@@ -171,6 +120,7 @@ export default function Reviews(props: Props) {
                                     }
                                     return (
                                         <View
+                                            key={value}
                                             style={{
                                                 flexDirection: "row",
                                                 alignItems: "center",
@@ -277,31 +227,54 @@ export default function Reviews(props: Props) {
                             <Text style={{ fontSize: 20, paddingBottom: 10 }}>
                                 Customer Reviews
                             </Text>
-                            <FlashList
-                                data={reviews}
-                                renderItem={({ item, index }) => {
-                                    return <Review review={item} />;
-                                }}
-                                ItemSeparatorComponent={() => (
-                                    <View style={{ height: 20 }} />
-                                )}
-                                onEndReached={getMoreReviews}
-                                estimatedItemSize={91}
-                            />
+                            {/*<FlashList*/}
+                            {/*    data={reviews}*/}
+                            {/*    renderItem={({ item, index }) => {*/}
+                            {/*        return <Review review={item} />;*/}
+                            {/*    }}*/}
+                            {/*    ItemSeparatorComponent={() => (*/}
+                            {/*        <View style={{ height: 20 }} />*/}
+                            {/*    )}*/}
+                            {/*    onEndReached={getMoreReviews}*/}
+                            {/*    estimatedItemSize={91}*/}
+                            {/*/>*/}
+                            {reviews.map((review, index) => {
+                                return (
+                                    <View
+                                        key={index}
+                                        style={index != 0 && { paddingTop: 20 }}
+                                    >
+                                        <Review review={review} />
+                                    </View>
+                                );
+                            })}
                         </>
                     )}
                 </>
             ) : (
-                <Text
-                    style={{
-                        textAlign: "center",
-                        paddingTop: 30,
-                        fontWeight: "bold",
-                        fontSize: 16,
-                    }}
-                >
-                    This product has no reviews
-                </Text>
+                <>
+                    <Text
+                        style={{
+                            // textAlign: "center",
+                            paddingVertical: 20,
+                            fontWeight: "bold",
+                            fontSize: 16,
+                        }}
+                    >
+                        This product has no reviews
+                    </Text>
+                    {user && !userReview && (
+                        <Button
+                            title="Write a Review"
+                            onPress={() =>
+                                router.push(
+                                    `/product/${props.productId}/SetUserReview`,
+                                )
+                            }
+                            style={{ marginBottom: 20 }}
+                        />
+                    )}
+                </>
             )}
         </View>
     );

@@ -14,6 +14,7 @@ import Header from "@/components/header";
 import Input from "@/components/input";
 import ProgressStar from "@/components/progressStar";
 import { useReviews } from "@/firebase/providers/reviewsProvider";
+import { useUnsavedChangesCheck } from "@/lib/hooks/useUnsavedChangesCheck";
 import { accountStyles } from "@/styles/accountStyles";
 
 export default function Review() {
@@ -45,8 +46,12 @@ export default function Review() {
         }
 
         updateUserReview(review);
-        router.back();
+        (async () => {
+            router.back();
+        })();
     }
+
+    useUnsavedChangesCheck(!!userReview);
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -79,6 +84,7 @@ export default function Review() {
                                 .map((value, index) => {
                                     return (
                                         <TouchableOpacity
+                                            key={index}
                                             onPress={() => {
                                                 setReview((prev) => ({
                                                     ...prev,
@@ -102,12 +108,12 @@ export default function Review() {
                             placeholder=""
                             autoCapitalize
                             value={review.title}
-                            onChangeText={(value) =>
+                            onChangeText={(value) => {
                                 setReview((prev) => ({
                                     ...review,
                                     title: value,
-                                }))
-                            }
+                                }));
+                            }}
                         />
                         <Input
                             label="Review"
@@ -116,12 +122,12 @@ export default function Review() {
                             inputStyle={{ height: 200 }}
                             multiline
                             value={review.review}
-                            onChangeText={(value) =>
+                            onChangeText={(value) => {
                                 setReview((prev) => ({
                                     ...review,
                                     review: value,
-                                }))
-                            }
+                                }));
+                            }}
                         />
                         {error && (
                             <Text style={accountStyles.error}>{error}</Text>
