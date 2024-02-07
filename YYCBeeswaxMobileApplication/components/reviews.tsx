@@ -1,14 +1,13 @@
 import { router } from "expo-router";
 import React from "react";
 import { Text, View } from "react-native";
-import Svg, { Circle } from "react-native-svg";
 
 import Button from "@/components/button";
 import Review from "@/components/cards/reviewCard";
 import ProgressBar from "@/components/progressBar";
-import { colors } from "@/consts/styles";
 import { useReviews } from "@/firebase/providers/reviewsProvider";
 import { useUser } from "@/firebase/providers/userProvider";
+import ProgressCircle from "@/components/progressCircle";
 
 type Props = {
     productId: string;
@@ -95,27 +94,9 @@ export default function Reviews(props: Props) {
                             >
                                 {props.product.reviews.count} reviews
                             </Text>
-                            <Svg
-                                height="100%"
-                                width="100%"
-                                viewBox="0 0 100 100"
-                            >
-                                <Circle
-                                    cx="50"
-                                    cy="50"
-                                    r="45"
-                                    stroke={colors.yellow}
-                                    strokeWidth="5"
-                                    fill="transparent"
-                                    strokeLinecap="round"
-                                    transform="rotate(-90 50 50)"
-                                    strokeDasharray={Math.PI * 2 * 45}
-                                    strokeDashoffset={
-                                        (1 - props.product.reviews.avg / 5) *
-                                        (Math.PI * 2 * 45)
-                                    }
-                                />
-                            </Svg>
+                            <ProgressCircle
+                                progress={1 - props.product.reviews.avg / 5}
+                            />
                         </View>
                     </View>
                     {user && userReview && (
