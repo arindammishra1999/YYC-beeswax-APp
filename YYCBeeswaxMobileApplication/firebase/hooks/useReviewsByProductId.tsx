@@ -1,5 +1,7 @@
 import {
     collection,
+    doc,
+    getDoc,
     getDocs,
     limit,
     orderBy,
@@ -10,46 +12,45 @@ import {
 import { useEffect, useState } from "react";
 
 import { db } from "@/firebase/config";
+import { useUser } from "@/firebase/providers/userProvider";
 
 export function useReviewsByProductId(id: string) {
+    const [userReview, setUserReview] = useState<IReview>();
     const [reviews, setReviews] = useState<IReview[]>([]);
-    const [lastVisible, setLastVisible] = useState<
-        QueryDocumentSnapshot | undefined
-    >(undefined);
+    const [lastVisible, setLastVisible] = useState<QueryDocumentSnapshot>();
 
     const col = collection(db, "products", id, "reviews");
 
+    const { user } = useUser();
+
     useEffect(() => {
         (async () => {
-            try {
-                const querySnap = await getDocs(
-                    query(col, orderBy("lastUpdated", "desc"), limit(4)),
-                );
-                console.log(
-                    querySnap.docs.map((doc) => {
-                        return {
-                            id: doc.id,
-                            ...doc.data(),
-                        } as IReview;
-                    }),
-                );
-                setLastVisible(querySnap.docs.at(-1));
-                setReviews(
-                    querySnap.docs.map((doc) => {
-                        return {
-                            id: doc.id,
-                            ...doc.data(),
-                        } as IReview;
-                    }),
-                );
-            } catch (error) {
-                console.error("Error getting document: ", error);
+            if (user) {
+                const docSnap = await getDoc(doc(col, user.uid));
+                if (docSnap.exists()) {
+                    setUserReview({
+                        id: docSnap.id,
+                        ...docSnap.data(),
+                    } as IReview);
+                }
             }
+
+            const querySnap = await getDocs(
+                query(col, orderBy("lastUpdated", "desc"), limit(4)),
+            );
+            setLastVisible(querySnap.docs.at(-1));
+            setReviews(
+                querySnap.docs.map((doc) => {
+                    return {
+                        id: doc.id,
+                        ...doc.data(),
+                    } as IReview;
+                }),
+            );
         })();
     }, []);
 
     const getMoreReviews = async () => {
-        console.log("fetched called");
         if (lastVisible) {
             const querySnap = await getDocs(
                 query(
@@ -59,7 +60,6 @@ export function useReviewsByProductId(id: string) {
                     limit(4),
                 ),
             );
-            console.log("fetched");
             setLastVisible(querySnap.docs.at(-1));
             const newReviews = querySnap.docs.map((doc) => {
                 return {
@@ -67,12 +67,11 @@ export function useReviewsByProductId(id: string) {
                     ...doc.data(),
                 } as IReview;
             });
-            console.log(newReviews);
             setReviews((prev) => {
                 return [...prev, ...newReviews];
             });
         }
     };
 
-    return { reviews, getMoreReviews };
+    return { userReview, reviews, getMoreReviews };
 }

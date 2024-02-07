@@ -5,23 +5,10 @@ import { ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 
 import Header from "@/components/header";
+import Reviews from "@/components/reviews";
 import { getProductDataById } from "@/firebase/getCollections/getProductByID";
 import { mainStyles } from "@/styles/mainStyles";
 import { productPageStyles } from "@/styles/productPageStyles";
-import Reviews from "@/components/reviews";
-
-interface IProduct {
-    name: string;
-    description: string;
-    categories: string[];
-    variants?: {
-        name: string;
-        values: string[];
-    };
-    price: number;
-    stock: number;
-    url?: string;
-}
 
 export default function ProductId() {
     const { productId } = useLocalSearchParams() as Record<string, string>;
@@ -47,21 +34,29 @@ export default function ProductId() {
 
     useEffect(() => {
         (async () => {
-            const products = (await getProductDataById(productId)) as
-                | IProduct
-                | undefined;
+            const products = await getProductDataById(productId);
             if (products) {
+                if (products.reviews) {
+                    products.reviews.count = 0;
+                    products.reviews.avg = 0;
+                    for (const i of ["1", "2", "3", "4", "5"] as const) {
+                        products.reviews.count += products.reviews[i] ?? 0;
+                        products.reviews.avg +=
+                            (products.reviews[i] ?? 0) * parseInt(i, 10);
+                        console.log(products.reviews);
+                    }
+                    products.reviews.avg /= products.reviews.count;
+                }
+                console.log(products.reviews);
                 setProduct(products);
                 if (products.variants) {
                     setSelectedVariant(products.variants.values[0]);
                 }
-            } else {
-                console.log("Issue getting products");
             }
         })();
     }, []);
 
-    const [onDetails, setOnDetails] = useState(true);
+    const [tab, setTab] = useState("details");
 
     return (
         <View style={mainStyles.container}>
@@ -157,31 +152,32 @@ export default function ProductId() {
                     <View style={productPageStyles.productNavBar}>
                         <Text
                             style={
-                                onDetails
+                                tab == "details"
                                     ? productPageStyles.productNavBarSelected
                                     : productPageStyles.productNavBarUnselected
                             }
-                            onPress={() => setOnDetails(true)}
+                            onPress={() => setTab("details")}
                         >
                             Details
                         </Text>
                         <Text
                             style={
-                                onDetails
-                                    ? productPageStyles.productNavBarUnselected
-                                    : productPageStyles.productNavBarSelected
+                                tab == "reviews"
+                                    ? productPageStyles.productNavBarSelected
+                                    : productPageStyles.productNavBarUnselected
                             }
-                            onPress={() => setOnDetails(false)}
+                            onPress={() => setTab("reviews")}
                         >
                             Reviews
                         </Text>
                     </View>
-                    {onDetails ? (
+                    {tab == "details" && (
                         <Text style={productPageStyles.productDescription}>
                             {product.description}
                         </Text>
-                    ) : (
-                        <Reviews id={productId} />
+                    )}
+                    {tab == "reviews" && (
+                        <Reviews id={productId} product={product} />
                     )}
                 </View>
             </ScrollView>
