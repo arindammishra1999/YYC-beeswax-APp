@@ -8,6 +8,7 @@ import {
     query,
     QueryDocumentSnapshot,
     startAfter,
+    where,
 } from "firebase/firestore";
 import { useEffect, useState } from "react";
 
@@ -36,7 +37,13 @@ export function useReviewsByProductId(id: string) {
             }
 
             const querySnap = await getDocs(
-                query(col, orderBy("lastUpdated", "desc"), limit(4)),
+                query(
+                    col,
+                    orderBy("userId"),
+                    orderBy("lastUpdated", "desc"),
+                    where("userId", "!=", user?.uid ?? ""),
+                    limit(4),
+                ),
             );
             setLastVisible(querySnap.docs.at(-1));
             setReviews(
