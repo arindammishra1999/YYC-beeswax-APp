@@ -5,9 +5,9 @@ import { Text, View } from "react-native";
 import Button from "@/components/button";
 import Review from "@/components/cards/reviewCard";
 import ProgressBar from "@/components/progressBar";
+import ProgressCircle from "@/components/progressCircle";
 import { useReviews } from "@/firebase/providers/reviewsProvider";
 import { useUser } from "@/firebase/providers/userProvider";
-import ProgressCircle from "@/components/progressCircle";
 
 type Props = {
     productId: string;
