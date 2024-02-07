@@ -1,11 +1,11 @@
 import { router } from "expo-router";
-import { DateTime } from "luxon";
 import React from "react";
 import { Text, View } from "react-native";
 import Svg, { Circle } from "react-native-svg";
 
 import Button from "@/components/button";
-import ProgressStar from "@/components/progressStar";
+import Review from "@/components/cards/reviewCard";
+import ProgressBar from "@/components/progressBar";
 import { colors } from "@/consts/styles";
 import { useReviews } from "@/firebase/providers/reviewsProvider";
 import { useUser } from "@/firebase/providers/userProvider";
@@ -14,82 +14,6 @@ type Props = {
     productId: string;
     product: IProduct;
 };
-
-function ProgressBar({ progress }: { progress: number }) {
-    return (
-        <View
-            style={{
-                width: "100%",
-                height: 10,
-                backgroundColor: "lightgray",
-                borderRadius: 99,
-                overflow: "hidden",
-            }}
-        >
-            <View
-                style={[
-                    {
-                        backgroundColor: colors.yellow,
-                        height: "100%",
-                    },
-                    {
-                        width: `${progress}%`,
-                    },
-                ]}
-            />
-        </View>
-    );
-}
-
-function Review({ review }: { review: IReview }) {
-    return (
-        <View
-            style={{
-                gap: 5,
-            }}
-        >
-            <View
-                style={{
-                    flexDirection: "row",
-                    gap: 20,
-                }}
-            >
-                <View
-                    style={{
-                        height: 20,
-                        flexDirection: "row",
-                        gap: 4,
-                        justifyContent: "flex-start",
-                    }}
-                >
-                    {Array(5)
-                        .fill(0)
-                        .map((value, index) => {
-                            return (
-                                <ProgressStar
-                                    key={index}
-                                    progress={100 * (review.rating - index)}
-                                />
-                            );
-                        })}
-                </View>
-                <Text style={{ fontSize: 16 }}>Username</Text>
-                <Text
-                    style={{
-                        flex: 1,
-                        textAlign: "right",
-                    }}
-                >
-                    {DateTime.fromJSDate(
-                        review.lastUpdated.toDate(),
-                    ).toRelative()}
-                </Text>
-            </View>
-            <Text style={{ fontSize: 20 }}>{review.title}</Text>
-            <Text>{review.review || "fdwefqf"}</Text>
-        </View>
-    );
-}
 
 export default function Reviews(props: Props) {
     const { reviews, userReview } = useReviews();
@@ -224,25 +148,14 @@ export default function Reviews(props: Props) {
                     )}
                     {reviews.length > 0 && (
                         <>
-                            <Text style={{ fontSize: 20, paddingBottom: 10 }}>
+                            <Text style={{ fontSize: 20 }}>
                                 Customer Reviews
                             </Text>
-                            {/*<FlashList*/}
-                            {/*    data={reviews}*/}
-                            {/*    renderItem={({ item, index }) => {*/}
-                            {/*        return <Review review={item} />;*/}
-                            {/*    }}*/}
-                            {/*    ItemSeparatorComponent={() => (*/}
-                            {/*        <View style={{ height: 20 }} />*/}
-                            {/*    )}*/}
-                            {/*    onEndReached={getMoreReviews}*/}
-                            {/*    estimatedItemSize={91}*/}
-                            {/*/>*/}
                             {reviews.map((review, index) => {
                                 return (
                                     <View
                                         key={index}
-                                        style={index != 0 && { paddingTop: 20 }}
+                                        style={{ paddingTop: 20 }}
                                     >
                                         <Review review={review} />
                                     </View>
@@ -255,7 +168,6 @@ export default function Reviews(props: Props) {
                 <>
                     <Text
                         style={{
-                            // textAlign: "center",
                             paddingVertical: 20,
                             fontWeight: "bold",
                             fontSize: 16,
@@ -279,5 +191,3 @@ export default function Reviews(props: Props) {
         </View>
     );
 }
-
-// const styles = StyleSheet.create({});

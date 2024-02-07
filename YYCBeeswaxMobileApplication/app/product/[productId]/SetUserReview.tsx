@@ -18,7 +18,7 @@ import { useReviews } from "@/firebase/providers/reviewsProvider";
 import { useUnsavedChangesCheck } from "@/lib/hooks/useUnsavedChangesCheck";
 import { accountStyles } from "@/styles/accountStyles";
 
-export default function Review() {
+export default function SetUserReview() {
     const { userReview, updateUserReview } = useReviews();
     const [review, setReview] = useState<{
         title: string;
