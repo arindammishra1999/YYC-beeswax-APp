@@ -5,7 +5,7 @@ import { ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 
 import Header from "@/components/header";
-import Reviews from "@/components/reviews";
+import Reviews from "@/components/product/reviews";
 import { getProductDataById } from "@/firebase/getCollections/getProductByID";
 import { useReviews } from "@/firebase/providers/reviewsProvider";
 import { mainStyles } from "@/styles/mainStyles";
