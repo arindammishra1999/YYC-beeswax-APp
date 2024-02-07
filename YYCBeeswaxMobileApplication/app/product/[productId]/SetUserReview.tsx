@@ -24,8 +24,29 @@ export default function Review() {
     }>({
         title: userReview?.title ?? "",
         review: userReview?.review ?? "",
-        rating: userReview?.rating ?? 0,
+        rating: userReview?.rating ?? -1,
     });
+    const [error, setError] = useState("");
+
+    function submit() {
+        setError("");
+        if (review.rating == -1) {
+            setError("Please enter a rating.");
+            return;
+        }
+        if (review.title == "") {
+            setError("Please enter a title.");
+            return;
+        }
+        if (review.review == "") {
+            setError("Please enter a review.");
+            return;
+        }
+
+        updateUserReview(review);
+        router.back();
+    }
+
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View style={accountStyles.container}>
@@ -101,15 +122,12 @@ export default function Review() {
                                 }))
                             }
                         />
+                        {error && (
+                            <Text style={accountStyles.error}>{error}</Text>
+                        )}
                     </View>
                 </ScrollView>
-                <Button
-                    title={"Submit Review"}
-                    onPress={() =>{
-                        updateUserReview(review)
-                        router.back()
-                    }}
-                />
+                <Button title={"Submit Review"} onPress={submit} />
             </View>
         </TouchableWithoutFeedback>
     );
