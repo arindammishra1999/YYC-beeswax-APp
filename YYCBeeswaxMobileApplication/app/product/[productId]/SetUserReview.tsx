@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import {
     Keyboard,
     ScrollView,
+    StyleSheet,
     Text,
     TouchableOpacity,
     TouchableWithoutFeedback,
@@ -59,26 +60,10 @@ export default function Review() {
                 <Header
                     header={userReview ? "Update Review" : "Write a Review"}
                 />
-                <ScrollView style={{ flex: 1 }}>
-                    <View style={{ gap: 30, paddingVertical: 20, flex: 1 }}>
-                        <Text
-                            style={{
-                                fontSize: 16,
-                                fontWeight: "bold",
-                                paddingBottom: 8,
-                                paddingHorizontal: 10,
-                            }}
-                        >
-                            Overall Rating
-                        </Text>
-                        <View
-                            style={{
-                                height: 40,
-                                flexDirection: "row",
-                                gap: 16,
-                                justifyContent: "center",
-                            }}
-                        >
+                <ScrollView style={accountStyles.formContainer}>
+                    <View style={accountStyles.form}>
+                        <Text style={styles.text}>Overall Rating</Text>
+                        <View style={styles.ratingsContainer}>
                             {Array(5)
                                 .fill(0)
                                 .map((value, index) => {
@@ -110,7 +95,7 @@ export default function Review() {
                             value={review.title}
                             onChangeText={(value) => {
                                 setReview((prev) => ({
-                                    ...review,
+                                    ...prev,
                                     title: value,
                                 }));
                             }}
@@ -119,12 +104,12 @@ export default function Review() {
                             label="Review"
                             placeholder=""
                             autoCapitalize
-                            inputStyle={{ height: 200 }}
+                            inputStyle={styles.textArea}
                             multiline
                             value={review.review}
                             onChangeText={(value) => {
                                 setReview((prev) => ({
-                                    ...review,
+                                    ...prev,
                                     review: value,
                                 }));
                             }}
@@ -139,3 +124,19 @@ export default function Review() {
         </TouchableWithoutFeedback>
     );
 }
+
+const styles = StyleSheet.create({
+    text: {
+        fontSize: 16,
+        fontWeight: "bold",
+        paddingVertical: 8,
+        paddingHorizontal: 10,
+    },
+    ratingsContainer: {
+        height: 40,
+        flexDirection: "row",
+        gap: 16,
+        justifyContent: "center",
+    },
+    textArea: { height: 200 },
+});
