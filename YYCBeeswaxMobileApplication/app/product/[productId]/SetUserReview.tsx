@@ -1,4 +1,4 @@
-import Header from "@/components/header";
+import { router } from "expo-router";
 import React, { useState } from "react";
 import {
     Keyboard,
@@ -8,12 +8,13 @@ import {
     TouchableWithoutFeedback,
     View,
 } from "react-native";
-import { useReviews } from "@/firebase/providers/reviewsProvider";
+
+import Button from "@/components/button";
+import Header from "@/components/header";
 import Input from "@/components/input";
 import ProgressStar from "@/components/progressStar";
-import Button from "@/components/button";
+import { useReviews } from "@/firebase/providers/reviewsProvider";
 import { accountStyles } from "@/styles/accountStyles";
-import { router } from "expo-router";
 
 export default function Review() {
     const { userReview, updateUserReview } = useReviews();
@@ -97,9 +98,9 @@ export default function Review() {
                                 })}
                         </View>
                         <Input
-                            label={"Title"}
-                            placeholder={""}
-                            autoCapitalize={true}
+                            label="Title"
+                            placeholder=""
+                            autoCapitalize
                             value={review.title}
                             onChangeText={(value) =>
                                 setReview((prev) => ({
@@ -109,11 +110,11 @@ export default function Review() {
                             }
                         />
                         <Input
-                            label={"Review"}
-                            placeholder={""}
-                            autoCapitalize={true}
+                            label="Review"
+                            placeholder=""
+                            autoCapitalize
                             inputStyle={{ height: 200 }}
-                            multiline={true}
+                            multiline
                             value={review.review}
                             onChangeText={(value) =>
                                 setReview((prev) => ({
@@ -127,7 +128,7 @@ export default function Review() {
                         )}
                     </View>
                 </ScrollView>
-                <Button title={"Submit Review"} onPress={submit} />
+                <Button title="Submit Review" onPress={submit} />
             </View>
         </TouchableWithoutFeedback>
     );

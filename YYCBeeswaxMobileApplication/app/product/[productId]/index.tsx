@@ -11,7 +11,7 @@ import { mainStyles } from "@/styles/mainStyles";
 import { productPageStyles } from "@/styles/productPageStyles";
 
 export default function Product() {
-    const { productId } = useLocalSearchParams() as Record<string, string>;
+    const { productId } = useLocalSearchParams();
 
     const [product, setProduct] = useState<IProduct>({
         name: "",
@@ -34,7 +34,7 @@ export default function Product() {
 
     useEffect(() => {
         (async () => {
-            const products = await getProductDataById(productId);
+            const products = await getProductDataById(productId as string);
             if (products) {
                 setProduct(products);
                 if (products.variants) {
@@ -148,6 +148,18 @@ export default function Product() {
                         >
                             Details
                         </Text>
+                        {product.additionalInfo && (
+                            <Text
+                                style={
+                                    tab == "additionalInfo"
+                                        ? productPageStyles.productNavBarSelected
+                                        : productPageStyles.productNavBarUnselected
+                                }
+                                onPress={() => setTab("additionalInfo")}
+                            >
+                                Details
+                            </Text>
+                        )}
                         <Text
                             style={
                                 tab == "reviews"
@@ -164,8 +176,12 @@ export default function Product() {
                             {product.description}
                         </Text>
                     )}
+                    {tab == "additionalInfo" && <></>}
                     {tab == "reviews" && (
-                        <Reviews id={productId} product={product} />
+                        <Reviews
+                            productId={productId as string}
+                            product={product}
+                        />
                     )}
                 </View>
             </ScrollView>

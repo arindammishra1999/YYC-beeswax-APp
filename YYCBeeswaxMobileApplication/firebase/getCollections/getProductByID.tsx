@@ -2,7 +2,7 @@ import { doc, getDoc } from "firebase/firestore";
 
 import { db } from "@/firebase/config";
 
-export async function getProductDataById(id: any) {
+export async function getProductDataById(id: string) {
     try {
         const ref = doc(db, "products", id);
         const docSnap = await getDoc(ref);

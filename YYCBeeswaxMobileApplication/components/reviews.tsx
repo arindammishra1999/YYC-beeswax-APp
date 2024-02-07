@@ -1,18 +1,18 @@
 import { FlashList } from "@shopify/flash-list";
+import { router } from "expo-router";
 import { DateTime } from "luxon";
 import React from "react";
 import { Text, View } from "react-native";
 import Svg, { Circle } from "react-native-svg";
 
 import Button from "@/components/button";
-import { colors } from "@/consts/styles";
-import { router, useLocalSearchParams } from "expo-router";
-import { useReviews } from "@/firebase/providers/reviewsProvider";
 import ProgressStar from "@/components/progressStar";
+import { colors } from "@/consts/styles";
+import { useReviews } from "@/firebase/providers/reviewsProvider";
 import { useUser } from "@/firebase/providers/userProvider";
 
 type Props = {
-    id: string;
+    productId: string;
     product: IProduct;
 };
 
@@ -143,7 +143,6 @@ function Review({ review }: { review: IReview }) {
 }
 
 export default function Reviews(props: Props) {
-    const { productId } = useLocalSearchParams();
     const { reviews, getMoreReviews, userReview } = useReviews();
     const { user } = useUser();
     return (
@@ -255,7 +254,7 @@ export default function Reviews(props: Props) {
                                 title="Edit Review"
                                 onPress={() =>
                                     router.push(
-                                        `/product/${productId}/SetUserReview`,
+                                        `/product/${props.productId}/SetUserReview`,
                                     )
                                 }
                                 style={{ marginVertical: 20 }}
@@ -267,7 +266,7 @@ export default function Reviews(props: Props) {
                             title="Write a Review"
                             onPress={() =>
                                 router.push(
-                                    `/product/${productId}/SetUserReview`,
+                                    `/product/${props.productId}/SetUserReview`,
                                 )
                             }
                             style={{ marginBottom: 20 }}
