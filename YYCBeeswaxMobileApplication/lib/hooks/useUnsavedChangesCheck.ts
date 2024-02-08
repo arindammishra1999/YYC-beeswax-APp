@@ -57,5 +57,5 @@ export function useUnsavedChangesCheck(isSaved: boolean) {
         return remove;
     }, [isSaved]);
 
-    return forceRemove
+    return forceRemove;
 }
