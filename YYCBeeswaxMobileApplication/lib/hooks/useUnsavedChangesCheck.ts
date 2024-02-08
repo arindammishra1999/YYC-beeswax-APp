@@ -4,12 +4,12 @@ import {
     NavigationState,
 } from "@react-navigation/core";
 import { useNavigation } from "expo-router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Alert } from "react-native";
 
 export function useUnsavedChangesCheck(isSaved: boolean) {
     const navigation = useNavigation();
-
+    const [forceRemove, setForceRemove] = useState<() => void>();
     useEffect(() => {
         function unsavedChanges(
             e: EventArg<
@@ -49,8 +49,13 @@ export function useUnsavedChangesCheck(isSaved: boolean) {
 
         navigation.addListener("beforeRemove", unsavedChanges);
 
-        return () => {
+        function remove() {
             navigation.removeListener("beforeRemove", unsavedChanges);
-        };
+            setForceRemove(undefined);
+        }
+        setForceRemove(remove);
+        return remove;
     }, [isSaved]);
+
+    return forceRemove
 }

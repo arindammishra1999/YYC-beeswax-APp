@@ -1,5 +1,5 @@
 import { router } from "expo-router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
     Keyboard,
     ScrollView,
@@ -30,8 +30,22 @@ export default function SetUserReview() {
         rating: userReview?.rating ?? -1,
     });
     const [error, setError] = useState("");
+    const [sameReview, setSameReview] = useState(!!userReview);
+
+    useEffect(() => {
+        setSameReview(
+            review.title == userReview?.title &&
+                review.review == userReview.review &&
+                review.rating == userReview.rating,
+        );
+    }, [review]);
 
     function submit() {
+        if (sameReview) {
+            router.back();
+            return;
+        }
+
         setError("");
         if (review.rating == -1) {
             setError("Please enter a rating.");
@@ -46,13 +60,12 @@ export default function SetUserReview() {
             return;
         }
 
+        forceRemove && forceRemove();
         updateUserReview(review);
-        (async () => {
-            router.back();
-        })();
+        router.back();
     }
 
-    useUnsavedChangesCheck(!!userReview);
+    const forceRemove = useUnsavedChangesCheck(sameReview);
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
