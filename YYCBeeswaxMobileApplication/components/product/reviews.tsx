@@ -1,6 +1,6 @@
 import { router } from "expo-router";
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Text, View } from "react-native";
 
 import Button from "@/components/button";
 import Review from "@/components/cards/reviewCard";
@@ -8,6 +8,7 @@ import ProgressBar from "@/components/progressBar";
 import ProgressCircle from "@/components/progressCircle";
 import { useReviews } from "@/firebase/providers/reviewsProvider";
 import { useUser } from "@/firebase/providers/userProvider";
+import { reviewsStyles } from "@/styles/components/reviewsStyles";
 
 type Props = {
     productId: string;
@@ -20,14 +21,17 @@ export default function Reviews(props: Props) {
     return (
         <View>
             {props.product.reviews && (
-                <View style={styles.statsContainer}>
-                    <View style={styles.barsContainer}>
+                <View style={reviewsStyles.statsContainer}>
+                    <View style={reviewsStyles.barsContainer}>
                         {(["5", "4", "3", "2", "1"] as const).map((value) => {
                             if (!props.product.reviews) {
                                 return;
                             }
                             return (
-                                <View key={value} style={styles.barContainer}>
+                                <View
+                                    key={value}
+                                    style={reviewsStyles.barContainer}
+                                >
                                     <Text>{value}</Text>
                                     <ProgressBar
                                         progress={
@@ -41,11 +45,11 @@ export default function Reviews(props: Props) {
                             );
                         })}
                     </View>
-                    <View style={styles.circleContainer}>
-                        <Text style={styles.avgText}>
+                    <View style={reviewsStyles.circleContainer}>
+                        <Text style={reviewsStyles.avgText}>
                             {props.product.reviews.avg.toPrecision(2)}
                         </Text>
-                        <Text style={styles.countText}>
+                        <Text style={reviewsStyles.countText}>
                             {props.product.reviews.count} reviews
                         </Text>
                         <ProgressCircle
@@ -56,7 +60,9 @@ export default function Reviews(props: Props) {
             )}
             {user && userReview && (
                 <>
-                    <Text style={styles.userReviewHeading}>Your Review</Text>
+                    <Text style={reviewsStyles.userReviewHeading}>
+                        Your Review
+                    </Text>
                     <Review review={userReview} />
                     <Button
                         title="Edit Review"
@@ -65,12 +71,12 @@ export default function Reviews(props: Props) {
                                 `/product/${props.productId}/SetUserReview`,
                             )
                         }
-                        style={styles.button}
+                        style={reviewsStyles.button}
                     />
                 </>
             )}
             {!props.product.reviews && (
-                <Text style={styles.noReviewText}>
+                <Text style={reviewsStyles.noReviewText}>
                     This product has no reviews
                 </Text>
             )}
@@ -80,17 +86,20 @@ export default function Reviews(props: Props) {
                     onPress={() =>
                         router.push(`/product/${props.productId}/SetUserReview`)
                     }
-                    style={styles.button}
+                    style={reviewsStyles.button}
                 />
             )}
             {reviews.length > 0 && (
                 <>
-                    <Text style={styles.customerReviewHeading}>
+                    <Text style={reviewsStyles.customerReviewHeading}>
                         Customer Reviews
                     </Text>
                     {reviews.map((review, index) => {
                         return (
-                            <View key={index} style={styles.reviewContainer}>
+                            <View
+                                key={index}
+                                style={reviewsStyles.reviewContainer}
+                            >
                                 <Review review={review} />
                             </View>
                         );
@@ -100,51 +109,3 @@ export default function Reviews(props: Props) {
         </View>
     );
 }
-
-const styles = StyleSheet.create({
-    statsContainer: {
-        flexDirection: "row",
-        gap: 20,
-        justifyContent: "space-around",
-        paddingTop: 20,
-        paddingBottom: 20,
-    },
-    barsContainer: {
-        width: "50%",
-        justifyContent: "space-between",
-    },
-    barContainer: {
-        flexDirection: "row",
-        alignItems: "center",
-        gap: 10,
-    },
-    circleContainer: {
-        width: "35%",
-        aspectRatio: 1,
-    },
-    avgText: {
-        position: "absolute",
-        width: "100%",
-        textAlign: "center",
-        top: "20%",
-        fontSize: 40,
-        fontWeight: "bold",
-    },
-    countText: {
-        position: "absolute",
-        width: "100%",
-        textAlign: "center",
-        top: "60%",
-        fontSize: 12,
-    },
-    userReviewHeading: { fontSize: 20, paddingBottom: 10, fontWeight: "bold" },
-    button: { marginVertical: 20 },
-    noReviewText: {
-        paddingTop: 20,
-        paddingBottom: 10,
-        fontWeight: "bold",
-        fontSize: 16,
-    },
-    customerReviewHeading: { fontSize: 20, fontWeight: "bold" },
-    reviewContainer: { paddingTop: 20 },
-});
