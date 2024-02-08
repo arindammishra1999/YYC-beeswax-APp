@@ -17,7 +17,9 @@ export async function getProductDataById(id: string) {
                     product.reviews.avg +=
                         (product.reviews[i] ?? 0) * parseInt(i, 10);
                 }
-                product.reviews.avg /= product.reviews.count;
+                if (product.reviews.count > 0) {
+                    product.reviews.avg /= product.reviews.count;
+                }
             }
 
             return product;

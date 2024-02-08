@@ -20,7 +20,7 @@ export default function Reviews(props: Props) {
     const { user } = useUser();
     return (
         <View>
-            {props.product.reviews && (
+            {props.product.reviews && props.product.reviews.count > 0 && (
                 <View style={reviewsStyles.statsContainer}>
                     <View style={reviewsStyles.barsContainer}>
                         {(["5", "4", "3", "2", "1"] as const).map((value) => {
@@ -75,7 +75,7 @@ export default function Reviews(props: Props) {
                     />
                 </>
             )}
-            {!props.product.reviews && (
+            {(!props.product.reviews || props.product.reviews.count == 0) && (
                 <Text style={reviewsStyles.noReviewText}>
                     This product has no reviews
                 </Text>
