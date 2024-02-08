@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import {
     Keyboard,
     ScrollView,
-    StyleSheet,
     Text,
     TouchableOpacity,
     TouchableWithoutFeedback,
@@ -17,7 +16,7 @@ import ProgressStar from "@/components/progressStar";
 import { useReviews } from "@/firebase/providers/reviewsProvider";
 import { useUnsavedChangesCheck } from "@/lib/hooks/useUnsavedChangesCheck";
 import { accountStyles } from "@/styles/accountStyles";
-import { loginPageStyles } from "@/styles/loginPageStyles";
+import { setUserReviewPageStyles } from "@/styles/setUserReviewPageStyles";
 
 export default function SetUserReview() {
     const { userReview, updateUserReview, deleteUserReview } = useReviews();
@@ -82,8 +81,10 @@ export default function SetUserReview() {
                 />
                 <ScrollView style={accountStyles.formContainer}>
                     <View style={accountStyles.form}>
-                        <Text style={styles.text}>Overall Rating</Text>
-                        <View style={styles.ratingsContainer}>
+                        <Text style={setUserReviewPageStyles.text}>
+                            Overall Rating
+                        </Text>
+                        <View style={setUserReviewPageStyles.ratingsContainer}>
                             {Array(5)
                                 .fill(0)
                                 .map((value, index) => {
@@ -124,7 +125,7 @@ export default function SetUserReview() {
                             label="Review"
                             placeholder=""
                             autoCapitalize
-                            inputStyle={styles.textArea}
+                            inputStyle={setUserReviewPageStyles.textArea}
                             multiline
                             value={review.review}
                             onChangeText={(value) => {
@@ -136,7 +137,7 @@ export default function SetUserReview() {
                         />
                         {userReview && (
                             <Text
-                                style={loginPageStyles.forgot}
+                                style={setUserReviewPageStyles.delete}
                                 onPress={handleDeleteReview}
                             >
                                 Delete Review
@@ -152,19 +153,3 @@ export default function SetUserReview() {
         </TouchableWithoutFeedback>
     );
 }
-
-const styles = StyleSheet.create({
-    text: {
-        fontSize: 16,
-        fontWeight: "bold",
-        paddingVertical: 8,
-        paddingHorizontal: 10,
-    },
-    ratingsContainer: {
-        height: 40,
-        flexDirection: "row",
-        gap: 16,
-        justifyContent: "center",
-    },
-    textArea: { height: 200 },
-});
