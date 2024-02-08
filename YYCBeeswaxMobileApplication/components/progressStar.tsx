@@ -6,7 +6,7 @@ import { colors } from "@/consts/styles";
 
 export default function ProgressStar({ progress }: { progress: number }) {
     return (
-        <View style={{ height: "100%", aspectRatio: 1 }}>
+        <View style={{ height: "100%", aspectRatio: 1, overflow: "hidden" }}>
             <Svg viewBox="0 0 47.94 47.94">
                 <Mask id="star">
                     <Path

@@ -99,7 +99,6 @@ export default function SetUserReview() {
                                             }}
                                         >
                                             <ProgressStar
-                                                key={index}
                                                 progress={
                                                     100 *
                                                     (review.rating - index)
