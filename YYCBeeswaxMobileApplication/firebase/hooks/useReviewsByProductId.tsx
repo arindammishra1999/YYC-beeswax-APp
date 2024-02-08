@@ -1,5 +1,6 @@
 import {
     collection,
+    deleteDoc,
     doc,
     getDoc,
     getDocs,
@@ -60,6 +61,11 @@ async function getReviewByUserId(productId: string, userId: string) {
     }
 }
 
+async function deleteReviewByUserId(productId: string, userId: string) {
+    const reviewRef = doc(db, "products", productId, "reviews", userId);
+    await deleteDoc(reviewRef);
+}
+
 async function setReviewByUserId(
     productId: string,
     userId: string,
@@ -71,7 +77,7 @@ async function setReviewByUserId(
 
 export async function updateReviewAggregation(
     productId: string,
-    rating: number,
+    rating?: number,
     oldRating?: number,
 ) {
     if (oldRating && oldRating == rating) {
@@ -83,7 +89,7 @@ export async function updateReviewAggregation(
             reviewRef,
             {
                 reviews: {
-                    [rating]: increment(1),
+                    ...(rating && { [rating]: increment(1) }),
                     ...(oldRating && { [oldRating]: increment(-1) }),
                 },
             },
@@ -151,5 +157,19 @@ export function useReviewsByProductId(id: string) {
         }
     }
 
-    return { userReview, reviews, getMoreReviews, updateUserReview };
+    function deleteUserReview() {
+        if (user && userReview) {
+            updateReviewAggregation(id, undefined, userReview.rating);
+            deleteReviewByUserId(id, user.uid);
+            setUserReview(undefined);
+        }
+    }
+
+    return {
+        userReview,
+        reviews,
+        getMoreReviews,
+        updateUserReview,
+        deleteUserReview,
+    };
 }

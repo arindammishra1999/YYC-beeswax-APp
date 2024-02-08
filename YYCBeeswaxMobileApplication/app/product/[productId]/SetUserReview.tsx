@@ -17,9 +17,10 @@ import ProgressStar from "@/components/progressStar";
 import { useReviews } from "@/firebase/providers/reviewsProvider";
 import { useUnsavedChangesCheck } from "@/lib/hooks/useUnsavedChangesCheck";
 import { accountStyles } from "@/styles/accountStyles";
+import { loginPageStyles } from "@/styles/loginPageStyles";
 
 export default function SetUserReview() {
-    const { userReview, updateUserReview } = useReviews();
+    const { userReview, updateUserReview, deleteUserReview } = useReviews();
     const [review, setReview] = useState<{
         title: string;
         review: string;
@@ -62,6 +63,12 @@ export default function SetUserReview() {
 
         forceRemove && forceRemove();
         updateUserReview(review);
+        router.back();
+    }
+
+    function handleDeleteReview() {
+        forceRemove && forceRemove();
+        deleteUserReview();
         router.back();
     }
 
@@ -127,6 +134,14 @@ export default function SetUserReview() {
                                 }));
                             }}
                         />
+                        {userReview && (
+                            <Text
+                                style={loginPageStyles.forgot}
+                                onPress={handleDeleteReview}
+                            >
+                                Delete Review
+                            </Text>
+                        )}
                         {error && (
                             <Text style={accountStyles.error}>{error}</Text>
                         )}
