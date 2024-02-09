@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { ScrollView, View, Text } from "react-native";
-import DropDownPicker from "react-native-dropdown-picker";
+import { View, Text } from "react-native";
+import { SelectList } from "react-native-dropdown-select-list";
 
 import { adminDashboardPageStyles } from "@/styles/adminDashboardPageStyles";
 
@@ -9,32 +9,31 @@ type Props = {
 };
 
 export default function AdminCardHeader(props: Props) {
-    const [open, setOpen] = useState(false);
-    const [value, setValue] = useState("Select Item");
-    const [items, setItems] = useState([
-        { label: "Last Day", value: "Last Day" },
-        { label: "Last Week", value: "Last Week" },
-        { label: "Last Month", value: "Last Month" },
-        { label: "Last 3 Months", value: "Last 3 Months" },
-        { label: "Last 6 Months", value: "Last 6 Months" },
-        { label: "Last 12 Months", value: "Last 12 Months" },
-        { label: "All Time", value: "All Time" },
-    ]);
+    const options = [
+        { key: "1", value: "All Time" },
+        { key: "2", value: "Today" },
+        { key: "3", value: "Last Week" },
+        { key: "4", value: "Last Month" },
+        { key: "5", value: "Last 3 Months" },
+        { key: "6", value: "Last 6 Months" },
+        { key: "7", value: "Last 12 Months" },
+    ];
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const [selected, setSelected] = useState("");
 
     return (
         <View style={adminDashboardPageStyles.headerContainer}>
             <Text style={adminDashboardPageStyles.headerTitle}>
                 {props.title}
             </Text>
-            <DropDownPicker
-                open={open}
-                value={value}
-                items={items}
-                setOpen={setOpen}
-                setValue={setValue}
-                setItems={setItems}
-                style={adminDashboardPageStyles.dropdown}
-                dropDownContainerStyle={adminDashboardPageStyles.dropdown}
+            <SelectList
+                data={options}
+                dropdownStyles={adminDashboardPageStyles.dropdown}
+                dropdownItemStyles={adminDashboardPageStyles.dropdownItem}
+                setSelected={setSelected}
+                placeholder="Select Timeframe"
+                search={false}
             />
         </View>
     );

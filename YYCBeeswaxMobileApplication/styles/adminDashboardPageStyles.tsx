@@ -5,6 +5,7 @@ import { colors } from "@/consts/styles";
 export const adminDashboardPageStyles = StyleSheet.create({
     page: {
         backgroundColor: colors.lightGrey,
+        height: "90%",
     },
     header: {
         backgroundColor: colors.white,
@@ -28,6 +29,7 @@ export const adminDashboardPageStyles = StyleSheet.create({
         padding: 8,
     },
     cardContainer: {
+        height: 300,
         flex: 1,
         width: "90%",
         marginHorizontal: "5%",
@@ -76,11 +78,21 @@ export const adminDashboardPageStyles = StyleSheet.create({
         color: colors.red,
     },
     headerContainer: {
-        backgroundColor: colors.lightGrey,
+        flexDirection: "row",
         width: "90%",
+        alignItems: "center",
+        justifyContent: "space-between",
+        paddingVertical: 15,
         marginHorizontal: "5%",
+        backgroundColor: colors.greenTransparent,
     },
     dropdown: {
-        backgroundColor: colors.lightGrey,
+        marginLeft: -165,
+        position: "absolute",
+        zIndex: 9,
+        width: 200,
+    },
+    dropdownItem: {
+        width: 300,
     },
 });
