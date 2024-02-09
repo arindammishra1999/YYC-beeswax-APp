@@ -2,11 +2,12 @@ import React from "react";
 import { View } from "react-native";
 import { LineChart } from "react-native-chart-kit";
 
+import { colors } from "@/consts/styles";
 import { adminDashboardPageStyles } from "@/styles/adminDashboardPageStyles";
 
 export default function AdminLineChart() {
     const line = {
-        labels: ["January", "February", "March", "April", "May", "June"],
+        labels: ["Jan", "Feb", "Mar", "Apr", "May", "June"],
         datasets: [
             {
                 data: [20, 45, 28, 80, 99, 43],
@@ -20,13 +21,14 @@ export default function AdminLineChart() {
                 data={line}
                 width={330}
                 height={220}
-                yAxisLabel={"$"}
+                yAxisLabel="$"
                 chartConfig={{
-                    backgroundColor: "#e26a00",
-                    backgroundGradientFrom: "#fb8c00",
-                    backgroundGradientTo: "#ffa726",
-                    decimalPlaces: 2, // optional, defaults to 2dp
-                    color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+                    backgroundColor: colors.white,
+                    backgroundGradientFrom: colors.white,
+                    backgroundGradientTo: colors.white,
+                    decimalPlaces: 0,
+                    color: () => colors.blue,
+                    // color: (opacity = 1) => `rgba(0, 0, 255, ${opacity})`,
                     style: {
                         borderRadius: 16,
                     },

@@ -128,6 +128,5 @@ export const adminDashboardPageStyles = StyleSheet.create({
     },
     graphContainer: {
         width: "90%",
-        marginHorizontal: "5%",
     },
 });
