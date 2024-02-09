@@ -29,7 +29,7 @@ export const adminDashboardPageStyles = StyleSheet.create({
         padding: 8,
     },
     cardContainer: {
-        height: 300,
+        height: 350,
         flex: 1,
         width: "90%",
         marginHorizontal: "5%",
@@ -45,6 +45,7 @@ export const adminDashboardPageStyles = StyleSheet.create({
     overviewSection: {
         width: "40%",
         margin: "5%",
+        zIndex: -1,
     },
     overviewText: {
         color: colors.mediumGrey,
@@ -78,21 +79,19 @@ export const adminDashboardPageStyles = StyleSheet.create({
         color: colors.red,
     },
     headerContainer: {
-        flexDirection: "row",
-        width: "90%",
+        display: "flex",
         alignItems: "center",
         justifyContent: "space-between",
+        flexDirection: "row",
+        width: "90%",
         paddingVertical: 15,
         marginHorizontal: "5%",
-        backgroundColor: colors.greenTransparent,
     },
     dropdown: {
-        marginLeft: -165,
         position: "absolute",
         zIndex: 9,
-        width: 200,
-    },
-    dropdownItem: {
-        width: 300,
+        width: 150,
+        height: 300,
+        backgroundColor: colors.white,
     },
 });

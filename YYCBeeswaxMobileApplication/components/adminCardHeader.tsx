@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text } from "react-native";
+import { View, Text, ScrollView } from "react-native";
 import { SelectList } from "react-native-dropdown-select-list";
 
 import { adminDashboardPageStyles } from "@/styles/adminDashboardPageStyles";
@@ -29,11 +29,12 @@ export default function AdminCardHeader(props: Props) {
             </Text>
             <SelectList
                 data={options}
+                boxStyles={{ width: 150 }}
                 dropdownStyles={adminDashboardPageStyles.dropdown}
-                dropdownItemStyles={adminDashboardPageStyles.dropdownItem}
                 setSelected={setSelected}
-                placeholder="Select Timeframe"
+                defaultOption={{ key: "1", value: "All Time" }}
                 search={false}
+                save="value"
             />
         </View>
     );

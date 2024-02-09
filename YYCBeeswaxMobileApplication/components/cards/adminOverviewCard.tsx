@@ -10,7 +10,7 @@ export default function AdminOverviewCard() {
     return (
         <View style={adminDashboardPageStyles.cardContainer}>
             <AdminCardHeader title="Overview" />
-            {/*<AdminOverviewSection
+            <AdminOverviewSection
                 title="Customers"
                 figure="1234"
                 change="44.4%"
@@ -33,7 +33,7 @@ export default function AdminOverviewCard() {
                 figure="500"
                 change="20.4%"
                 isNegative={false}
-    />*/}
+            />
         </View>
     );
 }
