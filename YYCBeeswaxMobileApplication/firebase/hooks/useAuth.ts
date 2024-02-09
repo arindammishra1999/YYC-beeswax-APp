@@ -11,12 +11,11 @@ export default function useAuth() {
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, async (user) => {
             setUser(user);
-            setLoading(false);
-
             if (user) {
                 const idTokenResult = await user.getIdTokenResult();
                 setIsAdmin(!!idTokenResult.claims?.isAdmin);
             }
+            setLoading(false);
         });
         return unsubscribe;
     }, [onAuthStateChanged]);
