@@ -36,7 +36,6 @@ export default function App() {
         { text: "Discover upcoming events", iconName: "event" },
     ];
 
-    return <AdminDashboardPage />;
     return (
         <View style={mainStyles.container}>
             <View style={rootPageStyles.imageContainer}>

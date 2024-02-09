@@ -9,8 +9,6 @@ export const adminDashboardPageStyles = StyleSheet.create({
     },
     header: {
         backgroundColor: colors.white,
-        borderBottomLeftRadius: 20,
-        borderBottomRightRadius: 20,
         height: 80,
         paddingVertical: "3%",
         paddingHorizontal: "5%",
