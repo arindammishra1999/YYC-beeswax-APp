@@ -2,16 +2,23 @@ interface IQuiz {
     id: string;
     title: string;
     description: string;
-    count: number;
+    // count: number;
     type: "Knowledge" | "Personality";
     created: firebase.firestore.Timestamp;
     plays: number;
+    questions: (IKnowledgeQuestion | IPersonalityQuestion)[];
+}
 
+interface IKnowledgeQuiz extends IQuiz {
     // Knowledge Quiz
     difficulty: string;
+    questions: IKnowledgeQuestion[];
+}
 
+interface IPersonalityQuiz extends IQuiz {
     // Personality Quiz
     weights: { [key: string]: string };
+    questions: IPersonalityQuestion[];
 }
 
 interface IKnowledgeQuestion {

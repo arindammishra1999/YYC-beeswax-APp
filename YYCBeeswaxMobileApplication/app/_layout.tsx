@@ -60,14 +60,6 @@ export default function RootLayout() {
                             animation: "slide_from_bottom",
                         }}
                     />
-                    <Stack.Screen
-                        name="quizzes/knowledge/[quizId]"
-                        options={{ gestureEnabled: false }}
-                    />
-                    <Stack.Screen
-                        name="quizzes/personality/[quizId]"
-                        options={{ gestureEnabled: false }}
-                    />
                 </Stack>
             </UserProvider>
         </SafeAreaView>

@@ -7,7 +7,7 @@ import Button from "@/components/button";
 import Header from "@/components/header";
 import { QuizEndScreen } from "@/components/quiz/quizEndScreen";
 import { QuizStartScreen } from "@/components/quiz/quizStartScreen";
-import { getQuizById } from "@/firebase/getCollections/getQuizById";
+import { useQuizzes } from "@/firebase/providers/quizzesProvider";
 import { updateQuiz } from "@/firebase/update/updateQuiz";
 import { useUnsavedChangesCheck } from "@/lib/hooks/useUnsavedChangesCheck";
 import { mainStyles } from "@/styles/mainStyles";
@@ -18,37 +18,43 @@ const TMP_IMG =
 
 export default function Quiz() {
     const { quizId } = useLocalSearchParams() as Record<string, string>;
+    const { getQuizById } = useQuizzes();
+    const quiz = getQuizById<IPersonalityQuiz>(quizId);
 
-    const [quiz, setQuiz] = useState<IQuiz | null>(null);
-    const [questions, setQuestions] = useState<IPersonalityQuestion[]>([]);
+    // const [quiz, setQuiz] = useState<IQuiz | null>(null);
+    // const [questions, setQuestions] = useState<IPersonalityQuestion[]>([]);
 
     const [currentIndex, setCurrentIndex] = useState(-1);
-    const currentQuestion = questions[currentIndex];
-
     const [selectedAnswerIndex, setSelectedAnswerIndex] = useState(-1);
     const [results, setResults] = useState<{ [key: string]: number }>({});
 
     useEffect(() => {
         (async () => {
-            const data = await getQuizById<IPersonalityQuestion>(quizId);
-
-            if (!data) return;
-
-            setQuiz(data.quiz);
-            setQuestions(data.questions);
+            // const data = await getQuizById<IPersonalityQuestion>(quizId);
+            // if (!data) return;
+            // setQuiz(data.quiz);
+            // setQuestions(data.questions);
 
             setResults((prev) => {
-                Object.keys(data.quiz.weights).forEach((weight) => {
-                    prev[weight] = 0;
-                });
+                if (quiz) {
+                    Object.keys(quiz?.weights).forEach((weight) => {
+                        prev[weight] = 0;
+                    });
+                }
                 return { ...prev };
             });
         })();
     }, []);
 
     useUnsavedChangesCheck(
-        currentIndex == -1 || currentIndex >= questions.length,
+        currentIndex == -1 || currentIndex >= (quiz?.questions.length || 0),
     );
+
+    if (!quiz) {
+        return;
+    }
+
+    const currentQuestion = quiz.questions[currentIndex];
 
     function onStart() {
         setCurrentIndex(0);
@@ -78,10 +84,12 @@ export default function Quiz() {
         );
     }
 
-    if (currentIndex < questions.length) {
+    if (currentIndex < quiz.questions.length) {
         return (
             <View style={mainStyles.container}>
-                <Header header={`${currentIndex + 1}/${questions.length}`} />
+                <Header
+                    header={`${currentIndex + 1}/${quiz.questions.length}`}
+                />
                 <View style={quizPageStyles.container}>
                     <View style={quizPageStyles.questionImageContainer}>
                         <Image

@@ -2,12 +2,12 @@ import { FlashList } from "@shopify/flash-list";
 import { Image } from "expo-image";
 import { Href, router } from "expo-router";
 import { DateTime } from "luxon";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 
 import Header from "@/components/header";
 import Skeleton from "@/components/skeleton";
-import { getQuizzes } from "@/firebase/getCollections/getQuizzes";
+import { useQuizzes } from "@/firebase/providers/quizzesProvider";
 import { mainStyles } from "@/styles/mainStyles";
 import { quizzesPageStyles } from "@/styles/quizzesPageStyles";
 
@@ -35,6 +35,7 @@ function LoadingQuizCard() {
 }
 
 function QuizCard({ quiz }: { quiz: IQuiz }) {
+    if (!quiz.questions) return;
     return (
         <TouchableOpacity
             style={quizzesPageStyles.card}
@@ -54,7 +55,7 @@ function QuizCard({ quiz }: { quiz: IQuiz }) {
                     style={quizzesPageStyles.image}
                 />
                 <Text style={quizzesPageStyles.imageText}>
-                    {quiz.count} questions
+                    {quiz.questions.length} questions
                 </Text>
             </View>
             <View style={quizzesPageStyles.textContainer}>
@@ -78,16 +79,7 @@ function QuizCard({ quiz }: { quiz: IQuiz }) {
 }
 
 export default function Quizzes() {
-    const [quizzes, setQuizzes] = useState<IQuiz[]>([]);
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        (async () => {
-            const data = await getQuizzes();
-            setQuizzes(data);
-            setLoading(false);
-        })();
-    }, []);
+    const { quizzes, loading } = useQuizzes();
 
     return (
         <View style={mainStyles.container}>

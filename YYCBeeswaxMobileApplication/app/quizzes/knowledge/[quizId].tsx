@@ -7,7 +7,7 @@ import Button from "@/components/button";
 import Header from "@/components/header";
 import { QuizEndScreen } from "@/components/quiz/quizEndScreen";
 import { QuizStartScreen } from "@/components/quiz/quizStartScreen";
-import { getQuizById } from "@/firebase/getCollections/getQuizById";
+import { useQuizzes } from "@/firebase/providers/quizzesProvider";
 import { updateQuiz } from "@/firebase/update/updateQuiz";
 import { useUnsavedChangesCheck } from "@/lib/hooks/useUnsavedChangesCheck";
 import { shuffleArray } from "@/lib/utility";
@@ -19,24 +19,23 @@ const TMP_IMG =
 
 export default function Quiz() {
     const { quizId } = useLocalSearchParams() as Record<string, string>;
+    const { getQuizById } = useQuizzes();
+    const quiz = getQuizById<IKnowledgeQuiz>(quizId);
 
-    const [quiz, setQuiz] = useState<IQuiz | null>(null);
-    const [questions, setQuestions] = useState<IKnowledgeQuestion[]>([]);
+    // const [quiz, setQuiz] = useState<IQuiz | null>(null);
+    // const [questions, setQuestions] = useState<IKnowledgeQuestion[]>([]);
 
     const [currentIndex, setCurrentIndex] = useState(-1);
-    const currentQuestion = questions[currentIndex];
-
     const [selectedAnswer, setSelectedAnswer] = useState(-1);
     const [confirm, setConfirm] = useState(false);
     const [correctCount, setCorrectCount] = useState(0);
 
     useEffect(() => {
         (async () => {
-            const data = await getQuizById<IKnowledgeQuestion>(quizId);
+            // const data = await getQuizById<IKnowledgeQuestion>(quizId);
+            // if (!data) return;
 
-            if (!data) return;
-
-            data.questions.forEach((question) => {
+            quiz?.questions.forEach((question) => {
                 question.answers = [
                     question.correctAnswer,
                     question.incorrectAnswer1,
@@ -46,14 +45,20 @@ export default function Quiz() {
                 shuffleArray(question.answers);
             });
 
-            setQuiz(data.quiz);
-            setQuestions(data.questions);
+            // setQuiz(data.quiz);
+            // setQuestions(data.questions);
         })();
     }, []);
 
     useUnsavedChangesCheck(
-        currentIndex == -1 || currentIndex >= questions.length,
+        currentIndex == -1 || currentIndex >= (quiz?.questions.length ?? 0),
     );
+
+    if (!quiz) {
+        return;
+    }
+
+    const currentQuestion = quiz.questions[currentIndex];
 
     function onStart() {
         setCurrentIndex(0);
@@ -82,10 +87,12 @@ export default function Quiz() {
         );
     }
 
-    if (currentIndex < questions.length) {
+    if (currentIndex < quiz.questions.length) {
         return (
             <View style={mainStyles.container}>
-                <Header header={`${currentIndex + 1}/${questions.length}`} />
+                <Header
+                    header={`${currentIndex + 1}/${quiz.questions.length}`}
+                />
                 <View style={quizPageStyles.container}>
                     <View style={quizPageStyles.questionImageContainer}>
                         <Image
@@ -146,7 +153,7 @@ export default function Quiz() {
 
     return (
         <QuizEndScreen
-            title={`Your scored ${correctCount} out of ${quiz?.count}`}
+            title={`Your scored ${correctCount} out of ${quiz.questions.length}`}
             description="Good Job!"
             imageURI={TMP_IMG}
             onEnd={onEnd}
