@@ -29,6 +29,7 @@ export function useLoginWithGoogle() {
                 credentials,
             );
             console.log(signInResponse);
+            console.log(signInResponse._tokenResponse.isNewUser);
         },
         [],
     );
