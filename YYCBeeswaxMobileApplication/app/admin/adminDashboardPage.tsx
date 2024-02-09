@@ -3,6 +3,7 @@ import { ScrollView, View, Text } from "react-native";
 
 import Button from "@/components/button";
 import AdminOverviewCard from "@/components/cards/adminOverviewCard";
+import AdminPopularProductsCard from "@/components/cards/adminPopularProducts";
 import { adminDashboardPageStyles } from "@/styles/adminDashboardPageStyles";
 import { mainStyles } from "@/styles/mainStyles";
 
@@ -21,6 +22,7 @@ export default function AdminDashboardPage() {
                 />
             </View>
             <AdminOverviewCard />
+            <AdminPopularProductsCard />
         </ScrollView>
     );
 }

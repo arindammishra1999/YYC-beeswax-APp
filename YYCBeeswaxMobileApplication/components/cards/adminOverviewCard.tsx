@@ -1,9 +1,8 @@
 import React from "react";
 import { View } from "react-native";
 
-import AdminOverviewSection from "./adminOverviewSection";
-import AdminCardHeader from "../adminCardHeader";
-
+import AdminCardHeader from "@/components/adminCardHeader";
+import AdminOverviewSection from "@/components/cards/adminOverviewSection";
 import { adminDashboardPageStyles } from "@/styles/adminDashboardPageStyles";
 
 export default function AdminOverviewCard() {

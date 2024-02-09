@@ -29,10 +29,10 @@ export const adminDashboardPageStyles = StyleSheet.create({
         padding: 8,
     },
     cardContainer: {
-        height: 350,
         flex: 1,
         width: "90%",
         marginHorizontal: "5%",
+        paddingBottom: 5,
         alignItems: "center",
         backgroundColor: colors.white,
         elevation: 3,
@@ -93,5 +93,36 @@ export const adminDashboardPageStyles = StyleSheet.create({
         width: 150,
         height: 300,
         backgroundColor: colors.white,
+    },
+    subTitle: {
+        display: "flex",
+        flexDirection: "row",
+        width: "90%",
+        marginHorizontal: "5%",
+        justifyContent: "space-between",
+    },
+    productCard: {
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        width: 335,
+        marginHorizontal: "5%",
+        marginVertical: 10,
+    },
+    productImage: {
+        width: 100,
+        height: 100,
+        borderRadius: 10,
+    },
+    productName: {
+        fontSize: 16,
+        alignSelf: "center",
+        maxWidth: 150,
+        flexWrap: "wrap",
+    },
+    productEarnings: {
+        fontSize: 16,
+        alignSelf: "center",
+        fontWeight: "700",
     },
 });
