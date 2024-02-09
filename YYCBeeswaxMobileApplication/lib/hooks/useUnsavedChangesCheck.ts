@@ -53,7 +53,7 @@ export function useUnsavedChangesCheck(isSaved: boolean) {
             navigation.removeListener("beforeRemove", unsavedChanges);
             setForceRemove(undefined);
         }
-        setForceRemove(remove);
+        setForceRemove(() => remove);
         return remove;
     }, [isSaved]);
 
