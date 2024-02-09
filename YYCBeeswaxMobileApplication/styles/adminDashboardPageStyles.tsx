@@ -37,7 +37,7 @@ export const adminDashboardPageStyles = StyleSheet.create({
         backgroundColor: colors.white,
         elevation: 3,
         borderRadius: 15,
-        marginVertical: 20,
+        marginVertical: 15,
         display: "flex",
         flexDirection: "row",
         flexWrap: "wrap",
@@ -89,6 +89,7 @@ export const adminDashboardPageStyles = StyleSheet.create({
     },
     dropdown: {
         position: "absolute",
+        top: 45,
         zIndex: 9,
         width: 150,
         height: 300,
