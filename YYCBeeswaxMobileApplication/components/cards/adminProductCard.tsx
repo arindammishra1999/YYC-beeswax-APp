@@ -1,6 +1,7 @@
 import { Image } from "expo-image";
 import React from "react";
 import { Text, View } from "react-native";
+
 import { adminDashboardPageStyles } from "@/styles/adminDashboardPageStyles";
 
 type Props = {

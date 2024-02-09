@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { View, Text } from "react-native";
 
 import AdminCardHeader from "@/components/adminCardHeader";
-import AdminProductCard from "./adminProductCard";
+import AdminProductCard from "@/components/cards/adminProductCard";
 import { getProductData } from "@/firebase/getCollections/getProducts";
 import { adminDashboardPageStyles } from "@/styles/adminDashboardPageStyles";
 
