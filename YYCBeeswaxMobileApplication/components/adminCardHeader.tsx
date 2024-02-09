@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, ScrollView } from "react-native";
+import { View, Text } from "react-native";
 import { SelectList } from "react-native-dropdown-select-list";
 
 import { adminDashboardPageStyles } from "@/styles/adminDashboardPageStyles";

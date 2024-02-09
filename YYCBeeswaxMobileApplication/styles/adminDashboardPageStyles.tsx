@@ -126,4 +126,8 @@ export const adminDashboardPageStyles = StyleSheet.create({
         alignSelf: "center",
         fontWeight: "700",
     },
+    graphContainer: {
+        width: "90%",
+        marginHorizontal: "5%",
+    },
 });
