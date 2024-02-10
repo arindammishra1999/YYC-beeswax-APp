@@ -14,6 +14,7 @@ export const inputStyles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "space-between",
         paddingHorizontal: 15,
+        paddingVertical: 12,
         borderRadius: 8,
         borderWidth: 1,
         borderColor: "lightgray",
