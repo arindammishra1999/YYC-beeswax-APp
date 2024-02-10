@@ -8,7 +8,7 @@ import Header from "@/components/header";
 import { QuizEndScreen } from "@/components/quiz/quizEndScreen";
 import { QuizStartScreen } from "@/components/quiz/quizStartScreen";
 import { useQuizzes } from "@/firebase/providers/quizzesProvider";
-import { updateQuiz } from "@/firebase/update/updateQuiz";
+import { updateQuiz } from "@/firebase/setCollections/updateQuiz";
 import { useUnsavedChangesCheck } from "@/lib/hooks/useUnsavedChangesCheck";
 import { mainStyles } from "@/styles/mainStyles";
 import { quizPageStyles } from "@/styles/quizPageStyles";

@@ -1,4 +1,4 @@
-import { SplashScreen, Stack } from "expo-router";
+import { SplashScreen, Stack, usePathname } from "expo-router";
 import React, { useCallback, useEffect } from "react";
 import { BackHandler } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
@@ -13,6 +13,7 @@ SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
     const { user, loading, isAdmin } = useAuth();
+    const pathname = usePathname();
 
     useEffect(() => {
         const backHandler = BackHandler.addEventListener(
@@ -42,6 +43,10 @@ export default function RootLayout() {
                     <Stack
                         screenOptions={{
                             headerShown: false,
+                            gestureEnabled: !(
+                                pathname.startsWith("/product/") &&
+                                pathname.endsWith("SetUserReview")
+                            ),
                         }}
                     >
                         <Stack.Screen
