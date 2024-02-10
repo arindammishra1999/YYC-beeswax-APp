@@ -31,22 +31,22 @@ export default function AdminDashboardPage() {
     }
     return (
         <View style={mainStyles.container}>
-            <ScrollView style={adminDashboardPageStyles.page}>
-                {logoutSpinner && (
-                    <View style={adminDashboardPageStyles.spinnerOverlay}>
-                        <ActivityIndicator size="large" color={colors.yellow} />
-                    </View>
-                )}
-                <View style={adminDashboardPageStyles.header}>
-                    <Text style={adminDashboardPageStyles.headerTitle}>
-                        Dashboard
-                    </Text>
-                    <Button
-                        title="Sign Out"
-                        style={adminDashboardPageStyles.button}
-                        onPress={() => setLogoutPopupVisible(true)}
-                    />
+            {logoutSpinner && (
+                <View style={mainStyles.spinnerOverlay}>
+                    <ActivityIndicator size="large" color={colors.yellow} />
                 </View>
+            )}
+            <View style={adminDashboardPageStyles.header}>
+                <Text style={adminDashboardPageStyles.headerTitle}>
+                    Dashboard
+                </Text>
+                <Button
+                    title="Sign Out"
+                    style={adminDashboardPageStyles.button}
+                    onPress={() => setLogoutPopupVisible(true)}
+                />
+            </View>
+            <ScrollView style={adminDashboardPageStyles.page}>
                 <AdminOverviewCard />
                 <AdminSalesCard />
                 <AdminPopularProductsCard />
