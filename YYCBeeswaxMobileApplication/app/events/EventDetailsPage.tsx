@@ -2,7 +2,15 @@ import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { Image } from "expo-image";
 import * as WebBrowser from "expo-web-browser";
 import React, { useEffect, useState } from "react";
-import { ScrollView, Text, TouchableOpacity, View } from "react-native";
+import {
+    Alert,
+    Linking,
+    Platform,
+    ScrollView,
+    Text,
+    TouchableOpacity,
+    View,
+} from "react-native";
 
 import { selectedEventID } from "@/components/cards/eventCard";
 import Header from "@/components/header";
@@ -35,6 +43,37 @@ export default function EventDetailsPage() {
         });
     }, [selectedEventID]);
 
+    const openInMaps = (address: string) => {
+        Alert.alert(
+            "Open in Maps?",
+            "Do you want to open this address in Maps?",
+            [
+                {
+                    text: "No",
+                    onPress: () => {},
+                },
+                {
+                    text: "Yes",
+                    onPress: () => {
+                        const url = Platform.select({
+                            ios: `http://maps.apple.com/maps?q=${encodeURIComponent(address)}`,
+                            android: `geo:0,0?q=${encodeURIComponent(address)}`,
+                        });
+                        if (url) {
+                            Linking.openURL(url).catch((error) => {
+                                console.error(
+                                    `Error opening maps URL: ${error}`,
+                                );
+                            });
+                        } else {
+                            console.log("Invalid maps URL");
+                        }
+                    },
+                },
+            ],
+        );
+    };
+
     return (
         <View style={mainStyles.container}>
             <Header header="Event Details" />
@@ -59,19 +98,24 @@ export default function EventDetailsPage() {
                         </Text>
                     </View>
                 </View>
-                <View style={eventDetailsPageStyles.eventInfoContainer}>
-                    <View style={eventDetailsPageStyles.iconContainer}>
-                        <MaterialIcons
-                            name="location-pin"
-                            style={eventDetailsPageStyles.icon}
-                        />
+                <TouchableOpacity onPress={() => openInMaps(eventPlace)}>
+                    <View style={eventDetailsPageStyles.eventInfoContainer}>
+                        <View style={eventDetailsPageStyles.iconContainer}>
+                            <MaterialIcons
+                                name="location-pin"
+                                style={eventDetailsPageStyles.icon}
+                            />
+                        </View>
+
+                        <View
+                            style={eventDetailsPageStyles.innerDetailsContainer}
+                        >
+                            <Text style={eventDetailsPageStyles.infoHeaderText}>
+                                {eventPlace}
+                            </Text>
+                        </View>
                     </View>
-                    <View style={eventDetailsPageStyles.innerDetailsContainer}>
-                        <Text style={eventDetailsPageStyles.infoHeaderText}>
-                            {eventPlace}
-                        </Text>
-                    </View>
-                </View>
+                </TouchableOpacity>
                 <Text style={eventDetailsPageStyles.eventTextHeader}>
                     About this Event:
                 </Text>
