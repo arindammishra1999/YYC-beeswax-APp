@@ -70,12 +70,10 @@ export const adminDashboardPageStyles = StyleSheet.create({
     changePositive: {
         backgroundColor: colors.greenTransparent,
         color: colors.green,
-        borderRadius: 4,
     },
     changeNegative: {
         backgroundColor: colors.redTransparent,
         color: colors.red,
-        borderRadius: 4,
     },
     headerContainer: {
         display: "flex",
