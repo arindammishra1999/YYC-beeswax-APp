@@ -26,7 +26,6 @@ export const adminDashboardPageStyles = StyleSheet.create({
         padding: 8,
     },
     cardContainer: {
-        zIndex: -1,
         flex: 1,
         width: "90%",
         marginHorizontal: "5%",
@@ -99,6 +98,7 @@ export const adminDashboardPageStyles = StyleSheet.create({
         width: "90%",
         marginHorizontal: "5%",
         justifyContent: "space-between",
+        zIndex: -1,
     },
     productCard: {
         display: "flex",
@@ -130,6 +130,7 @@ export const adminDashboardPageStyles = StyleSheet.create({
     },
     graphContainer: {
         width: "90%",
+        zIndex: -1,
     },
     spinnerOverlay: {
         height: "60%",

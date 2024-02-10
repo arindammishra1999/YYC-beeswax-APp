@@ -28,7 +28,6 @@ export default function AdminLineChart() {
                     backgroundGradientTo: colors.white,
                     decimalPlaces: 0,
                     color: () => colors.blue,
-                    // color: (opacity = 1) => `rgba(0, 0, 255, ${opacity})`,
                     style: {
                         borderRadius: 16,
                     },

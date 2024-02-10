@@ -41,7 +41,7 @@ export default function AdminPopularProductsCard() {
                     Earnings
                 </Text>
             </View>
-            <View>
+            <View style={{ zIndex: -1 }}>
                 {allProducts.map((product: any) => (
                     <AdminProductCard
                         key={product.id}
