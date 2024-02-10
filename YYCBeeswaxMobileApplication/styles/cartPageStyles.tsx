@@ -39,9 +39,16 @@ export const cartPageStyles = StyleSheet.create({
     },
 
     headerContainer: {
-        padding: 20,
+        borderBottomColor: "#ddd",
+    },
+
+    topImageContainer: {
         borderBottomColor: "#ddd",
         marginBottom: 10,
+        alignSelf: "center",
+        marginTop: 10,
+        width: "100%",
+        height: "20%",
     },
 
     productContainer: {

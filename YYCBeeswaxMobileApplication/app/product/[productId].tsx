@@ -1,9 +1,9 @@
 import { Image } from "expo-image";
-import { router, useLocalSearchParams } from "expo-router";
-import React, { Suspense, useEffect, useState } from "react";
-import { ScrollView, Text, TouchableOpacity, View } from "react-native";
-import { Dropdown } from "react-native-element-dropdown";
+import { useLocalSearchParams } from "expo-router";
 import * as SecureStore from "expo-secure-store";
+import React, { Suspense, useEffect, useState } from "react";
+import { ScrollView, Text, TouchableOpacity, View, Alert } from "react-native";
+import { Dropdown } from "react-native-element-dropdown";
 
 import Header from "@/components/header";
 import { getProductDataById } from "@/firebase/getCollections/getProductByID";
@@ -31,7 +31,7 @@ export default function ProductId() {
         if (productId && quantity > 0) {
             // Get existing cart data from SecureStore or initialize an empty array
             SecureStore.getItemAsync("cart").then((cartData) => {
-                let cart = cartData ? JSON.parse(cartData) : [];
+                const cart = cartData ? JSON.parse(cartData) : [];
                 // Check if the product is already in the cart
                 const existingProductIndex = cart.findIndex(
                     (item: any) => item.productId === productId
@@ -51,7 +51,17 @@ export default function ProductId() {
                 // Save the updated cart data to SecureStore
                 SecureStore.setItemAsync("cart", JSON.stringify(cart)).then(
                     () => {
-                        //Cart updated successfully
+                        Alert.alert(
+                            "Success",
+                            "Item added to cart",
+                            [
+                                {
+                                    text: "OK",
+                                    style: "cancel",
+                                },
+                            ],
+                            { cancelable: false }
+                        );
                     }
                 );
             });

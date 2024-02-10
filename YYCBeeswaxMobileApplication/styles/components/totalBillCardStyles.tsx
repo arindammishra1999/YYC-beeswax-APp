@@ -4,14 +4,18 @@ import { colors } from "@/consts/styles";
 
 export const totalBillCardStyles = StyleSheet.create({
     cardContainer: {
-        width: "90%",
+        width: "100%",
         padding: 20,
-        marginBottom: 0,
-        borderRadius: 50,
-        marginTop: 10,
+        paddingBottom: 70,
         backgroundColor: colors.white,
-        shadowColor: "#000",
-        elevation: 5,
+        borderRadius: 50,
+        shadowOffset: {
+            width: 0,
+            height: 3,
+        },
+        shadowOpacity: 0.5,
+        shadowRadius: 4.65,
+        elevation: 40,
         alignSelf: "center",
     },
 

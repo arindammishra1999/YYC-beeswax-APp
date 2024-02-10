@@ -14,7 +14,7 @@ import TotalBillCard from "@/components/totalBillCard";
 import { cartPageStyles } from "@/styles/cartPageStyles";
 
 export default function CartPage() {
-    const [emptyCart, setEmptyCart] = useState(true);
+    const [emptyCart, setEmptyCart] = useState(true); // eslint-disable-line
     const [cartItems, setCartItems] = useState<any[]>([]);
 
     const calculateTotalItemsCost = (items: any[]) => {
@@ -174,7 +174,12 @@ export default function CartPage() {
                 <View style={cartPageStyles.headerContainer}>
                     <Header header="Your Cart" noBackArrow />
                 </View>
-                <ScrollView contentContainerStyle={{ paddingBottom: 40 }}>
+                <ScrollView contentContainerStyle={{ paddingBottom: 140 }}>
+                    <Image
+                        contentFit="contain"
+                        source={require("@/assets/cartProgress.png")}
+                        style={cartPageStyles.topImageContainer}
+                    />
                     {cartItems.map((product: any) => (
                         <CartProductCard
                             key={product.id}
@@ -187,15 +192,15 @@ export default function CartPage() {
                             onRemoveProduct={handleRemoveProduct}
                         />
                     ))}
-                    {cartItems.length > 0 && (
-                        <TotalBillCard
-                            totalItemsCost={calculateTotalItemsCost(cartItems)}
-                            shippingCost={10}
-                            gstCost={calculateGSTCost(cartItems)}
-                            totalBill={calculateTotalBill(cartItems)}
-                        />
-                    )}
                 </ScrollView>
+                {cartItems.length > 0 && (
+                    <TotalBillCard
+                        totalItemsCost={calculateTotalItemsCost(cartItems)}
+                        shippingCost={10}
+                        gstCost={calculateGSTCost(cartItems)}
+                        totalBill={calculateTotalBill(cartItems)}
+                    />
+                )}
             </View>
         );
     }

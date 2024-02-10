@@ -12,13 +12,19 @@ export const cartProductCardStyles = StyleSheet.create({
         marginTop: 10,
         backgroundColor: colors.white,
         shadowColor: "#000",
-        elevation: 5,
+        shadowOffset: {
+            width: 0,
+            height: 3,
+        },
+        shadowOpacity: 0.5,
+        shadowRadius: 4.65,
+        elevation: 10,
         alignSelf: "center",
     },
     image: {
         height: 120,
         width: 120,
-        resizeMode: "cover",
+        contentFit: "cover",
         marginRight: 15,
     },
     title: {

@@ -1,12 +1,11 @@
-import { router } from "expo-router";
 import { Image } from "expo-image";
-//import { Timestamp } from "firebase/firestore";
+import { router } from "expo-router";
+import * as SecureStore from "expo-secure-store";
 import React, { useState } from "react";
 import { View, TouchableOpacity, Text } from "react-native";
-import * as SecureStore from "expo-secure-store";
 
+import Popup from "@/components/popup";
 import { cartProductCardStyles } from "@/styles/components/cartProductCardStyles";
-// import { mainStyles } from "@/styles/mainStyles";
 
 type Props = {
     id: any;
@@ -20,6 +19,7 @@ type Props = {
 
 export default function CartProductCard(props: Props) {
     const [localQuantity, setLocalQuantity] = useState(props.quantity);
+    const [showPopup, setShowPopup] = useState(false);
 
     const updateSecureStore = async (productId: string, quantity: number) => {
         try {
@@ -84,21 +84,26 @@ export default function CartProductCard(props: Props) {
             props.onQuantityChange(props.id, newQuantity);
             updateSecureStore(props.id, newQuantity);
         } else {
-            setLocalQuantity(0);
-            props.onRemoveProduct(props.id);
-            removeProductFromSecureStore(props.id);
+            setShowPopup(true);
         }
+    }
+
+    function confirmRemoveFromCart() {
+        setLocalQuantity(0);
+        props.onRemoveProduct(props.id);
+        removeProductFromSecureStore(props.id);
+        setShowPopup(false);
     }
 
     return (
         <View style={cartProductCardStyles.cardContainer}>
             <TouchableOpacity
                 onPress={() => {
-                    router.push(`/dashboard/product/${props.id}`);
+                    router.push(`/product/${props.id}`);
                 }}
             >
                 <Image
-                    resizeMode="contain"
+                    contentFit="contain"
                     source={{ uri: props.image }}
                     style={cartProductCardStyles.image}
                 />
@@ -130,6 +135,16 @@ export default function CartProductCard(props: Props) {
                     </TouchableOpacity>
                 </View>
             </TouchableOpacity>
+            <Popup
+                visible={showPopup}
+                changeVisibility={() => setShowPopup(false)}
+                option1Text="Cancel"
+                option2Text="Remove from Cart"
+                option1Action={() => setShowPopup(false)}
+                option2Action={confirmRemoveFromCart}
+                title="Remove from Cart"
+                subTitle="Are you sure you want to remove this item from your cart?"
+            />
         </View>
     );
 }
