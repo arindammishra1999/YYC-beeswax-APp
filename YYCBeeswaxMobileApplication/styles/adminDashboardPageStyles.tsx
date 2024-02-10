@@ -66,6 +66,7 @@ export const adminDashboardPageStyles = StyleSheet.create({
         alignSelf: "flex-start",
         borderRadius: 4,
         paddingHorizontal: 5,
+        overflow: "hidden",
     },
     changePositive: {
         backgroundColor: colors.greenTransparent,
