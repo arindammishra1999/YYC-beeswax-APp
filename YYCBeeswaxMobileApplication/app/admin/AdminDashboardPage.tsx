@@ -4,20 +4,18 @@ import React, { useState } from "react";
 import { ActivityIndicator, ScrollView, View, Text } from "react-native";
 
 import Button from "@/components/button";
-import Popup from "@/components/popup";
 import AdminOverviewCard from "@/components/cards/adminOverviewCard";
 import AdminPopularProductsCard from "@/components/cards/adminPopularProducts";
 import AdminSalesCard from "@/components/cards/adminSalesCard";
+import Popup from "@/components/popup";
 import { colors } from "@/consts/styles";
 import { auth } from "@/firebase/config";
-import { useUser } from "@/firebase/providers/userProvider";
 import { adminDashboardPageStyles } from "@/styles/adminDashboardPageStyles";
 import { mainStyles } from "@/styles/mainStyles";
 
 export default function AdminDashboardPage() {
     const [logoutPopupVisible, setLogoutPopupVisible] = useState(false);
     const [logoutSpinner, setLogoutSpinner] = useState(false);
-    const { user } = useUser();
 
     async function logout() {
         try {
