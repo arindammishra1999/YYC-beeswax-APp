@@ -26,6 +26,7 @@ export const adminDashboardPageStyles = StyleSheet.create({
         padding: 8,
     },
     cardContainer: {
+        zIndex: -1,
         flex: 1,
         width: "90%",
         marginHorizontal: "5%",
