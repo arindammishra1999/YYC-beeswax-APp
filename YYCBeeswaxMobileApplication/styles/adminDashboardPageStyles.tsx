@@ -5,7 +5,6 @@ import { colors } from "@/consts/styles";
 export const adminDashboardPageStyles = StyleSheet.create({
     page: {
         backgroundColor: colors.lightGrey,
-        height: "90%",
     },
     header: {
         backgroundColor: colors.white,
@@ -119,6 +118,10 @@ export const adminDashboardPageStyles = StyleSheet.create({
         maxWidth: 150,
         flexWrap: "wrap",
     },
+    productInfo: {
+        flexDirection: "row",
+        columnGap: 20,
+    },
     productEarnings: {
         fontSize: 16,
         alignSelf: "center",
@@ -126,5 +129,20 @@ export const adminDashboardPageStyles = StyleSheet.create({
     },
     graphContainer: {
         width: "90%",
+    },
+    spinnerOverlay: {
+        height: "60%",
+        position: "absolute",
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundColor: colors.white,
+        justifyContent: "center",
+        alignItems: "center",
+        zIndex: 999,
+    },
+    bottom: {
+        marginBottom: "20%",
     },
 });

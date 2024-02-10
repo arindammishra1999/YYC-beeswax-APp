@@ -26,7 +26,12 @@ export default function AdminPopularProductsCard() {
     }, []);
 
     return (
-        <View style={adminDashboardPageStyles.cardContainer}>
+        <View
+            style={[
+                adminDashboardPageStyles.cardContainer,
+                adminDashboardPageStyles.bottom,
+            ]}
+        >
             <AdminCardHeader title="Popular Products" />
             <View style={adminDashboardPageStyles.subTitle}>
                 <Text style={adminDashboardPageStyles.overviewText}>

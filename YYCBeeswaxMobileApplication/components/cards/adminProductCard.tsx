@@ -14,14 +14,17 @@ type Props = {
 export default function AdminProductCard(props: Props) {
     return (
         <View style={adminDashboardPageStyles.productCard}>
-            <Image
-                contentFit="contain"
-                source={{ uri: props.image }}
-                style={adminDashboardPageStyles.productImage}
-            />
-            <Text style={adminDashboardPageStyles.productName}>
-                {props.name}
-            </Text>
+            <View style={adminDashboardPageStyles.productInfo}>
+                <Image
+                    contentFit="contain"
+                    source={{ uri: props.image }}
+                    style={adminDashboardPageStyles.productImage}
+                />
+                <Text style={adminDashboardPageStyles.productName}>
+                    {props.name}
+                </Text>
+            </View>
+
             <Text style={adminDashboardPageStyles.productEarnings}>
                 ${(Math.round(props.earnings * 100) / 100).toFixed(2)}
             </Text>
