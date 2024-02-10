@@ -1,6 +1,7 @@
 import { SplashScreen, Stack } from "expo-router";
 import React, { useCallback, useEffect } from "react";
 import { BackHandler } from "react-native";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import useAuth from "@/firebase/hooks/useAuth";
@@ -32,36 +33,41 @@ export default function RootLayout() {
     }
 
     return (
-        <SafeAreaView style={mainStyles.container} onLayout={onLayoutRootView}>
-            <UserProvider data={{ user, isAdmin }}>
-                <Stack
-                    screenOptions={{
-                        headerShown: false,
-                    }}
-                >
-                    <Stack.Screen
-                        name="index"
-                        options={{
-                            gestureEnabled: false,
-                            animation: "none",
+        <GestureHandlerRootView
+            style={mainStyles.container}
+            onLayout={onLayoutRootView}
+        >
+            <SafeAreaView style={mainStyles.container}>
+                <UserProvider data={{ user, isAdmin }}>
+                    <Stack
+                        screenOptions={{
+                            headerShown: false,
                         }}
-                    />
-                    <Stack.Screen
-                        name="dashboard"
-                        options={{
-                            gestureEnabled: false,
-                            animation: "none",
-                        }}
-                    />
-                    <Stack.Screen
-                        name="auth/emailVerification"
-                        options={{
-                            gestureEnabled: false,
-                            animation: "slide_from_bottom",
-                        }}
-                    />
-                </Stack>
-            </UserProvider>
-        </SafeAreaView>
+                    >
+                        <Stack.Screen
+                            name="index"
+                            options={{
+                                gestureEnabled: false,
+                                animation: "none",
+                            }}
+                        />
+                        <Stack.Screen
+                            name="dashboard"
+                            options={{
+                                gestureEnabled: false,
+                                animation: "none",
+                            }}
+                        />
+                        <Stack.Screen
+                            name="auth/emailVerification"
+                            options={{
+                                gestureEnabled: false,
+                                animation: "slide_from_bottom",
+                            }}
+                        />
+                    </Stack>
+                </UserProvider>
+            </SafeAreaView>
+        </GestureHandlerRootView>
     );
 }

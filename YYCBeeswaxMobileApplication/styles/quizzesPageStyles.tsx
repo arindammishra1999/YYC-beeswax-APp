@@ -34,6 +34,8 @@ export const quizzesPageStyles = StyleSheet.create({
     image: {
         width: viewportWidth / 4,
         height: viewportWidth / 4,
+        borderRadius: 10,
+        overflow: "hidden",
     },
     imageText: {
         position: "absolute",

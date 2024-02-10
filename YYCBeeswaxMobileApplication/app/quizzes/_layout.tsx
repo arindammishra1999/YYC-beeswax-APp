@@ -12,7 +12,7 @@ export default function Layout() {
                 }}
             >
                 <Stack.Screen
-                    name="knowledge/[quizId]"
+                    name="knowledge/[quizId]/index"
                     options={{ gestureEnabled: false }}
                 />
                 <Stack.Screen

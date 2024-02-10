@@ -1,3 +1,4 @@
+import { Feather } from "@expo/vector-icons";
 import { FlashList } from "@shopify/flash-list";
 import { Image } from "expo-image";
 import { Href, router } from "expo-router";
@@ -8,6 +9,7 @@ import { Text, TouchableOpacity, View } from "react-native";
 import Header from "@/components/header";
 import Skeleton from "@/components/skeleton";
 import { useQuizzes } from "@/firebase/providers/quizzesProvider";
+import { useUser } from "@/firebase/providers/userProvider";
 import { mainStyles } from "@/styles/mainStyles";
 import { quizzesPageStyles } from "@/styles/quizzesPageStyles";
 
@@ -35,6 +37,7 @@ function LoadingQuizCard() {
 }
 
 function QuizCard({ quiz }: { quiz: IQuiz }) {
+    const { isAdmin } = useUser();
     if (!quiz.questions) return;
     return (
         <TouchableOpacity
@@ -59,9 +62,45 @@ function QuizCard({ quiz }: { quiz: IQuiz }) {
                 </Text>
             </View>
             <View style={quizzesPageStyles.textContainer}>
-                <View>
-                    <Text style={quizzesPageStyles.title}>{quiz.title}</Text>
-                    <Text>{quiz.type} Quiz</Text>
+                <View
+                    style={{
+                        flexDirection: "row",
+                        justifyContent: "space-between",
+                        gap: 10,
+                        // backgroundColor: "blue",
+                    }}
+                >
+                    <View style={{ flex: 1 }}>
+                        <Text style={quizzesPageStyles.title}>
+                            {quiz.title}
+                        </Text>
+                        <Text>{quiz.type} Quiz</Text>
+                    </View>
+                    {/*{isAdmin && (*/}
+                    <TouchableOpacity
+                        onPress={() =>
+                            router.push(
+                                `/quizzes/${quiz.type.toLowerCase()}/${
+                                    quiz.id
+                                }/SetQuiz` as Href<any>,
+                            )
+                        }
+                    >
+                        <Feather
+                            name="edit"
+                            size={24}
+                            style={{
+                                // backgroundColor: "blue",
+                                margin: 10,
+                                // borderRadius: 15,
+                                transform: [
+                                    { translateX: 10 },
+                                    { translateY: -10 },
+                                ],
+                            }}
+                        />
+                    </TouchableOpacity>
+                    {/*)}*/}
                 </View>
                 <View style={quizzesPageStyles.detailsContainer}>
                     <Text>
