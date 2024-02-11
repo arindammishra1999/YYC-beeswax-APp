@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, TextInput, View } from "react-native";
+import { StyleProp, Text, TextInput, View, ViewStyle } from "react-native";
 
 import { inputStyles } from "@/styles/components/inputStyles";
 
@@ -10,14 +10,16 @@ type Props = {
     onChangeText?: (value: string) => void;
     autoCapitalize: boolean;
     placeholderColor?: string;
+    inputStyle?: StyleProp<ViewStyle>;
+    multiline?: boolean;
 };
 
 function Input(props: Props) {
     return (
-        <View style={inputStyles.inputContainer}>
-            <Text style={inputStyles.label}>{props.label}</Text>
+        <View style={[inputStyles.inputContainer]}>
+            <Text style={[inputStyles.label]}>{props.label}</Text>
             <TextInput
-                style={inputStyles.input}
+                style={[inputStyles.input, props.inputStyle]}
                 placeholder={props.placeholder}
                 value={props.value}
                 onChangeText={props.onChangeText}
@@ -25,6 +27,8 @@ function Input(props: Props) {
                 placeholderTextColor={
                     props.placeholderColor ? props.placeholderColor : undefined
                 }
+                multiline={props.multiline}
+                textAlignVertical={props.multiline ? "top" : "center"}
             />
         </View>
     );

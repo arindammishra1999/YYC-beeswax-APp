@@ -3,8 +3,9 @@ import { Image } from "expo-image";
 import { router } from "expo-router";
 import { Timestamp } from "firebase/firestore";
 import React from "react";
-import { View, TouchableOpacity, Text } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 
+import Skeleton from "@/components/skeleton";
 import {
     convertTimestampToDateTime,
     secondsToDate,
@@ -62,6 +63,27 @@ export default function EventCard(props: Props) {
                     </View>
                 </View>
             </TouchableOpacity>
+        </View>
+    );
+}
+
+export function LoadingEventCard() {
+    return (
+        <View style={mainStyles.container}>
+            <View style={eventCardStyles.cardContainer}>
+                <Skeleton style={eventCardStyles.image} />
+                <View style={eventCardStyles.textContainer}>
+                    <Skeleton height={24} />
+                    <Skeleton
+                        height={16}
+                        width="80%"
+                        style={eventCardStyles.description}
+                    />
+                    <View style={eventCardStyles.locationContainer}>
+                        <Skeleton height={20} width="40%" />
+                    </View>
+                </View>
+            </View>
         </View>
     );
 }

@@ -30,6 +30,7 @@ export const eventCardStyles = StyleSheet.create({
         justifyContent: "space-between",
         flexWrap: "wrap",
     },
+    description: { marginBottom: 20 },
     dateText: {
         color: colors.blue,
         fontSize: 14,

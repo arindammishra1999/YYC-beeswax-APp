@@ -6,12 +6,33 @@ import React, { useEffect, useState } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 
 import Header from "@/components/header";
+import Skeleton from "@/components/skeleton";
 import { getQuizzes } from "@/firebase/getCollections/getQuizzes";
 import { mainStyles } from "@/styles/mainStyles";
 import { quizzesPageStyles } from "@/styles/quizzesPageStyles";
 
 const TMP_IMG =
     "https://firebasestorage.googleapis.com/v0/b/yyc-mobile.appspot.com/o/ProductImages%2FYYC-Beeswax-041-min-324x324.jpg?alt=media&token=291aef00-df21-44df-9879-39e780f2bac7";
+
+function LoadingQuizCard() {
+    return (
+        <View style={quizzesPageStyles.card}>
+            <View style={quizzesPageStyles.imageContainer}>
+                <Skeleton style={quizzesPageStyles.image} />
+            </View>
+            <View style={quizzesPageStyles.textContainer}>
+                <View style={quizzesPageStyles.textGroup}>
+                    <Skeleton height={24} />
+                    <Skeleton height={16} width="80%" />
+                </View>
+                <View style={quizzesPageStyles.detailsContainer}>
+                    <Skeleton height={20} width="40%" />
+                    <Skeleton height={20} width="30%" />
+                </View>
+            </View>
+        </View>
+    );
+}
 
 function QuizCard({ quiz }: { quiz: IQuiz }) {
     return (
@@ -58,26 +79,40 @@ function QuizCard({ quiz }: { quiz: IQuiz }) {
 
 export default function Quizzes() {
     const [quizzes, setQuizzes] = useState<IQuiz[]>([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         (async () => {
             const data = await getQuizzes();
             setQuizzes(data);
+            setLoading(false);
         })();
     }, []);
 
     return (
         <View style={mainStyles.container}>
             <Header header="Quizzes" />
-            <FlashList
-                contentContainerStyle={quizzesPageStyles.container}
-                renderItem={({ item }) => <QuizCard quiz={item} />}
-                ItemSeparatorComponent={() => (
-                    <View style={quizzesPageStyles.cardSpacing} />
-                )}
-                data={quizzes}
-                estimatedItemSize={100}
-            />
+            {loading ? (
+                <FlashList
+                    contentContainerStyle={quizzesPageStyles.container}
+                    renderItem={() => <LoadingQuizCard />}
+                    ItemSeparatorComponent={() => (
+                        <View style={quizzesPageStyles.cardSpacing} />
+                    )}
+                    data={Array(6)}
+                    estimatedItemSize={100}
+                />
+            ) : (
+                <FlashList
+                    contentContainerStyle={quizzesPageStyles.container}
+                    renderItem={({ item }) => <QuizCard quiz={item} />}
+                    ItemSeparatorComponent={() => (
+                        <View style={quizzesPageStyles.cardSpacing} />
+                    )}
+                    data={quizzes}
+                    estimatedItemSize={100}
+                />
+            )}
         </View>
     );
 }
