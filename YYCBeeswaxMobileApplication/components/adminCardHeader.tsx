@@ -17,7 +17,7 @@ export default function AdminCardHeader(props: Props) {
         { key: "4", value: "Last Month" },
         { key: "5", value: "Last 3 Months" },
         { key: "6", value: "Last 6 Months" },
-        { key: "7", value: "Last 12 Months" },
+        { key: "7", value: "Last Year" },
     ];
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
