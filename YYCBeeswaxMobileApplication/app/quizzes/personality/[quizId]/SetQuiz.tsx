@@ -34,8 +34,8 @@ export default function SetQuiz() {
                 title: "",
                 description: "",
                 weights: {
-                    "option 1": "description 1",
-                    "option 2": "description 2",
+                    "Option 1": "",
+                    "Option 2": "",
                 },
                 questions: [],
                 type: "Personality",
@@ -86,13 +86,8 @@ export default function SetQuiz() {
                             name="edit"
                             size={24}
                             style={{
-                                // backgroundColor: "blue",
                                 padding: 10,
-                                // borderRadius: 15,
-                                transform: [
-                                    { translateX: 10 },
-                                    // { translateY: -10 },
-                                ],
+                                transform: [{ translateX: 10 }],
                             }}
                         />
                     </TouchableOpacity>
@@ -101,58 +96,44 @@ export default function SetQuiz() {
         );
     };
 
-    const renderResult = ({
+    const Result = ({
         item,
-        drag,
-        isActive,
-        getIndex,
-    }: RenderItemParams<{ name: string; description: string }>) => {
+        index,
+    }: {
+        item: { name: string; description: string };
+        index: number;
+    }) => {
         return (
-            <ScaleDecorator activeScale={1.03}>
-                <TouchableOpacity
-                    onLongPress={drag}
-                    disabled={isActive}
-                    style={[
-                        {
+            <View
+                style={{
+                    backgroundColor: "white",
+                    padding: 10,
+                    elevation: 4,
+                    margin: 10,
+                    borderRadius: 10,
+                    flexDirection: "row",
+                    alignItems: "center",
+                    gap: 10,
+                }}
+            >
+                <Text style={{ flex: 1, paddingLeft: 15 }}>{item.name}</Text>
+                <TouchableOpacity onPress={() => setSelectedResultIndex(index)}>
+                    <Feather
+                        name="edit"
+                        size={24}
+                        style={{
                             padding: 10,
-                            elevation: 4,
-                            margin: 10,
-                            marginBottom: 10,
-                            borderRadius: 10,
-                            flexDirection: "row",
-                            alignItems: "center",
-                            gap: 10,
-                        },
-                        { backgroundColor: isActive ? "lightgray" : "white" },
-                    ]}
-                >
-                    <MaterialIcons name="drag-indicator" size={24} />
-                    <Text style={{ flex: 1 }}>{item.name}</Text>
-                    <TouchableOpacity
-                        onPress={() => setSelectedResultIndex(getIndex() ?? -1)}
-                    >
-                        <Feather
-                            name="edit"
-                            size={24}
-                            style={{
-                                // backgroundColor: "blue",
-                                padding: 10,
-                                // borderRadius: 15,
-                                transform: [
-                                    { translateX: 10 },
-                                    // { translateY: -10 },
-                                ],
-                            }}
-                        />
-                    </TouchableOpacity>
+                            transform: [{ translateX: 10 }],
+                        }}
+                    />
                 </TouchableOpacity>
-            </ScaleDecorator>
+            </View>
         );
     };
 
     return (
         <View style={mainStyles.container}>
-            <Header header="Edit" />
+            <Header header={quiz ? "Edit Quiz" : "Create Quiz"} />
             <NestableScrollContainer
                 contentContainerStyle={{ gap: 20, padding: 10 }}
             >
@@ -234,13 +215,16 @@ export default function SetQuiz() {
                     >
                         Results
                     </Text>
-                    <NestableDraggableFlatList
-                        // containerStyle={{ height:'50%', paddingVertical: 10 }}
-                        data={weights}
-                        onDragEnd={({ data }) => setWeights(data)}
-                        keyExtractor={(item) => item.name}
-                        renderItem={renderResult}
-                    />
+                    {weights.map((weight, i) => {
+                        return <Result key={i} item={weight} index={i} />;
+                    })}
+                    {/*<NestableDraggableFlatList*/}
+                    {/*    // containerStyle={{ height:'50%', paddingVertical: 10 }}*/}
+                    {/*    data={weights}*/}
+                    {/*    onDragEnd={({ data }) => setWeights(data)}*/}
+                    {/*    keyExtractor={(item) => item.name}*/}
+                    {/*    renderItem={renderResult}*/}
+                    {/*/>*/}
                 </View>
                 <Text
                     style={{
@@ -252,18 +236,15 @@ export default function SetQuiz() {
                         paddingBottom: 20,
                     }}
                     onPress={() => {
-                        setUpdatedQuiz((prev) => {
-                            prev.questions = [
-                                ...prev.questions,
+                        setWeights((prev) => {
+                            prev = [
+                                ...prev,
                                 {
-                                    id: "",
-                                    question:
-                                        "Question " +
-                                        (prev.questions.length + 1),
-                                    options: [],
+                                    description: "",
+                                    name: "Option " + (prev.length + 1),
                                 },
                             ];
-                            return { ...prev };
+                            return [...prev];
                         });
                     }}
                 >
@@ -527,6 +508,102 @@ export default function SetQuiz() {
                                                 index != selectedQuestionIndex,
                                         );
                                         return { ...prev };
+                                    });
+                                }}
+                            />
+                        </View>
+                    </ScrollView>
+                )}
+            </Modal>
+            <Modal
+                visible={selectedResultIndex != -1}
+                transparent
+                onRequestClose={() => setSelectedResultIndex(-1)}
+            >
+                {selectedResultIndex != -1 && (
+                    <ScrollView
+                        style={{
+                            flex: 1,
+                            backgroundColor: "rgba(52, 52, 52, 0.8)",
+                        }}
+                        contentContainerStyle={{
+                            justifyContent: "center",
+                            alignItems: "center",
+                            flex: 1,
+                        }}
+                    >
+                        <View
+                            style={{
+                                elevation: 8,
+                                backgroundColor: "white",
+                                margin: 10,
+                                padding: 10,
+                                borderRadius: 30,
+                                gap: 20,
+                                width: "95%",
+                            }}
+                        >
+                            <Text
+                                style={{
+                                    textAlign: "center",
+                                    fontWeight: "bold",
+                                    fontSize: 24,
+                                    paddingTop: 10,
+                                }}
+                            >
+                                Editing Result {selectedResultIndex + 1}
+                            </Text>
+                            <View style={{ gap: 10 }}>
+                                <Input
+                                    label="Result Title"
+                                    value={weights[selectedResultIndex].name}
+                                    onChangeText={(value) =>
+                                        setWeights((prev) => {
+                                            prev[selectedResultIndex].name =
+                                                value;
+                                            return { ...prev };
+                                        })
+                                    }
+                                    placeholder=""
+                                    autoCapitalize
+                                />
+                                <Input
+                                    label="Result Description"
+                                    value={
+                                        weights[selectedResultIndex].description
+                                    }
+                                    onChangeText={(value) =>
+                                        setWeights((prev) => {
+                                            prev[
+                                                selectedResultIndex
+                                            ].description = value;
+                                            return { ...prev };
+                                        })
+                                    }
+                                    placeholder=""
+                                    autoCapitalize
+                                    multiline
+                                    inputStyle={{ height: 150 }}
+                                />
+                            </View>
+                            <Button
+                                title="Confirm"
+                                onPress={() => {
+                                    setSelectedResultIndex(-1);
+                                }}
+                            />
+                            <Button
+                                title="Delete Question"
+                                style={{ backgroundColor: "#eb5e68" }}
+                                onPress={() => {
+                                    // const index = selectedQuestionIndex;
+                                    setSelectedResultIndex(-1);
+                                    setWeights((prev) => {
+                                        prev = prev.filter(
+                                            (_, index) =>
+                                                index != selectedResultIndex,
+                                        );
+                                        return [...prev];
                                     });
                                 }}
                             />
