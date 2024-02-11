@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { View, Text } from "react-native";
 import { SelectList } from "react-native-dropdown-select-list";
-import { viewportWidth } from "@/consts/viewport";
 
+import { viewportWidth } from "@/consts/viewport";
 import { adminDashboardPageStyles } from "@/styles/adminDashboardPageStyles";
 
 type Props = {
