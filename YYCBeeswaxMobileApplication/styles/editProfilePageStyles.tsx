@@ -5,7 +5,6 @@ import { colors } from "@/consts/styles";
 export const editProfilePageStyles = StyleSheet.create({
     container: {
         backgroundColor: colors.white,
-        flex: 1,
     },
     icon: {
         paddingVertical: 5,
@@ -61,6 +60,8 @@ export const editProfilePageStyles = StyleSheet.create({
         fontSize: 20,
     },
     confirmButton: {
+        position: "absolute",
+        bottom: "5%",
         alignSelf: "center",
         width: "80%",
     },
