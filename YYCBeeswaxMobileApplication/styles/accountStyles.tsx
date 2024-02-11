@@ -12,7 +12,6 @@ export const accountStyles = StyleSheet.create({
     },
     formContainer: {
         backgroundColor: colors.white,
-        gap: 30,
         flexGrow: 1,
         addingHorizontal: 10,
         paddingBottom: 10,
