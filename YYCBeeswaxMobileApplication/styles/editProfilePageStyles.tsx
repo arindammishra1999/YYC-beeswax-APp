@@ -1,6 +1,7 @@
 import { StyleSheet } from "react-native";
 
 import { colors } from "@/consts/styles";
+import { viewportHeight } from "@/consts/viewport";
 
 export const editProfilePageStyles = StyleSheet.create({
     icon: {
@@ -57,7 +58,7 @@ export const editProfilePageStyles = StyleSheet.create({
         fontSize: 20,
     },
     confirmButton: {
-        top: 750,
+        top: viewportHeight * 0.81,
         position: "absolute",
         bottom: "5%",
         alignSelf: "center",
