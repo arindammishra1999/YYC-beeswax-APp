@@ -84,8 +84,8 @@ export default function ChangePasswordPage() {
         }
     }
 
-    function returnToEditProfile() {
-        router.push("/profile/EditProfilePage");
+    function returnToHome() {
+        router.push("/dashboard/HomePage");
     }
 
     return (
@@ -134,10 +134,7 @@ export default function ChangePasswordPage() {
                             <Text style={changePasswordPageStyles.popupText}>
                                 Password reset successful!
                             </Text>
-                            <Button
-                                title="Confirm"
-                                onPress={returnToEditProfile}
-                            />
+                            <Button title="Confirm" onPress={returnToHome} />
                         </View>
                     </View>
                 </Modal>

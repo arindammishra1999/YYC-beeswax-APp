@@ -22,7 +22,6 @@ import { getUserById } from "@/firebase/getCollections/getUserById";
 import { useUser } from "@/firebase/providers/userProvider";
 import { accountStyles } from "@/styles/accountStyles";
 import { editProfilePageStyles } from "@/styles/editProfilePageStyles";
-import { mainStyles } from "@/styles/mainStyles";
 
 export default function EditProfilePage() {
     const [name, setName] = useState("");
@@ -143,79 +142,65 @@ export default function EditProfilePage() {
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-            <View style={mainStyles.container}>
+            <ScrollView contentContainerStyle={accountStyles.formContainer}>
                 <Header header="My Account" />
-                <ScrollView style={editProfilePageStyles.container}>
-                    <MaterialIcons
-                        name="account-edit-outline"
-                        style={editProfilePageStyles.icon}
-                    />
-                    {!user?.emailVerified ? (
-                        <View style={editProfilePageStyles.emailNotVerifiedBox}>
-                            <Text
-                                style={
-                                    editProfilePageStyles.emailNotVerifiedText
-                                }
-                            >
-                                The email for this account is not verified. You
-                                must have a verified email to make purchases.
+                <MaterialIcons
+                    name="account-edit-outline"
+                    style={editProfilePageStyles.icon}
+                />
+                {!user?.emailVerified ? (
+                    <View style={editProfilePageStyles.emailNotVerifiedBox}>
+                        <Text
+                            style={editProfilePageStyles.emailNotVerifiedText}
+                        >
+                            The email for this account is not verified. You must
+                            have a verified email to make purchases.
+                        </Text>
+                        <TouchableOpacity
+                            onPress={() => emailVerificationPressed()}
+                            style={editProfilePageStyles.verifyEmailButton}
+                        >
+                            <Text style={editProfilePageStyles.verifyEmailText}>
+                                Verify Email
                             </Text>
-                            <TouchableOpacity
-                                onPress={() => emailVerificationPressed()}
-                                style={editProfilePageStyles.verifyEmailButton}
-                            >
-                                <Text
-                                    style={
-                                        editProfilePageStyles.verifyEmailText
-                                    }
-                                >
-                                    Verify Email
-                                </Text>
-                            </TouchableOpacity>
-                        </View>
-                    ) : (
-                        <Text style={editProfilePageStyles.emailVerifiedText}>
-                            This email is verified!
-                        </Text>
-                    )}
-                    <View style={editProfilePageStyles.form}>
-                        <Input
-                            label="Email"
-                            placeholder={email}
-                            value={email}
-                            onChangeText={setEmail}
-                            autoCapitalize={false}
-                            placeholderColor="#000000"
-                        />
-                        <Input
-                            label="Name"
-                            placeholder={name}
-                            value={name}
-                            onChangeText={setName}
-                            autoCapitalize={false}
-                            placeholderColor="#000000"
-                        />
-                        {error && (
-                            <Text style={accountStyles.error}>{error}</Text>
-                        )}
+                        </TouchableOpacity>
                     </View>
-                    <TouchableOpacity
-                        onPress={() =>
-                            router.push("/profile/ChangePasswordPage")
-                        }
-                        style={editProfilePageStyles.changePassword}
-                    >
-                        <Text style={accountStyles.forgot}>
-                            Change Password
-                        </Text>
-                    </TouchableOpacity>
-                </ScrollView>
+                ) : (
+                    <Text style={editProfilePageStyles.emailVerifiedText}>
+                        This email is verified!
+                    </Text>
+                )}
+                <View style={editProfilePageStyles.form}>
+                    <Input
+                        label="Email"
+                        placeholder={email}
+                        value={email}
+                        onChangeText={setEmail}
+                        autoCapitalize={false}
+                        placeholderColor="#000000"
+                    />
+                    <Input
+                        label="Name"
+                        placeholder={name}
+                        value={name}
+                        onChangeText={setName}
+                        autoCapitalize={false}
+                        placeholderColor="#000000"
+                    />
+                    {error && <Text style={accountStyles.error}>{error}</Text>}
+                </View>
+                <TouchableOpacity
+                    onPress={() => router.push("/profile/ChangePasswordPage")}
+                    style={editProfilePageStyles.changePassword}
+                >
+                    <Text style={accountStyles.forgot}>Change Password</Text>
+                </TouchableOpacity>
                 <Button
                     style={editProfilePageStyles.confirmButton}
                     title="Confirm Changes"
                     onPress={login}
                 />
-            </View>
+            </ScrollView>
         </TouchableWithoutFeedback>
     );
 }
