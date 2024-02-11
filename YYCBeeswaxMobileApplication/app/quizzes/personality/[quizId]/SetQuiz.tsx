@@ -25,10 +25,22 @@ import { mainStyles } from "@/styles/mainStyles";
 
 export default function SetQuiz() {
     const { quizId } = useLocalSearchParams() as Record<string, string>;
-    const { getQuizById } = useQuizzes();
-    const quiz = getQuizById<IPersonalityQuiz>(quizId);
+    const { getQuiz } = useQuizzes();
+    const quiz = getQuiz<IPersonalityQuiz>(quizId);
     // console.log(quiz);
-    const [updatedQuiz, setUpdatedQuiz] = useState(quiz as IPersonalityQuiz);
+    const [updatedQuiz, setUpdatedQuiz] = useState<IPersonalityQuiz>(
+        quiz ??
+            ({
+                title: "",
+                description: "",
+                weights: {
+                    "option 1": "description 1",
+                    "option 2": "description 2",
+                },
+                questions: [],
+                type: "Personality",
+            } as unknown as IPersonalityQuiz),
+    );
     const [selectedQuestionIndex, setSelectedQuestionIndex] = useState(-1);
 
     const [weights, setWeights] = useState(
@@ -36,8 +48,9 @@ export default function SetQuiz() {
             return { name: weight, description: updatedQuiz.weights[weight] };
         }),
     );
+    const [selectedResultIndex, setSelectedResultIndex] = useState(-1);
 
-    const renderItem = ({
+    const renderQuestion = ({
         item,
         drag,
         isActive,
@@ -68,6 +81,55 @@ export default function SetQuiz() {
                         onPress={() =>
                             setSelectedQuestionIndex(getIndex() ?? -1)
                         }
+                    >
+                        <Feather
+                            name="edit"
+                            size={24}
+                            style={{
+                                // backgroundColor: "blue",
+                                padding: 10,
+                                // borderRadius: 15,
+                                transform: [
+                                    { translateX: 10 },
+                                    // { translateY: -10 },
+                                ],
+                            }}
+                        />
+                    </TouchableOpacity>
+                </TouchableOpacity>
+            </ScaleDecorator>
+        );
+    };
+
+    const renderResult = ({
+        item,
+        drag,
+        isActive,
+        getIndex,
+    }: RenderItemParams<{ name: string; description: string }>) => {
+        return (
+            <ScaleDecorator activeScale={1.03}>
+                <TouchableOpacity
+                    onLongPress={drag}
+                    disabled={isActive}
+                    style={[
+                        {
+                            padding: 10,
+                            elevation: 4,
+                            margin: 10,
+                            marginBottom: 10,
+                            borderRadius: 10,
+                            flexDirection: "row",
+                            alignItems: "center",
+                            gap: 10,
+                        },
+                        { backgroundColor: isActive ? "lightgray" : "white" },
+                    ]}
+                >
+                    <MaterialIcons name="drag-indicator" size={24} />
+                    <Text style={{ flex: 1 }}>{item.name}</Text>
+                    <TouchableOpacity
+                        onPress={() => setSelectedResultIndex(getIndex() ?? -1)}
                     >
                         <Feather
                             name="edit"
@@ -127,39 +189,86 @@ export default function SetQuiz() {
                 {/*>*/}
                 {/*    Results*/}
                 {/*</Text>*/}
-                {weights.map((weight, index) => {
-                    return (
-                        <View key={index} style={{ gap: 10 }}>
-                            <Input
-                                label={"Result " + index}
-                                value={weight.name}
-                                onChangeText={(value) =>
-                                    setWeights((prev) => {
-                                        prev[index].name = value;
-                                        return { ...prev };
-                                    })
-                                }
-                                placeholder=""
-                                autoCapitalize
-                            />
-                            <Input
-                                label={"Result " + index}
-                                value={weight.description}
-                                onChangeText={(value) =>
-                                    setWeights((prev) => {
-                                        prev[index].description = value;
-                                        return { ...prev };
-                                    })
-                                }
-                                placeholder=""
-                                autoCapitalize
-                                multiline
-                                inputStyle={{ height: 150 }}
-                            />
-                        </View>
-                    );
-                })}
+
+                {/*{weights.map((weight, index) => {*/}
+                {/*    return (*/}
+                {/*        <View key={index} style={{ gap: 10 }}>*/}
+                {/*            <Input*/}
+                {/*                label={"Result " + index}*/}
+                {/*                value={weight.name}*/}
+                {/*                onChangeText={(value) =>*/}
+                {/*                    setWeights((prev) => {*/}
+                {/*                        prev[index].name = value;*/}
+                {/*                        return { ...prev };*/}
+                {/*                    })*/}
+                {/*                }*/}
+                {/*                placeholder=""*/}
+                {/*                autoCapitalize*/}
+                {/*            />*/}
+                {/*            <Input*/}
+                {/*                label={"Result " + index}*/}
+                {/*                value={weight.description}*/}
+                {/*                onChangeText={(value) =>*/}
+                {/*                    setWeights((prev) => {*/}
+                {/*                        prev[index].description = value;*/}
+                {/*                        return { ...prev };*/}
+                {/*                    })*/}
+                {/*                }*/}
+                {/*                placeholder=""*/}
+                {/*                autoCapitalize*/}
+                {/*                multiline*/}
+                {/*                inputStyle={{ height: 150 }}*/}
+                {/*            />*/}
+                {/*        </View>*/}
+                {/*    );*/}
+                {/*})}*/}
+
                 {/*</View>*/}
+                <View>
+                    <Text
+                        style={{
+                            paddingHorizontal: 10,
+                            fontWeight: "bold",
+                            fontSize: 16,
+                        }}
+                    >
+                        Results
+                    </Text>
+                    <NestableDraggableFlatList
+                        // containerStyle={{ height:'50%', paddingVertical: 10 }}
+                        data={weights}
+                        onDragEnd={({ data }) => setWeights(data)}
+                        keyExtractor={(item) => item.name}
+                        renderItem={renderResult}
+                    />
+                </View>
+                <Text
+                    style={{
+                        alignSelf: "center",
+                        color: colors.blue,
+                        fontSize: 16,
+                        textDecorationLine: "underline",
+                        paddingTop: 10,
+                        paddingBottom: 20,
+                    }}
+                    onPress={() => {
+                        setUpdatedQuiz((prev) => {
+                            prev.questions = [
+                                ...prev.questions,
+                                {
+                                    id: "",
+                                    question:
+                                        "Question " +
+                                        (prev.questions.length + 1),
+                                    options: [],
+                                },
+                            ];
+                            return { ...prev };
+                        });
+                    }}
+                >
+                    Add Result
+                </Text>
                 <View>
                     <Text
                         style={{
@@ -180,7 +289,7 @@ export default function SetQuiz() {
                             }))
                         }
                         keyExtractor={(item) => item.question}
-                        renderItem={renderItem}
+                        renderItem={renderQuestion}
                     />
                 </View>
                 <Text
@@ -211,15 +320,17 @@ export default function SetQuiz() {
                     Add Question
                 </Text>
                 <Button
-                    title="Save Changes"
+                    title={quiz ? "Save Changes" : "Create"}
                     onPress={() => {
                         setSelectedQuestionIndex(-1);
                     }}
                 />
-                <Button
-                    title="Delete Quiz"
-                    style={{ backgroundColor: "#eb5e68" }}
-                />
+                {quiz && (
+                    <Button
+                        title="Delete Quiz"
+                        style={{ backgroundColor: "#eb5e68" }}
+                    />
+                )}
             </NestableScrollContainer>
             <Modal
                 visible={selectedQuestionIndex != -1}

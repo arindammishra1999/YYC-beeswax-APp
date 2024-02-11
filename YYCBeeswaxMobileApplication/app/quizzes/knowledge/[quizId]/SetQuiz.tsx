@@ -18,14 +18,18 @@ import { mainStyles } from "@/styles/mainStyles";
 
 export default function SetQuiz() {
     const { quizId } = useLocalSearchParams() as Record<string, string>;
-    const { getQuizById } = useQuizzes();
-    const quiz = getQuizById<IKnowledgeQuiz>(quizId);
-    // console.log(quiz);
-    // const [updatedQuiz, setUpdatedQuiz] = useState(
-    //     JSON.parse(JSON.stringify(quiz)) as IKnowledgeQuiz,
-    // );
+    const { getQuiz } = useQuizzes();
+    const quiz = getQuiz<IKnowledgeQuiz>(quizId);
 
-    const [updatedQuiz, setUpdatedQuiz] = useState(quiz as IKnowledgeQuiz);
+    const [updatedQuiz, setUpdatedQuiz] = useState<IKnowledgeQuiz>(
+        quiz ??
+            ({
+                title: "",
+                description: "",
+                questions: [],
+                type: "Knowledge",
+            } as unknown as IKnowledgeQuiz),
+    );
     const [selectedQuestionIndex, setSelectedQuestionIndex] = useState(-1);
 
     const renderItem = ({
@@ -81,7 +85,7 @@ export default function SetQuiz() {
 
     return (
         <View style={mainStyles.container}>
-            <Header header="Edit" />
+            <Header header={quiz ? "Edit Quiz" : "Create Quiz"} />
             <NestableScrollContainer
                 contentContainerStyle={{ gap: 10, padding: 10 }}
             >
@@ -164,15 +168,17 @@ export default function SetQuiz() {
                     Add Question
                 </Text>
                 <Button
-                    title="Save Changes"
+                    title={quiz ? "Save Changes" : "Create"}
                     onPress={() => {
                         setSelectedQuestionIndex(-1);
                     }}
                 />
-                <Button
-                    title="Delete Quiz"
-                    style={{ backgroundColor: "#eb5e68" }}
-                />
+                {quiz && (
+                    <Button
+                        title="Delete Quiz"
+                        style={{ backgroundColor: "#eb5e68" }}
+                    />
+                )}
             </NestableScrollContainer>
             <Modal
                 visible={selectedQuestionIndex != -1}

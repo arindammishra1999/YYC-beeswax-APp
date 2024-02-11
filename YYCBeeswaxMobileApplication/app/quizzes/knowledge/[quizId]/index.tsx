@@ -19,8 +19,8 @@ const TMP_IMG =
 
 export default function Quiz() {
     const { quizId } = useLocalSearchParams() as Record<string, string>;
-    const { getQuizById } = useQuizzes();
-    const quiz = getQuizById<IKnowledgeQuiz>(quizId);
+    const { getQuiz } = useQuizzes();
+    const quiz = getQuiz<IKnowledgeQuiz>(quizId);
 
     // const [quiz, setQuiz] = useState<IQuiz | null>(null);
     // const [questions, setQuestions] = useState<IKnowledgeQuestion[]>([]);

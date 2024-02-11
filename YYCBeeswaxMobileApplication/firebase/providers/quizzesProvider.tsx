@@ -1,3 +1,4 @@
+import { addDoc, collection, doc, setDoc } from "firebase/firestore";
 import {
     createContext,
     ReactNode,
@@ -6,14 +7,17 @@ import {
     useState,
 } from "react";
 
+import { db } from "@/firebase/config";
 import { getQuizzes } from "@/firebase/getCollections/getQuizzes";
 
 interface IQuizzesContext {
     quizzes: IQuiz[];
     loading: boolean;
-    getQuizById: <T extends IKnowledgeQuiz | IPersonalityQuiz>(
+    getQuiz: <T extends IKnowledgeQuiz | IPersonalityQuiz>(
         id: string,
     ) => T | undefined;
+    updateQuiz: (id: string, quiz: IQuiz) => void;
+    createQuiz: (quiz: IQuiz) => void;
 }
 
 const QuizzesContext = createContext<IQuizzesContext | null>(null);
@@ -40,13 +44,32 @@ export function QuizzesProvider({ children }: { children: ReactNode }) {
         })();
     }, []);
 
-    function getQuizById<T extends IKnowledgeQuiz | IPersonalityQuiz>(
-        id: string,
-    ) {
+    function getQuiz<T extends IKnowledgeQuiz | IPersonalityQuiz>(id: string) {
         return quizzes.find((value) => value.id == id) as T | undefined;
     }
 
-    const quizzesContext: IQuizzesContext = { quizzes, loading, getQuizById };
+    function updateQuiz(id: string, quiz: IQuiz) {
+        setDoc(doc(db, "quizzes", id), quiz, { merge: true });
+        setQuizzes((prev) => {
+            const index = prev.findIndex((value) => (value.id = quiz.id));
+            prev[index] = quiz;
+            return [...prev];
+        });
+    }
+
+    async function createQuiz(quiz: IQuiz) {
+        const quizRef = await addDoc(collection(db, "quizzes"), quiz);
+        quiz.id = quizRef.id;
+        setQuizzes((prev) => [...prev, quiz]);
+    }
+
+    const quizzesContext: IQuizzesContext = {
+        quizzes,
+        loading,
+        getQuiz,
+        updateQuiz,
+        createQuiz,
+    };
 
     return (
         <QuizzesContext.Provider value={quizzesContext}>

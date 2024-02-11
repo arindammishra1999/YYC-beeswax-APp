@@ -11,7 +11,7 @@ interface IQuiz {
 
 interface IKnowledgeQuiz extends IQuiz {
     // Knowledge Quiz
-    difficulty: string;
+    // difficulty: string;
     questions: IKnowledgeQuestion[];
 }
 

@@ -6,6 +6,7 @@ import { DateTime } from "luxon";
 import React from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 
+import Button from "@/components/button";
 import Header from "@/components/header";
 import Skeleton from "@/components/skeleton";
 import { useQuizzes } from "@/firebase/providers/quizzesProvider";
@@ -123,6 +124,35 @@ export default function Quizzes() {
     return (
         <View style={mainStyles.container}>
             <Header header="Quizzes" />
+            <View
+                style={{
+                    flexDirection: "row",
+                    marginHorizontal: 20,
+                    marginVertical: 10,
+                    gap: 20,
+                }}
+            >
+                <Button
+                    title="Create Personality Quiz"
+                    style={{
+                        flex: 1,
+                    }}
+                    textStyle={{ textAlign: "center" }}
+                    onPress={() =>
+                        router.push(`/quizzes/personality/create/SetQuiz`)
+                    }
+                />
+                <Button
+                    title="Create Knowledge Quiz"
+                    style={{
+                        flex: 1,
+                    }}
+                    textStyle={{ textAlign: "center" }}
+                    onPress={() =>
+                        router.push(`/quizzes/knowledge/create/SetQuiz`)
+                    }
+                />
+            </View>
             {loading ? (
                 <FlashList
                     contentContainerStyle={quizzesPageStyles.container}
