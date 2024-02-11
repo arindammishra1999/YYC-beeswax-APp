@@ -16,7 +16,7 @@ export default function Layout() {
                     options={{ gestureEnabled: false }}
                 />
                 <Stack.Screen
-                    name="personality/[quizId]"
+                    name="personality/[quizId]/index"
                     options={{ gestureEnabled: false }}
                 />
             </Stack>

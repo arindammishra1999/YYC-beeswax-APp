@@ -47,7 +47,7 @@ export default function Quiz() {
     }, []);
 
     useUnsavedChangesCheck(
-        currentIndex == -1 || currentIndex >= (quiz?.questions.length || 0),
+        currentIndex == -1 || currentIndex >= (quiz?.questions.length ?? 0),
     );
 
     if (!quiz) {

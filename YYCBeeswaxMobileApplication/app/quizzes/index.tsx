@@ -9,7 +9,7 @@ import { Text, TouchableOpacity, View } from "react-native";
 import Header from "@/components/header";
 import Skeleton from "@/components/skeleton";
 import { useQuizzes } from "@/firebase/providers/quizzesProvider";
-import { useUser } from "@/firebase/providers/userProvider";
+// import { useUser } from "@/firebase/providers/userProvider";
 import { mainStyles } from "@/styles/mainStyles";
 import { quizzesPageStyles } from "@/styles/quizzesPageStyles";
 
@@ -37,7 +37,7 @@ function LoadingQuizCard() {
 }
 
 function QuizCard({ quiz }: { quiz: IQuiz }) {
-    const { isAdmin } = useUser();
+    // const { isAdmin } = useUser();
     if (!quiz.questions) return;
     return (
         <TouchableOpacity

@@ -1,7 +1,14 @@
 import { Feather, MaterialIcons } from "@expo/vector-icons";
 import { useLocalSearchParams } from "expo-router";
 import React, { useState } from "react";
-import { Modal, Text, TouchableOpacity, View } from "react-native";
+import {
+    Modal,
+    ScrollView,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    View,
+} from "react-native";
 import {
     NestableDraggableFlatList,
     NestableScrollContainer,
@@ -19,21 +26,23 @@ import { mainStyles } from "@/styles/mainStyles";
 export default function SetQuiz() {
     const { quizId } = useLocalSearchParams() as Record<string, string>;
     const { getQuizById } = useQuizzes();
-    const quiz = getQuizById<IKnowledgeQuiz>(quizId);
+    const quiz = getQuizById<IPersonalityQuiz>(quizId);
     // console.log(quiz);
-    // const [updatedQuiz, setUpdatedQuiz] = useState(
-    //     JSON.parse(JSON.stringify(quiz)) as IKnowledgeQuiz,
-    // );
-
-    const [updatedQuiz, setUpdatedQuiz] = useState(quiz as IKnowledgeQuiz);
+    const [updatedQuiz, setUpdatedQuiz] = useState(quiz as IPersonalityQuiz);
     const [selectedQuestionIndex, setSelectedQuestionIndex] = useState(-1);
+
+    const [weights, setWeights] = useState(
+        Object.keys(updatedQuiz.weights).map((weight) => {
+            return { name: weight, description: updatedQuiz.weights[weight] };
+        }),
+    );
 
     const renderItem = ({
         item,
         drag,
         isActive,
         getIndex,
-    }: RenderItemParams<IKnowledgeQuestion>) => {
+    }: RenderItemParams<IPersonalityQuestion>) => {
         return (
             <ScaleDecorator activeScale={1.03}>
                 <TouchableOpacity
@@ -83,7 +92,7 @@ export default function SetQuiz() {
         <View style={mainStyles.container}>
             <Header header="Edit" />
             <NestableScrollContainer
-                contentContainerStyle={{ gap: 10, padding: 10 }}
+                contentContainerStyle={{ gap: 20, padding: 10 }}
             >
                 <Input
                     label="Title"
@@ -108,6 +117,49 @@ export default function SetQuiz() {
                     multiline
                     inputStyle={{ height: 150 }}
                 />
+                {/*<View>*/}
+                {/*<Text*/}
+                {/*    style={{*/}
+                {/*        paddingHorizontal: 10,*/}
+                {/*        fontWeight: "bold",*/}
+                {/*        fontSize: 16,*/}
+                {/*    }}*/}
+                {/*>*/}
+                {/*    Results*/}
+                {/*</Text>*/}
+                {weights.map((weight, index) => {
+                    return (
+                        <View key={index} style={{ gap: 10 }}>
+                            <Input
+                                label={"Result " + index}
+                                value={weight.name}
+                                onChangeText={(value) =>
+                                    setWeights((prev) => {
+                                        prev[index].name = value;
+                                        return { ...prev };
+                                    })
+                                }
+                                placeholder=""
+                                autoCapitalize
+                            />
+                            <Input
+                                label={"Result " + index}
+                                value={weight.description}
+                                onChangeText={(value) =>
+                                    setWeights((prev) => {
+                                        prev[index].description = value;
+                                        return { ...prev };
+                                    })
+                                }
+                                placeholder=""
+                                autoCapitalize
+                                multiline
+                                inputStyle={{ height: 150 }}
+                            />
+                        </View>
+                    );
+                })}
+                {/*</View>*/}
                 <View>
                     <Text
                         style={{
@@ -146,15 +198,10 @@ export default function SetQuiz() {
                                 ...prev.questions,
                                 {
                                     id: "",
-                                    answers: [],
-                                    difficulty: "",
                                     question:
                                         "Question " +
                                         (prev.questions.length + 1),
-                                    correctAnswer: "True",
-                                    incorrectAnswer1: "False",
-                                    incorrectAnswer2: "False",
-                                    incorrectAnswer3: "False",
+                                    options: [],
                                 },
                             ];
                             return { ...prev };
@@ -180,12 +227,14 @@ export default function SetQuiz() {
                 onRequestClose={() => setSelectedQuestionIndex(-1)}
             >
                 {selectedQuestionIndex != -1 && (
-                    <View
+                    <ScrollView
                         style={{
                             flex: 1,
+                            backgroundColor: "rgba(52, 52, 52, 0.8)",
+                        }}
+                        contentContainerStyle={{
                             justifyContent: "center",
                             alignItems: "center",
-                            backgroundColor: "rgba(52, 52, 52, 0.8)",
                         }}
                     >
                         <View
@@ -244,97 +293,120 @@ export default function SetQuiz() {
                                 placeholder=""
                                 autoCapitalize
                             />
-                            <Input
-                                label="Correct Answer"
-                                value={
-                                    updatedQuiz?.questions[
-                                        selectedQuestionIndex
-                                    ].correctAnswer
-                                }
-                                onChangeText={(value) =>
-                                    setUpdatedQuiz((prev) => {
-                                        prev.questions[
-                                            selectedQuestionIndex
-                                        ].correctAnswer = value;
-                                        return {
-                                            ...prev,
-                                            questions: prev.questions,
-                                        };
-                                    })
-                                }
-                                placeholder=""
-                                autoCapitalize
-                            />
-                            <Input
-                                label="Option 1"
-                                value={
-                                    updatedQuiz?.questions[
-                                        selectedQuestionIndex
-                                    ].incorrectAnswer1
-                                }
-                                onChangeText={(value) =>
-                                    setUpdatedQuiz((prev) => {
-                                        prev.questions[
-                                            selectedQuestionIndex
-                                        ].incorrectAnswer1 = value;
-                                        return {
-                                            ...prev,
-                                            questions: prev.questions,
-                                        };
-                                    })
-                                }
-                                placeholder=""
-                                autoCapitalize
-                            />
-                            <Input
-                                label="Option 2"
-                                value={
-                                    updatedQuiz?.questions[
-                                        selectedQuestionIndex
-                                    ].incorrectAnswer2
-                                }
-                                onChangeText={(value) =>
-                                    setUpdatedQuiz((prev) => {
-                                        prev.questions[
-                                            selectedQuestionIndex
-                                        ].incorrectAnswer2 = value;
-                                        return {
-                                            ...prev,
-                                            questions: prev.questions,
-                                        };
-                                    })
-                                }
-                                placeholder=""
-                                autoCapitalize
-                            />
-                            <Input
-                                label="Option 3"
-                                value={
-                                    updatedQuiz?.questions[
-                                        selectedQuestionIndex
-                                    ].incorrectAnswer3
-                                }
-                                onChangeText={(value) =>
-                                    setUpdatedQuiz((prev) => {
-                                        prev.questions[
-                                            selectedQuestionIndex
-                                        ].incorrectAnswer3 = value;
-                                        return {
-                                            ...prev,
-                                            questions: prev.questions,
-                                        };
-                                    })
-                                }
-                                placeholder=""
-                                autoCapitalize
-                            />
-                            <Text
-                                style={{
-                                    alignSelf: "center",
-                                    color: colors.blue,
-                                    fontSize: 16,
-                                    textDecorationLine: "underline",
+                            {updatedQuiz.questions[
+                                selectedQuestionIndex
+                            ].options.map((option, i) => {
+                                return (
+                                    <View key={i} style={{ gap: 10 }}>
+                                        <Input
+                                            label={"Option " + i}
+                                            value={option.value}
+                                            onChangeText={(value) =>
+                                                setUpdatedQuiz((prev) => {
+                                                    prev.questions[
+                                                        selectedQuestionIndex
+                                                    ].options[i].value = value;
+                                                    return JSON.parse(
+                                                        JSON.stringify(prev),
+                                                    );
+                                                })
+                                            }
+                                            placeholder=""
+                                            autoCapitalize
+                                        />
+                                        {weights.map((weight, j) => {
+                                            return (
+                                                <View
+                                                    key={i + " " + j}
+                                                    style={{
+                                                        flexDirection: "row",
+                                                        paddingLeft: 10,
+                                                        alignItems: "center",
+                                                        gap: 10,
+                                                    }}
+                                                >
+                                                    <Text>{weight.name}</Text>
+                                                    <TextInput
+                                                        keyboardType="numeric"
+                                                        style={{
+                                                            paddingHorizontal: 15,
+                                                            paddingVertical: 4,
+                                                            borderRadius: 8,
+                                                            borderWidth: 1,
+                                                            borderColor:
+                                                                "lightgray",
+                                                            fontSize: 14,
+                                                        }}
+                                                        value={option.weights[
+                                                            weight.name
+                                                        ].toString()}
+                                                        onChangeText={(value) =>
+                                                            setUpdatedQuiz(
+                                                                (prev) => {
+                                                                    prev.questions[
+                                                                        selectedQuestionIndex
+                                                                    ].options[
+                                                                        i
+                                                                    ].weights[
+                                                                        weight.name
+                                                                    ] =
+                                                                        parseFloat(
+                                                                            value,
+                                                                        ) ?? 0;
+                                                                    return JSON.parse(
+                                                                        JSON.stringify(
+                                                                            prev,
+                                                                        ),
+                                                                    );
+                                                                },
+                                                            )
+                                                        }
+                                                    />
+                                                </View>
+                                            );
+                                        })}
+                                    </View>
+                                );
+                            })}
+                            {updatedQuiz.questions[selectedQuestionIndex]
+                                .options.length < 4 && (
+                                <Text
+                                    style={{
+                                        alignSelf: "center",
+                                        color: colors.blue,
+                                        fontSize: 16,
+                                        textDecorationLine: "underline",
+                                    }}
+                                    onPress={() => {
+                                        setUpdatedQuiz((prev) => {
+                                            const temp = {
+                                                value: "option",
+                                                weights: {} as {
+                                                    [key: string]: number;
+                                                },
+                                            };
+                                            weights.forEach((weight) => {
+                                                temp.weights[weight.name] = 0;
+                                            });
+                                            prev.questions[
+                                                selectedQuestionIndex
+                                            ].options.push(temp);
+                                            return { ...prev };
+                                        });
+                                    }}
+                                >
+                                    Add Option
+                                </Text>
+                            )}
+                            <Button
+                                title="Confirm"
+                                onPress={() => {
+                                    setSelectedQuestionIndex(-1);
                                 }}
+                            />
+                            <Button
+                                title="Delete Question"
+                                style={{ backgroundColor: "#eb5e68" }}
                                 onPress={() => {
                                     // const index = selectedQuestionIndex;
                                     setSelectedQuestionIndex(-1);
@@ -346,17 +418,9 @@ export default function SetQuiz() {
                                         return { ...prev };
                                     });
                                 }}
-                            >
-                                Delete Question
-                            </Text>
-                            <Button
-                                title="Confirm"
-                                onPress={() => {
-                                    setSelectedQuestionIndex(-1);
-                                }}
                             />
                         </View>
-                    </View>
+                    </ScrollView>
                 )}
             </Modal>
         </View>
