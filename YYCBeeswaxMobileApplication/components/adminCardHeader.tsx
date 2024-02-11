@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { View, Text } from "react-native";
 import { SelectList } from "react-native-dropdown-select-list";
+import { viewportWidth } from "@/consts/viewport";
 
 import { adminDashboardPageStyles } from "@/styles/adminDashboardPageStyles";
 
@@ -29,7 +30,7 @@ export default function AdminCardHeader(props: Props) {
             </Text>
             <SelectList
                 data={options}
-                boxStyles={{ width: 150 }}
+                boxStyles={{ width: viewportWidth * 0.35 }}
                 dropdownStyles={adminDashboardPageStyles.dropdown}
                 setSelected={setSelected}
                 defaultOption={{ key: "1", value: "All Time" }}

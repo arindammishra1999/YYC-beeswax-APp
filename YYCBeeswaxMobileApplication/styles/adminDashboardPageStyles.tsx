@@ -89,7 +89,7 @@ export const adminDashboardPageStyles = StyleSheet.create({
         position: "absolute",
         top: 45,
         zIndex: 9,
-        width: 150,
+        width: "100%",
         height: 300,
         backgroundColor: colors.white,
     },
@@ -105,7 +105,7 @@ export const adminDashboardPageStyles = StyleSheet.create({
         display: "flex",
         flexDirection: "row",
         justifyContent: "space-between",
-        width: 335,
+        width: "80.5%",
         marginHorizontal: "5%",
         marginVertical: 10,
     },
@@ -117,7 +117,7 @@ export const adminDashboardPageStyles = StyleSheet.create({
     productName: {
         fontSize: 16,
         alignSelf: "center",
-        maxWidth: 150,
+        maxWidth: 140,
         flexWrap: "wrap",
     },
     productInfo: {
