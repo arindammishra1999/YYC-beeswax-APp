@@ -84,6 +84,7 @@ export default function EditProfilePage() {
                 }
             }
             if (emailUpdateSuccess) {
+                setError("");
                 await setDoc(
                     doc(db, "users", userId),
                     {
