@@ -30,4 +30,5 @@ export const mainStyles = StyleSheet.create({
         alignItems: "center",
         zIndex: 999,
     },
+    flex: { flex: 1 },
 });

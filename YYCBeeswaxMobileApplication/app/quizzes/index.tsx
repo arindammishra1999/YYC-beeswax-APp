@@ -10,7 +10,7 @@ import Button from "@/components/button";
 import Header from "@/components/header";
 import Skeleton from "@/components/skeleton";
 import { useQuizzes } from "@/firebase/providers/quizzesProvider";
-// import { useUser } from "@/firebase/providers/userProvider";
+import { useUser } from "@/firebase/providers/userProvider";
 import { mainStyles } from "@/styles/mainStyles";
 import { quizzesPageStyles } from "@/styles/quizzesPageStyles";
 
@@ -38,8 +38,7 @@ function LoadingQuizCard() {
 }
 
 function QuizCard({ quiz }: { quiz: IQuiz }) {
-    // const { isAdmin } = useUser();
-    if (!quiz.questions) return;
+    const { isAdmin } = useUser();
     return (
         <TouchableOpacity
             style={quizzesPageStyles.card}
@@ -63,45 +62,30 @@ function QuizCard({ quiz }: { quiz: IQuiz }) {
                 </Text>
             </View>
             <View style={quizzesPageStyles.textContainer}>
-                <View
-                    style={{
-                        flexDirection: "row",
-                        justifyContent: "space-between",
-                        gap: 10,
-                        // backgroundColor: "blue",
-                    }}
-                >
-                    <View style={{ flex: 1 }}>
+                <View style={quizzesPageStyles.headingContainer}>
+                    <View style={mainStyles.flex}>
                         <Text style={quizzesPageStyles.title}>
                             {quiz.title}
                         </Text>
                         <Text>{quiz.type} Quiz</Text>
                     </View>
-                    {/*{isAdmin && (*/}
-                    <TouchableOpacity
-                        onPress={() =>
-                            router.push(
-                                `/quizzes/${quiz.type.toLowerCase()}/${
-                                    quiz.id
-                                }/SetQuiz` as Href<any>,
-                            )
-                        }
-                    >
-                        <Feather
-                            name="edit"
-                            size={24}
-                            style={{
-                                // backgroundColor: "blue",
-                                margin: 10,
-                                // borderRadius: 15,
-                                transform: [
-                                    { translateX: 10 },
-                                    { translateY: -10 },
-                                ],
-                            }}
-                        />
-                    </TouchableOpacity>
-                    {/*)}*/}
+                    {isAdmin && (
+                        <TouchableOpacity
+                            onPress={() =>
+                                router.push(
+                                    `/quizzes/${quiz.type.toLowerCase()}/${
+                                        quiz.id
+                                    }/SetQuiz` as Href<any>,
+                                )
+                            }
+                        >
+                            <Feather
+                                name="edit"
+                                size={24}
+                                style={quizzesPageStyles.editIcon}
+                            />
+                        </TouchableOpacity>
+                    )}
                 </View>
                 <View style={quizzesPageStyles.detailsContainer}>
                     <Text>
@@ -120,39 +104,30 @@ function QuizCard({ quiz }: { quiz: IQuiz }) {
 
 export default function Quizzes() {
     const { quizzes, loading } = useQuizzes();
-
+    const { isAdmin } = useUser();
     return (
         <View style={mainStyles.container}>
             <Header header="Quizzes" />
-            <View
-                style={{
-                    flexDirection: "row",
-                    marginHorizontal: 20,
-                    marginVertical: 10,
-                    gap: 20,
-                }}
-            >
-                <Button
-                    title="Create Personality Quiz"
-                    style={{
-                        flex: 1,
-                    }}
-                    textStyle={{ textAlign: "center" }}
-                    onPress={() =>
-                        router.push(`/quizzes/personality/create/SetQuiz`)
-                    }
-                />
-                <Button
-                    title="Create Knowledge Quiz"
-                    style={{
-                        flex: 1,
-                    }}
-                    textStyle={{ textAlign: "center" }}
-                    onPress={() =>
-                        router.push(`/quizzes/knowledge/create/SetQuiz`)
-                    }
-                />
-            </View>
+            {isAdmin && (
+                <View style={quizzesPageStyles.adminContainer}>
+                    <Button
+                        title="Create Personality Quiz"
+                        style={quizzesPageStyles.adminButton}
+                        textStyle={mainStyles.centerText}
+                        onPress={() =>
+                            router.push(`/quizzes/personality/create/SetQuiz`)
+                        }
+                    />
+                    <Button
+                        title="Create Knowledge Quiz"
+                        style={quizzesPageStyles.adminButton}
+                        textStyle={mainStyles.centerText}
+                        onPress={() =>
+                            router.push(`/quizzes/knowledge/create/SetQuiz`)
+                        }
+                    />
+                </View>
+            )}
             {loading ? (
                 <FlashList
                     contentContainerStyle={quizzesPageStyles.container}

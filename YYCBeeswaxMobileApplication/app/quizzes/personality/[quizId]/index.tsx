@@ -8,7 +8,6 @@ import Header from "@/components/header";
 import { QuizEndScreen } from "@/components/quiz/quizEndScreen";
 import { QuizStartScreen } from "@/components/quiz/quizStartScreen";
 import { useQuizzes } from "@/firebase/providers/quizzesProvider";
-import { updateQuiz } from "@/firebase/setCollections/updateQuiz";
 import { useUnsavedChangesCheck } from "@/lib/hooks/useUnsavedChangesCheck";
 import { mainStyles } from "@/styles/mainStyles";
 import { quizPageStyles } from "@/styles/quizPageStyles";
@@ -18,41 +17,25 @@ const TMP_IMG =
 
 export default function Quiz() {
     const { quizId } = useLocalSearchParams() as Record<string, string>;
-    const { getQuiz } = useQuizzes();
-    const quiz = getQuiz<IPersonalityQuiz>(quizId);
-
-    // const [quiz, setQuiz] = useState<IQuiz | null>(null);
-    // const [questions, setQuestions] = useState<IPersonalityQuestion[]>([]);
+    const { getQuiz, playQuiz } = useQuizzes();
+    const quiz = getQuiz(quizId) as IPersonalityQuiz;
 
     const [currentIndex, setCurrentIndex] = useState(-1);
     const [selectedAnswerIndex, setSelectedAnswerIndex] = useState(-1);
     const [results, setResults] = useState<{ [key: string]: number }>({});
 
     useEffect(() => {
-        (async () => {
-            // const data = await getQuizById<IPersonalityQuestion>(quizId);
-            // if (!data) return;
-            // setQuiz(data.quiz);
-            // setQuestions(data.questions);
-
-            setResults((prev) => {
-                if (quiz) {
-                    Object.keys(quiz?.weights).forEach((weight) => {
-                        prev[weight] = 0;
-                    });
-                }
-                return { ...prev };
+        setResults((prev) => {
+            Object.keys(quiz.weights).forEach((weight) => {
+                prev[weight] = 0;
             });
-        })();
+            return { ...prev };
+        });
     }, []);
 
     useUnsavedChangesCheck(
         currentIndex == -1 || currentIndex >= (quiz?.questions.length ?? 0),
     );
-
-    if (!quiz) {
-        return;
-    }
 
     const currentQuestion = quiz.questions[currentIndex];
 
@@ -61,7 +44,7 @@ export default function Quiz() {
     }
 
     function onEnd() {
-        updateQuiz(quizId);
+        playQuiz(quizId);
         router.push("/quizzes/");
     }
 

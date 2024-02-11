@@ -1,11 +1,11 @@
-import { doc, increment, setDoc } from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 
 import { db } from "@/firebase/config";
 
-export async function updateQuiz(id: string) {
+export async function setQuiz(id: string, quiz: Partial<IQuiz>) {
     try {
         const quizRef = doc(db, "quizzes", id);
-        await setDoc(quizRef, { plays: increment(1) }, { merge: true });
+        await setDoc(quizRef, quiz, { merge: true });
     } catch (error) {
         console.error("Error updating document: ", error);
     }

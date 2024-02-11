@@ -5,7 +5,7 @@ interface IQuiz {
     // count: number;
     type: "Knowledge" | "Personality";
     created: firebase.firestore.Timestamp;
-    plays: number;
+    plays: number | FieldValue;
     questions: (IKnowledgeQuestion | IPersonalityQuestion)[];
 }
 

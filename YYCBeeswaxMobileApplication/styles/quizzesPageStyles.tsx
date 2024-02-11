@@ -9,6 +9,15 @@ export const quizzesPageStyles = StyleSheet.create({
         paddingBottom: 30,
         paddingHorizontal: 20,
     },
+    adminContainer: {
+        flexDirection: "row",
+        marginHorizontal: 20,
+        marginVertical: 10,
+        gap: 20,
+    },
+    adminButton: {
+        flex: 1,
+    },
     cardSpacing: {
         height: 20,
     },
@@ -51,6 +60,15 @@ export const quizzesPageStyles = StyleSheet.create({
         flexDirection: "column",
         justifyContent: "space-between",
         flex: 1,
+    },
+    headingContainer: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        gap: 10,
+    },
+    editIcon: {
+        margin: 10,
+        transform: [{ translateX: 10 }, { translateY: -10 }],
     },
     textGroup: {
         gap: 10,

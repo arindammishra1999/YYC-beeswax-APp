@@ -1,4 +1,4 @@
-import { addDoc, collection, doc, setDoc } from "firebase/firestore";
+import { addDoc, collection, increment } from "firebase/firestore";
 import {
     createContext,
     ReactNode,
@@ -9,6 +9,7 @@ import {
 
 import { db } from "@/firebase/config";
 import { getQuizzes } from "@/firebase/getCollections/getQuizzes";
+import { setQuiz } from "@/firebase/setCollections/setQuiz";
 
 interface IQuizzesContext {
     quizzes: IQuiz[];
@@ -18,6 +19,7 @@ interface IQuizzesContext {
     ) => T | undefined;
     updateQuiz: (id: string, quiz: IQuiz) => void;
     createQuiz: (quiz: IQuiz) => void;
+    playQuiz: (id: string) => void;
 }
 
 const QuizzesContext = createContext<IQuizzesContext | null>(null);
@@ -38,7 +40,9 @@ export function QuizzesProvider({ children }: { children: ReactNode }) {
 
     useEffect(() => {
         (async () => {
-            const data = await getQuizzes();
+            // const data = await getQuizzes();
+            let data = await getQuizzes();
+            data = data.filter((item) => item.questions);
             setQuizzes(data);
             setLoading(false);
         })();
@@ -49,10 +53,19 @@ export function QuizzesProvider({ children }: { children: ReactNode }) {
     }
 
     function updateQuiz(id: string, quiz: IQuiz) {
-        setDoc(doc(db, "quizzes", id), quiz, { merge: true });
+        setQuiz(id, quiz);
         setQuizzes((prev) => {
-            const index = prev.findIndex((value) => (value.id = quiz.id));
+            const index = prev.findIndex((value) => (value.id = id));
             prev[index] = quiz;
+            return [...prev];
+        });
+    }
+
+    function playQuiz(id: string) {
+        setQuiz(id, { plays: increment(1) });
+        setQuizzes((prev) => {
+            const index = prev.findIndex((value) => (value.id = id));
+            prev[index].plays++;
             return [...prev];
         });
     }
@@ -69,6 +82,7 @@ export function QuizzesProvider({ children }: { children: ReactNode }) {
         getQuiz,
         updateQuiz,
         createQuiz,
+        playQuiz,
     };
 
     return (
