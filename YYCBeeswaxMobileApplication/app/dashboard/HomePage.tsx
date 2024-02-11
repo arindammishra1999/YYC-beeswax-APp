@@ -1,8 +1,14 @@
 import Feather from "@expo/vector-icons/Feather";
 import { Image } from "expo-image";
 import { router } from "expo-router";
-import React, { useEffect, useState } from "react";
-import { ScrollView, Text, TextInput, View } from "react-native";
+import React, { useCallback, useEffect, useState } from "react";
+import {
+    RefreshControl,
+    ScrollView,
+    Text,
+    TextInput,
+    View,
+} from "react-native";
 
 import CategoryCard from "@/components/cards/categoryCard";
 import ItemCard from "@/components/cards/itemCard";
@@ -16,7 +22,21 @@ export let searchTerm: string = "";
 export default function HomePage() {
     const [allProducts, setAllProducts] = useState([] as any);
     const [searchQuery, setSearchQuery] = useState("");
+    const [refreshing, setRefreshing] = useState(false);
+
     useEffect(() => {
+        setAllProductData();
+    }, []);
+
+    const onRefresh = useCallback(() => {
+        setRefreshing(true);
+        setTimeout(() => {
+            setAllProductData();
+            setRefreshing(false);
+        }, 2000);
+    }, []);
+
+    const setAllProductData = () => {
         getProductData().then((products) => {
             if (products) {
                 setAllProducts(products);
@@ -24,11 +44,19 @@ export default function HomePage() {
                 console.log("Issue getting products");
             }
         });
-    }, []);
+    };
 
     return (
         <View style={mainStyles.container}>
-            <ScrollView>
+            <ScrollView
+                refreshControl={
+                    <RefreshControl
+                        refreshing={refreshing}
+                        onRefresh={onRefresh}
+                        tintColor={colors.yellow}
+                    />
+                }
+            >
                 <View style={homePageStyles.container}>
                     <Image
                         contentFit="contain"
