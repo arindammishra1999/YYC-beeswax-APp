@@ -14,8 +14,7 @@ export default function App() {
     const { user, isAdmin } = useUser();
     if (user) {
         if (isAdmin) {
-            // change to admin dashboard
-            return <Redirect href="/dashboard/MorePage" />;
+            return <Redirect href="/admin/AdminDashboardPage" />;
         } else if (user.emailVerified) {
             return <Redirect href="/dashboard/HomePage" />;
         } else {

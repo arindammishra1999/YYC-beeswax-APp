@@ -1,4 +1,4 @@
-import { SplashScreen, Stack } from "expo-router";
+import { SplashScreen, Stack, usePathname } from "expo-router";
 import React, { useCallback, useEffect } from "react";
 import { BackHandler } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -12,6 +12,7 @@ SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
     const { user, loading, isAdmin } = useAuth();
+    const pathname = usePathname();
 
     useEffect(() => {
         const backHandler = BackHandler.addEventListener(
@@ -37,10 +38,21 @@ export default function RootLayout() {
                 <Stack
                     screenOptions={{
                         headerShown: false,
+                        gestureEnabled: !(
+                            pathname.startsWith("/product/") &&
+                            pathname.endsWith("SetUserReview")
+                        ),
                     }}
                 >
                     <Stack.Screen
                         name="index"
+                        options={{
+                            gestureEnabled: false,
+                            animation: "none",
+                        }}
+                    />
+                    <Stack.Screen
+                        name="admin"
                         options={{
                             gestureEnabled: false,
                             animation: "none",

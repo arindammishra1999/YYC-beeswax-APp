@@ -6,25 +6,14 @@ import { ScrollView, Text, TouchableOpacity, View, Alert } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 
 import Header from "@/components/header";
+import Reviews from "@/components/product/reviews";
 import { getProductDataById } from "@/firebase/getCollections/getProductByID";
+import { useReviews } from "@/firebase/providers/reviewsProvider";
 import { mainStyles } from "@/styles/mainStyles";
 import { productPageStyles } from "@/styles/productPageStyles";
 
-interface IProduct {
-    name: string;
-    description: string;
-    categories: string[];
-    variants?: {
-        name: string;
-        values: string[];
-    };
-    price: number;
-    stock: number;
-    url?: string;
-}
-
-export default function ProductId() {
-    const { productId } = useLocalSearchParams() as Record<string, string>;
+export default function Product() {
+    const { productId } = useLocalSearchParams();
 
     const addToCart = () => {
         // Ensure that product ID and quantity are present
@@ -89,24 +78,27 @@ export default function ProductId() {
 
     useEffect(() => {
         (async () => {
-            const products = (await getProductDataById(productId)) as
-                | IProduct
-                | undefined;
+            const products = await getProductDataById(productId as string);
             if (products) {
                 setProduct(products);
                 if (products.variants) {
                     setSelectedVariant(products.variants.values[0]);
                 }
-            } else {
-                console.log("Issue getting products");
             }
         })();
     }, []);
 
+    const [tab, setTab] = useState("details");
+
+    const { getMoreReviews } = useReviews();
+
     return (
         <View style={mainStyles.container}>
             <Header header={product.name} />
-            <ScrollView contentContainerStyle={productPageStyles.display}>
+            <ScrollView
+                contentContainerStyle={productPageStyles.display}
+                onScrollEndDrag={getMoreReviews}
+            >
                 <Suspense fallback={<Text>Loading...</Text>}>
                     <Image
                         contentFit="cover"
@@ -195,17 +187,51 @@ export default function ProductId() {
                         )}
                     </View>
                     <View style={productPageStyles.productNavBar}>
-                        <Text style={productPageStyles.productNavBarSelected}>
+                        <Text
+                            style={
+                                tab == "details"
+                                    ? productPageStyles.productNavBarSelected
+                                    : productPageStyles.productNavBarUnselected
+                            }
+                            onPress={() => setTab("details")}
+                        >
                             Details
                         </Text>
-                        <Text style={productPageStyles.productNavBarUnselected}>
+                        {product.additionalInfo && (
+                            <Text
+                                style={
+                                    tab == "additionalInfo"
+                                        ? productPageStyles.productNavBarSelected
+                                        : productPageStyles.productNavBarUnselected
+                                }
+                                onPress={() => setTab("additionalInfo")}
+                            >
+                                Details
+                            </Text>
+                        )}
+                        <Text
+                            style={
+                                tab == "reviews"
+                                    ? productPageStyles.productNavBarSelected
+                                    : productPageStyles.productNavBarUnselected
+                            }
+                            onPress={() => setTab("reviews")}
+                        >
                             Reviews
                         </Text>
                     </View>
-
-                    <Text style={productPageStyles.productDescription}>
-                        {product.description}
-                    </Text>
+                    {tab == "details" && (
+                        <Text style={productPageStyles.productDescription}>
+                            {product.description}
+                        </Text>
+                    )}
+                    {tab == "additionalInfo" && <></>}
+                    {tab == "reviews" && (
+                        <Reviews
+                            productId={productId as string}
+                            product={product}
+                        />
+                    )}
                 </View>
             </ScrollView>
             <View style={productPageStyles.bottomSection}>

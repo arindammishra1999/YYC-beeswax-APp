@@ -1,12 +1,13 @@
 import levenshtein from "damerau-levenshtein";
 import { router } from "expo-router";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
     View,
     ScrollView,
     Text,
     TouchableOpacity,
     ActivityIndicator,
+    RefreshControl,
 } from "react-native";
 
 import { searchTerm } from "@/app/dashboard/HomePage";
@@ -26,6 +27,8 @@ interface LevenshteinResponse {
 export default function SearchPage() {
     const [isLoading, setIsLoading] = useState(true);
     const [validProducts, setValidProducts] = useState([] as any);
+    const [refreshing, setRefreshing] = useState(false);
+
     useEffect(() => {
         getProductData().then((products) => {
             if (products) {
@@ -35,6 +38,21 @@ export default function SearchPage() {
             }
             setIsLoading(false);
         });
+    }, []);
+
+    const onRefresh = useCallback(() => {
+        setRefreshing(true);
+        setTimeout(() => {
+            getProductData().then((products) => {
+                if (products) {
+                    setValidProducts(searchAlorithm(products));
+                } else {
+                    console.log("Issue getting products");
+                }
+                setIsLoading(false);
+            });
+            setRefreshing(false);
+        }, 2000);
     }, []);
 
     function searchAlorithm(allProducts: any): any[] {
@@ -114,7 +132,16 @@ export default function SearchPage() {
             <View style={queryPageStyles.container}>
                 <Header header={"Results for: " + searchTerm} />
                 <View>
-                    <ScrollView contentContainerStyle={queryPageStyles.display}>
+                    <ScrollView
+                        contentContainerStyle={queryPageStyles.display}
+                        refreshControl={
+                            <RefreshControl
+                                refreshing={refreshing}
+                                onRefresh={onRefresh}
+                                tintColor={colors.yellow}
+                            />
+                        }
+                    >
                         {validProducts.map((product: any) => (
                             <ProductSimpleCard
                                 key={product.id}

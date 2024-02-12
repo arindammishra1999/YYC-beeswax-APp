@@ -1,17 +1,31 @@
 import { FlashList } from "@shopify/flash-list";
-import React, { useEffect, useState } from "react";
-import { View } from "react-native";
+import React, { useCallback, useEffect, useState } from "react";
+import { RefreshControl, View } from "react-native";
 
 import EventCard, { LoadingEventCard } from "@/components/cards/eventCard";
 import Header from "@/components/header";
+import { colors } from "@/consts/styles";
 import { getEventData } from "@/firebase/getCollections/getEvents";
 import { mainStyles } from "@/styles/mainStyles";
 
 export default function EventsPage() {
     const [allEvents, setAllEvents] = useState([] as any);
     const [loading, setLoading] = useState(true);
+    const [refreshing, setRefreshing] = useState(false);
 
     useEffect(() => {
+        getAllEventData();
+    }, []);
+
+    const onRefresh = useCallback(() => {
+        setRefreshing(true);
+        setTimeout(() => {
+            getAllEventData();
+            setRefreshing(false);
+        }, 2000);
+    }, []);
+
+    const getAllEventData = () => {
         getEventData().then((events) => {
             if (events) {
                 events.sort(
@@ -23,7 +37,7 @@ export default function EventsPage() {
             }
             setLoading(false);
         });
-    }, []);
+    };
 
     return (
         <View style={mainStyles.container}>
@@ -38,6 +52,13 @@ export default function EventsPage() {
                 <FlashList
                     estimatedItemSize={144}
                     data={allEvents}
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={refreshing}
+                            onRefresh={onRefresh}
+                            tintColor={colors.yellow}
+                        />
+                    }
                     renderItem={({ item }: any) => (
                         <EventCard
                             key={item.id}
