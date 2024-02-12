@@ -64,7 +64,7 @@ export default function Login() {
             if (user) {
                 // User is logged in
                 if (isAdmin) {
-                    router.push("/dashboard/MorePage");
+                    router.push("/admin/AdminDashboardPage");
                 } else if (user.emailVerified) {
                     router.push("/dashboard/HomePage");
                 } else {

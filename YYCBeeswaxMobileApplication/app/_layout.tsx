@@ -52,6 +52,13 @@ export default function RootLayout() {
                         }}
                     />
                     <Stack.Screen
+                        name="admin"
+                        options={{
+                            gestureEnabled: false,
+                            animation: "none",
+                        }}
+                    />
+                    <Stack.Screen
                         name="dashboard"
                         options={{
                             gestureEnabled: false,
