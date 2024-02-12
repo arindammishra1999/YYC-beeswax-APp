@@ -1,5 +1,8 @@
 import { useRouter } from "expo-router";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import {
+    createUserWithEmailAndPassword,
+    sendEmailVerification,
+} from "firebase/auth";
 import React, { useState } from "react";
 import { Text, ScrollView, View, Alert } from "react-native";
 
@@ -51,6 +54,7 @@ export default function Signup() {
 
             setError("");
             setSignupSuccess(true);
+            await sendEmailVerification(userCredential.user);
             Alert.alert(
                 "Sign Up Successful!",
                 "You have successfully signed up.",
