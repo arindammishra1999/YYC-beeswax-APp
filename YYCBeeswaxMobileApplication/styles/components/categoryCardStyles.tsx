@@ -15,9 +15,10 @@ export const categoryCardStyles = StyleSheet.create({
         elevation: 3,
         borderRadius: 20,
         justifyContent: "center",
-        marginRight: 15,
+        marginRight: 5,
         marginTop: 5,
         marginBottom: 15,
+        marginLeft: 10,
     },
     icon: {
         fontSize: 45,

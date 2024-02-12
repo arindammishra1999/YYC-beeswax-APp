@@ -2,11 +2,12 @@ import { FlashList } from "@shopify/flash-list";
 import { Image } from "expo-image";
 import { Href, router } from "expo-router";
 import { DateTime } from "luxon";
-import React, { useEffect, useState } from "react";
-import { Text, TouchableOpacity, View } from "react-native";
+import React, { useCallback, useEffect, useState } from "react";
+import { RefreshControl, Text, TouchableOpacity, View } from "react-native";
 
 import Header from "@/components/header";
 import Skeleton from "@/components/skeleton";
+import { colors } from "@/consts/styles";
 import { getQuizzes } from "@/firebase/getCollections/getQuizzes";
 import { mainStyles } from "@/styles/mainStyles";
 import { quizzesPageStyles } from "@/styles/quizzesPageStyles";
@@ -80,6 +81,7 @@ function QuizCard({ quiz }: { quiz: IQuiz }) {
 export default function Quizzes() {
     const [quizzes, setQuizzes] = useState<IQuiz[]>([]);
     const [loading, setLoading] = useState(true);
+    const [refreshing, setRefreshing] = useState(false);
 
     useEffect(() => {
         (async () => {
@@ -87,6 +89,18 @@ export default function Quizzes() {
             setQuizzes(data);
             setLoading(false);
         })();
+    }, []);
+
+    const onRefresh = useCallback(() => {
+        setRefreshing(true);
+        setTimeout(() => {
+            (async () => {
+                const data = await getQuizzes();
+                setQuizzes(data);
+                setLoading(false);
+            })();
+            setRefreshing(false);
+        }, 2000);
     }, []);
 
     return (
@@ -111,6 +125,13 @@ export default function Quizzes() {
                     )}
                     data={quizzes}
                     estimatedItemSize={100}
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={refreshing}
+                            onRefresh={onRefresh}
+                            tintColor={colors.yellow}
+                        />
+                    }
                 />
             )}
         </View>
