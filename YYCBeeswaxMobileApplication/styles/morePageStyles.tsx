@@ -7,7 +7,7 @@ export const morePageStyles = StyleSheet.create({
     topContainer: {
         flexDirection: "row",
         justifyContent: "space-between",
-        height: viewportHeight / 5,
+        height: viewportHeight / 4.5,
         marginVertical: 20,
     },
     extrasContainer: {
@@ -37,7 +37,7 @@ export const morePageStyles = StyleSheet.create({
     },
 
     socialsContainer: {
-        height: viewportHeight / 7,
+        height: viewportHeight / 6.5,
         marginHorizontal: 15,
         borderRadius: 20,
         shadowOffset: { width: 0, height: 4 },
@@ -64,7 +64,7 @@ export const morePageStyles = StyleSheet.create({
 
     factsContainer: {
         marginVertical: 20,
-        height: viewportHeight / 2.8,
+        height: viewportHeight / 2.5,
         marginHorizontal: 15,
         borderRadius: 20,
         shadowOffset: { width: 0, height: 4 },

@@ -58,7 +58,7 @@ export const editProfilePageStyles = StyleSheet.create({
         fontSize: 20,
     },
     confirmButton: {
-        top: viewportHeight * 0.81,
+        top: viewportHeight * 0.88,
         position: "absolute",
         bottom: "5%",
         alignSelf: "center",
