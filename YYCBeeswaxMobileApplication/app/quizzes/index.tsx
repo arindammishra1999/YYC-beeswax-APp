@@ -112,11 +112,6 @@ export default function Quizzes() {
     const onRefresh = useCallback(() => {
         setRefreshing(true);
         setTimeout(() => {
-            (async () => {
-                const data = await getQuizzes();
-                setQuizzes(data);
-                setLoading(false);
-            })();
             setRefreshing(false);
         }, 2000);
     }, []);
