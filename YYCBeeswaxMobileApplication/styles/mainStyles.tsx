@@ -31,4 +31,5 @@ export const mainStyles = StyleSheet.create({
         zIndex: 999,
     },
     flex: { flex: 1 },
+    delete: { backgroundColor: "#eb5e68" },
 });

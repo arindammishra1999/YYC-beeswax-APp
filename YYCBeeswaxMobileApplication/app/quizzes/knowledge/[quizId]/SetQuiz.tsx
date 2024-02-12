@@ -1,5 +1,5 @@
 import { Feather, MaterialIcons } from "@expo/vector-icons";
-import { useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import React, { useState } from "react";
 import { Modal, Text, TouchableOpacity, View } from "react-native";
 import {
@@ -12,13 +12,13 @@ import {
 import Button from "@/components/button";
 import Header from "@/components/header";
 import Input from "@/components/input";
-import { colors } from "@/consts/styles";
 import { useQuizzes } from "@/firebase/providers/quizzesProvider";
 import { mainStyles } from "@/styles/mainStyles";
+import { setQuizPageStyles } from "@/styles/setQuizPageStyles";
 
 export default function SetQuiz() {
     const { quizId } = useLocalSearchParams() as Record<string, string>;
-    const { getQuiz } = useQuizzes();
+    const { getQuiz, updateQuiz, deleteQuiz, createQuiz } = useQuizzes();
     const quiz = getQuiz<IKnowledgeQuiz>(quizId);
 
     const [updatedQuiz, setUpdatedQuiz] = useState<IKnowledgeQuiz>(
@@ -32,7 +32,7 @@ export default function SetQuiz() {
     );
     const [selectedQuestionIndex, setSelectedQuestionIndex] = useState(-1);
 
-    const renderItem = ({
+    const renderQuestion = ({
         item,
         drag,
         isActive,
@@ -44,21 +44,14 @@ export default function SetQuiz() {
                     onLongPress={drag}
                     disabled={isActive}
                     style={[
-                        {
-                            padding: 10,
-                            elevation: 4,
-                            margin: 10,
-                            marginBottom: 10,
-                            borderRadius: 10,
-                            flexDirection: "row",
-                            alignItems: "center",
-                            gap: 10,
-                        },
-                        { backgroundColor: isActive ? "lightgray" : "white" },
+                        setQuizPageStyles.questionCard,
+                        isActive && setQuizPageStyles.questionCardActive,
                     ]}
                 >
                     <MaterialIcons name="drag-indicator" size={24} />
-                    <Text style={{ flex: 1 }}>{item.question}</Text>
+                    <Text style={setQuizPageStyles.questionCardText}>
+                        {item.question}
+                    </Text>
                     <TouchableOpacity
                         onPress={() =>
                             setSelectedQuestionIndex(getIndex() ?? -1)
@@ -67,15 +60,7 @@ export default function SetQuiz() {
                         <Feather
                             name="edit"
                             size={24}
-                            style={{
-                                // backgroundColor: "blue",
-                                padding: 10,
-                                // borderRadius: 15,
-                                transform: [
-                                    { translateX: 10 },
-                                    // { translateY: -10 },
-                                ],
-                            }}
+                            style={setQuizPageStyles.questionCardIcon}
                         />
                     </TouchableOpacity>
                 </TouchableOpacity>
@@ -87,11 +72,11 @@ export default function SetQuiz() {
         <View style={mainStyles.container}>
             <Header header={quiz ? "Edit Quiz" : "Create Quiz"} />
             <NestableScrollContainer
-                contentContainerStyle={{ gap: 10, padding: 10 }}
+                contentContainerStyle={setQuizPageStyles.container}
             >
                 <Input
                     label="Title"
-                    value={updatedQuiz?.title}
+                    value={updatedQuiz.title}
                     onChangeText={(value) =>
                         setUpdatedQuiz((prev) => ({ ...prev, title: value }))
                     }
@@ -110,20 +95,11 @@ export default function SetQuiz() {
                     placeholder=""
                     autoCapitalize
                     multiline
-                    inputStyle={{ height: 150 }}
+                    inputStyle={setQuizPageStyles.description}
                 />
                 <View>
-                    <Text
-                        style={{
-                            paddingHorizontal: 10,
-                            fontWeight: "bold",
-                            fontSize: 16,
-                        }}
-                    >
-                        Questions
-                    </Text>
+                    <Text style={setQuizPageStyles.heading}>Questions</Text>
                     <NestableDraggableFlatList
-                        // containerStyle={{ height:'50%', paddingVertical: 10 }}
                         data={updatedQuiz.questions}
                         onDragEnd={({ data }) =>
                             setUpdatedQuiz((prev) => ({
@@ -132,26 +108,20 @@ export default function SetQuiz() {
                             }))
                         }
                         keyExtractor={(item) => item.question}
-                        renderItem={renderItem}
+                        renderItem={renderQuestion}
                     />
                 </View>
                 <Text
-                    style={{
-                        alignSelf: "center",
-                        color: colors.blue,
-                        fontSize: 16,
-                        textDecorationLine: "underline",
-                        paddingTop: 10,
-                        paddingBottom: 20,
-                    }}
+                    style={[
+                        setQuizPageStyles.linkButton,
+                        setQuizPageStyles.addButton,
+                    ]}
                     onPress={() => {
                         setUpdatedQuiz((prev) => {
                             prev.questions = [
                                 ...prev.questions,
                                 {
-                                    id: "",
                                     answers: [],
-                                    difficulty: "",
                                     question:
                                         "Question " +
                                         (prev.questions.length + 1),
@@ -170,13 +140,22 @@ export default function SetQuiz() {
                 <Button
                     title={quiz ? "Save Changes" : "Create"}
                     onPress={() => {
-                        setSelectedQuestionIndex(-1);
+                        if (quiz) {
+                            updateQuiz(quizId, updatedQuiz);
+                        } else {
+                            createQuiz(updatedQuiz);
+                        }
+                        router.push(`/quizzes/`);
                     }}
                 />
                 {quiz && (
                     <Button
                         title="Delete Quiz"
-                        style={{ backgroundColor: "#eb5e68" }}
+                        style={mainStyles.delete}
+                        onPress={() => {
+                            deleteQuiz(quizId);
+                            router.push(`/quizzes/`);
+                        }}
                     />
                 )}
             </NestableScrollContainer>
@@ -186,49 +165,11 @@ export default function SetQuiz() {
                 onRequestClose={() => setSelectedQuestionIndex(-1)}
             >
                 {selectedQuestionIndex != -1 && (
-                    <View
-                        style={{
-                            flex: 1,
-                            justifyContent: "center",
-                            alignItems: "center",
-                            backgroundColor: "rgba(52, 52, 52, 0.8)",
-                        }}
-                    >
-                        <View
-                            style={{
-                                elevation: 8,
-                                backgroundColor: "white",
-                                margin: 10,
-                                padding: 10,
-                                borderRadius: 30,
-                                gap: 20,
-                                width: "95%",
-                            }}
-                        >
-                            <Text
-                                style={{
-                                    textAlign: "center",
-                                    fontWeight: "bold",
-                                    fontSize: 24,
-                                    paddingTop: 10,
-                                }}
-                            >
+                    <View style={setQuizPageStyles.modalBackground}>
+                        <View style={setQuizPageStyles.modalContainer}>
+                            <Text style={setQuizPageStyles.modalHeading}>
                                 Editing Question {selectedQuestionIndex + 1}
                             </Text>
-                            {/*<View style={{ paddingHorizontal: 10, gap: 10 }}>*/}
-                            {/*    <Text*/}
-                            {/*        style={{ fontWeight: "bold", fontSize: 16 }}*/}
-                            {/*    >*/}
-                            {/*        Question:*/}
-                            {/*    </Text>*/}
-                            {/*    <Text>*/}
-                            {/*        {*/}
-                            {/*            updatedQuiz?.questions[*/}
-                            {/*                selectedQuestionIndex*/}
-                            {/*            ].question*/}
-                            {/*        }*/}
-                            {/*    </Text>*/}
-                            {/*</View>*/}
                             <Input
                                 label="Question"
                                 value={
@@ -335,14 +276,8 @@ export default function SetQuiz() {
                                 autoCapitalize
                             />
                             <Text
-                                style={{
-                                    alignSelf: "center",
-                                    color: colors.blue,
-                                    fontSize: 16,
-                                    textDecorationLine: "underline",
-                                }}
+                                style={setQuizPageStyles.linkButton}
                                 onPress={() => {
-                                    // const index = selectedQuestionIndex;
                                     setSelectedQuestionIndex(-1);
                                     setUpdatedQuiz((prev) => {
                                         prev.questions = prev.questions.filter(

@@ -1,4 +1,14 @@
-import { addDoc, collection, increment } from "firebase/firestore";
+import {
+    addDoc,
+    collection,
+    deleteDoc,
+    doc,
+    getDocs,
+    increment,
+    serverTimestamp,
+    setDoc,
+    Timestamp,
+} from "firebase/firestore";
 import {
     createContext,
     ReactNode,
@@ -8,8 +18,31 @@ import {
 } from "react";
 
 import { db } from "@/firebase/config";
-import { getQuizzes } from "@/firebase/getCollections/getQuizzes";
-import { setQuiz } from "@/firebase/setCollections/setQuiz";
+
+async function getQuizzes() {
+    try {
+        const query = await getDocs(collection(db, "quizzes"));
+        const quizzes = query.docs.map((doc) => {
+            return {
+                id: doc.id,
+                ...doc.data(),
+            } as IQuiz;
+        });
+        return quizzes;
+    } catch (error) {
+        console.error("Error getting documents: ", error);
+        return [];
+    }
+}
+
+async function setQuiz(id: string, quiz: Partial<IQuiz>) {
+    try {
+        const quizRef = doc(db, "quizzes", id);
+        await setDoc(quizRef, quiz, { merge: true });
+    } catch (error) {
+        console.error("Error updating document: ", error);
+    }
+}
 
 interface IQuizzesContext {
     quizzes: IQuiz[];
@@ -20,6 +53,7 @@ interface IQuizzesContext {
     updateQuiz: (id: string, quiz: IQuiz) => void;
     createQuiz: (quiz: IQuiz) => void;
     playQuiz: (id: string) => void;
+    deleteQuiz: (id: string) => void;
 }
 
 const QuizzesContext = createContext<IQuizzesContext | null>(null);
@@ -55,7 +89,7 @@ export function QuizzesProvider({ children }: { children: ReactNode }) {
     function updateQuiz(id: string, quiz: IQuiz) {
         setQuiz(id, quiz);
         setQuizzes((prev) => {
-            const index = prev.findIndex((value) => (value.id = id));
+            const index = prev.findIndex((value) => value.id == id);
             prev[index] = quiz;
             return [...prev];
         });
@@ -64,16 +98,32 @@ export function QuizzesProvider({ children }: { children: ReactNode }) {
     function playQuiz(id: string) {
         setQuiz(id, { plays: increment(1) });
         setQuizzes((prev) => {
-            const index = prev.findIndex((value) => (value.id = id));
+            const index = prev.findIndex((value) => value.id == id);
             prev[index].plays++;
             return [...prev];
         });
     }
 
+    function deleteQuiz(id: string) {
+        deleteDoc(doc(db, "quizzes", id));
+        setQuizzes((prev) => {
+            const index = prev.findIndex((value) => value.id == id);
+            prev.splice(index, 1);
+            return [...prev];
+        });
+    }
+
     async function createQuiz(quiz: IQuiz) {
-        const quizRef = await addDoc(collection(db, "quizzes"), quiz);
+        const quizRef = await addDoc(collection(db, "quizzes"), {
+            ...quiz,
+            created: serverTimestamp(),
+            plays: 0,
+        });
         quiz.id = quizRef.id;
-        setQuizzes((prev) => [...prev, quiz]);
+        setQuizzes((prev) => [
+            ...prev,
+            { ...quiz, created: Timestamp.fromDate(new Date()), plays: 0 },
+        ]);
     }
 
     const quizzesContext: IQuizzesContext = {
@@ -83,6 +133,7 @@ export function QuizzesProvider({ children }: { children: ReactNode }) {
         updateQuiz,
         createQuiz,
         playQuiz,
+        deleteQuiz,
     };
 
     return (

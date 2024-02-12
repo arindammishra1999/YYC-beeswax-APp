@@ -22,9 +22,7 @@ interface IPersonalityQuiz extends IQuiz {
 }
 
 interface IKnowledgeQuestion {
-    id: string;
     question: string;
-    difficulty: string;
     correctAnswer: string;
     incorrectAnswer1: string;
     incorrectAnswer2: string;
@@ -33,7 +31,6 @@ interface IKnowledgeQuestion {
 }
 
 interface IPersonalityQuestion {
-    id: string;
     question: string;
     options: {
         value: string;
