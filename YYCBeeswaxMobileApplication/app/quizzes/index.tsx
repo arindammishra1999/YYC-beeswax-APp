@@ -9,9 +9,9 @@ import { RefreshControl, Text, TouchableOpacity, View } from "react-native";
 import Button from "@/components/button";
 import Header from "@/components/header";
 import Skeleton from "@/components/skeleton";
+import { colors } from "@/consts/styles";
 import { useQuizzes } from "@/firebase/providers/quizzesProvider";
 import { useUser } from "@/firebase/providers/userProvider";
-import { colors } from "@/consts/styles";
 import { mainStyles } from "@/styles/mainStyles";
 import { quizzesPageStyles } from "@/styles/quizzesPageStyles";
 
