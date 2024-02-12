@@ -1,14 +1,16 @@
 import { FlashList } from "@shopify/flash-list";
 import { Image } from "expo-image";
 import { router } from "expo-router";
-import React, { useState } from "react";
-import { Text, View, TouchableOpacity } from "react-native";
+import React, { useCallback, useState } from "react";
+import { Text, View, TouchableOpacity, RefreshControl } from "react-native";
 
 import Header from "@/components/header";
+import { colors } from "@/consts/styles";
 import { orderHistoryPageStyles } from "@/styles/orderHistoryPageStyles";
 
 export default function OrderHistoryPage() {
-    const [orderHistory] = useState(false);
+    const [orderHistory] = useState(true);
+    const [refreshing, setRefreshing] = useState(false);
 
     enum orderStatus {
         Placed = "Placed",
@@ -106,6 +108,14 @@ export default function OrderHistoryPage() {
         }
     };
 
+    const onRefresh = useCallback(() => {
+        setRefreshing(true);
+        setTimeout(() => {
+            // Can put API call to database here once we remove the dummy data
+            setRefreshing(false);
+        }, 2000);
+    }, []);
+
     const Item = ({
         title,
         numberProducts,
@@ -113,29 +123,31 @@ export default function OrderHistoryPage() {
         date,
         imageLink,
     }: ItemProps) => (
-        <View style={orderHistoryPageStyles.orderCard}>
-            <Image
-                style={orderHistoryPageStyles.image}
-                source={imageLink as any}
-            />
-            <View style={orderHistoryPageStyles.detailsContainer}>
-                <Text
-                    style={orderHistoryPageStyles.orderName}
-                    numberOfLines={1}
-                >
-                    {title}
-                </Text>
-                <View style={orderHistoryPageStyles.orderDetails}>
-                    <Text style={setOrderStatusType(order)}>
-                        {numberProducts} product{numberProducts > 1 ? "s" : ""}{" "}
-                        -{" "}
+        <TouchableOpacity onPress={() => {}}>
+            <View style={orderHistoryPageStyles.orderCard}>
+                <Image
+                    style={orderHistoryPageStyles.image}
+                    source={imageLink as any}
+                />
+                <View style={orderHistoryPageStyles.detailsContainer}>
+                    <Text
+                        style={orderHistoryPageStyles.orderName}
+                        numberOfLines={1}
+                    >
+                        {title}
                     </Text>
-                    <Text style={setOrderStatusType(order)}>
-                        {order} on {date}
-                    </Text>
+                    <View style={orderHistoryPageStyles.orderDetails}>
+                        <Text style={setOrderStatusType(order)}>
+                            {numberProducts} product
+                            {numberProducts > 1 ? "s" : ""} -{" "}
+                        </Text>
+                        <Text style={setOrderStatusType(order)}>
+                            {order} on {date}
+                        </Text>
+                    </View>
                 </View>
             </View>
-        </View>
+        </TouchableOpacity>
     );
 
     if (orderHistory) {
@@ -144,6 +156,14 @@ export default function OrderHistoryPage() {
                 <Header header="Order History" />
                 <FlashList
                     data={listings}
+                    estimatedItemSize={100}
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={refreshing}
+                            onRefresh={onRefresh}
+                            tintColor={colors.yellow}
+                        />
+                    }
                     renderItem={({ item }) => (
                         <Item
                             title={item.title}

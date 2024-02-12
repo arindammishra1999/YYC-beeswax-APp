@@ -3,14 +3,15 @@ import { FlashList } from "@shopify/flash-list";
 import { Image } from "expo-image";
 import { Href, router } from "expo-router";
 import { DateTime } from "luxon";
-import React from "react";
-import { Text, TouchableOpacity, View } from "react-native";
+import React, { useCallback, useState } from "react";
+import { RefreshControl, Text, TouchableOpacity, View } from "react-native";
 
 import Button from "@/components/button";
 import Header from "@/components/header";
 import Skeleton from "@/components/skeleton";
 import { useQuizzes } from "@/firebase/providers/quizzesProvider";
 import { useUser } from "@/firebase/providers/userProvider";
+import { colors } from "@/consts/styles";
 import { mainStyles } from "@/styles/mainStyles";
 import { quizzesPageStyles } from "@/styles/quizzesPageStyles";
 
@@ -105,6 +106,21 @@ function QuizCard({ quiz }: { quiz: IQuiz }) {
 export default function Quizzes() {
     const { quizzes, loading } = useQuizzes();
     const { isAdmin } = useUser();
+
+    const [refreshing, setRefreshing] = useState(false);
+
+    const onRefresh = useCallback(() => {
+        setRefreshing(true);
+        setTimeout(() => {
+            (async () => {
+                const data = await getQuizzes();
+                setQuizzes(data);
+                setLoading(false);
+            })();
+            setRefreshing(false);
+        }, 2000);
+    }, []);
+
     return (
         <View style={mainStyles.container}>
             <Header header="Quizzes" />
@@ -147,6 +163,13 @@ export default function Quizzes() {
                     )}
                     data={quizzes}
                     estimatedItemSize={100}
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={refreshing}
+                            onRefresh={onRefresh}
+                            tintColor={colors.yellow}
+                        />
+                    }
                 />
             )}
         </View>

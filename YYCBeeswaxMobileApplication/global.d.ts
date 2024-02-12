@@ -40,8 +40,7 @@ interface IPersonalityQuestion {
 
 interface IUser {
     email: string;
-    firstName: string;
-    lastName: string;
+    name: string;
 }
 
 interface IProduct {
