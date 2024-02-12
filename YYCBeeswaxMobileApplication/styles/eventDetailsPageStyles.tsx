@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 
 import { colors } from "@/consts/styles";
-import { viewportHeight } from "@/consts/viewport";
+import { viewportHeight, viewportWidth } from "@/consts/viewport";
 
 export const eventDetailsPageStyles = StyleSheet.create({
     image: {
@@ -61,26 +61,30 @@ export const eventDetailsPageStyles = StyleSheet.create({
         marginBottom: 25,
     },
     bottomBar: {
+        borderTopLeftRadius: 25,
+        borderTopRightRadius: 25,
+        height: viewportHeight / 10,
         backgroundColor: colors.white,
-        height: "9%",
-        elevation: 3,
-        shadowColor: "black",
-        shadowOpacity: 0.2,
-        shadowRadius: 10,
-        shadowOffset: { width: 0, height: -25 },
         justifyContent: "center",
+        alignItems: "center",
+        borderColor: "rgba(0, 0, 0, .2)",
+        borderStyle: "solid",
+        borderWidth: 1,
+        borderBottomWidth: 0,
     },
     button: {
         backgroundColor: colors.yellow,
-        alignSelf: "center",
-        width: "65%",
-        paddingTop: 15,
-        paddingBottom: 15,
-        borderRadius: 30,
+        borderRadius: 25,
+        justifyContent: "center",
+        alignItems: "center",
+        padding: 15,
+        width: viewportWidth / 2,
+        marginLeft: "25%",
+        marginRight: "25%",
     },
     buttonText: {
-        fontSize: 21,
+        color: colors.black,
+        fontSize: 20,
         fontWeight: "bold",
-        alignSelf: "center",
     },
 });
