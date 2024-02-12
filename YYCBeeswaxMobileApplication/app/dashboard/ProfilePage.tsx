@@ -83,8 +83,8 @@ export default function ProfilePage() {
                 </View>
                 <View style={profilePageStyles.optionContainer}>
                     <ProfileOption
-                        onPress={() => router.push("/profile/ProfileDataPage")}
-                        label="Edit Profile"
+                        onPress={() => router.push("/profile/EditProfilePage")}
+                        label="My Account"
                         iconName="edit"
                     />
                     <ProfileOption

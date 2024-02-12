@@ -6,7 +6,7 @@ import { viewportHeight, viewportWidth } from "@/consts/viewport";
 export const eventDetailsPageStyles = StyleSheet.create({
     image: {
         width: "100%",
-        height: viewportHeight / 3,
+        height: viewportHeight / 2.5,
     },
     title: {
         fontSize: 34,

@@ -108,7 +108,7 @@ export const productPageStyles = StyleSheet.create({
     bottomSection: {
         borderTopLeftRadius: 25,
         borderTopRightRadius: 25,
-        height: viewportHeight / 10,
+        height: viewportHeight / 9,
         backgroundColor: colors.white,
         justifyContent: "center",
         alignItems: "center",
