@@ -20,7 +20,7 @@ export default function CartPage() {
     const calculateTotalItemsCost = (items: any[]) => {
         return items.reduce(
             (total, item) => total + item.quantity * item.data.price,
-            0
+            0,
         );
     };
 
@@ -60,12 +60,12 @@ export default function CartPage() {
                 }[];
 
                 const updatedCart = parsedCart.filter(
-                    (item) => item.productId !== productId
+                    (item) => item.productId !== productId,
                 );
 
                 await SecureStore.setItemAsync(
                     "cart",
-                    JSON.stringify(updatedCart)
+                    JSON.stringify(updatedCart),
                 );
             }
         } catch (error) {
@@ -73,7 +73,7 @@ export default function CartPage() {
         }
 
         setCartItems((prevCartItems) =>
-            prevCartItems.filter((item) => item.id !== productId)
+            prevCartItems.filter((item) => item.id !== productId),
         );
     };
 
@@ -99,7 +99,7 @@ export default function CartPage() {
                                         // Check if products is not undefined
                                         const product = products.find(
                                             (product) =>
-                                                product.id === productId
+                                                product.id === productId,
                                         );
 
                                         if (product) {
@@ -110,7 +110,7 @@ export default function CartPage() {
                                         } else {
                                             // If the product is not found, you might want to handle it
                                             console.warn(
-                                                `Product with ID ${productId} not found.`
+                                                `Product with ID ${productId} not found.`,
                                             );
                                             return null;
                                         }
@@ -121,16 +121,16 @@ export default function CartPage() {
                                 } catch (error) {
                                     console.error(
                                         "Error fetching products:",
-                                        error
+                                        error,
                                     );
                                     return null;
                                 }
-                            })
+                            }),
                         );
 
                         // Filter out any null values (products not found)
                         const filteredProductDetails = productDetails.filter(
-                            (product) => product !== null
+                            (product) => product !== null,
                         );
 
                         setCartItems(filteredProductDetails);
@@ -145,7 +145,7 @@ export default function CartPage() {
             };
 
             fetchCartData();
-        }, [])
+        }, []),
     );
 
     if (cartItems.length == 0) {

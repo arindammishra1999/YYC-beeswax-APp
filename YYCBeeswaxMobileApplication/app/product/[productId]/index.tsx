@@ -23,7 +23,7 @@ export default function Product() {
                 const cart = cartData ? JSON.parse(cartData) : [];
                 // Check if the product is already in the cart
                 const existingProductIndex = cart.findIndex(
-                    (item: any) => item.productId === productId
+                    (item: any) => item.productId === productId,
                 );
 
                 if (existingProductIndex !== -1) {
@@ -49,9 +49,9 @@ export default function Product() {
                                     style: "cancel",
                                 },
                             ],
-                            { cancelable: false }
+                            { cancelable: false },
                         );
-                    }
+                    },
                 );
             });
         }
@@ -168,7 +168,7 @@ export default function Product() {
                                         (value) => ({
                                             label: value,
                                             value,
-                                        })
+                                        }),
                                     )}
                                     maxHeight={200}
                                     style={productPageStyles.productDropdown}

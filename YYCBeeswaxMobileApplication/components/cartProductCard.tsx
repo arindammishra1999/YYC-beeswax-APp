@@ -32,12 +32,12 @@ export default function CartProductCard(props: Props) {
                 }[];
 
                 const updatedCart = parsedCart.map((item) =>
-                    item.productId === productId ? { ...item, quantity } : item
+                    item.productId === productId ? { ...item, quantity } : item,
                 );
 
                 await SecureStore.setItemAsync(
                     "cart",
-                    JSON.stringify(updatedCart)
+                    JSON.stringify(updatedCart),
                 );
             }
         } catch (error) {
@@ -57,12 +57,12 @@ export default function CartProductCard(props: Props) {
                 }[];
 
                 const updatedCart = parsedCart.filter(
-                    (item) => item.productId !== productId
+                    (item) => item.productId !== productId,
                 );
 
                 await SecureStore.setItemAsync(
                     "cart",
-                    JSON.stringify(updatedCart)
+                    JSON.stringify(updatedCart),
                 );
             }
         } catch (error) {
