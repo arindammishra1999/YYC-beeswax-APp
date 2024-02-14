@@ -5,8 +5,14 @@ import {
     doc,
     getDocs,
     increment,
+    limit,
+    orderBy,
+    query,
+    QueryConstraint,
+    QueryDocumentSnapshot,
     serverTimestamp,
     setDoc,
+    startAfter,
     Timestamp,
 } from "firebase/firestore";
 import {
@@ -19,20 +25,39 @@ import {
 
 import { db } from "@/firebase/config";
 
-async function getQuizzes() {
-    try {
-        const query = await getDocs(collection(db, "quizzes"));
-        const quizzes = query.docs.map((doc) => {
+async function getQuizzes(lastVisible?: QueryDocumentSnapshot) {
+    // try {
+    //     const query = await getDocs(collection(db, "quizzes"));
+    //     const quizzes = query.docs.map((doc) => {
+    //         return {
+    //             id: doc.id,
+    //             ...doc.data(),
+    //         } as IQuiz;
+    //     });
+    //     return quizzes;
+    // } catch (error) {
+    //     console.error("Error getting documents: ", error);
+    //     return [];
+    // }
+
+    const constraints: QueryConstraint[] = [];
+    constraints.push(orderBy("created", "desc"));
+    if (lastVisible) {
+        constraints.push(startAfter(lastVisible));
+    }
+    constraints.push(limit(4));
+    const querySnap = await getDocs(
+        query(collection(db, "quizzes"), ...constraints),
+    );
+    return {
+        lastVisible: querySnap.docs.at(-1),
+        quizzes: querySnap.docs.map((doc) => {
             return {
                 id: doc.id,
                 ...doc.data(),
             } as IQuiz;
-        });
-        return quizzes;
-    } catch (error) {
-        console.error("Error getting documents: ", error);
-        return [];
-    }
+        }),
+    };
 }
 
 async function setQuiz(id: string, quiz: Partial<IQuiz>) {
@@ -50,6 +75,7 @@ interface IQuizzesContext {
     getQuiz: <T extends IKnowledgeQuiz | IPersonalityQuiz>(
         id: string,
     ) => T | undefined;
+    getMoreQuizzes: () => void;
     updateQuiz: (id: string, quiz: IQuiz) => void;
     createQuiz: (quiz: IQuiz) => void;
     playQuiz: (id: string) => void;
@@ -71,16 +97,28 @@ export const useQuizzes = () => {
 export function QuizzesProvider({ children }: { children: ReactNode }) {
     const [quizzes, setQuizzes] = useState<IQuiz[]>([]);
     const [loading, setLoading] = useState(true);
+    const [lastVisible, setLastVisible] = useState<QueryDocumentSnapshot>();
 
     useEffect(() => {
         (async () => {
             // const data = await getQuizzes();
-            let data = await getQuizzes();
-            data = data.filter((item) => item.questions);
-            setQuizzes(data);
+            let { quizzes, lastVisible } = await getQuizzes();
+            quizzes = quizzes.filter((item) => item.questions);
+            setQuizzes(quizzes);
+            setLastVisible(lastVisible);
             setLoading(false);
         })();
     }, []);
+
+    async function getMoreQuizzes() {
+        if (lastVisible) {
+            const data = await getQuizzes(lastVisible);
+            setLastVisible(data.lastVisible);
+            setQuizzes((prev) => {
+                return [...prev, ...data.quizzes];
+            });
+        }
+    }
 
     function getQuiz<T extends IKnowledgeQuiz | IPersonalityQuiz>(id: string) {
         return quizzes.find((value) => value.id == id) as T | undefined;
@@ -129,6 +167,7 @@ export function QuizzesProvider({ children }: { children: ReactNode }) {
     const quizzesContext: IQuizzesContext = {
         quizzes,
         loading,
+        getMoreQuizzes,
         getQuiz,
         updateQuiz,
         createQuiz,

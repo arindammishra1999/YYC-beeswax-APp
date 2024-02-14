@@ -1,15 +1,13 @@
-import { Feather, MaterialIcons } from "@expo/vector-icons";
 import { router, useLocalSearchParams } from "expo-router";
 import React, { useState } from "react";
-import { Modal, Text, TouchableOpacity, View } from "react-native";
+import { Modal, Text, View } from "react-native";
 import {
     NestableDraggableFlatList,
     NestableScrollContainer,
-    RenderItemParams,
-    ScaleDecorator,
 } from "react-native-draggable-flatlist";
 
 import Button from "@/components/button";
+import QuestionCard from "@/components/cards/questionCard";
 import Header from "@/components/header";
 import Input from "@/components/input";
 import { useQuizzes } from "@/firebase/providers/quizzesProvider";
@@ -32,41 +30,32 @@ export default function SetQuiz() {
     );
     const [selectedQuestionIndex, setSelectedQuestionIndex] = useState(-1);
 
-    const renderQuestion = ({
-        item,
-        drag,
-        isActive,
-        getIndex,
-    }: RenderItemParams<IKnowledgeQuestion>) => {
-        return (
-            <ScaleDecorator activeScale={1.03}>
-                <TouchableOpacity
-                    onLongPress={drag}
-                    disabled={isActive}
-                    style={[
-                        setQuizPageStyles.questionCard,
-                        isActive && setQuizPageStyles.questionCardActive,
-                    ]}
-                >
-                    <MaterialIcons name="drag-indicator" size={24} />
-                    <Text style={setQuizPageStyles.questionCardText}>
-                        {item.question}
-                    </Text>
-                    <TouchableOpacity
-                        onPress={() =>
-                            setSelectedQuestionIndex(getIndex() ?? -1)
-                        }
-                    >
-                        <Feather
-                            name="edit"
-                            size={24}
-                            style={setQuizPageStyles.questionCardIcon}
-                        />
-                    </TouchableOpacity>
-                </TouchableOpacity>
-            </ScaleDecorator>
-        );
-    };
+    function addQuestion() {
+        setUpdatedQuiz((prev) => {
+            prev.questions = [
+                ...prev.questions,
+                {
+                    answers: [],
+                    question: "Question " + (prev.questions.length + 1),
+                    correctAnswer: "True",
+                    incorrectAnswer1: "False",
+                    incorrectAnswer2: "False",
+                    incorrectAnswer3: "False",
+                },
+            ];
+            return { ...prev };
+        });
+    }
+
+    function deleteQuestion() {
+        setSelectedQuestionIndex(-1);
+        setUpdatedQuiz((prev) => {
+            prev.questions = prev.questions.filter(
+                (_, index) => index != selectedQuestionIndex,
+            );
+            return { ...prev };
+        });
+    }
 
     return (
         <View style={mainStyles.container}>
@@ -107,8 +96,15 @@ export default function SetQuiz() {
                                 questions: data,
                             }))
                         }
-                        keyExtractor={(item) => item.question}
-                        renderItem={renderQuestion}
+                        keyExtractor={(item, index) => index.toString()}
+                        renderItem={(item) => (
+                            <QuestionCard
+                                {...item}
+                                onEdit={(index) =>
+                                    setSelectedQuestionIndex(index)
+                                }
+                            />
+                        )}
                     />
                 </View>
                 <Text
@@ -116,24 +112,7 @@ export default function SetQuiz() {
                         setQuizPageStyles.linkButton,
                         setQuizPageStyles.addButton,
                     ]}
-                    onPress={() => {
-                        setUpdatedQuiz((prev) => {
-                            prev.questions = [
-                                ...prev.questions,
-                                {
-                                    answers: [],
-                                    question:
-                                        "Question " +
-                                        (prev.questions.length + 1),
-                                    correctAnswer: "True",
-                                    incorrectAnswer1: "False",
-                                    incorrectAnswer2: "False",
-                                    incorrectAnswer3: "False",
-                                },
-                            ];
-                            return { ...prev };
-                        });
-                    }}
+                    onPress={addQuestion}
                 >
                     Add Question
                 </Text>
@@ -277,16 +256,7 @@ export default function SetQuiz() {
                             />
                             <Text
                                 style={setQuizPageStyles.linkButton}
-                                onPress={() => {
-                                    setSelectedQuestionIndex(-1);
-                                    setUpdatedQuiz((prev) => {
-                                        prev.questions = prev.questions.filter(
-                                            (_, index) =>
-                                                index != selectedQuestionIndex,
-                                        );
-                                        return { ...prev };
-                                    });
-                                }}
+                                onPress={deleteQuestion}
                             >
                                 Delete Question
                             </Text>

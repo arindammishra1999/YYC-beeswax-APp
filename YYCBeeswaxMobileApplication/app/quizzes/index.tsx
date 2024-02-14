@@ -104,7 +104,7 @@ function QuizCard({ quiz }: { quiz: IQuiz }) {
 }
 
 export default function Quizzes() {
-    const { quizzes, loading } = useQuizzes();
+    const { quizzes, loading, getMoreQuizzes } = useQuizzes();
     const { isAdmin } = useUser();
 
     const [refreshing, setRefreshing] = useState(false);
@@ -158,6 +158,7 @@ export default function Quizzes() {
                     )}
                     data={quizzes}
                     estimatedItemSize={100}
+                    onScrollEndDrag={getMoreQuizzes}
                     refreshControl={
                         <RefreshControl
                             refreshing={refreshing}

@@ -1,22 +1,14 @@
-import { Feather, MaterialIcons } from "@expo/vector-icons";
 import { router, useLocalSearchParams } from "expo-router";
 import React, { useState } from "react";
-import {
-    Modal,
-    ScrollView,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
-} from "react-native";
+import { Modal, ScrollView, Text, TextInput, View } from "react-native";
 import {
     NestableDraggableFlatList,
     NestableScrollContainer,
-    RenderItemParams,
-    ScaleDecorator,
 } from "react-native-draggable-flatlist";
 
 import Button from "@/components/button";
+import QuestionCard from "@/components/cards/questionCard";
+import QuizResultCard from "@/components/cards/quizResultCard";
 import Header from "@/components/header";
 import Input from "@/components/input";
 import { useQuizzes } from "@/firebase/providers/quizzesProvider";
@@ -50,65 +42,6 @@ export default function SetQuiz() {
     );
     const [selectedResultIndex, setSelectedResultIndex] = useState(-1);
 
-    const renderQuestion = ({
-        item,
-        drag,
-        isActive,
-        getIndex,
-    }: RenderItemParams<IPersonalityQuestion>) => {
-        return (
-            <ScaleDecorator activeScale={1.03}>
-                <TouchableOpacity
-                    onLongPress={drag}
-                    disabled={isActive}
-                    style={[
-                        setQuizPageStyles.questionCard,
-                        isActive && setQuizPageStyles.questionCardActive,
-                    ]}
-                >
-                    <MaterialIcons name="drag-indicator" size={24} />
-                    <Text style={setQuizPageStyles.questionCardText}>
-                        {item.question}
-                    </Text>
-                    <TouchableOpacity
-                        onPress={() =>
-                            setSelectedQuestionIndex(getIndex() ?? -1)
-                        }
-                    >
-                        <Feather
-                            name="edit"
-                            size={24}
-                            style={setQuizPageStyles.questionCardIcon}
-                        />
-                    </TouchableOpacity>
-                </TouchableOpacity>
-            </ScaleDecorator>
-        );
-    };
-
-    const Result = ({
-        item,
-        index,
-    }: {
-        item: { name: string; description: string };
-        index: number;
-    }) => {
-        return (
-            <View style={setQuizPageStyles.questionCard}>
-                <Text style={setQuizPageStyles.resultCardText}>
-                    {item.name}
-                </Text>
-                <TouchableOpacity onPress={() => setSelectedResultIndex(index)}>
-                    <Feather
-                        name="edit"
-                        size={24}
-                        style={setQuizPageStyles.questionCardIcon}
-                    />
-                </TouchableOpacity>
-            </View>
-        );
-    };
-
     return (
         <View style={mainStyles.container}>
             <Header header={quiz ? "Edit Quiz" : "Create Quiz"} />
@@ -141,7 +74,13 @@ export default function SetQuiz() {
                 <View>
                     <Text style={setQuizPageStyles.heading}>Results</Text>
                     {weights.map((weight, i) => {
-                        return <Result key={i} item={weight} index={i} />;
+                        return (
+                            <QuizResultCard
+                                key={i}
+                                item={weight}
+                                onEdit={() => setSelectedResultIndex(i)}
+                            />
+                        );
                     })}
                 </View>
                 <Text
@@ -175,7 +114,14 @@ export default function SetQuiz() {
                             }))
                         }
                         keyExtractor={(item) => item.question}
-                        renderItem={renderQuestion}
+                        renderItem={(item) => (
+                            <QuestionCard
+                                {...item}
+                                onEdit={(index) =>
+                                    setSelectedQuestionIndex(index)
+                                }
+                            />
+                        )}
                     />
                 </View>
                 <Text
