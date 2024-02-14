@@ -23,7 +23,9 @@ export const productPageStyles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
         paddingBottom: 20,
+        gap: 20,
     },
+    productTitleSection: { flex: 1 },
     productName: {
         paddingTop: 20,
         fontSize: 20,

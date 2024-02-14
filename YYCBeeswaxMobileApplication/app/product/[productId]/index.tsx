@@ -108,7 +108,7 @@ export default function Product() {
                 </Suspense>
                 <View style={productPageStyles.productDetails}>
                     <View style={productPageStyles.productHeadingContainer}>
-                        <View>
+                        <View style={productPageStyles.productTitleSection}>
                             <Text style={productPageStyles.productName}>
                                 {product.name}
                             </Text>
