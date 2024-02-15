@@ -5,10 +5,11 @@ import { colors } from "@/consts/styles";
 export const cartProductCardStyles = StyleSheet.create({
     cardContainer: {
         flex: 1,
-        width: "90%",
-        padding: 20,
+        flexDirection: "row",
+        width: "85%",
+        padding: 15,
         marginBottom: 10,
-        borderRadius: 10,
+        borderRadius: 20,
         marginTop: 10,
         backgroundColor: colors.white,
         shadowColor: "#000",
@@ -22,29 +23,37 @@ export const cartProductCardStyles = StyleSheet.create({
         alignSelf: "center",
     },
     image: {
-        height: 120,
-        width: 120,
+        height: 85,
+        width: 85,
         contentFit: "cover",
-        marginRight: 15,
+        borderRadius: 10,
+    },
+    infoContainer: {
+        flexDirection: "column",
+        justifyContent: "space-between",
+        marginLeft: 20,
+        maxWidth: "68%",
     },
     title: {
-        width: "60%",
+        width: "100%",
         flex: 1,
-        fontSize: 18,
+        fontSize: 16,
         fontWeight: "bold",
         color: colors.darkGrey,
-        position: "absolute",
-        top: 10,
-        left: 140,
         flexWrap: "wrap",
+    },
+
+    subInfoContainer: {
+        flexDirection: "row",
+        justifyContent: "flex-end",
+        alignItems: "center",
+        width: "100%",
     },
     price: {
         fontSize: 18,
         fontWeight: "bold",
         color: colors.black,
-        position: "absolute",
-        top: 90,
-        left: 140,
+        marginRight: 25,
     },
     productQuantitySection: {
         alignSelf: "flex-end",
@@ -52,7 +61,7 @@ export const cartProductCardStyles = StyleSheet.create({
         gap: 12,
     },
     productQuantity: {
-        fontSize: 18,
+        fontSize: 16,
         alignSelf: "center",
     },
     quantityButton: {

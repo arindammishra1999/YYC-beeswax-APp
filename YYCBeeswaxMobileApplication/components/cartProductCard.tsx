@@ -46,7 +46,6 @@ export default function CartProductCard(props: Props) {
     };
 
     const removeProductFromSecureStore = async (productId: string) => {
-        // Remove the product from SecureStore
         try {
             const cartData = await SecureStore.getItemAsync("cart");
 
@@ -96,55 +95,72 @@ export default function CartProductCard(props: Props) {
     }
 
     return (
-        <View style={cartProductCardStyles.cardContainer}>
-            <TouchableOpacity
-                onPress={() => {
-                    router.push(`/product/${props.id}`);
-                }}
-            >
+        <TouchableOpacity
+            onPress={() => {
+                router.push(`/product/${props.id}/`);
+            }}
+        >
+            <View style={cartProductCardStyles.cardContainer}>
                 <Image
                     contentFit="contain"
                     source={{ uri: props.image }}
                     style={cartProductCardStyles.image}
                 />
-                <Text style={cartProductCardStyles.title}>{props.name}</Text>
-                <Text style={cartProductCardStyles.price}>
-                    ${(Math.round(props.price * 100) / 100).toFixed(2)}
-                </Text>
-                <View style={cartProductCardStyles.productQuantitySection}>
-                    <TouchableOpacity
-                        style={cartProductCardStyles.quantityButton}
-                        onPress={decrease}
-                    >
-                        <Text style={cartProductCardStyles.quantityButtonText}>
-                            -
-                        </Text>
-                    </TouchableOpacity>
-                    <Text style={cartProductCardStyles.productQuantity}>
-                        {props.quantity !== undefined
-                            ? props.quantity.toString().padStart(2, "0")
-                            : "N/A"}
+                <View style={cartProductCardStyles.infoContainer}>
+                    <Text style={cartProductCardStyles.title}>
+                        {props.name}
                     </Text>
-                    <TouchableOpacity
-                        style={cartProductCardStyles.quantityButton}
-                        onPress={increase}
-                    >
-                        <Text style={cartProductCardStyles.quantityButtonText}>
-                            +
+                    <View style={cartProductCardStyles.subInfoContainer}>
+                        <Text style={cartProductCardStyles.price}>
+                            ${(Math.round(props.price * 100) / 100).toFixed(2)}
                         </Text>
-                    </TouchableOpacity>
+                        <View
+                            style={cartProductCardStyles.productQuantitySection}
+                        >
+                            <TouchableOpacity
+                                style={cartProductCardStyles.quantityButton}
+                                onPress={decrease}
+                            >
+                                <Text
+                                    style={
+                                        cartProductCardStyles.quantityButtonText
+                                    }
+                                >
+                                    -
+                                </Text>
+                            </TouchableOpacity>
+                            <Text style={cartProductCardStyles.productQuantity}>
+                                {props.quantity !== undefined
+                                    ? props.quantity.toString().padStart(2, "0")
+                                    : "N/A"}
+                            </Text>
+                            <TouchableOpacity
+                                style={cartProductCardStyles.quantityButton}
+                                onPress={increase}
+                            >
+                                <Text
+                                    style={
+                                        cartProductCardStyles.quantityButtonText
+                                    }
+                                >
+                                    +
+                                </Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
                 </View>
-            </TouchableOpacity>
-            <Popup
-                visible={showPopup}
-                changeVisibility={() => setShowPopup(false)}
-                option1Text="Cancel"
-                option2Text="Remove from Cart"
-                option1Action={() => setShowPopup(false)}
-                option2Action={confirmRemoveFromCart}
-                title="Remove from Cart"
-                subTitle="Are you sure you want to remove this item from your cart?"
-            />
-        </View>
+
+                <Popup
+                    visible={showPopup}
+                    changeVisibility={() => setShowPopup(false)}
+                    option1Text="Cancel"
+                    option2Text="Remove"
+                    option1Action={() => setShowPopup(false)}
+                    option2Action={confirmRemoveFromCart}
+                    title="Remove from Cart"
+                    subTitle="Are you sure you want to remove this item from your cart?"
+                />
+            </View>
+        </TouchableOpacity>
     );
 }

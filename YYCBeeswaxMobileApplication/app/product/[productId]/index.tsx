@@ -1,11 +1,12 @@
 import { Image } from "expo-image";
-import { useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import * as SecureStore from "expo-secure-store";
 import React, { Suspense, useEffect, useState } from "react";
-import { ScrollView, Text, TouchableOpacity, View, Alert } from "react-native";
+import { ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 
 import Header from "@/components/header";
+import Popup from "@/components/popup";
 import Reviews from "@/components/product/reviews";
 import { getProductDataById } from "@/firebase/getCollections/getProductByID";
 import { useReviews } from "@/firebase/providers/reviewsProvider";
@@ -14,6 +15,7 @@ import { productPageStyles } from "@/styles/productPageStyles";
 
 export default function Product() {
     const { productId } = useLocalSearchParams();
+    const [showPopup, setShowPopup] = useState(false);
 
     const addToCart = () => {
         // Ensure that product ID and quantity are present
@@ -40,17 +42,7 @@ export default function Product() {
                 // Save the updated cart data to SecureStore
                 SecureStore.setItemAsync("cart", JSON.stringify(cart)).then(
                     () => {
-                        Alert.alert(
-                            "Success",
-                            "Item added to cart",
-                            [
-                                {
-                                    text: "OK",
-                                    style: "cancel",
-                                },
-                            ],
-                            { cancelable: false },
-                        );
+                        setShowPopup(true);
                     },
                 );
             });
@@ -244,6 +236,16 @@ export default function Product() {
                     </Text>
                 </TouchableOpacity>
             </View>
+            <Popup
+                visible={showPopup}
+                changeVisibility={() => setShowPopup(false)}
+                option1Text="Keep Shopping"
+                option2Text="Checkout Now"
+                option1Action={() => setShowPopup(false)}
+                option2Action={() => router.push("/dashboard/CartPage")}
+                title="Added to Cart!"
+                subTitle="Do you want to checkout now?"
+            />
         </View>
     );
 }

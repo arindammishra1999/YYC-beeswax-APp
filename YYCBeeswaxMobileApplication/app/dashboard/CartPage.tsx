@@ -14,7 +14,6 @@ import TotalBillCard from "@/components/totalBillCard";
 import { cartPageStyles } from "@/styles/cartPageStyles";
 
 export default function CartPage() {
-    const [emptyCart, setEmptyCart] = useState(true); // eslint-disable-line
     const [cartItems, setCartItems] = useState<any[]>([]);
 
     const calculateTotalItemsCost = (items: any[]) => {
@@ -25,7 +24,7 @@ export default function CartPage() {
     };
 
     const calculateGSTCost = (items: any[]) => {
-        const totalItemsCost = calculateTotalItemsCost(items);
+        const totalItemsCost = calculateTotalItemsCost(items) + 10; // added the shipping cost
         const gstRate = 0.05;
         return totalItemsCost * gstRate;
     };
@@ -88,15 +87,11 @@ export default function CartPage() {
                             productId: string;
                             quantity: number;
                         }[];
-
-                        // Fetch product details for each item in the cart
                         const productDetails = await Promise.all(
                             parsedCart.map(async ({ productId, quantity }) => {
                                 try {
-                                    // Use getProductData to get product details
                                     const products = await getProductData();
                                     if (products) {
-                                        // Check if products is not undefined
                                         const product = products.find(
                                             (product) =>
                                                 product.id === productId,
@@ -108,7 +103,6 @@ export default function CartPage() {
                                                 quantity,
                                             };
                                         } else {
-                                            // If the product is not found, you might want to handle it
                                             console.warn(
                                                 `Product with ID ${productId} not found.`,
                                             );
@@ -127,20 +121,15 @@ export default function CartPage() {
                                 }
                             }),
                         );
-
-                        // Filter out any null values (products not found)
                         const filteredProductDetails = productDetails.filter(
                             (product) => product !== null,
                         );
 
                         setCartItems(filteredProductDetails);
-                        setEmptyCart(filteredProductDetails.length === 0);
                     } else {
-                        setEmptyCart(true);
                     }
                 } catch (error) {
                     console.error("Error fetching cart data:", error);
-                    setEmptyCart(true);
                 }
             };
 
@@ -171,10 +160,12 @@ export default function CartPage() {
     } else {
         return (
             <View style={cartPageStyles.container}>
-                <View style={cartPageStyles.headerContainer}>
-                    <Header header="Your Cart" noBackArrow />
-                </View>
-                <ScrollView contentContainerStyle={{ paddingBottom: 140 }}>
+                <Header header="Your Cart" noBackArrow />
+                <ScrollView
+                    contentContainerStyle={{
+                        paddingBottom: 100,
+                    }}
+                >
                     <Image
                         contentFit="contain"
                         source={require("@/assets/cartProgress.png")}

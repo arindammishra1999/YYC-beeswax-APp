@@ -1,14 +1,16 @@
 import { StyleSheet } from "react-native";
 
 import { colors } from "@/consts/styles";
+import { viewportHeight } from "@/consts/viewport";
 
 export const totalBillCardStyles = StyleSheet.create({
     cardContainer: {
         width: "100%",
-        padding: 20,
-        paddingBottom: 70,
+        paddingHorizontal: 20,
+        paddingTop: 20,
+        paddingBottom: viewportHeight / 14,
         backgroundColor: colors.white,
-        borderRadius: 50,
+        borderRadius: 32,
         shadowOffset: {
             width: 0,
             height: 3,
@@ -16,21 +18,20 @@ export const totalBillCardStyles = StyleSheet.create({
         shadowOpacity: 0.5,
         shadowRadius: 4.65,
         elevation: 40,
-        alignSelf: "center",
     },
 
     labelContainer: {
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
-        marginBottom: 8,
+        marginBottom: 0,
         marginRight: 20,
         marginLeft: 15,
     },
 
     label: {
-        fontSize: 16,
-        marginVertical: 8,
+        fontSize: 14,
+        marginVertical: 6,
     },
     value: {
         fontSize: 16,
@@ -40,24 +41,24 @@ export const totalBillCardStyles = StyleSheet.create({
     totalLabel: {
         fontSize: 18,
         fontWeight: "bold",
-        marginTop: 16,
+        marginTop: 6,
     },
     totalValue: {
-        fontSize: 20,
+        fontSize: 18,
         fontWeight: "bold",
         marginBottom: 0,
     },
 
     horizontalLine: {
         borderBottomWidth: 1,
-        marginVertical: 8,
+        marginVertical: 6,
     },
     button: {
         backgroundColor: colors.yellow,
         borderRadius: 25,
         alignItems: "center",
         padding: 15,
-        marginTop: "5%",
+        marginTop: "3%",
         marginLeft: "15%",
         marginRight: "15%",
     },
