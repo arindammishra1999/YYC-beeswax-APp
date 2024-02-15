@@ -8,9 +8,9 @@ import { ScrollView } from "react-native-gesture-handler";
 
 import { getProductData } from "../../firebase/getCollections/getProducts";
 
-import CartProductCard from "@/components/cartProductCard";
+import CartProductCard from "@/components/cards/cartProductCard";
+import TotalBillCard from "@/components/cards/totalBillCard";
 import Header from "@/components/header";
-import TotalBillCard from "@/components/totalBillCard";
 import { cartPageStyles } from "@/styles/cartPageStyles";
 
 export default function CartPage() {
