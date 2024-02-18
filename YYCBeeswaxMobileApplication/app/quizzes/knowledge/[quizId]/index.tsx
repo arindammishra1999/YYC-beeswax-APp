@@ -7,7 +7,7 @@ import Button from "@/components/button";
 import Header from "@/components/header";
 import { QuizEndScreen } from "@/components/quiz/quizEndScreen";
 import { QuizStartScreen } from "@/components/quiz/quizStartScreen";
-import { useQuizzes } from "@/firebase/providers/quizzesProvider";
+import { useQuizzesStore } from "@/firebase/store/quizzesProvider";
 import { useUnsavedChangesCheck } from "@/lib/hooks/useUnsavedChangesCheck";
 import { shuffleArray } from "@/lib/utility";
 import { mainStyles } from "@/styles/mainStyles";
@@ -18,7 +18,7 @@ const TMP_IMG =
 
 export default function Quiz() {
     const { quizId } = useLocalSearchParams() as Record<string, string>;
-    const { getQuiz, playQuiz } = useQuizzes();
+    const { getQuiz, playQuiz } = useQuizzesStore();
     const quiz = getQuiz(quizId) as IKnowledgeQuiz;
 
     const [currentIndex, setCurrentIndex] = useState(-1);
@@ -50,7 +50,7 @@ export default function Quiz() {
 
     function onEnd() {
         playQuiz(quizId);
-        router.push("/quizzes/");
+        router.back();
     }
 
     function onNext() {

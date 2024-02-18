@@ -11,13 +11,13 @@ import QuestionCard from "@/components/cards/questionCard";
 import QuizResultCard from "@/components/cards/quizResultCard";
 import Header from "@/components/header";
 import Input from "@/components/input";
-import { useQuizzes } from "@/firebase/providers/quizzesProvider";
+import { useQuizzesStore } from "@/firebase/store/quizzesProvider";
 import { mainStyles } from "@/styles/mainStyles";
 import { setQuizPageStyles } from "@/styles/setQuizPageStyles";
 
 export default function SetQuiz() {
     const { quizId } = useLocalSearchParams() as Record<string, string>;
-    const { getQuiz, updateQuiz, deleteQuiz } = useQuizzes();
+    const { getQuiz, updateQuiz, deleteQuiz, createQuiz } = useQuizzesStore();
     const quiz = getQuiz<IPersonalityQuiz>(quizId);
 
     const [updatedQuiz, setUpdatedQuiz] = useState<IPersonalityQuiz>(
@@ -149,8 +149,12 @@ export default function SetQuiz() {
                 <Button
                     title={quiz ? "Save Changes" : "Create"}
                     onPress={() => {
-                        updateQuiz(quizId, updatedQuiz);
-                        router.push(`/quizzes/`);
+                        if (quiz) {
+                            updateQuiz(quizId, updatedQuiz);
+                        } else {
+                            createQuiz(updatedQuiz);
+                        }
+                        router.back();
                     }}
                 />
                 {quiz && (
@@ -159,7 +163,7 @@ export default function SetQuiz() {
                         style={mainStyles.delete}
                         onPress={() => {
                             deleteQuiz(quizId);
-                            router.push(`/quizzes/`);
+                            router.back();
                         }}
                     />
                 )}
