@@ -37,4 +37,10 @@ export const cartPageStyles = StyleSheet.create({
         height: 240,
         width: 320,
     },
+
+    topImageContainer: {
+        alignSelf: "center",
+        width: 300,
+        height: 70,
+    },
 });
