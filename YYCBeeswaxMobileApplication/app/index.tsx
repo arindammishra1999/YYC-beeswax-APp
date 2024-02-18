@@ -15,7 +15,6 @@ export default function App() {
     if (user) {
         if (isAdmin) {
             return <Redirect href="/admin/AdminDashboardPage" />;
-            // return <Redirect href="/dashboard/HomePage" />;
         } else if (user.emailVerified) {
             return <Redirect href="/dashboard/HomePage" />;
         } else {
