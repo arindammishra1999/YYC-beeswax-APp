@@ -8,7 +8,7 @@ export const totalBillCardStyles = StyleSheet.create({
         width: "100%",
         paddingHorizontal: 20,
         paddingTop: 20,
-        paddingBottom: viewportHeight / 14,
+        paddingBottom: viewportHeight / 12,
         backgroundColor: colors.white,
         borderRadius: 32,
         shadowOffset: {
