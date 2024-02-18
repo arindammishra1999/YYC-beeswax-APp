@@ -1,6 +1,5 @@
 import { Image } from "expo-image";
 import { router, useLocalSearchParams } from "expo-router";
-import firebase from "firebase/compat";
 import { Timestamp } from "firebase/firestore";
 import React, { Suspense, useEffect, useState } from "react";
 import { ScrollView, Text, TouchableOpacity, View } from "react-native";
