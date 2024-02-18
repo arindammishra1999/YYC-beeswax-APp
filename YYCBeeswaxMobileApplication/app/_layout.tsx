@@ -22,7 +22,7 @@ export default function RootLayout() {
         return () => backHandler.remove();
     }, []);
 
-    const onLayoutRootView = useCallback(async () => {
+    const onLayoutRootView = useCallback(() => {
         if (!loading) {
             SplashScreen.hideAsync();
         }

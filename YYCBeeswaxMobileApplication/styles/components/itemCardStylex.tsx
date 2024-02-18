@@ -24,12 +24,13 @@ export const itemCardStyles = StyleSheet.create({
         width: 160,
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20,
+        borderBottomEndRadius: 0,
+        borderBottomStartRadius: 0,
     },
     title: {
         alignSelf: "center",
         fontWeight: "bold",
         marginTop: 5,
-        width: 150,
         textAlign: "center",
     },
     price: {
