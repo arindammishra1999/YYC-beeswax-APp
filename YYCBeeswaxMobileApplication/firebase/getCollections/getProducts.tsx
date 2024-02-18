@@ -9,9 +9,22 @@ export async function getProductData() {
         return getLocalCache("products");
     }
     const products = querySnapshot.docs.map((doc) => {
+        const product = doc.data() as IProduct;
+        if (product.reviews) {
+            product.reviews.count = 0;
+            product.reviews.avg = 0;
+            for (const i of ["1", "2", "3", "4", "5"] as const) {
+                product.reviews.count += product.reviews[i] ?? 0;
+                product.reviews.avg +=
+                    (product.reviews[i] ?? 0) * parseInt(i, 10);
+            }
+            if (product.reviews.count > 0) {
+                product.reviews.avg /= product.reviews.count;
+            }
+        }
         return {
             id: doc.id,
-            data: doc.data(),
+            data: product,
         };
     });
     setLocalCache("products", products);

@@ -6,6 +6,7 @@ export const homePageStyles = StyleSheet.create({
     container: {
         flex: 1,
         marginHorizontal: 25,
+        paddingBottom: 25,
     },
     logo: {
         width: "40%",

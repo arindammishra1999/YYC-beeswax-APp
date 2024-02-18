@@ -15,6 +15,7 @@ import CategoryCard from "@/components/cards/categoryCard";
 import ItemCard, { LoadingItemCard } from "@/components/cards/itemCard";
 import { colors } from "@/consts/styles";
 import { getProductData } from "@/firebase/getCollections/getProducts";
+import { shuffleArray } from "@/lib/utility";
 import { homePageStyles } from "@/styles/homePageStyles";
 import { mainStyles } from "@/styles/mainStyles";
 
@@ -31,10 +32,20 @@ function LoadingItemCardList() {
 }
 
 export default function HomePage() {
-    const [allProducts, setAllProducts] = useState<any[]>([]);
+    const [allProducts, setAllProducts] = useState<
+        { id: string; data: IProduct }[]
+    >([]);
     const [searchQuery, setSearchQuery] = useState("");
     const [refreshing, setRefreshing] = useState(false);
     const [loading, setLoading] = useState(true);
+
+    const sortedByRating = [...allProducts].sort((a, b) => {
+        return (b.data.reviews?.avg ?? 0) - (a.data.reviews?.avg ?? 0);
+    });
+    const shuffled = shuffleArray([...allProducts]);
+    const sortedByDate = [...allProducts].sort((a, b) => {
+        return a.data.lastUpdated - b.data.lastUpdated;
+    });
 
     async function setAllProductData() {
         const products = await getProductData();
@@ -60,7 +71,7 @@ export default function HomePage() {
         return (
             <View style={mainStyles.container}>
                 <ScrollView
-                    contentContainerStyle={homePageStyles.container}
+                    contentContainerStyle={{ minHeight: "100%" }}
                     refreshControl={
                         <RefreshControl
                             refreshing={refreshing}
@@ -69,30 +80,32 @@ export default function HomePage() {
                         />
                     }
                 >
-                    <Image
-                        contentFit="contain"
-                        source={require("@/assets/YYCBeeswaxFullLogo.png")}
-                        style={homePageStyles.logo}
-                    />
-                    <View
-                        style={{
-                            flex: 1,
-                            justifyContent: "center",
-                            alignItems: "center",
-                            gap: 30,
-                        }}
-                    >
-                        <MaterialIcons
-                            name="error-outline"
-                            size={150}
-                            color="gray"
+                    <View style={homePageStyles.container}>
+                        <Image
+                            contentFit="contain"
+                            source={require("@/assets/YYCBeeswaxFullLogo.png")}
+                            style={homePageStyles.logo}
                         />
-                        <Text style={{ fontSize: 24, fontWeight: "bold" }}>
-                            Error Loading Products:
-                        </Text>
-                        <Text style={{ fontSize: 18, textAlign: "center" }}>
-                            Please check your internet connection
-                        </Text>
+                        <View
+                            style={{
+                                flex: 1,
+                                justifyContent: "center",
+                                alignItems: "center",
+                                gap: 30,
+                            }}
+                        >
+                            <MaterialIcons
+                                name="error-outline"
+                                size={150}
+                                color="gray"
+                            />
+                            <Text style={{ fontSize: 24, fontWeight: "bold" }}>
+                                Error Loading Products:
+                            </Text>
+                            <Text style={{ fontSize: 18, textAlign: "center" }}>
+                                Please check your internet connection
+                            </Text>
+                        </View>
                     </View>
                 </ScrollView>
             </View>
@@ -102,7 +115,6 @@ export default function HomePage() {
     return (
         <View style={mainStyles.container}>
             <ScrollView
-                contentContainerStyle={homePageStyles.container}
                 refreshControl={
                     <RefreshControl
                         refreshing={refreshing}
@@ -111,106 +123,113 @@ export default function HomePage() {
                     />
                 }
             >
-                <Image
-                    contentFit="contain"
-                    source={require("@/assets/YYCBeeswaxFullLogo.png")}
-                    style={homePageStyles.logo}
-                />
-                <View style={homePageStyles.searchBarContainer}>
-                    <Feather
-                        name="search"
-                        size={20}
-                        color="black"
-                        style={homePageStyles.searchIcon}
+                <View style={homePageStyles.container}>
+                    <Image
+                        contentFit="contain"
+                        source={require("@/assets/YYCBeeswaxFullLogo.png")}
+                        style={homePageStyles.logo}
                     />
-                    <TextInput
-                        style={homePageStyles.searchBar}
-                        placeholder="Search all Products"
-                        placeholderTextColor={colors.darkGrey}
-                        onChangeText={setSearchQuery}
-                        onSubmitEditing={() => {
-                            searchTerm = searchQuery;
-                            router.push("/product/SearchPage");
-                        }}
-                        returnKeyType="search"
-                    />
-                </View>
-                <Text style={homePageStyles.headerText}>Shop by Category</Text>
-                <View style={homePageStyles.categoriesContainer}>
-                    <ScrollView
-                        horizontal
-                        showsHorizontalScrollIndicator={false}
-                    >
-                        <CategoryCard iconName="candle" title="Candles" />
-                        <CategoryCard iconName="lipstick" title="Lip Balm" />
-                        <CategoryCard iconName="lotion" title="Lotion" />
-                        <CategoryCard iconName="store" title="Other" />
-                    </ScrollView>
-                </View>
-                <Text style={homePageStyles.headerText}>New Arrivals</Text>
-                <View style={homePageStyles.horizontalScrollContainer}>
-                    <ScrollView
-                        horizontal
-                        showsHorizontalScrollIndicator={false}
-                    >
-                        {loading ? (
-                            <LoadingItemCardList />
-                        ) : (
-                            allProducts.map((product: any) => (
-                                <ItemCard
-                                    key={product.id}
-                                    id={product.id}
-                                    image={product.data.url}
-                                    title={product.data.name}
-                                    price={product.data.price}
-                                />
-                            ))
-                        )}
-                    </ScrollView>
-                </View>
-                <Text style={homePageStyles.headerText}>Best Sellers</Text>
-                <View style={homePageStyles.horizontalScrollContainer}>
-                    <ScrollView
-                        horizontal
-                        showsHorizontalScrollIndicator={false}
-                    >
-                        {loading ? (
-                            <LoadingItemCardList />
-                        ) : (
-                            allProducts.map((product: any) => (
-                                <ItemCard
-                                    key={product.id}
-                                    id={product.id}
-                                    image={product.data.url}
-                                    title={product.data.name}
-                                    price={product.data.price}
-                                />
-                            ))
-                        )}
-                    </ScrollView>
-                </View>
-                <Text style={homePageStyles.headerText}>
-                    Recommended for You
-                </Text>
-                <View style={homePageStyles.lastHorizontalScrollContainer}>
-                    <ScrollView
-                        horizontal
-                        showsHorizontalScrollIndicator={false}
-                    >
-                        {loading ? (
-                            <LoadingItemCardList />
-                        ) : (
-                            allProducts.map((product: any) => (
-                                <ItemCard
-                                    key={product.id}
-                                    id={product.id}
-                                    image={product.data.url}
-                                    title={product.data.name}
-                                    price={product.data.price}
-                                />
-                            ))
-                        )}
-                    </ScrollView>
+                    <View style={homePageStyles.searchBarContainer}>
+                        <Feather
+                            name="search"
+                            size={20}
+                            color="black"
+                            style={homePageStyles.searchIcon}
+                        />
+                        <TextInput
+                            style={homePageStyles.searchBar}
+                            placeholder="Search all Products"
+                            placeholderTextColor={colors.darkGrey}
+                            onChangeText={setSearchQuery}
+                            onSubmitEditing={() => {
+                                searchTerm = searchQuery;
+                                router.push("/product/SearchPage");
+                            }}
+                            returnKeyType="search"
+                        />
+                    </View>
+                    <Text style={homePageStyles.headerText}>
+                        Shop by Category
+                    </Text>
+                    <View style={homePageStyles.categoriesContainer}>
+                        <ScrollView
+                            horizontal
+                            showsHorizontalScrollIndicator={false}
+                        >
+                            <CategoryCard iconName="candle" title="Candles" />
+                            <CategoryCard
+                                iconName="lipstick"
+                                title="Lip Balm"
+                            />
+                            <CategoryCard iconName="lotion" title="Lotion" />
+                            <CategoryCard iconName="store" title="Other" />
+                        </ScrollView>
+                    </View>
+                    <Text style={homePageStyles.headerText}>New Arrivals</Text>
+                    <View style={homePageStyles.horizontalScrollContainer}>
+                        <ScrollView
+                            horizontal
+                            showsHorizontalScrollIndicator={false}
+                        >
+                            {loading ? (
+                                <LoadingItemCardList />
+                            ) : (
+                                sortedByDate.map((product: any) => (
+                                    <ItemCard
+                                        key={product.id}
+                                        id={product.id}
+                                        image={product.data.url}
+                                        title={product.data.name}
+                                        price={product.data.price}
+                                    />
+                                ))
+                            )}
+                        </ScrollView>
+                    </View>
+                    <Text style={homePageStyles.headerText}>Best Sellers</Text>
+                    <View style={homePageStyles.horizontalScrollContainer}>
+                        <ScrollView
+                            horizontal
+                            showsHorizontalScrollIndicator={false}
+                        >
+                            {loading ? (
+                                <LoadingItemCardList />
+                            ) : (
+                                sortedByRating.map((product: any) => (
+                                    <ItemCard
+                                        key={product.id}
+                                        id={product.id}
+                                        image={product.data.url}
+                                        title={product.data.name}
+                                        price={product.data.price}
+                                    />
+                                ))
+                            )}
+                        </ScrollView>
+                    </View>
+                    <Text style={homePageStyles.headerText}>
+                        Recommended for You
+                    </Text>
+                    <View style={homePageStyles.lastHorizontalScrollContainer}>
+                        <ScrollView
+                            horizontal
+                            showsHorizontalScrollIndicator={false}
+                        >
+                            {loading ? (
+                                <LoadingItemCardList />
+                            ) : (
+                                shuffled.map((product: any) => (
+                                    <ItemCard
+                                        key={product.id}
+                                        id={product.id}
+                                        image={product.data.url}
+                                        title={product.data.name}
+                                        price={product.data.price}
+                                    />
+                                ))
+                            )}
+                        </ScrollView>
+                    </View>
                 </View>
             </ScrollView>
         </View>

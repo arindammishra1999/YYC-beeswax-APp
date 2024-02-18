@@ -7,6 +7,7 @@ export function shuffleArray(array: any[]) {
         array[i] = array[j];
         array[j] = temp;
     }
+    return array;
 }
 
 export async function setLocalCache(key: string, data: any) {
