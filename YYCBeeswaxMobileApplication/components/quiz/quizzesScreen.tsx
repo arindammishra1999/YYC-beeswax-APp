@@ -10,7 +10,7 @@ import Button from "@/components/button";
 import Skeleton from "@/components/skeleton";
 import { colors } from "@/consts/styles";
 import { useUser } from "@/firebase/providers/userProvider";
-import { useQuizzesStore } from "@/firebase/store/quizzesProvider";
+import { useQuizzesStore } from "@/firebase/store/quizzesStore";
 import { mainStyles } from "@/styles/mainStyles";
 import { quizzesPageStyles } from "@/styles/quizzesPageStyles";
 

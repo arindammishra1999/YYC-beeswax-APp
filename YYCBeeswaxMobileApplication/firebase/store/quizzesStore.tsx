@@ -88,11 +88,11 @@ export const useQuizzesStore = create<IQuizzesContext>((set, get) => ({
         if (get().quizzes.length == 0 || get().lastVisible) {
             const data = await getQuizzes(get().lastVisible);
             data.quizzes = data.quizzes.filter((item) => item.questions);
-            set({ lastVisible: data.lastVisible });
             set((prev) => ({
+                lastVisible: data.lastVisible,
                 quizzes: [...prev.quizzes, ...data.quizzes],
+                loading: false,
             }));
-            set({ loading: false });
         }
     },
 
@@ -130,11 +130,10 @@ export const useQuizzesStore = create<IQuizzesContext>((set, get) => ({
             plays: 0,
         });
         quiz.id = quizRef.id;
+        quiz.created = Timestamp.fromDate(new Date());
+        quiz.plays = 0;
         set((prev) => ({
-            quizzes: [
-                ...prev.quizzes,
-                { ...quiz, created: Timestamp.fromDate(new Date()), plays: 0 },
-            ],
+            quizzes: [...prev.quizzes, quiz],
         }));
     },
 }));

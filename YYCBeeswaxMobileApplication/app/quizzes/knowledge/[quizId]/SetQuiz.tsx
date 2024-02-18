@@ -10,7 +10,7 @@ import Button from "@/components/button";
 import QuestionCard from "@/components/cards/questionCard";
 import Header from "@/components/header";
 import Input from "@/components/input";
-import { useQuizzesStore } from "@/firebase/store/quizzesProvider";
+import { useQuizzesStore } from "@/firebase/store/quizzesStore";
 import { mainStyles } from "@/styles/mainStyles";
 import { setQuizPageStyles } from "@/styles/setQuizPageStyles";
 

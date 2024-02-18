@@ -7,7 +7,7 @@ import Button from "@/components/button";
 import Header from "@/components/header";
 import { QuizEndScreen } from "@/components/quiz/quizEndScreen";
 import { QuizStartScreen } from "@/components/quiz/quizStartScreen";
-import { useQuizzesStore } from "@/firebase/store/quizzesProvider";
+import { useQuizzesStore } from "@/firebase/store/quizzesStore";
 import { useUnsavedChangesCheck } from "@/lib/hooks/useUnsavedChangesCheck";
 import { mainStyles } from "@/styles/mainStyles";
 import { quizPageStyles } from "@/styles/quizPageStyles";

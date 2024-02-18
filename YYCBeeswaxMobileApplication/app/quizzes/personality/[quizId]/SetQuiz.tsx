@@ -11,7 +11,7 @@ import QuestionCard from "@/components/cards/questionCard";
 import QuizResultCard from "@/components/cards/quizResultCard";
 import Header from "@/components/header";
 import Input from "@/components/input";
-import { useQuizzesStore } from "@/firebase/store/quizzesProvider";
+import { useQuizzesStore } from "@/firebase/store/quizzesStore";
 import { mainStyles } from "@/styles/mainStyles";
 import { setQuizPageStyles } from "@/styles/setQuizPageStyles";
 
