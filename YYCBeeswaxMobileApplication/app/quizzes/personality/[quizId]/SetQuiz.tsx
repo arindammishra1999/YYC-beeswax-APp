@@ -17,7 +17,10 @@ import { setQuizPageStyles } from "@/styles/setQuizPageStyles";
 
 export default function SetQuiz() {
     const { quizId } = useLocalSearchParams() as Record<string, string>;
-    const { getQuiz, updateQuiz, deleteQuiz, createQuiz } = useQuizzesStore();
+    const getQuiz = useQuizzesStore((state) => state.getQuiz);
+    const updateQuiz = useQuizzesStore((state) => state.updateQuiz);
+    const deleteQuiz = useQuizzesStore((state) => state.deleteQuiz);
+    const createQuiz = useQuizzesStore((state) => state.createQuiz);
     const quiz = getQuiz<IPersonalityQuiz>(quizId);
 
     const [updatedQuiz, setUpdatedQuiz] = useState<IPersonalityQuiz>(

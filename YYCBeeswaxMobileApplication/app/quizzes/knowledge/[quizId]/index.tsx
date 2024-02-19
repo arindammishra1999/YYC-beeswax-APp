@@ -18,7 +18,8 @@ const TMP_IMG =
 
 export default function Quiz() {
     const { quizId } = useLocalSearchParams() as Record<string, string>;
-    const { getQuiz, playQuiz } = useQuizzesStore();
+    const getQuiz = useQuizzesStore((state) => state.getQuiz);
+    const playQuiz = useQuizzesStore((state) => state.playQuiz);
     const quiz = getQuiz(quizId) as IKnowledgeQuiz;
 
     const [currentIndex, setCurrentIndex] = useState(-1);

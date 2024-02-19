@@ -103,7 +103,10 @@ function QuizCard({ quiz }: { quiz: IQuiz }) {
 }
 
 export function QuizzesScreen() {
-    const { quizzes, loading, getMoreQuizzes } = useQuizzesStore();
+    const quizzes = useQuizzesStore((state) => state.quizzes);
+    const loading = useQuizzesStore((state) => state.loading);
+    const getMoreQuizzes = useQuizzesStore((state) => state.getMoreQuizzes);
+
     const { isAdmin } = useUser();
 
     useEffect(() => {
