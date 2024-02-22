@@ -195,7 +195,7 @@ export default function SetQuiz() {
                                 autoCapitalize
                             />
                             <Input
-                                label="Option 1"
+                                label="Incorrect Option 1"
                                 value={
                                     updatedQuiz?.questions[
                                         selectedQuestionIndex
@@ -216,7 +216,7 @@ export default function SetQuiz() {
                                 autoCapitalize
                             />
                             <Input
-                                label="Option 2"
+                                label="Incorrect Option 2"
                                 value={
                                     updatedQuiz?.questions[
                                         selectedQuestionIndex
@@ -237,7 +237,7 @@ export default function SetQuiz() {
                                 autoCapitalize
                             />
                             <Input
-                                label="Option 3"
+                                label="Incorrect Option 3"
                                 value={
                                     updatedQuiz?.questions[
                                         selectedQuestionIndex

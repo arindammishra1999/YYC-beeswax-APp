@@ -77,7 +77,7 @@ interface IQuizzesContext {
     deleteQuiz: (id: string) => void;
 }
 
-export const useQuizzesStore = create<IQuizzesContext>((set, get) => ({
+export const useQuizzesStore = create<IQuizzesContext>()((set, get) => ({
     quizzes: [],
     loading: true,
     getQuiz: <T extends IKnowledgeQuiz | IPersonalityQuiz>(id: string) => {
@@ -137,3 +137,9 @@ export const useQuizzesStore = create<IQuizzesContext>((set, get) => ({
         }));
     },
 }));
+
+// persist({
+//         name: "quizzes",
+//         storage: createJSONStorage(() => AsyncStorage),
+//         partialize: (state) => ({ quizzes: state.quizzes }),
+// });
