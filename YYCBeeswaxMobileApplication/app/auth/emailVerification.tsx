@@ -71,7 +71,7 @@ export default function EmailVerification() {
                 {error && <Text style={accountStyles.error}>{error}</Text>}
                 <View style={emailVerificationPageStyles.buttonsContainer}>
                     <Button
-                        title="Skip for now"
+                        title="Continue"
                         onPress={() => {
                             router.push("/dashboard/HomePage");
                         }}
