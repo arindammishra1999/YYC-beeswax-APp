@@ -2,11 +2,13 @@ import {
     GoogleAuthProvider,
     OAuthCredential,
     signInWithCredential,
+    UserCredential,
 } from "@firebase/auth";
 import { useIdTokenAuthRequest } from "expo-auth-session/build/providers/Google";
 import { useCallback, useEffect } from "react";
 
 import { auth } from "@/firebase/config";
+import { setUser } from "@/firebase/setCollections/setUser";
 
 export function useLoginWithGoogle() {
     const [, authSessionResult, promptGoogle] = useIdTokenAuthRequest({
@@ -24,10 +26,19 @@ export function useLoginWithGoogle() {
     // Function that logs into firebase using the credentials from an OAuth provider
     const loginToFirebase = useCallback(
         async (credentials: OAuthCredential) => {
-            const signInResponse = await signInWithCredential(
+            const signInResponse = (await signInWithCredential(
                 auth,
                 credentials,
-            );
+            )) as UserCredential & {
+                _tokenResponse: { isNewUser?: boolean };
+            };
+            if (signInResponse._tokenResponse.isNewUser) {
+                await setUser(signInResponse.user.uid, {
+                    email: signInResponse.user.email,
+                    name: signInResponse.user.displayName,
+                });
+            }
+            console.log(signInResponse._tokenResponse.isNewUser);
             console.log(signInResponse);
         },
         [],
