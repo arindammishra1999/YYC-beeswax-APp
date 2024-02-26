@@ -37,6 +37,7 @@ interface IPersonalityQuestion {
 interface IUser {
     email: string;
     name: string;
+    customerId?: string;
 }
 
 interface IProduct {

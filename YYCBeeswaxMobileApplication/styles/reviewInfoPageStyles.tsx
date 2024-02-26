@@ -1,24 +1,20 @@
 import { StyleSheet } from "react-native";
 
 import { colors } from "@/consts/styles";
+import { viewportWidth } from "@/consts/viewport";
 
-export const cartPageStyles = StyleSheet.create({
+export const reviewInfoPageStyles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: colors.white,
     },
     button: {
-        marginTop: "4%",
-        width: "80%",
-        alignSelf: "center",
-    },
-    buttonTouchableOpacity: {
         backgroundColor: colors.yellow,
         borderRadius: 25,
         justifyContent: "center",
         alignItems: "center",
         padding: 15,
-        marginTop: "15%",
+        marginTop: "-10%",
         marginLeft: "25%",
         marginRight: "25%",
     },
@@ -38,32 +34,8 @@ export const cartPageStyles = StyleSheet.create({
     },
     gif: {
         alignSelf: "center",
-        marginTop: 10,
-        height: 240,
-        width: 320,
-    },
-    topImageContainer: {
-        alignSelf: "center",
-        width: 300,
-        height: 70,
-    },
-    signUpContainer: {
-        flexDirection: "row",
-        justifyContent: "center",
-        marginTop: "5%",
-    },
-    signUpText: {
-        fontSize: 16,
-    },
-    signUpLink: {
-        fontSize: 16,
-        color: colors.blue,
-        textDecorationLine: "underline",
-    },
-    productsContainer: {
-        height: "40%",
-    },
-    scrollViewContainer: {
-        paddingBottom: 100,
+        marginTop: "-10%",
+        width: viewportWidth * 1.2,
+        height: viewportWidth * 1.2,
     },
 });
