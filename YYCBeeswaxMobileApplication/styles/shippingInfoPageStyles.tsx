@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 
 import { colors } from "@/consts/styles";
-import { viewportHeight, viewportWidth } from "@/consts/viewport";
+import { viewportHeight } from "@/consts/viewport";
 
 export const shippingInfoPageStyles = StyleSheet.create({
     container: {
