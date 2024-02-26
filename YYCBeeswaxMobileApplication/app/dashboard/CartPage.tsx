@@ -207,12 +207,14 @@ export default function CartPage() {
             }),
         });
 
-        const { paymentIntent, ephemeralKey, customer } = await response.json();
+        const { paymentIntent, ephemeralKey, customer, errorPayment } =
+            await response.json();
 
         return {
             paymentIntent,
             ephemeralKey,
             customer,
+            errorPayment,
         };
     };
 
@@ -227,77 +229,57 @@ export default function CartPage() {
                 custID,
             }),
         });
-        const {
-            customer_name,
-            customer_email,
-            customer_phone,
-            customer_line1,
-            customer_line2,
-            customer_city,
-            customer_province,
-            customer_postalCode,
-
-            error,
-        } = await response.json();
+        const { retrievedShippingInfo, error } = await response.json();
         if (error) console.log(error);
-
         return {
-            customer_name,
-            customer_email,
-            customer_phone,
-            customer_line1,
-            customer_line2,
-            customer_city,
-            customer_province,
-            customer_postalCode,
+            retrievedShippingInfo,
         };
     };
 
     const initializePaymentSheet = async () => {
-        const { paymentIntent, ephemeralKey, customer } =
-            await fetchPaymentSheetParams();
+        try {
+            const { paymentIntent, ephemeralKey, customer, errorPayment } =
+                await fetchPaymentSheetParams();
+            if (errorPayment) {
+                console.log(errorPayment);
+                return;
+            }
 
-        const {
-            customer_name,
-            customer_email,
-            customer_phone,
-            customer_line1,
-            customer_line2,
-            customer_city,
-            customer_province,
-            customer_postalCode,
-        } = await fetchCustomerData(customer);
+            const { retrievedShippingInfo } = await fetchCustomerData(customer);
 
-        const { error } = await initPaymentSheet({
-            merchantDisplayName: "Example, Inc.",
-            customerId: customer,
-            customerEphemeralKeySecret: ephemeralKey,
-            paymentIntentClientSecret: paymentIntent,
-            // Set `allowsDelayedPaymentMethods` to true if your business can handle payment
-            //methods that complete payment after a delay, like SEPA Debit and Sofort.
-            allowsDelayedPaymentMethods: false,
-            defaultBillingDetails: {
-                email: customer_email,
-                name: customer_name,
-                phone: customer_phone,
-                address: {
-                    line1: customer_line1,
-                    line2: customer_line2,
-                    city: customer_city,
-                    state: customer_province,
-                    country: "CA",
-                    postalCode: customer_postalCode,
+            const { error } = await initPaymentSheet({
+                merchantDisplayName: "Example, Inc.",
+                customerId: customer,
+                customerEphemeralKeySecret: ephemeralKey,
+                paymentIntentClientSecret: paymentIntent,
+                // Set `allowsDelayedPaymentMethods` to true if your business can handle payment
+                //methods that complete payment after a delay, like SEPA Debit and Sofort.
+                allowsDelayedPaymentMethods: false,
+                defaultBillingDetails: {
+                    email: retrievedShippingInfo.email,
+                    name: retrievedShippingInfo.name,
+                    phone: retrievedShippingInfo.phone,
+                    address: {
+                        line1: retrievedShippingInfo.line1,
+                        line2: retrievedShippingInfo.line2,
+                        city: retrievedShippingInfo.city,
+                        state: retrievedShippingInfo.state,
+                        country: retrievedShippingInfo.country,
+                        postalCode: retrievedShippingInfo.postalCode,
+                    },
                 },
-            },
-            billingDetailsCollectionConfiguration: {
-                name: PaymentSheet.CollectionMode.ALWAYS,
-                email: PaymentSheet.CollectionMode.ALWAYS,
-                address: PaymentSheet.AddressCollectionMode.FULL,
-                attachDefaultsToPaymentMethod: true,
-            },
-        });
-        if (error) console.log(error);
-        if (!error) setLoading(true);
+                billingDetailsCollectionConfiguration: {
+                    name: PaymentSheet.CollectionMode.ALWAYS,
+                    email: PaymentSheet.CollectionMode.ALWAYS,
+                    address: PaymentSheet.AddressCollectionMode.FULL,
+                    attachDefaultsToPaymentMethod: true,
+                },
+            });
+            if (error) console.log(error);
+            if (!error) setLoading(true);
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     useEffect(() => {

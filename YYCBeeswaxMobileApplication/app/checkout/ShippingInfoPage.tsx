@@ -81,6 +81,7 @@ const placeholder = {
     line2: "Apartment, Suite, Unit, or Building",
     city: "City, District, Suburb, Town, or Village",
     province: "Select a Province",
+    country: "CA",
     postalCode: "Postal code",
 };
 
@@ -88,22 +89,13 @@ export default function ShippingInfoPage(props: Props) {
     const { user } = useUser();
     const [foundId, setFoundId] = useState("");
 
-    const [name, setName] = useState("");
-    const [email, setEmail] = useState("");
-    const [phone, setPhone] = useState("");
-    const [line1, setLine1] = useState("");
-    const [line2, setLine2] = useState("");
-    const [city, setCity] = useState("");
-    const [province, setProvince] = useState("");
-    const [postalCode, setPostalCode] = useState("");
-
     const [buttonText, setButtonText] = useState("Submit Shipping Information");
     const [headerText, setHeaderText] = useState("Enter Shipping Details");
 
     const [changesMade, setChangesMade] = useState(false);
     const [attentive, setAttentive] = useState(false);
 
-    const [orignalUser, setOriginalUser] = useState({
+    const [shippingInfo, setShippingInfo] = useState<IShippingInfo>({
         name: "",
         email: "",
         phone: "",
@@ -111,44 +103,49 @@ export default function ShippingInfoPage(props: Props) {
         line2: "",
         city: "",
         province: "",
+        country: "CA",
+        postalCode: "",
+    });
+
+    const [orignalUser, setOriginalUser] = useState<IShippingInfo>({
+        name: "",
+        email: "",
+        phone: "",
+        line1: "",
+        line2: "",
+        city: "",
+        province: "",
+        country: "CA",
         postalCode: "",
     });
 
     useEffect(() => {
-        //don't be attentive to changes made until things are done loading
+        //don't be attentive to changes made until things are done loading, to be replaced with loading
         if (!attentive) return;
         //If the user is new, recognize the changes (enable the button) once all these values are present
         if (!foundId) {
             if (
-                phone != orignalUser.phone &&
-                line1 != orignalUser.line1 &&
-                city != orignalUser.city &&
-                province != orignalUser.province &&
-                postalCode != orignalUser.postalCode
+                shippingInfo.phone != placeholder.phoneNumber &&
+                shippingInfo.line1 != placeholder.line1 &&
+                shippingInfo.city != placeholder.city &&
+                shippingInfo.province != placeholder.province &&
+                shippingInfo.postalCode != placeholder.postalCode
             ) {
                 setChangesMade(true);
             }
             return;
         }
         //If info is found for the user, check if these values have changed
-        if (
-            name != orignalUser.name ||
-            email != orignalUser.email ||
-            phone != orignalUser.phone ||
-            line1 != orignalUser.line1 ||
-            line2 != orignalUser.line2 ||
-            city != orignalUser.city ||
-            province != orignalUser.province ||
-            postalCode != orignalUser.postalCode
-        ) {
+        if (shippingInfo != orignalUser) {
             setChangesMade(true);
             return;
         }
         setChangesMade(false);
-    }, [name, email, phone, line1, line2, city, province, postalCode]);
+    }, [shippingInfo]);
 
+    //FETCH DATA FROM SERVER
     const fetchCustomerData = async (custID: string) => {
-        //If the shipping information is already linked to the account, fetch the data
+        //Retrives cutomer data from the server, assuming that it exsists.
         const response = await fetch(`${API_URL}/customer-data`, {
             method: "POST",
             headers: {
@@ -158,30 +155,9 @@ export default function ShippingInfoPage(props: Props) {
                 custID,
             }),
         });
-        const {
-            customer_name,
-            customer_email,
-            customer_phone,
-            customer_line1,
-            customer_line2,
-            customer_city,
-            customer_province,
-            customer_postalCode,
 
-            error,
-        } = await response.json();
-        return {
-            customer_name,
-            customer_email,
-            customer_phone,
-            customer_line1,
-            customer_line2,
-            customer_city,
-            customer_province,
-            customer_postalCode,
-
-            error,
-        };
+        const { retrievedShippingInfo, error } = await response.json();
+        return { retrievedShippingInfo, error };
     };
 
     const fetchCreateCustomer = async () => {
@@ -192,15 +168,7 @@ export default function ShippingInfoPage(props: Props) {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                email,
-                name,
-                phone,
-                line1,
-                line2,
-                city,
-                province,
-                postalCode,
-                country: "CA",
+                shippingInfo,
             }),
         });
         const { customerId, error } = await response.json();
@@ -216,21 +184,14 @@ export default function ShippingInfoPage(props: Props) {
             },
             body: JSON.stringify({
                 foundId,
-                email,
-                name,
-                phone,
-                line1,
-                line2,
-                city,
-                province,
-                postalCode,
-                country: "CA",
+                shippingInfo,
             }),
         });
         const { customerId, error } = await response.json();
         return { customerId, error };
     };
 
+    //AUTOPOPULATE DATA
     useEffect(() => {
         //If the shipping information is already linked to the account, autofill the input fields
         (async () => {
@@ -238,55 +199,82 @@ export default function ShippingInfoPage(props: Props) {
                 const userDetails = await getUserById(user.uid);
                 if (userDetails?.customerId) {
                     try {
-                        const {
-                            customer_name,
-                            customer_email,
-                            customer_phone,
-                            customer_line1,
-                            customer_line2,
-                            customer_city,
-                            customer_province,
-                            customer_postalCode,
-
-                            error,
-                        } = await fetchCustomerData(userDetails.customerId);
+                        const { retrievedShippingInfo, error } =
+                            await fetchCustomerData(userDetails.customerId);
                         if (error) {
                             console.log(error);
                             return;
                         }
-
-                        setName(customer_name ?? placeholder.name);
-                        setEmail(customer_email ?? placeholder.email);
-                        setPhone(customer_phone ?? placeholder.phoneNumber);
-                        setLine1(customer_line1 ?? placeholder.line1);
-                        setLine2(customer_line2 ?? placeholder.line2);
-                        setCity(customer_city ?? placeholder.city);
-                        setProvince(customer_province ?? placeholder.province);
-                        setPostalCode(
-                            customer_postalCode ?? placeholder.postalCode,
-                        );
+                        setShippingInfo({
+                            ...shippingInfo,
+                            name:
+                                retrievedShippingInfo.name ?? placeholder.name,
+                            email:
+                                retrievedShippingInfo.email ??
+                                placeholder.email,
+                            phone:
+                                retrievedShippingInfo.phone ??
+                                placeholder.phoneNumber,
+                            line1:
+                                retrievedShippingInfo.line1 ??
+                                placeholder.line1,
+                            line2:
+                                retrievedShippingInfo.line2 ??
+                                placeholder.line2,
+                            city:
+                                retrievedShippingInfo.city ?? placeholder.city,
+                            province:
+                                retrievedShippingInfo.province ??
+                                placeholder.province,
+                            country:
+                                retrievedShippingInfo.country ??
+                                placeholder.country,
+                            postalCode:
+                                retrievedShippingInfo.postalCode ??
+                                placeholder.postalCode,
+                        });
 
                         setButtonText("Update Shipping Information");
                         setHeaderText("View Shipping Details");
                         setFoundId(userDetails.customerId);
 
                         setOriginalUser({
-                            name: customer_name ?? placeholder.name,
-                            email: customer_email ?? placeholder.email,
-                            phone: customer_phone ?? placeholder.phoneNumber,
-                            line1: customer_line1 ?? placeholder.line1,
-                            line2: customer_line2 ?? placeholder.line2,
-                            city: customer_city ?? placeholder.city,
-                            province: customer_province ?? placeholder.province,
+                            ...orignalUser,
+                            name:
+                                retrievedShippingInfo.name ?? placeholder.name,
+                            email:
+                                retrievedShippingInfo.email ??
+                                placeholder.email,
+                            phone:
+                                retrievedShippingInfo.phone ??
+                                placeholder.phoneNumber,
+                            line1:
+                                retrievedShippingInfo.line1 ??
+                                placeholder.line1,
+                            line2:
+                                retrievedShippingInfo.line2 ??
+                                placeholder.line2,
+                            city:
+                                retrievedShippingInfo.city ?? placeholder.city,
+                            province:
+                                retrievedShippingInfo.province ??
+                                placeholder.province,
+                            country:
+                                retrievedShippingInfo.country ??
+                                placeholder.country,
                             postalCode:
-                                customer_postalCode ?? placeholder.postalCode,
+                                retrievedShippingInfo.postalCode ??
+                                placeholder.postalCode,
                         });
                     } catch (error) {
                         console.log(error);
                     }
                 } else {
-                    setName(userDetails?.name ?? placeholder.name);
-                    setEmail(userDetails?.email ?? placeholder.email);
+                    setShippingInfo({
+                        ...shippingInfo,
+                        name: userDetails?.name ?? placeholder.name,
+                        email: userDetails?.email ?? placeholder.email,
+                    });
                     setOriginalUser({
                         ...orignalUser,
                         name: userDetails?.name ?? placeholder.name,
@@ -298,6 +286,7 @@ export default function ShippingInfoPage(props: Props) {
         })();
     }, []);
 
+    //VALIDATION
     const validateEmail = (email: string) => {
         return String(email)
             .toLowerCase()
@@ -332,37 +321,41 @@ export default function ShippingInfoPage(props: Props) {
 
     function customerInfoValid() {
         //Some checks just ensure that the value is present, others use regex to ensure that its valid
-        if (!name && name != placeholder.name) {
+        if (!shippingInfo.name && shippingInfo.name != placeholder.name) {
             Alert.alert("Please enter your full name.");
             return false;
         }
-        if (!validateEmail(email)) {
+        if (!validateEmail(shippingInfo.email)) {
             Alert.alert("Please enter your email.");
             return false;
         }
-        if (!validateCanadianPhoneNumber(phone)) {
+        if (!validateCanadianPhoneNumber(shippingInfo.phone)) {
             Alert.alert("Please enter your phone number.");
             return false;
         }
-        if (!line1 && line1 != placeholder.line1) {
+        if (!shippingInfo.line1 && shippingInfo.line1 != placeholder.line1) {
             Alert.alert("Please enter the first line of your address.");
             return false;
         }
-        if (!validateCanadianCity(city) && city != placeholder.city) {
+        if (
+            !validateCanadianCity(shippingInfo.city) &&
+            shippingInfo.city != placeholder.city
+        ) {
             Alert.alert("Please enter the city of your address.");
             return false;
         }
-        if (province == placeholder.province) {
+        if (shippingInfo.province == placeholder.province) {
             Alert.alert("Please select the province of your address.");
             return false;
         }
-        if (!validateCanadianPostalCode(postalCode)) {
+        if (!validateCanadianPostalCode(shippingInfo.postalCode)) {
             Alert.alert("Please enter the postal code of your address.");
             return false;
         }
         return true;
     }
 
+    //BUTTON PRESS
     const handleCustomerInformation = async () => {
         if (!customerInfoValid()) return;
         if (foundId) {
@@ -421,6 +414,7 @@ export default function ShippingInfoPage(props: Props) {
         setChangesMade(false);
     };
 
+    //WARNING HEADER ESCAPE
     const handleBackPress = () => {
         if (changesMade) {
             Alert.alert(
@@ -444,6 +438,7 @@ export default function ShippingInfoPage(props: Props) {
         }
     };
 
+    //VIEWS
     return (
         <View style={shippingInfoPageStyles.container}>
             <WarningHeader header={headerText} onPress={handleBackPress} />
@@ -460,47 +455,59 @@ export default function ShippingInfoPage(props: Props) {
                 <Input
                     label="Full Name"
                     autoCapitalize
-                    onChangeText={setName}
-                    placeholder={name || placeholder.name}
-                    value={name}
+                    onChangeText={(name) =>
+                        setShippingInfo({ ...shippingInfo, name })
+                    }
+                    placeholder={shippingInfo.name || placeholder.name}
+                    value={shippingInfo.name}
                 />
                 <Input
                     label="E-mail"
                     autoCapitalize={false}
                     keyboardType={KeyboardTypeOptions.emailAddress}
-                    onChangeText={setEmail}
-                    placeholder={email || placeholder.email}
-                    value={email}
+                    onChangeText={(email) =>
+                        setShippingInfo({ ...shippingInfo, email })
+                    }
+                    placeholder={shippingInfo.email || placeholder.email}
+                    value={shippingInfo.email}
                 />
                 <Input
                     label="Phone"
                     autoCapitalize={false}
                     keyboardType={KeyboardTypeOptions.phonePad}
-                    onChangeText={setPhone}
-                    placeholder={phone || placeholder.phoneNumber}
-                    value={phone}
+                    onChangeText={(phone) =>
+                        setShippingInfo({ ...shippingInfo, phone })
+                    }
+                    placeholder={shippingInfo.phone || placeholder.phoneNumber}
+                    value={shippingInfo.phone}
                 />
 
                 <Input
                     label="Address 1"
                     autoCapitalize
-                    onChangeText={setLine1}
-                    placeholder={line1 || placeholder.line1}
-                    value={line1}
+                    onChangeText={(line1) =>
+                        setShippingInfo({ ...shippingInfo, line1 })
+                    }
+                    placeholder={shippingInfo.line1 || placeholder.line1}
+                    value={shippingInfo.line1}
                 />
                 <Input
                     label="Address 2 (optional)"
                     autoCapitalize
-                    onChangeText={setLine2}
-                    placeholder={line2 || placeholder.line2}
-                    value={line2}
+                    onChangeText={(line2) =>
+                        setShippingInfo({ ...shippingInfo, line2 })
+                    }
+                    placeholder={shippingInfo.line2 || placeholder.line2}
+                    value={shippingInfo.line2}
                 />
                 <Input
                     label="City"
                     autoCapitalize
-                    onChangeText={setCity}
-                    placeholder={city || placeholder.city}
-                    value={city}
+                    onChangeText={(city) =>
+                        setShippingInfo({ ...shippingInfo, city })
+                    }
+                    placeholder={shippingInfo.city || placeholder.city}
+                    value={shippingInfo.city}
                 />
                 <View style={shippingInfoPageStyles.dropdownContainer}>
                     <Text style={shippingInfoPageStyles.dropdownLabel}>
@@ -517,22 +524,31 @@ export default function ShippingInfoPage(props: Props) {
                         imageStyle={shippingInfoPageStyles.dropdownImage}
                         iconStyle={shippingInfoPageStyles.dropdownArrowIcon}
                         maxHeight={viewportHeight * 0.4}
-                        value={province}
+                        value={shippingInfo.province}
                         data={provinceData}
                         imageField="image"
                         labelField="label"
                         valueField="value"
                         placeholder={placeholder.province}
-                        onChange={(e) => setProvince(e.value)}
+                        onChange={(e) =>
+                            setShippingInfo({
+                                ...shippingInfo,
+                                province: e.value,
+                            })
+                        }
                     />
                 </View>
 
                 <Input
                     label="Postal code"
                     autoCapitalize
-                    onChangeText={setPostalCode}
-                    placeholder={postalCode || placeholder.postalCode}
-                    value={postalCode.toUpperCase()}
+                    onChangeText={(postalCode) =>
+                        setShippingInfo({ ...shippingInfo, postalCode })
+                    }
+                    placeholder={
+                        shippingInfo.postalCode || placeholder.postalCode
+                    }
+                    value={shippingInfo.postalCode.toUpperCase()}
                 />
                 <View style={shippingInfoPageStyles.extraSpace} />
             </ScrollView>
