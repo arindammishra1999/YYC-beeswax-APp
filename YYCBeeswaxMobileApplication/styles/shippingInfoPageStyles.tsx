@@ -14,6 +14,9 @@ export const shippingInfoPageStyles = StyleSheet.create({
         alignSelf: "center",
         marginVertical: 20,
     },
+    buttonDisabled: {
+        opacity: 0.5,
+    },
     image: {
         alignSelf: "center",
         width: 300,

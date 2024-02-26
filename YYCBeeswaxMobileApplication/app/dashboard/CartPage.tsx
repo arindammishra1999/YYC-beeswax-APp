@@ -17,7 +17,6 @@ import Button from "@/components/button";
 import CartProductCard from "@/components/cards/cartProductCard";
 import TotalBillCard from "@/components/cards/totalBillCard";
 import Header from "@/components/header";
-import { colors } from "@/consts/styles";
 import { getUserById } from "@/firebase/getCollections/getUserById";
 import { useUser } from "@/firebase/providers/userProvider";
 import { cartPageStyles } from "@/styles/cartPageStyles";
@@ -168,13 +167,6 @@ export default function CartPage() {
             fetchCartData();
         }, []),
     );
-
-    const setButtonColor = () => {
-        //Change the color of the button if its disabled
-        //the button is disabled if the stripe id isn't found or if the payment sheet is loading
-        if (disableButton || !loading)
-            return { backgroundColor: colors.mediumGrey };
-    };
 
     const openPaymentSheet = async () => {
         const { error } = await presentPaymentSheet();
@@ -439,9 +431,10 @@ export default function CartPage() {
                                 title="Continue to Payment"
                                 style={[
                                     cartPageStyles.button,
-                                    setButtonColor(),
+                                    (disableButton || !loading) &&
+                                        cartPageStyles.buttonDisabled,
                                 ]}
-                                disabled={disableButton}
+                                disabled={disableButton || !loading}
                                 onPress={openPaymentSheet}
                             />
                         </View>

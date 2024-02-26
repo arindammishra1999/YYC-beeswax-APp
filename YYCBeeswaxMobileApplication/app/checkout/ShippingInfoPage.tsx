@@ -6,8 +6,8 @@ import { View, ScrollView, Alert, Text } from "react-native";
 import { SelectCountry } from "react-native-element-dropdown";
 
 import Button from "@/components/button";
-import Header from "@/components/header";
 import Input, { KeyboardTypeOptions } from "@/components/input";
+import WarningHeader from "@/components/warningHeader";
 import { viewportHeight } from "@/consts/viewport";
 import { db } from "@/firebase/config";
 import { getUserById } from "@/firebase/getCollections/getUserById";
@@ -94,11 +94,58 @@ export default function ShippingInfoPage(props: Props) {
     const [line1, setLine1] = useState("");
     const [line2, setLine2] = useState("");
     const [city, setCity] = useState("");
-    const [province, setProvince] = useState("Alberta");
+    const [province, setProvince] = useState("");
     const [postalCode, setPostalCode] = useState("");
 
     const [buttonText, setButtonText] = useState("Submit Shipping Information");
     const [headerText, setHeaderText] = useState("Enter Shipping Details");
+
+    const [changesMade, setChangesMade] = useState(false);
+    const [attentive, setAttentive] = useState(false);
+
+    const [orignalUser, setOriginalUser] = useState({
+        name: "",
+        email: "",
+        phone: "",
+        line1: "",
+        line2: "",
+        city: "",
+        province: "",
+        postalCode: "",
+    });
+
+    useEffect(() => {
+        //don't be attentive to changes made until things are done loading
+        if (!attentive) return;
+        //If the user is new, recognize the changes (enable the button) once all these values are present
+        if (!foundId) {
+            if (
+                phone != orignalUser.phone &&
+                line1 != orignalUser.line1 &&
+                city != orignalUser.city &&
+                province != orignalUser.province &&
+                postalCode != orignalUser.postalCode
+            ) {
+                setChangesMade(true);
+            }
+            return;
+        }
+        //If info is found for the user, check if these values have changed
+        if (
+            name != orignalUser.name ||
+            email != orignalUser.email ||
+            phone != orignalUser.phone ||
+            line1 != orignalUser.line1 ||
+            line2 != orignalUser.line2 ||
+            city != orignalUser.city ||
+            province != orignalUser.province ||
+            postalCode != orignalUser.postalCode
+        ) {
+            setChangesMade(true);
+            return;
+        }
+        setChangesMade(false);
+    }, [name, email, phone, line1, line2, city, province, postalCode]);
 
     const fetchCustomerData = async (custID: string) => {
         //If the shipping information is already linked to the account, fetch the data
@@ -222,13 +269,31 @@ export default function ShippingInfoPage(props: Props) {
                         setButtonText("Update Shipping Information");
                         setHeaderText("View Shipping Details");
                         setFoundId(userDetails.customerId);
+
+                        setOriginalUser({
+                            name: customer_name ?? placeholder.name,
+                            email: customer_email ?? placeholder.email,
+                            phone: customer_phone ?? placeholder.phoneNumber,
+                            line1: customer_line1 ?? placeholder.line1,
+                            line2: customer_line2 ?? placeholder.line2,
+                            city: customer_city ?? placeholder.city,
+                            province: customer_province ?? placeholder.province,
+                            postalCode:
+                                customer_postalCode ?? placeholder.postalCode,
+                        });
                     } catch (error) {
                         console.log(error);
                     }
                 } else {
                     setName(userDetails?.name ?? placeholder.name);
                     setEmail(userDetails?.email ?? placeholder.email);
+                    setOriginalUser({
+                        ...orignalUser,
+                        name: userDetails?.name ?? placeholder.name,
+                        email: userDetails?.email ?? placeholder.email,
+                    });
                 }
+                setAttentive(true);
             }
         })();
     }, []);
@@ -340,7 +405,6 @@ export default function ShippingInfoPage(props: Props) {
                         },
                         { merge: true },
                     );
-
                     user.reload(); //reload the user to ensure that the app knows that the shipping info exists
                     Alert.alert(
                         "Shippining Information saved successfully.",
@@ -354,11 +418,35 @@ export default function ShippingInfoPage(props: Props) {
                 console.log(error);
             }
         }
+        setChangesMade(false);
+    };
+
+    const handleBackPress = () => {
+        if (changesMade) {
+            Alert.alert(
+                "Discard Changes?",
+                "You have unsaved changes. Are you sure you want to discard them and leave this screen?",
+                [
+                    {
+                        text: "Don't Leave",
+                        style: "cancel",
+                        onPress: () => {},
+                    },
+                    {
+                        text: "Discard",
+                        style: "destructive",
+                        onPress: () => router.back(),
+                    },
+                ],
+            );
+        } else {
+            router.back();
+        }
     };
 
     return (
         <View style={shippingInfoPageStyles.container}>
-            <Header header={headerText} />
+            <WarningHeader header={headerText} onPress={handleBackPress} />
             <Image
                 contentFit="contain"
                 source={
@@ -449,9 +537,13 @@ export default function ShippingInfoPage(props: Props) {
                 <View style={shippingInfoPageStyles.extraSpace} />
             </ScrollView>
             <Button
-                style={shippingInfoPageStyles.button}
+                style={[
+                    shippingInfoPageStyles.button,
+                    !changesMade && shippingInfoPageStyles.buttonDisabled,
+                ]}
                 title={buttonText}
                 onPress={handleCustomerInformation}
+                disabled={!changesMade}
             />
         </View>
     );

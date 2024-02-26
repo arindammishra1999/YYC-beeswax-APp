@@ -27,6 +27,9 @@ export const cartPageStyles = StyleSheet.create({
         fontSize: 16,
         fontWeight: "bold",
     },
+    buttonDisabled: {
+        opacity: 0.5,
+    },
     messageText: {
         alignSelf: "center",
         textAlign: "center",
