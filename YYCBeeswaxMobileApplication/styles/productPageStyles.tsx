@@ -125,7 +125,7 @@ export const productPageStyles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         padding: 15,
-        width: viewportWidth / 2,
+        width: viewportWidth * 0.7,
         marginLeft: "25%",
         marginRight: "25%",
     },
@@ -133,5 +133,8 @@ export const productPageStyles = StyleSheet.create({
         color: colors.black,
         fontSize: 20,
         fontWeight: "bold",
+    },
+    buttonDisabled: {
+        opacity: 0.5,
     },
 });
