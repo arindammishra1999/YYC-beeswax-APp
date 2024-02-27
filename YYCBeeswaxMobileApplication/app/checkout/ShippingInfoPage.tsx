@@ -6,12 +6,13 @@ import { View, ScrollView, Alert, Text } from "react-native";
 import { SelectCountry } from "react-native-element-dropdown";
 
 import Button from "@/components/button";
+import Header from "@/components/header";
 import Input, { KeyboardTypeOptions } from "@/components/input";
-import WarningHeader from "@/components/warningHeader";
 import { viewportHeight } from "@/consts/viewport";
 import { db } from "@/firebase/config";
 import { getUserById } from "@/firebase/getCollections/getUserById";
 import { useUser } from "@/firebase/providers/userProvider";
+import { useUnsavedChangesCheck } from "@/lib/hooks/useUnsavedChangesCheck";
 import { shippingInfoPageStyles } from "@/styles/shippingInfoPageStyles";
 
 const API_URL = "http://10.0.2.2:3000"; //Need this to link with a server, unsure if its different for apple
@@ -125,25 +126,36 @@ export default function ShippingInfoPage(props: Props) {
         //If the user is new, recognize the changes (enable the button) once all these values are present
         if (!foundId) {
             if (
-                shippingInfo.phone != placeholder.phoneNumber &&
-                shippingInfo.line1 != placeholder.line1 &&
-                shippingInfo.city != placeholder.city &&
-                shippingInfo.province != placeholder.province &&
-                shippingInfo.postalCode != placeholder.postalCode
+                shippingInfo.phone != orignalUser.phone &&
+                shippingInfo.line1 != orignalUser.line1 &&
+                shippingInfo.city != orignalUser.city &&
+                shippingInfo.province != orignalUser.province &&
+                shippingInfo.postalCode != orignalUser.postalCode
             ) {
                 setChangesMade(true);
             }
             return;
         }
         //If info is found for the user, check if these values have changed
-        if (shippingInfo != orignalUser) {
+        if (
+            shippingInfo.name != orignalUser.name ||
+            shippingInfo.email != orignalUser.email ||
+            shippingInfo.phone != orignalUser.phone ||
+            shippingInfo.line1 != orignalUser.line1 ||
+            shippingInfo.line2 != orignalUser.line2 ||
+            shippingInfo.city != orignalUser.city ||
+            shippingInfo.province != orignalUser.province ||
+            shippingInfo.country != orignalUser.country ||
+            shippingInfo.postalCode != orignalUser.postalCode
+        ) {
             setChangesMade(true);
             return;
         }
         setChangesMade(false);
     }, [shippingInfo]);
 
-    //FETCH DATA FROM SERVER
+    useUnsavedChangesCheck(!changesMade);
+
     const fetchCustomerData = async (custID: string) => {
         //Retrives cutomer data from the server, assuming that it exsists.
         const response = await fetch(`${API_URL}/customer-data`, {
@@ -191,7 +203,6 @@ export default function ShippingInfoPage(props: Props) {
         return { customerId, error };
     };
 
-    //AUTOPOPULATE DATA
     useEffect(() => {
         //If the shipping information is already linked to the account, autofill the input fields
         (async () => {
@@ -237,7 +248,6 @@ export default function ShippingInfoPage(props: Props) {
                         setButtonText("Update Shipping Information");
                         setHeaderText("View Shipping Details");
                         setFoundId(userDetails.customerId);
-
                         setOriginalUser({
                             ...orignalUser,
                             name:
@@ -286,7 +296,6 @@ export default function ShippingInfoPage(props: Props) {
         })();
     }, []);
 
-    //VALIDATION
     const validateEmail = (email: string) => {
         return String(email)
             .toLowerCase()
@@ -355,7 +364,6 @@ export default function ShippingInfoPage(props: Props) {
         return true;
     }
 
-    //BUTTON PRESS
     const handleCustomerInformation = async () => {
         if (!customerInfoValid()) return;
         if (foundId) {
@@ -414,34 +422,9 @@ export default function ShippingInfoPage(props: Props) {
         setChangesMade(false);
     };
 
-    //WARNING HEADER ESCAPE
-    const handleBackPress = () => {
-        if (changesMade) {
-            Alert.alert(
-                "Discard Changes?",
-                "You have unsaved changes. Are you sure you want to discard them and leave this screen?",
-                [
-                    {
-                        text: "Don't Leave",
-                        style: "cancel",
-                        onPress: () => {},
-                    },
-                    {
-                        text: "Discard",
-                        style: "destructive",
-                        onPress: () => router.back(),
-                    },
-                ],
-            );
-        } else {
-            router.back();
-        }
-    };
-
-    //VIEWS
     return (
         <View style={shippingInfoPageStyles.container}>
-            <WarningHeader header={headerText} onPress={handleBackPress} />
+            <Header header={headerText} />
             <Image
                 contentFit="contain"
                 source={

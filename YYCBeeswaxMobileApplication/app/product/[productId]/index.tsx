@@ -2,14 +2,15 @@ import { Image } from "expo-image";
 import { router, useLocalSearchParams } from "expo-router";
 import * as SecureStore from "expo-secure-store";
 import React, { Suspense, useEffect, useState } from "react";
-import { Alert, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 
+import Header from "@/components/header";
 import Popup from "@/components/popup";
 import Reviews from "@/components/product/reviews";
-import WarningHeader from "@/components/warningHeader";
 import { getProductDataById } from "@/firebase/getCollections/getProductByID";
 import { useReviews } from "@/firebase/providers/reviewsProvider";
+import { useUnsavedChangesCheck } from "@/lib/hooks/useUnsavedChangesCheck";
 import { mainStyles } from "@/styles/mainStyles";
 import { productPageStyles } from "@/styles/productPageStyles";
 
@@ -108,6 +109,13 @@ export default function Product() {
         }
     }
 
+    useUnsavedChangesCheck(
+        !changesMade ||
+            showPopup ||
+            quantity == orignialQuantity ||
+            (orignialQuantity == -1 && quantity == 1),
+    );
+
     useEffect(() => {
         (async () => {
             const products = await getProductDataById(productId as string);
@@ -124,32 +132,9 @@ export default function Product() {
 
     const { getMoreReviews } = useReviews();
 
-    const handleBackPress = () => {
-        if (changesMade) {
-            Alert.alert(
-                "Discard Quantity Changes?",
-                "Your quantity changes are pending. Don't forget to save them to your cart! Would you like to discard these these changes?",
-                [
-                    {
-                        text: "Don't Discard",
-                        style: "cancel",
-                        onPress: () => {},
-                    },
-                    {
-                        text: "Discard",
-                        style: "destructive",
-                        onPress: () => router.back(),
-                    },
-                ],
-            );
-        } else {
-            router.back();
-        }
-    };
-
     return (
         <View style={mainStyles.container}>
-            <WarningHeader header={product.name} onPress={handleBackPress} />
+            <Header header={product.name} />
             <ScrollView
                 contentContainerStyle={productPageStyles.display}
                 onScrollEndDrag={getMoreReviews}
@@ -302,12 +287,11 @@ export default function Product() {
                 <TouchableOpacity
                     style={[
                         productPageStyles.button,
-                        !changesMade &&
-                            orignialQuantity != -1 &&
+                        orignialQuantity == quantity &&
                             productPageStyles.buttonDisabled,
                     ]}
                     onPress={addToCart}
-                    disabled={!changesMade && orignialQuantity != -1}
+                    disabled={orignialQuantity == quantity}
                 >
                     <Text style={productPageStyles.buttonText}>
                         {buttonText[selectedMode]}
@@ -319,10 +303,14 @@ export default function Product() {
                 changeVisibility={() => setShowPopup(false)}
                 option1Text="Keep Shopping"
                 option2Text="Checkout Now"
-                option1Action={() => setShowPopup(false)}
-                option2Action={() => {
-                    router.push("/dashboard/CartPage");
+                option1Action={() => {
                     setChangesMade(false);
+                    setOriginalQuantity(quantity);
+                    setShowPopup(false);
+                }}
+                option2Action={() => {
+                    setChangesMade(false);
+                    router.push("/dashboard/CartPage");
                 }}
                 title={popupTitleText[selectedMode]}
                 subTitle={popupSubtitleText[selectedMode]}
