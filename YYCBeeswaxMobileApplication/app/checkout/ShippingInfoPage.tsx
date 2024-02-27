@@ -2,17 +2,19 @@ import { Image } from "expo-image";
 import { router } from "expo-router";
 import { doc, setDoc } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
-import { View, ScrollView, Alert, Text } from "react-native";
+import { View, ScrollView, Alert, Text, ActivityIndicator } from "react-native";
 import { SelectCountry } from "react-native-element-dropdown";
 
 import Button from "@/components/button";
 import Header from "@/components/header";
 import Input, { KeyboardTypeOptions } from "@/components/input";
+import { colors } from "@/consts/styles";
 import { viewportHeight } from "@/consts/viewport";
 import { db } from "@/firebase/config";
 import { getUserById } from "@/firebase/getCollections/getUserById";
 import { useUser } from "@/firebase/providers/userProvider";
 import { useUnsavedChangesCheck } from "@/lib/hooks/useUnsavedChangesCheck";
+import { mainStyles } from "@/styles/mainStyles";
 import { shippingInfoPageStyles } from "@/styles/shippingInfoPageStyles";
 
 const API_URL = "http://10.0.2.2:3000"; //Need this to link with a server, unsure if its different for apple
@@ -90,11 +92,19 @@ export default function ShippingInfoPage(props: Props) {
     const { user } = useUser();
     const [foundId, setFoundId] = useState("");
 
-    const [buttonText, setButtonText] = useState("Submit Shipping Information");
-    const [headerText, setHeaderText] = useState("Enter Shipping Details");
+    const [selectedMode, setSelectedMode] = useState(0);
+    const buttonText = [
+        "Submit Shipping Information",
+        "Update Shipping Information",
+    ];
+    const headerText = ["Enter Shipping Details", "View Shipping Details"];
+    const imageSource = [
+        require("@/assets/cartProgress/1.png"),
+        require("@/assets/cartProgress/2.png"),
+    ];
 
     const [changesMade, setChangesMade] = useState(false);
-    const [attentive, setAttentive] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
 
     const [shippingInfo, setShippingInfo] = useState<IShippingInfo>({
         name: "",
@@ -121,8 +131,7 @@ export default function ShippingInfoPage(props: Props) {
     });
 
     useEffect(() => {
-        //don't be attentive to changes made until things are done loading, to be replaced with loading
-        if (!attentive) return;
+        if (isLoading) return;
         //If the user is new, recognize the changes (enable the button) once all these values are present
         if (!foundId) {
             if (
@@ -245,8 +254,7 @@ export default function ShippingInfoPage(props: Props) {
                                 placeholder.postalCode,
                         });
 
-                        setButtonText("Update Shipping Information");
-                        setHeaderText("View Shipping Details");
+                        setSelectedMode(1);
                         setFoundId(userDetails.customerId);
                         setOriginalUser({
                             ...orignalUser,
@@ -291,7 +299,7 @@ export default function ShippingInfoPage(props: Props) {
                         email: userDetails?.email ?? placeholder.email,
                     });
                 }
-                setAttentive(true);
+                setIsLoading(false);
             }
         })();
     }, []);
@@ -317,7 +325,7 @@ export default function ShippingInfoPage(props: Props) {
         return String(phoneNumber)
             .toLowerCase()
             .match(
-                /^(\(\+[0-9]{2}\))?([0-9]{3}-?)?([0-9]{3})-?([0-9]{4})(\/[0-9]{4})?$/gm,
+                /^1?(\(\+[0-9]{2}\))?([0-9]{3}-?)?([0-9]{3})-?([0-9]{4})(\/[0-9]{4})?$/gm,
             );
     };
 
@@ -422,16 +430,20 @@ export default function ShippingInfoPage(props: Props) {
         setChangesMade(false);
     };
 
+    if (isLoading) {
+        return (
+            <View style={mainStyles.spinnerOverlay}>
+                <ActivityIndicator size="large" color={colors.yellow} />
+            </View>
+        );
+    }
+
     return (
         <View style={shippingInfoPageStyles.container}>
-            <Header header={headerText} />
+            <Header header={headerText[selectedMode]} />
             <Image
                 contentFit="contain"
-                source={
-                    foundId == ""
-                        ? require("@/assets/cartProgress/1.png")
-                        : require("@/assets/cartProgress/2.png")
-                }
+                source={imageSource[selectedMode]}
                 style={shippingInfoPageStyles.image}
             />
             <ScrollView>
@@ -540,7 +552,7 @@ export default function ShippingInfoPage(props: Props) {
                     shippingInfoPageStyles.button,
                     !changesMade && shippingInfoPageStyles.buttonDisabled,
                 ]}
-                title={buttonText}
+                title={buttonText[selectedMode]}
                 onPress={handleCustomerInformation}
                 disabled={!changesMade}
             />
