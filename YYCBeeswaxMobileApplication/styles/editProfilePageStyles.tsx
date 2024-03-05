@@ -1,7 +1,6 @@
 import { StyleSheet } from "react-native";
 
 import { colors } from "@/consts/styles";
-import { viewportHeight } from "@/consts/viewport";
 
 export const editProfilePageStyles = StyleSheet.create({
     icon: {
