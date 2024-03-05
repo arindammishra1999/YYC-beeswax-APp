@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 
-import { colors } from "@/consts/styles";
+import { colors, fonts } from "@/consts/styles";
 
 export const profilePageStyles = StyleSheet.create({
     button: {
@@ -16,16 +16,16 @@ export const profilePageStyles = StyleSheet.create({
     buttonText: {
         color: colors.black,
         fontSize: 16,
-        fontWeight: "bold",
+        fontFamily: fonts.mainBold,
     },
     messageText: {
         alignSelf: "center",
         textAlign: "center",
         fontSize: 21,
-        fontWeight: "bold",
         marginTop: "40%",
         marginLeft: "10%",
         marginRight: "10%",
+        fontFamily: fonts.mainBold,
     },
     signUpContainer: {
         flexDirection: "row",
@@ -34,11 +34,13 @@ export const profilePageStyles = StyleSheet.create({
     },
     signUpText: {
         fontSize: 16,
+        fontFamily: fonts.main,
     },
     signUpLink: {
         fontSize: 16,
         color: colors.blue,
         textDecorationLine: "underline",
+        fontFamily: fonts.main,
     },
     largeIcon: {
         paddingVertical: 25,
@@ -58,6 +60,7 @@ export const profilePageStyles = StyleSheet.create({
         alignSelf: "center",
         fontSize: 20,
         marginLeft: 15,
+        fontFamily: fonts.main,
     },
     optionContainer: {
         borderRadius: 8,

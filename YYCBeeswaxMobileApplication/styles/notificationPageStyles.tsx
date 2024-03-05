@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 
-import { colors } from "@/consts/styles";
+import { colors, fonts } from "@/consts/styles";
 
 export const notificationPageStyles = StyleSheet.create({
     item: {
@@ -14,6 +14,7 @@ export const notificationPageStyles = StyleSheet.create({
         alignSelf: "center",
         fontSize: 16,
         marginLeft: 20,
+        fontFamily: fonts.main,
     },
     itemToggle: {
         alignSelf: "flex-end",
@@ -23,8 +24,8 @@ export const notificationPageStyles = StyleSheet.create({
         paddingTop: 20,
         marginLeft: 20,
         fontSize: 18,
-        fontWeight: "bold",
         paddingBottom: 10,
+        fontFamily: fonts.mainBold,
     },
     divider: {
         width: "90%",
@@ -49,7 +50,7 @@ export const notificationPageStyles = StyleSheet.create({
     },
     buttonText: {
         fontSize: 21,
-        fontWeight: "bold",
         alignSelf: "center",
+        fontFamily: fonts.mainBold,
     },
 });

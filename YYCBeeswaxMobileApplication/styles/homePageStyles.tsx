@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 
-import { colors } from "@/consts/styles";
+import { colors, fonts } from "@/consts/styles";
 
 export const homePageStyles = StyleSheet.create({
     container: {
@@ -23,14 +23,15 @@ export const homePageStyles = StyleSheet.create({
     searchBar: {
         flex: 1,
         paddingVertical: 10,
+        fontFamily: fonts.main,
     },
     searchIcon: {
         marginRight: 10,
     },
     headerText: {
         fontSize: 18,
-        fontWeight: "bold",
         paddingVertical: 25,
+        fontFamily: fonts.mainBold,
     },
     categoriesContainer: {
         height: 130,

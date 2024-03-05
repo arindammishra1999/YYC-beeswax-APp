@@ -1,7 +1,6 @@
 export const colors = {
     yellow: "#FFC531",
     black: "#221F1F",
-    lightBlue: "#4ecdc4",
     greenTransparent: "rgba(24, 173, 0, 0.5)",
     white: "#fff",
     lightGrey: "#EAEAEA",
@@ -16,5 +15,6 @@ export const colors = {
 };
 
 export const fonts = {
-    main: "Poppins",
+    main: "Montserrat_400Regular",
+    mainBold: "Montserrat_700Bold",
 };
