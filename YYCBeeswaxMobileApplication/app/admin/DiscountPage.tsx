@@ -193,18 +193,18 @@ export default function DiscountPage() {
                     <Text style={adminDashboardPageStyles.headerTitle}>
                         Discounts Dashboard
                     </Text>
-                    <Button
-                        title="Sign Out"
-                        style={adminDashboardPageStyles.button}
-                        onPress={() => setLogoutPopupVisible(true)}
-                    />
-                </View>
-                <View style={adminDiscountPageStyles.headerButtonContainer}>
-                    <Button
-                        title="Create Code"
-                        style={adminDashboardPageStyles.button}
-                        onPress={() => setAddCodePopupVisible(true)}
-                    />
+                    <View style={adminDiscountPageStyles.headerButtonContainer}>
+                        <Button
+                            title="Sign Out"
+                            style={adminDiscountPageStyles.headerButton}
+                            onPress={() => setLogoutPopupVisible(true)}
+                        />
+                        <Button
+                            title="Create Code"
+                            style={adminDiscountPageStyles.headerButton}
+                            onPress={() => setAddCodePopupVisible(true)}
+                        />
+                    </View>
                 </View>
             </View>
             <ScrollView style={adminDashboardPageStyles.page}>

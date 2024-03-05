@@ -54,10 +54,6 @@ export const adminDiscountPageStyles = StyleSheet.create({
         height: 100,
         paddingVertical: "3%",
         paddingHorizontal: "5%",
-        display: "flex",
-        justifyContent: "space-between",
-        flexDirection: "column",
-        alignItems: "flex-end",
     },
 
     headerContainer: {
@@ -70,9 +66,15 @@ export const adminDiscountPageStyles = StyleSheet.create({
 
     headerButtonContainer: {
         display: "flex",
-        alignItems: "flex-end",
-        width: "100%",
-        marginTop: 10,
+        flexDirection: "column",
+        alignItems: "center",
+        width: "40%",
+        gap: 10,
+    },
+
+    headerButton: {
+        padding: 8,
+        width: "90%",
     },
 
     cardContainer: {
