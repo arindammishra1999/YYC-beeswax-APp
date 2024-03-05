@@ -1,6 +1,7 @@
 import { StyleSheet } from "react-native";
 
 import { colors, fonts } from "@/consts/styles";
+import { viewportWidth } from "@/consts/viewport";
 
 export const adminDashboardPageStyles = StyleSheet.create({
     page: {
@@ -17,7 +18,7 @@ export const adminDashboardPageStyles = StyleSheet.create({
         alignItems: "flex-end",
     },
     headerTitle: {
-        fontSize: 22,
+        fontSize: 18,
         fontWeight: "500",
         paddingBottom: 3.5,
         fontFamily: fonts.main,
@@ -106,7 +107,7 @@ export const adminDashboardPageStyles = StyleSheet.create({
         display: "flex",
         flexDirection: "row",
         justifyContent: "space-between",
-        width: "80.5%",
+        width: viewportWidth * 0.81,
         marginHorizontal: "5%",
         marginVertical: 10,
     },

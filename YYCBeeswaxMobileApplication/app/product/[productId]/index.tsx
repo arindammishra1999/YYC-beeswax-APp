@@ -8,6 +8,7 @@ import { Dropdown } from "react-native-element-dropdown";
 import Header from "@/components/header";
 import Popup from "@/components/popup";
 import Reviews from "@/components/product/reviews";
+import { fonts } from "@/consts/styles";
 import { getProductDataById } from "@/firebase/getCollections/getProductByID";
 import { useReviews } from "@/firebase/providers/reviewsProvider";
 import { mainStyles } from "@/styles/mainStyles";
@@ -174,6 +175,7 @@ export default function Product() {
                                     onChange={({ value }) => {
                                         setSelectedVariant(value);
                                     }}
+                                    fontFamily={fonts.main}
                                 />
                             </View>
                         )}
