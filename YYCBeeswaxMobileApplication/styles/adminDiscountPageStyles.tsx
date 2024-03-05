@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 
-import { colors } from "@/consts/styles";
+import { colors, fonts } from "@/consts/styles";
 import { viewportHeight } from "@/consts/viewport";
 
 export const adminDiscountPageStyles = StyleSheet.create({
@@ -19,7 +19,7 @@ export const adminDiscountPageStyles = StyleSheet.create({
     spinnerText: {
         marginTop: 10,
         fontSize: 16,
-        fontWeight: "bold",
+        fontFamily: fonts.mainBold,
     },
 
     codePopupContainer: {
@@ -102,6 +102,7 @@ export const adminDiscountPageStyles = StyleSheet.create({
 
     itemTitle: {
         fontSize: 18,
+        fontFamily: fonts.main,
     },
 
     subDiscountRowContainer: {
@@ -129,6 +130,7 @@ export const adminDiscountPageStyles = StyleSheet.create({
         fontSize: 14,
         paddingHorizontal: 15,
         marginVertical: 5,
+        fontFamily: fonts.main,
     },
 
     subInputContainer: {
@@ -148,6 +150,7 @@ export const adminDiscountPageStyles = StyleSheet.create({
         paddingHorizontal: 15,
         marginVertical: 5,
         borderColor: "lightgrey",
+        fontFamily: fonts.main,
     },
 
     dropdown: {
@@ -177,7 +180,7 @@ export const adminDiscountPageStyles = StyleSheet.create({
 
     buttonText: {
         fontSize: 18,
-        fontWeight: "bold",
         alignSelf: "center",
+        fontFamily: fonts.mainBold,
     },
 });

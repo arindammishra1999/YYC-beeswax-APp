@@ -20,7 +20,7 @@ import { SelectList } from "react-native-dropdown-select-list";
 
 import Button from "@/components/button";
 import Popup from "@/components/popup";
-import { colors } from "@/consts/styles";
+import { colors, fonts } from "@/consts/styles";
 import { viewportWidth } from "@/consts/viewport";
 import { auth, db } from "@/firebase/config";
 import { getDiscountData } from "@/firebase/getCollections/getDiscounts";
@@ -328,6 +328,7 @@ export default function DiscountPage() {
                                         }}
                                         search={false}
                                         save="value"
+                                        fontFamily={fonts.main}
                                     />
                                 </View>
                                 <TouchableOpacity
