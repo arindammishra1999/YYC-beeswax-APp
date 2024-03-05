@@ -65,5 +65,6 @@ export const editProfilePageStyles = StyleSheet.create({
         borderRadius: 30,
         position: "absolute",
         bottom: "5%",
+        top: "88.5%",
     },
 });
