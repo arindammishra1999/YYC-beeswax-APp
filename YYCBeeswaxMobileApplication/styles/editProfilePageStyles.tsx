@@ -58,10 +58,13 @@ export const editProfilePageStyles = StyleSheet.create({
         fontSize: 20,
     },
     confirmButton: {
-        top: viewportHeight * 0.88,
+        backgroundColor: colors.yellow,
+        alignSelf: "center",
+        width: "65%",
+        paddingTop: 15,
+        paddingBottom: 15,
+        borderRadius: 30,
         position: "absolute",
         bottom: "5%",
-        alignSelf: "center",
-        width: "80%",
     },
 });
