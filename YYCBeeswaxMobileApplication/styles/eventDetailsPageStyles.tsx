@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 
-import { colors } from "@/consts/styles";
+import { colors, fonts } from "@/consts/styles";
 import { viewportHeight, viewportWidth } from "@/consts/viewport";
 
 export const eventDetailsPageStyles = StyleSheet.create({
@@ -14,6 +14,7 @@ export const eventDetailsPageStyles = StyleSheet.create({
         paddingVertical: 10,
         alignSelf: "center",
         marginTop: 10,
+        fontFamily: fonts.main,
     },
     eventInfoContainer: {
         flexDirection: "row",
@@ -48,17 +49,20 @@ export const eventDetailsPageStyles = StyleSheet.create({
         fontSize: 15,
         flexShrink: 1,
         width: "100%",
+        fontFamily: fonts.main,
     },
     eventTextHeader: {
         marginLeft: 20,
         fontSize: 20,
         marginTop: 10,
+        fontFamily: fonts.main,
     },
     eventText: {
         marginHorizontal: 20,
         marginTop: 15,
         fontSize: 16,
         marginBottom: 25,
+        fontFamily: fonts.main,
     },
     bottomBar: {
         borderTopLeftRadius: 25,
@@ -85,6 +89,6 @@ export const eventDetailsPageStyles = StyleSheet.create({
     buttonText: {
         color: colors.black,
         fontSize: 20,
-        fontWeight: "bold",
+        fontFamily: fonts.mainBold,
     },
 });

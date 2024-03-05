@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 
-import { colors } from "@/consts/styles";
+import { colors, fonts } from "@/consts/styles";
 import { viewportWidth } from "@/consts/viewport";
 
 export const productSimpleCardStyles = StyleSheet.create({
@@ -18,11 +18,12 @@ export const productSimpleCardStyles = StyleSheet.create({
     title: {
         fontSize: 14,
         color: colors.darkGrey,
+        fontFamily: fonts.main,
     },
     price: {
         fontSize: 14,
-        fontWeight: "bold",
         color: colors.black,
         paddingBottom: 20,
+        fontFamily: fonts.mainBold,
     },
 });

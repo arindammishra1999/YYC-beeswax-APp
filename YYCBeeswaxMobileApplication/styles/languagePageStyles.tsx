@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 
-import { colors } from "@/consts/styles";
+import { colors, fonts } from "@/consts/styles";
 
 export const languagePageStyles = StyleSheet.create({
     languageList: {
@@ -15,6 +15,7 @@ export const languagePageStyles = StyleSheet.create({
     },
     languageText: {
         fontSize: 16,
+        fontFamily: fonts.main,
     },
     circleTouchable: {
         padding: 10,
@@ -22,7 +23,7 @@ export const languagePageStyles = StyleSheet.create({
     circleButton: {
         width: 20,
         height: 20,
-        borderRadius: 10, // half of width and height to create a circle
+        borderRadius: 10,
         borderWidth: 1,
         borderColor: colors.yellow,
         marginLeft: "auto",
@@ -36,9 +37,9 @@ export const languagePageStyles = StyleSheet.create({
     sectionHeader: {
         fontSize: 18,
         marginBottom: 30,
-        fontWeight: "bold",
         marginTop: 20,
         paddingLeft: 25,
+        fontFamily: fonts.mainBold,
     },
     bottomContainer: {
         justifyContent: "flex-end",
@@ -57,13 +58,13 @@ export const languagePageStyles = StyleSheet.create({
     },
     buttonText: {
         fontSize: 21,
-        fontWeight: "bold",
         alignSelf: "center",
+        fontFamily: fonts.mainBold,
     },
     buttonDisabled: {
         opacity: 0.5,
     },
     selectedLanguageText: {
-        color: colors.yellow, // Add a background color for the selected language
+        color: colors.yellow,
     },
 });

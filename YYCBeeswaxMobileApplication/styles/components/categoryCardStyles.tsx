@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 
-import { colors } from "@/consts/styles";
+import { colors, fonts } from "@/consts/styles";
 
 export const categoryCardStyles = StyleSheet.create({
     cardContainer: {
@@ -28,5 +28,6 @@ export const categoryCardStyles = StyleSheet.create({
         paddingTop: 5,
         fontSize: 12,
         alignSelf: "center",
+        fontFamily: fonts.main,
     },
 });

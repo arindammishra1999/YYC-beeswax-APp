@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 
-import { colors } from "@/consts/styles";
+import { colors, fonts } from "@/consts/styles";
 
 export const eventCardStyles = StyleSheet.create({
     cardContainer: {
@@ -36,11 +36,13 @@ export const eventCardStyles = StyleSheet.create({
         fontSize: 14,
         flexShrink: 1,
         width: "100%",
+        fontFamily: fonts.main,
     },
     nameText: {
         fontSize: 17,
         flexShrink: 1,
         width: "100%",
+        fontFamily: fonts.main,
     },
     locationContainer: {
         flexDirection: "row",
@@ -55,5 +57,6 @@ export const eventCardStyles = StyleSheet.create({
         fontSize: 14,
         flexShrink: 1,
         width: "100%",
+        fontFamily: fonts.main,
     },
 });

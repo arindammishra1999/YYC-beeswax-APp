@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 
-import { colors } from "@/consts/styles";
+import { colors, fonts } from "@/consts/styles";
 
 export const popupStyles = StyleSheet.create({
     viewContainer: {
@@ -23,9 +23,9 @@ export const popupStyles = StyleSheet.create({
     },
     popupTitle: {
         fontSize: 18,
-        fontWeight: "bold",
         paddingTop: "5%",
         textAlign: "center",
+        fontFamily: fonts.mainBold,
     },
     popupSubTitle: {
         paddingHorizontal: 40,
@@ -33,6 +33,7 @@ export const popupStyles = StyleSheet.create({
         fontSize: 16,
         marginBottom: 30,
         textAlign: "center",
+        fontFamily: fonts.main,
     },
     buttonContainer: {
         flexDirection: "row",
@@ -52,6 +53,7 @@ export const popupStyles = StyleSheet.create({
         color: colors.black,
         fontSize: 16,
         fontWeight: "bold",
+        fontFamily: fonts.mainBold,
     },
     touchableOverlay: {
         position: "absolute",

@@ -1,5 +1,7 @@
 import { StyleSheet } from "react-native";
 
+import { fonts } from "@/consts/styles";
+
 export const reviewsStyles = StyleSheet.create({
     statsContainer: {
         flexDirection: "row",
@@ -27,7 +29,7 @@ export const reviewsStyles = StyleSheet.create({
         textAlign: "center",
         top: "20%",
         fontSize: 40,
-        fontWeight: "bold",
+        fontFamily: fonts.mainBold,
     },
     countText: {
         position: "absolute",
@@ -35,15 +37,24 @@ export const reviewsStyles = StyleSheet.create({
         textAlign: "center",
         top: "60%",
         fontSize: 12,
+        fontFamily: fonts.main,
     },
-    userReviewHeading: { fontSize: 20, paddingBottom: 10, fontWeight: "bold" },
+    userReviewHeading: {
+        fontSize: 20,
+        paddingBottom: 10,
+        fontFamily: fonts.mainBold,
+    },
     button: { marginVertical: 20 },
     noReviewText: {
         paddingTop: 20,
         paddingBottom: 10,
-        fontWeight: "bold",
         fontSize: 16,
+        fontFamily: fonts.mainBold,
     },
-    customerReviewHeading: { fontSize: 20, fontWeight: "bold" },
+    customerReviewHeading: {
+        fontSize: 20,
+        fontWeight: "bold",
+        fontFamily: fonts.mainBold,
+    },
     reviewContainer: { paddingTop: 20 },
 });

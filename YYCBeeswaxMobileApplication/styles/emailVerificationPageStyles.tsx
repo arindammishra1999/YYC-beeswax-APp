@@ -1,5 +1,7 @@
 import { StyleSheet } from "react-native";
 
+import { fonts } from "@/consts/styles";
+
 export const emailVerificationPageStyles = StyleSheet.create({
     icon: {
         paddingVertical: 10,
@@ -9,9 +11,11 @@ export const emailVerificationPageStyles = StyleSheet.create({
     heading: {
         fontSize: 18,
         textAlign: "center",
+        fontFamily: fonts.main,
     },
     subtitle: {
         fontSize: 16,
+        fontFamily: fonts.main,
     },
     buttonsContainer: {
         flex: 1,
