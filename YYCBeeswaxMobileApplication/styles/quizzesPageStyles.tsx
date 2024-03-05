@@ -59,6 +59,9 @@ export const quizzesPageStyles = StyleSheet.create({
         fontSize: 20,
         fontFamily: fonts.mainBold,
     },
+    subText: {
+        fontFamily: fonts.main,
+    },
     detailsContainer: {
         flexDirection: "row",
         justifyContent: "space-between",
@@ -70,5 +73,6 @@ export const quizzesPageStyles = StyleSheet.create({
         paddingVertical: 5,
         borderRadius: 10,
         color: "white",
+        fontFamily: fonts.main,
     },
 });

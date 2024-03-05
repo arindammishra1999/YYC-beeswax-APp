@@ -19,6 +19,9 @@ export const quizPageStyles = StyleSheet.create({
         textAlign: "center",
         fontFamily: fonts.mainBold,
     },
+    bodyText: {
+        fontFamily: fonts.main,
+    },
     details: {
         flexDirection: "row",
         justifyContent: "space-between",

@@ -40,7 +40,7 @@ export const productPageStyles = StyleSheet.create({
     productQuantitySection: {
         alignSelf: "flex-end",
         flexDirection: "row",
-        gap: 12,
+        gap: 10,
     },
     productQuantity: {
         fontSize: 18,
