@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 
-import { colors } from "@/consts/styles";
+import { colors, fonts } from "@/consts/styles";
 
 export const orderHistoryPageStyles = StyleSheet.create({
     container: {
@@ -27,6 +27,7 @@ export const orderHistoryPageStyles = StyleSheet.create({
         marginRight: 20,
         marginBottom: 7,
         fontSize: 17,
+        fontFamily: fonts.main,
     },
     orderDetails: {
         display: "flex",
@@ -36,18 +37,22 @@ export const orderHistoryPageStyles = StyleSheet.create({
     orderDetailsShipped: {
         color: colors.blue,
         fontSize: 15,
+        fontFamily: fonts.main,
     },
     orderDetailsDelivered: {
         color: colors.grey,
         fontSize: 15,
+        fontFamily: fonts.main,
     },
     orderDetailsCancelled: {
         color: colors.red,
         fontSize: 15,
+        fontFamily: fonts.main,
     },
     orderDetailsPlaced: {
         color: colors.darkGrey,
         fontSize: 15,
+        fontFamily: fonts.main,
     },
     button: {
         backgroundColor: colors.yellow,
@@ -62,16 +67,16 @@ export const orderHistoryPageStyles = StyleSheet.create({
     buttonText: {
         color: colors.black,
         fontSize: 16,
-        fontWeight: "bold",
+        fontFamily: fonts.mainBold,
     },
     messageText: {
         alignSelf: "center",
         textAlign: "center",
         fontSize: 21,
-        fontWeight: "bold",
         marginTop: "40%",
         marginLeft: "10%",
         marginRight: "10%",
+        fontFamily: fonts.mainBold,
     },
     gif: {
         alignSelf: "center",

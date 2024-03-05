@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 
-import { colors } from "@/consts/styles";
+import { colors, fonts } from "@/consts/styles";
 
 export const accountStyles = StyleSheet.create({
     container: {
@@ -28,15 +28,18 @@ export const accountStyles = StyleSheet.create({
     text: {
         textAlign: "center",
         fontSize: 18,
+        fontFamily: fonts.main,
     },
     header: {
         fontSize: 20,
         alignSelf: "center",
+        fontFamily: fonts.main,
     },
     textInput: {
         fontSize: 18,
         color: colors.darkGrey,
         flex: 1,
+        fontFamily: fonts.main,
     },
     inputContainer: {
         backgroundColor: colors.darkWhite,
@@ -55,5 +58,6 @@ export const accountStyles = StyleSheet.create({
         color: colors.blue,
         fontSize: 16,
         textDecorationLine: "underline",
+        fontFamily: fonts.main,
     },
 });

@@ -1,13 +1,13 @@
 import { StyleSheet } from "react-native";
 
-import { colors } from "@/consts/styles";
+import { colors, fonts } from "@/consts/styles";
 
 export const setUserReviewPageStyles = StyleSheet.create({
     text: {
         fontSize: 16,
-        fontWeight: "bold",
         paddingVertical: 8,
         paddingHorizontal: 10,
+        fontFamily: fonts.mainBold,
     },
     ratingsContainer: {
         height: 40,
@@ -22,5 +22,6 @@ export const setUserReviewPageStyles = StyleSheet.create({
         fontSize: 16,
         textDecorationLine: "underline",
         paddingTop: 40,
+        fontFamily: fonts.main,
     },
 });

@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 
-import { colors } from "@/consts/styles";
+import { colors, fonts } from "@/consts/styles";
 
 export const changePasswordPageStyles = StyleSheet.create({
     viewContainer: {
@@ -21,7 +21,7 @@ export const changePasswordPageStyles = StyleSheet.create({
     popupText: {
         color: colors.black,
         fontSize: 16,
-        fontWeight: "bold",
         textAlign: "center",
+        fontFamily: fonts.mainBold,
     },
 });

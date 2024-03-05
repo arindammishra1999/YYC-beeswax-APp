@@ -1,5 +1,7 @@
 import { StyleSheet } from "react-native";
 
+import { fonts } from "@/consts/styles";
+
 export const headerStyles = StyleSheet.create({
     header: {
         flexDirection: "row",
@@ -10,9 +12,9 @@ export const headerStyles = StyleSheet.create({
     },
     headerText: {
         fontSize: 22,
-        fontWeight: "bold",
         flex: 0.8,
         textAlign: "center",
+        fontFamily: fonts.mainBold,
     },
     backButton: { position: "absolute", left: 10 },
 });

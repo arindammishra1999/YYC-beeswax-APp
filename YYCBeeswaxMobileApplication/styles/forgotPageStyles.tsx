@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 
-import { colors } from "@/consts/styles";
+import { colors, fonts } from "@/consts/styles";
 
 export const forgotPageStyles = StyleSheet.create({
     container: {
@@ -23,5 +23,6 @@ export const forgotPageStyles = StyleSheet.create({
     text: {
         textAlign: "center",
         fontSize: 18,
+        fontFamily: fonts.main,
     },
 });
