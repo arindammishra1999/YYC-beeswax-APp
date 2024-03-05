@@ -1,5 +1,6 @@
 import { StyleSheet } from "react-native";
 
+import { fonts } from "@/consts/styles";
 import { viewportWidth } from "@/consts/viewport";
 
 export const quizPageStyles = StyleSheet.create({
@@ -14,9 +15,9 @@ export const quizPageStyles = StyleSheet.create({
         flex: 1,
     },
     title: {
-        fontWeight: "bold",
         fontSize: 32,
         textAlign: "center",
+        fontFamily: fonts.mainBold,
     },
     details: {
         flexDirection: "row",
@@ -35,8 +36,8 @@ export const quizPageStyles = StyleSheet.create({
         borderRadius: 20,
     },
     questionTitle: {
-        fontWeight: "bold",
         fontSize: 24,
+        fontFamily: fonts.mainBold,
     },
     answerContainer: {
         flexDirection: "row",
@@ -72,6 +73,7 @@ export const quizPageStyles = StyleSheet.create({
     answer: {
         fontSize: 18,
         textAlign: "center",
+        fontFamily: fonts.main,
     },
     nextButton: {
         justifyContent: "flex-end",

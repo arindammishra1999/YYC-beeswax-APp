@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 
-import { colors } from "@/consts/styles";
+import { colors, fonts } from "@/consts/styles";
 
 export const buttonStyles = StyleSheet.create({
     button: {
@@ -14,5 +14,6 @@ export const buttonStyles = StyleSheet.create({
         color: colors.black,
         fontSize: 16,
         fontWeight: "bold",
+        fontFamily: fonts.mainBold,
     },
 });

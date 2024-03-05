@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 
-import { colors } from "@/consts/styles";
+import { colors, fonts } from "@/consts/styles";
 
 export const loginPopupStyles = StyleSheet.create({
     viewContainer: {
@@ -22,9 +22,9 @@ export const loginPopupStyles = StyleSheet.create({
         paddingHorizontal: 40,
         color: colors.black,
         fontSize: 16,
-        fontWeight: "bold",
         marginBottom: 30,
         textAlign: "center",
+        fontFamily: fonts.mainBold,
     },
     buttonContainer: {
         width: 300,
@@ -41,6 +41,6 @@ export const loginPopupStyles = StyleSheet.create({
     buttonTextStyle: {
         color: colors.black,
         fontSize: 16,
-        fontWeight: "bold",
+        fontFamily: fonts.mainBold,
     },
 });

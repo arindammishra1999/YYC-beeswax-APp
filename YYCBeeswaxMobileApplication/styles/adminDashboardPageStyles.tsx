@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 
-import { colors } from "@/consts/styles";
+import { colors, fonts } from "@/consts/styles";
 
 export const adminDashboardPageStyles = StyleSheet.create({
     page: {
@@ -20,6 +20,7 @@ export const adminDashboardPageStyles = StyleSheet.create({
         fontSize: 22,
         fontWeight: "500",
         paddingBottom: 3.5,
+        fontFamily: fonts.main,
     },
     button: {
         width: "35%",
@@ -46,27 +47,27 @@ export const adminDashboardPageStyles = StyleSheet.create({
     },
     overviewText: {
         color: colors.mediumGrey,
-        fontWeight: "bold",
         fontSize: 12,
+        fontFamily: fonts.mainBold,
     },
     figure: {
         alignItems: "center",
         justifyContent: "center",
     },
     figureText: {
-        fontWeight: "900",
         fontSize: 35,
+        fontFamily: fonts.mainBold,
     },
     arrow: {
         fontSize: 20,
-        fontWeight: "bold",
+        fontFamily: fonts.mainBold,
     },
     change: {
-        fontWeight: "bold",
         alignSelf: "flex-start",
         borderRadius: 4,
         paddingHorizontal: 5,
         overflow: "hidden",
+        fontFamily: fonts.mainBold,
     },
     changePositive: {
         backgroundColor: colors.greenTransparent,
@@ -119,6 +120,7 @@ export const adminDashboardPageStyles = StyleSheet.create({
         alignSelf: "center",
         maxWidth: 140,
         flexWrap: "wrap",
+        fontFamily: fonts.main,
     },
     productInfo: {
         flexDirection: "row",
@@ -127,7 +129,7 @@ export const adminDashboardPageStyles = StyleSheet.create({
     productEarnings: {
         fontSize: 16,
         alignSelf: "center",
-        fontWeight: "700",
+        fontFamily: fonts.mainBold,
     },
     graphContainer: {
         width: "90%",

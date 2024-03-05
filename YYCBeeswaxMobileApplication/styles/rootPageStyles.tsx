@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 
-import { colors } from "@/consts/styles";
+import { colors, fonts } from "@/consts/styles";
 
 export const rootPageStyles = StyleSheet.create({
     imageContainer: {
@@ -32,8 +32,10 @@ export const rootPageStyles = StyleSheet.create({
         fontSize: 16,
         color: colors.blue,
         textDecorationLine: "underline",
+        fontFamily: fonts.main,
     },
     signupText: {
         fontSize: 16,
+        fontFamily: fonts.main,
     },
 });

@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 
-import { colors } from "@/consts/styles";
+import { colors, fonts } from "@/consts/styles";
 
 export const itemCardStyles = StyleSheet.create({
     cardContainer: {
@@ -27,14 +27,15 @@ export const itemCardStyles = StyleSheet.create({
     },
     title: {
         alignSelf: "center",
-        fontWeight: "bold",
         marginTop: 5,
         width: 150,
         textAlign: "center",
+        fontFamily: fonts.mainBold,
     },
     price: {
         alignSelf: "center",
         fontWeight: "bold",
         marginVertical: 5,
+        fontFamily: fonts.mainBold,
     },
 });

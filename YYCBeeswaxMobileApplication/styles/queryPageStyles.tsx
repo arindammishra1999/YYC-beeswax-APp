@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 
-import { colors } from "@/consts/styles";
+import { colors, fonts } from "@/consts/styles";
 import { viewportWidth } from "@/consts/viewport";
 
 export const queryPageStyles = StyleSheet.create({
@@ -19,10 +19,10 @@ export const queryPageStyles = StyleSheet.create({
         alignSelf: "center",
         textAlign: "center",
         fontSize: 21,
-        fontWeight: "bold",
         marginTop: "40%",
         marginLeft: "10%",
         marginRight: "10%",
+        fontFamily: fonts.mainBold,
     },
     button: {
         backgroundColor: colors.yellow,
@@ -37,6 +37,6 @@ export const queryPageStyles = StyleSheet.create({
     buttonText: {
         color: colors.black,
         fontSize: 16,
-        fontWeight: "bold",
+        fontFamily: fonts.mainBold,
     },
 });
