@@ -68,14 +68,14 @@ const LanguageSelectionPage = () => {
     };
 
     const showChangesSavedMesssage = () =>
-        Alert.alert("Success!", "Your changes have been saved.", [
-            { text: "OK" },
-        ]);
+        Alert.alert(t("Success"), t("ChangesSaved"), [{ text: t("ok") }]);
 
     const handleConfirmChange = async () => {
         await SecureStore.setItemAsync("language", selectedLanguage);
         const languageCode = languageMap[selectedLanguage];
         i18n.changeLanguage(languageCode);
+        showChangesSavedMesssage();
+        setChangesMade(false);
     };
 
     useEffect(() => {
@@ -90,22 +90,18 @@ const LanguageSelectionPage = () => {
 
     const handleBackPress = () => {
         if (changesMade) {
-            Alert.alert(
-                "Discard Changes?",
-                "You have unsaved changes. Are you sure you want to discard them and leave this screen?",
-                [
-                    {
-                        text: "Don't Leave",
-                        style: "cancel",
-                        onPress: () => {},
-                    },
-                    {
-                        text: "Discard",
-                        style: "destructive",
-                        onPress: () => router.back(),
-                    },
-                ],
-            );
+            Alert.alert(t("discardChanges"), t("unsavedChanges"), [
+                {
+                    text: t("dontLeave"),
+                    style: "cancel",
+                    onPress: () => {},
+                },
+                {
+                    text: t("discard"),
+                    style: "destructive",
+                    onPress: () => router.back(),
+                },
+            ]);
         } else {
             router.back();
         }
@@ -113,10 +109,10 @@ const LanguageSelectionPage = () => {
 
     return (
         <View style={mainStyles.container}>
-            <WarningHeader header="Language" onPress={handleBackPress} />
+            <WarningHeader header={t("language")} onPress={handleBackPress} />
             <View>
                 <Text style={languagePageStyles.sectionHeader}>
-                    Available Languages
+                    {t("availableLanguages")}
                 </Text>
             </View>
             <ScrollView style={languagePageStyles.languageList}>
