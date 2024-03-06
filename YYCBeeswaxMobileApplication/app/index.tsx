@@ -5,6 +5,7 @@ import i18n from "i18next";
 import React from "react";
 import { initReactI18next } from "react-i18next";
 import { Text, TouchableOpacity, View } from "react-native";
+import "intl-pluralrules";
 
 import Button from "@/components/button";
 import LandingCarousel from "@/components/landingCarousel";
