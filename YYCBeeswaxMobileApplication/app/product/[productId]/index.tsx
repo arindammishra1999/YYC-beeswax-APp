@@ -1,6 +1,7 @@
 import { Image } from "expo-image";
 import { router, useLocalSearchParams } from "expo-router";
 import * as SecureStore from "expo-secure-store";
+import { Timestamp } from "firebase/firestore";
 import React, { Suspense, useEffect, useState } from "react";
 import { ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
@@ -8,6 +9,7 @@ import { Dropdown } from "react-native-element-dropdown";
 import Header from "@/components/header";
 import Popup from "@/components/popup";
 import Reviews from "@/components/product/reviews";
+import { fonts } from "@/consts/styles";
 import { getProductDataById } from "@/firebase/getCollections/getProductByID";
 import { useReviews } from "@/firebase/providers/reviewsProvider";
 import { mainStyles } from "@/styles/mainStyles";
@@ -56,6 +58,7 @@ export default function Product() {
         price: 0,
         stock: 0,
         url: undefined,
+        lastUpdated: Timestamp.fromDate(new Date()),
     });
     const [quantity, setQuantity] = useState(1);
     const [selectedVariant, setSelectedVariant] = useState<string>();
@@ -174,6 +177,7 @@ export default function Product() {
                                     onChange={({ value }) => {
                                         setSelectedVariant(value);
                                     }}
+                                    fontFamily={fonts.main}
                                 />
                             </View>
                         )}

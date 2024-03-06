@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 
-import { colors } from "@/consts/styles";
+import { colors, fonts } from "@/consts/styles";
 
 export const cartProductCardStyles = StyleSheet.create({
     cardContainer: {
@@ -38,9 +38,9 @@ export const cartProductCardStyles = StyleSheet.create({
         width: "100%",
         flex: 1,
         fontSize: 16,
-        fontWeight: "bold",
         color: colors.darkGrey,
         flexWrap: "wrap",
+        fontFamily: fonts.mainBold,
     },
 
     subInfoContainer: {
@@ -51,9 +51,9 @@ export const cartProductCardStyles = StyleSheet.create({
     },
     price: {
         fontSize: 18,
-        fontWeight: "bold",
         color: colors.black,
         marginRight: 25,
+        fontFamily: fonts.mainBold,
     },
     productQuantitySection: {
         alignSelf: "flex-end",
@@ -63,6 +63,7 @@ export const cartProductCardStyles = StyleSheet.create({
     productQuantity: {
         fontSize: 16,
         alignSelf: "center",
+        fontFamily: fonts.main,
     },
     quantityButton: {
         backgroundColor: colors.yellow,
@@ -75,5 +76,6 @@ export const cartProductCardStyles = StyleSheet.create({
     quantityButtonText: {
         color: colors.black,
         fontSize: 18,
+        fontFamily: fonts.main,
     },
 });

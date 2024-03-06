@@ -27,7 +27,7 @@ export function QuizEndScreen({ title, description, imageURI, onEnd }: Props) {
             />
             <View style={quizPageStyles.container}>
                 <Text style={quizPageStyles.title}>{title}</Text>
-                <Text>{description}</Text>
+                <Text style={quizPageStyles.bodyText}>{description}</Text>
                 <View style={quizPageStyles.nextButton}>
                     <Button title="Back to Quizzes" onPress={onEnd} />
                 </View>

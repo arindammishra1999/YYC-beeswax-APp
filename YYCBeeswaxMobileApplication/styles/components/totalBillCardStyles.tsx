@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 
-import { colors } from "@/consts/styles";
+import { colors, fonts } from "@/consts/styles";
 import { viewportHeight } from "@/consts/viewport";
 
 export const totalBillCardStyles = StyleSheet.create({
@@ -32,21 +32,22 @@ export const totalBillCardStyles = StyleSheet.create({
     label: {
         fontSize: 14,
         marginVertical: 6,
+        fontFamily: fonts.main,
     },
     value: {
         fontSize: 16,
-        fontWeight: "bold",
         marginBottom: 8,
+        fontFamily: fonts.mainBold,
     },
     totalLabel: {
         fontSize: 18,
-        fontWeight: "bold",
         marginTop: 6,
+        fontFamily: fonts.mainBold,
     },
     totalValue: {
         fontSize: 18,
-        fontWeight: "bold",
         marginBottom: 0,
+        fontFamily: fonts.mainBold,
     },
 
     horizontalLine: {
@@ -65,6 +66,6 @@ export const totalBillCardStyles = StyleSheet.create({
     buttonText: {
         color: colors.black,
         fontSize: 16,
-        fontWeight: "bold",
+        fontFamily: fonts.mainBold,
     },
 });
