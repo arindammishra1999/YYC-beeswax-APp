@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 
 import { colors, fonts } from "@/consts/styles";
-import { viewportHeight } from "@/consts/viewport";
+import { viewportWidth } from "@/consts/viewport";
 
 export const adminDiscountPageStyles = StyleSheet.create({
     spinnerOverlay: {
@@ -36,23 +36,23 @@ export const adminDiscountPageStyles = StyleSheet.create({
     },
 
     popupView: {
-        marginHorizontal: 30,
         backgroundColor: colors.white,
         borderRadius: 20,
         paddingVertical: 15,
         justifyContent: "center",
+        alignSelf: "center",
         shadowColor: colors.black,
         shadowOpacity: 0.25,
         shadowRadius: 10,
         elevation: 3,
-        width: viewportHeight * 0.4,
-        minHeight: viewportHeight * 0.34,
+        width: viewportWidth * 0.88,
+        height: 300,
     },
 
     header: {
         backgroundColor: colors.white,
-        height: 100,
-        paddingVertical: "3%",
+        height: 110,
+        paddingTop: "3%",
         paddingHorizontal: "5%",
     },
 
@@ -62,6 +62,16 @@ export const adminDiscountPageStyles = StyleSheet.create({
         justifyContent: "space-between",
         width: "100%",
         alignItems: "center",
+    },
+
+    popupHeaderContainer: {
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        flexDirection: "row",
+        width: "90%",
+        paddingVertical: 15,
+        marginHorizontal: "5%",
     },
 
     headerButtonContainer: {

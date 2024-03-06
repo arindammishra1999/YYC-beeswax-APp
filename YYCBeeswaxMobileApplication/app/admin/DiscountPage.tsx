@@ -207,7 +207,10 @@ export default function DiscountPage() {
                     </View>
                 </View>
             </View>
-            <ScrollView style={adminDashboardPageStyles.page}>
+            <ScrollView
+                style={adminDashboardPageStyles.page}
+                keyboardShouldPersistTaps="always"
+            >
                 <View style={adminDiscountPageStyles.cardContainer}>
                     <View style={adminDashboardPageStyles.headerContainer}>
                         <Text style={adminDashboardPageStyles.headerTitle}>
@@ -270,7 +273,9 @@ export default function DiscountPage() {
                         </TouchableWithoutFeedback>
                         <View style={adminDiscountPageStyles.popupView}>
                             <View
-                                style={adminDashboardPageStyles.headerContainer}
+                                style={
+                                    adminDiscountPageStyles.popupHeaderContainer
+                                }
                             >
                                 <Text
                                     style={adminDashboardPageStyles.headerTitle}
