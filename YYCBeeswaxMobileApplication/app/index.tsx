@@ -1,14 +1,32 @@
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { Image } from "expo-image";
 import { Redirect, router } from "expo-router";
+import i18n from "i18next";
 import React from "react";
+import { initReactI18next } from "react-i18next";
 import { Text, TouchableOpacity, View } from "react-native";
 
 import Button from "@/components/button";
 import LandingCarousel from "@/components/landingCarousel";
 import { useUser } from "@/firebase/providers/userProvider";
+import enTranslation from "@/locales/en.json";
+import esTranslation from "@/locales/es.json";
+import frTranslation from "@/locales/fr.json";
 import { mainStyles } from "@/styles/mainStyles";
 import { rootPageStyles } from "@/styles/rootPageStyles";
+
+i18n.use(initReactI18next).init({
+    resources: {
+        en: { translation: enTranslation },
+        fr: { translation: frTranslation },
+        es: { translation: esTranslation },
+    },
+    lng: "en", // Default language
+    fallbackLng: "en", // Fallback language if translation is missing
+    interpolation: {
+        escapeValue: false, // React already handles escaping
+    },
+});
 
 export default function App() {
     const { user, isAdmin } = useUser();

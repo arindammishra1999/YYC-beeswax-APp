@@ -1,6 +1,7 @@
 import { router } from "expo-router";
 import * as SecureStore from "expo-secure-store";
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Alert, ScrollView, Text, TouchableOpacity, View } from "react-native";
 
 import WarningHeader from "@/components/warningHeader";
@@ -8,6 +9,7 @@ import { languagePageStyles } from "@/styles/languagePageStyles";
 import { mainStyles } from "@/styles/mainStyles";
 
 const LanguageSelectionPage = () => {
+    const { t, i18n } = useTranslation();
     const [selectedLanguage, setSelectedLanguage] = useState("English");
     const [changesMade, setChangesMade] = useState(false);
     const availableLanguages = [
@@ -27,20 +29,53 @@ const LanguageSelectionPage = () => {
         "Tiếng Việt (Vietnamese)",
     ];
 
+    type LanguageName =
+        | "English"
+        | "Nederlands (Dutch)"
+        | "Français (French)"
+        | "Deutsch (German)"
+        | "हिंदी (Hindi)"
+        | "Italiano (Italian)"
+        | "日本語 (Japanese)"
+        | "한국인 (Korean)"
+        | "普通话 (Mandarin)"
+        | "Português (Portuguese)"
+        | "Русский (Russian)"
+        | "Español (Spanish)"
+        | "Türkçe (Turkish)"
+        | "Tiếng Việt (Vietnamese)";
+
+    const languageMap: Record<LanguageName, string> = {
+        English: "en",
+        "Nederlands (Dutch)": "nl",
+        "Français (French)": "fr",
+        "Deutsch (German)": "de",
+        "हिंदी (Hindi)": "hi",
+        "Italiano (Italian)": "it",
+        "日本語 (Japanese)": "ja",
+        "한국인 (Korean)": "ko",
+        "普通话 (Mandarin)": "zh",
+        "Português (Portuguese)": "pt",
+        "Русский (Russian)": "ru",
+        "Español (Spanish)": "es",
+        "Türkçe (Turkish)": "tr",
+        "Tiếng Việt (Vietnamese)": "vi",
+    };
+
+    const handleLanguageChange = (language: string) => {
+        setSelectedLanguage(language);
+        setChangesMade(true);
+    };
+
     const showChangesSavedMesssage = () =>
         Alert.alert("Success!", "Your changes have been saved.", [
             { text: "OK" },
         ]);
 
-    const handleLanguageChange = (language: string) => {
-        setChangesMade(true);
-        setSelectedLanguage(language);
-    };
-
     const handleConfirmChange = async () => {
         await SecureStore.setItemAsync("language", selectedLanguage);
-        showChangesSavedMesssage();
-        setChangesMade(false);
+        const languageCode = languageMap[selectedLanguage];
+        i18n.changeLanguage(languageCode);
     };
 
     useEffect(() => {
@@ -125,7 +160,7 @@ const LanguageSelectionPage = () => {
                     disabled={!changesMade}
                 >
                     <Text style={languagePageStyles.buttonText}>
-                        Save Changes
+                        {t("saveChangesButton")}
                     </Text>
                 </TouchableOpacity>
             </View>

@@ -1,0 +1,9 @@
+{
+  "devDependencies": {
+    "i18next-scanner": "^4.4.0"
+  },
+  "dependencies": {
+    "i18next": "^23.10.0",
+    "react-i18next": "^14.0.5"
+  }
+}
