@@ -67,7 +67,9 @@ function QuizCard({ quiz }: { quiz: IQuiz }) {
                         <Text style={quizzesPageStyles.title}>
                             {quiz.title}
                         </Text>
-                        <Text>{quiz.type} Quiz</Text>
+                        <Text style={quizzesPageStyles.subText}>
+                            {quiz.type} Quiz
+                        </Text>
                     </View>
                     {isAdmin && (
                         <TouchableOpacity
@@ -88,7 +90,7 @@ function QuizCard({ quiz }: { quiz: IQuiz }) {
                     )}
                 </View>
                 <View style={quizzesPageStyles.detailsContainer}>
-                    <Text>
+                    <Text style={quizzesPageStyles.subText}>
                         {DateTime.fromJSDate(
                             quiz.created.toDate(),
                         ).toRelative()}
