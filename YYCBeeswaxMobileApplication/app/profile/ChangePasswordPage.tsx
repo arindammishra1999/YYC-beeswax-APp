@@ -6,6 +6,7 @@ import {
     updatePassword,
 } from "firebase/auth";
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
     Keyboard,
     Modal,
@@ -23,6 +24,7 @@ import { accountStyles } from "@/styles/accountStyles";
 import { changePasswordPageStyles } from "@/styles/changePasswordPageStyles";
 
 export default function ChangePasswordPage() {
+    const { t } = useTranslation();
     const [currentPassword, setCurrentPassword] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
@@ -91,7 +93,7 @@ export default function ChangePasswordPage() {
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View style={accountStyles.container}>
-                <Header header="Change Password" />
+                <Header header={t("Change Password")} />
                 <ScrollView contentContainerStyle={accountStyles.formContainer}>
                     <View style={accountStyles.form}>
                         <Fontisto
@@ -104,14 +106,14 @@ export default function ChangePasswordPage() {
                             Please enter your new password.
                         </Text>
                         <HideableInput
-                            label="New Password"
-                            placeholder="Enter New Password"
+                            label={t("New Password")}
+                            placeholder={t("Enter New Password")}
                             value={password}
                             onChangeText={setPassword}
                         />
                         <HideableInput
-                            label="Confirm New Password"
-                            placeholder="Renter New Password"
+                            label={t("Confirm New Password")}
+                            placeholder={t("Renter New Password")}
                             value={confirmPassword}
                             onChangeText={setConfirmPassword}
                         />
@@ -119,7 +121,7 @@ export default function ChangePasswordPage() {
                             <Text style={accountStyles.error}>{error}</Text>
                         )}
                     </View>
-                    <Button title="Confirm" onPress={changePassword} />
+                    <Button title={t("Confirm")} onPress={changePassword} />
                 </ScrollView>
                 <Modal
                     animationType="slide"
@@ -134,7 +136,10 @@ export default function ChangePasswordPage() {
                             <Text style={changePasswordPageStyles.popupText}>
                                 Password reset successful!
                             </Text>
-                            <Button title="Confirm" onPress={returnToHome} />
+                            <Button
+                                title={t("Confirm")}
+                                onPress={returnToHome}
+                            />
                         </View>
                     </View>
                 </Modal>
@@ -153,13 +158,13 @@ export default function ChangePasswordPage() {
                                 verification.
                             </Text>
                             <HideableInput
-                                label="Old Password"
-                                placeholder="Enter Old Password"
+                                label={t("Old Password")}
+                                placeholder={t("Enter Old Password")}
                                 value={currentPassword}
                                 onChangeText={setCurrentPassword}
                             />
                             <Button
-                                title="Confirm"
+                                title={t("Confirm")}
                                 onPress={changePasswordWithRelogin}
                             />
                         </View>
