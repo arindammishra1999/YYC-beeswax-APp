@@ -64,6 +64,7 @@ interface IProduct {
     price: number;
     stock: number;
     url?: string;
+    lastUpdated: firebase.firestore.Timestamp;
 }
 
 interface IReview {

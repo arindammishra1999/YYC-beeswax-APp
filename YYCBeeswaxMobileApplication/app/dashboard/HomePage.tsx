@@ -1,4 +1,5 @@
 import Feather from "@expo/vector-icons/Feather";
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { Image } from "expo-image";
 import { router } from "expo-router";
 import React, { useCallback, useEffect, useState } from "react";
@@ -11,21 +12,51 @@ import {
 } from "react-native";
 
 import CategoryCard from "@/components/cards/categoryCard";
-import ItemCard from "@/components/cards/itemCard";
+import ItemCard, { LoadingItemCard } from "@/components/cards/itemCard";
 import { colors } from "@/consts/styles";
 import { getProductData } from "@/firebase/getCollections/getProducts";
+import { shuffleArray } from "@/lib/utility";
 import { homePageStyles } from "@/styles/homePageStyles";
 import { mainStyles } from "@/styles/mainStyles";
 
 export let searchTerm: string = "";
 
+function LoadingItemCardList() {
+    return (
+        <>
+            <LoadingItemCard />
+            <LoadingItemCard />
+            <LoadingItemCard />
+        </>
+    );
+}
+
 export default function HomePage() {
-    const [allProducts, setAllProducts] = useState([] as any);
+    const [allProducts, setAllProducts] = useState<
+        { id: string; data: IProduct }[]
+    >([]);
     const [searchQuery, setSearchQuery] = useState("");
     const [refreshing, setRefreshing] = useState(false);
+    const [loading, setLoading] = useState(true);
+
+    const sortedByRating = [...allProducts].sort((a, b) => {
+        return (b.data.reviews?.avg ?? 0) - (a.data.reviews?.avg ?? 0);
+    });
+    const shuffled = shuffleArray([...allProducts]);
+    const sortedByDate = [...allProducts].sort((a, b) => {
+        return a.data.lastUpdated - b.data.lastUpdated;
+    });
+
+    async function setAllProductData() {
+        const products = await getProductData();
+        setAllProducts(products);
+    }
 
     useEffect(() => {
-        setAllProductData();
+        (async () => {
+            await setAllProductData();
+            setLoading(false);
+        })();
     }, []);
 
     const onRefresh = useCallback(() => {
@@ -36,15 +67,50 @@ export default function HomePage() {
         }, 2000);
     }, []);
 
-    const setAllProductData = () => {
-        getProductData().then((products) => {
-            if (products) {
-                setAllProducts(products);
-            } else {
-                console.log("Issue getting products");
-            }
-        });
-    };
+    if (!loading && allProducts.length == 0) {
+        return (
+            <View style={mainStyles.container}>
+                <ScrollView
+                    contentContainerStyle={{ minHeight: "100%" }}
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={refreshing}
+                            onRefresh={onRefresh}
+                            tintColor={colors.yellow}
+                        />
+                    }
+                >
+                    <View style={homePageStyles.container}>
+                        <Image
+                            contentFit="contain"
+                            source={require("@/assets/YYCBeeswaxFullLogo.png")}
+                            style={homePageStyles.logo}
+                        />
+                        <View
+                            style={{
+                                flex: 1,
+                                justifyContent: "center",
+                                alignItems: "center",
+                                gap: 30,
+                            }}
+                        >
+                            <MaterialIcons
+                                name="error-outline"
+                                size={150}
+                                color="gray"
+                            />
+                            <Text style={{ fontSize: 24, fontWeight: "bold" }}>
+                                Error Loading Products:
+                            </Text>
+                            <Text style={{ fontSize: 18, textAlign: "center" }}>
+                                Please check your internet connection
+                            </Text>
+                        </View>
+                    </View>
+                </ScrollView>
+            </View>
+        );
+    }
 
     return (
         <View style={mainStyles.container}>
@@ -105,15 +171,19 @@ export default function HomePage() {
                             horizontal
                             showsHorizontalScrollIndicator={false}
                         >
-                            {allProducts.map((product: any) => (
-                                <ItemCard
-                                    key={product.id}
-                                    id={product.id}
-                                    image={product.data.url}
-                                    title={product.data.name}
-                                    price={product.data.price}
-                                />
-                            ))}
+                            {loading ? (
+                                <LoadingItemCardList />
+                            ) : (
+                                sortedByDate.map((product: any) => (
+                                    <ItemCard
+                                        key={product.id}
+                                        id={product.id}
+                                        image={product.data.url}
+                                        title={product.data.name}
+                                        price={product.data.price}
+                                    />
+                                ))
+                            )}
                         </ScrollView>
                     </View>
                     <Text style={homePageStyles.headerText}>Best Sellers</Text>
@@ -122,15 +192,19 @@ export default function HomePage() {
                             horizontal
                             showsHorizontalScrollIndicator={false}
                         >
-                            {allProducts.map((product: any) => (
-                                <ItemCard
-                                    key={product.id}
-                                    id={product.id}
-                                    image={product.data.url}
-                                    title={product.data.name}
-                                    price={product.data.price}
-                                />
-                            ))}
+                            {loading ? (
+                                <LoadingItemCardList />
+                            ) : (
+                                sortedByRating.map((product: any) => (
+                                    <ItemCard
+                                        key={product.id}
+                                        id={product.id}
+                                        image={product.data.url}
+                                        title={product.data.name}
+                                        price={product.data.price}
+                                    />
+                                ))
+                            )}
                         </ScrollView>
                     </View>
                     <Text style={homePageStyles.headerText}>
@@ -141,15 +215,19 @@ export default function HomePage() {
                             horizontal
                             showsHorizontalScrollIndicator={false}
                         >
-                            {allProducts.map((product: any) => (
-                                <ItemCard
-                                    key={product.id}
-                                    id={product.id}
-                                    image={product.data.url}
-                                    title={product.data.name}
-                                    price={product.data.price}
-                                />
-                            ))}
+                            {loading ? (
+                                <LoadingItemCardList />
+                            ) : (
+                                shuffled.map((product: any) => (
+                                    <ItemCard
+                                        key={product.id}
+                                        id={product.id}
+                                        image={product.data.url}
+                                        title={product.data.name}
+                                        price={product.data.price}
+                                    />
+                                ))
+                            )}
                         </ScrollView>
                     </View>
                 </View>

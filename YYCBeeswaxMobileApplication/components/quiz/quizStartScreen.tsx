@@ -28,15 +28,19 @@ export function QuizStartScreen({ quiz, onStart, imageURI }: Props) {
                 <Text style={quizPageStyles.title}>{quiz?.title}</Text>
                 <View style={quizPageStyles.details}>
                     <View style={quizPageStyles.stats}>
-                        <Text>Played</Text>
-                        <Text>{quiz?.plays}</Text>
+                        <Text style={quizPageStyles.bodyText}>Played</Text>
+                        <Text style={quizPageStyles.bodyText}>
+                            {quiz?.plays}
+                        </Text>
                     </View>
                     <View style={quizPageStyles.stats}>
-                        <Text>Questions</Text>
-                        <Text>{quiz.questions.length}</Text>
+                        <Text style={quizPageStyles.bodyText}>Questions</Text>
+                        <Text style={quizPageStyles.bodyText}>
+                            {quiz.questions.length}
+                        </Text>
                     </View>
                 </View>
-                <Text>{quiz?.description}</Text>
+                <Text style={quizPageStyles.bodyText}>{quiz?.description}</Text>
                 <View style={quizPageStyles.nextButton}>
                     <Button title="Start Quiz" onPress={onStart} />
                 </View>

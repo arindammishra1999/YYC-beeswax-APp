@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 
-import { colors } from "@/consts/styles";
+import { colors, fonts } from "@/consts/styles";
 
 export const cartPageStyles = StyleSheet.create({
     container: {
@@ -20,21 +20,27 @@ export const cartPageStyles = StyleSheet.create({
     buttonText: {
         color: colors.black,
         fontSize: 16,
-        fontWeight: "bold",
+        fontFamily: fonts.mainBold,
     },
     messageText: {
         alignSelf: "center",
         textAlign: "center",
         fontSize: 21,
-        fontWeight: "bold",
         marginTop: "30%",
         marginLeft: "10%",
         marginRight: "10%",
+        fontFamily: fonts.mainBold,
     },
     gif: {
         alignSelf: "center",
         marginTop: 10,
         height: 240,
         width: 320,
+    },
+
+    topImageContainer: {
+        alignSelf: "center",
+        width: 300,
+        height: 70,
     },
 });

@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 
-import { colors } from "@/consts/styles";
+import { colors, fonts } from "@/consts/styles";
 import { viewportWidth } from "@/consts/viewport";
 
 export const quizzesPageStyles = StyleSheet.create({
@@ -55,6 +55,7 @@ export const quizzesPageStyles = StyleSheet.create({
         borderBottomLeftRadius: 10,
         fontSize: 10,
         color: "white",
+        fontFamily: fonts.main,
     },
     textContainer: {
         flexDirection: "column",
@@ -76,6 +77,10 @@ export const quizzesPageStyles = StyleSheet.create({
     title: {
         fontWeight: "bold",
         fontSize: 20,
+        fontFamily: fonts.mainBold,
+    },
+    subText: {
+        fontFamily: fonts.main,
     },
     detailsContainer: {
         flexDirection: "row",
@@ -88,5 +93,6 @@ export const quizzesPageStyles = StyleSheet.create({
         paddingVertical: 5,
         borderRadius: 10,
         color: "white",
+        fontFamily: fonts.main,
     },
 });

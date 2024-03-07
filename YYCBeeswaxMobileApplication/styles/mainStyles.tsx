@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 
-import { colors } from "@/consts/styles";
+import { colors, fonts } from "@/consts/styles";
 
 export const mainStyles = StyleSheet.create({
     container: {
@@ -12,12 +12,13 @@ export const mainStyles = StyleSheet.create({
     },
     centerText: {
         textAlign: "center",
+        fontFamily: fonts.main,
     },
     disabled: {
         backgroundColor: "#ffd696",
     },
     bold: {
-        fontWeight: "bold",
+        fontFamily: fonts.mainBold,
     },
     spinnerOverlay: {
         position: "absolute",

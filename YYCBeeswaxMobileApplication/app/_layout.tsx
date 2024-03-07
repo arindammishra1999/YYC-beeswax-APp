@@ -1,3 +1,8 @@
+import {
+    useFonts,
+    Montserrat_400Regular,
+    Montserrat_700Bold,
+} from "@expo-google-fonts/montserrat"; // Import the font
 import { SplashScreen, Stack, usePathname } from "expo-router";
 import React, { useCallback, useEffect } from "react";
 import { BackHandler } from "react-native";
@@ -14,6 +19,10 @@ SplashScreen.preventAutoHideAsync();
 export default function RootLayout() {
     const { user, loading, isAdmin } = useAuth();
     const pathname = usePathname();
+    const [fontsLoaded] = useFonts({
+        Montserrat_400Regular,
+        Montserrat_700Bold,
+    });
 
     useEffect(() => {
         const backHandler = BackHandler.addEventListener(
@@ -23,13 +32,13 @@ export default function RootLayout() {
         return () => backHandler.remove();
     }, []);
 
-    const onLayoutRootView = useCallback(async () => {
+    const onLayoutRootView = useCallback(() => {
         if (!loading) {
             SplashScreen.hideAsync();
         }
     }, [loading]);
 
-    if (loading) {
+    if (!fontsLoaded || loading) {
         return null;
     }
 
