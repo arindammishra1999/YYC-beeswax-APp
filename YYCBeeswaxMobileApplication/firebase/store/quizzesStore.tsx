@@ -71,8 +71,11 @@ interface IQuizzesContext {
         id: string,
     ) => T | undefined;
     getMoreQuizzes: () => void;
-    updateQuiz: (id: string, quiz: IQuiz) => void;
-    createQuiz: (quiz: IQuiz) => void;
+    updateQuiz: <T extends IKnowledgeQuiz | IPersonalityQuiz>(
+        id: string,
+        quiz: T,
+    ) => void;
+    createQuiz: <T extends IKnowledgeQuiz | IPersonalityQuiz>(quiz: T) => void;
     playQuiz: (id: string) => void;
     deleteQuiz: (id: string) => void;
 }
@@ -97,7 +100,8 @@ export const useQuizzesStore = create<IQuizzesContext>()((set, get) => ({
     },
 
     updateQuiz: async (id: string, quiz: IQuiz) => {
-        setQuiz(id, quiz);
+        setQuiz(id, { ...quiz, created: serverTimestamp() });
+        quiz.created = Timestamp.fromDate(new Date());
         set((prev) => {
             const index = prev.quizzes.findIndex((value) => value.id == id);
             prev.quizzes[index] = quiz;

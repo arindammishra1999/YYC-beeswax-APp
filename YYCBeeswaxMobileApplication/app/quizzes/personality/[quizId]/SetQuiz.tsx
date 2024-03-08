@@ -12,6 +12,7 @@ import QuizResultCard from "@/components/cards/quizResultCard";
 import Header from "@/components/header";
 import Input from "@/components/input";
 import { useQuizzesStore } from "@/firebase/store/quizzesStore";
+import { accountStyles } from "@/styles/accountStyles";
 import { mainStyles } from "@/styles/mainStyles";
 import { setQuizPageStyles } from "@/styles/setQuizPageStyles";
 
@@ -28,22 +29,193 @@ export default function SetQuiz() {
             ({
                 title: "",
                 description: "",
-                weights: {
-                    "Option 1": "",
-                    "Option 2": "",
-                },
                 questions: [],
                 type: "Personality",
             } as unknown as IPersonalityQuiz),
     );
+
+    const [weights, setWeights] = useState(() => {
+        const weights = quiz?.weights ?? {};
+        return Object.keys(weights).map((weight) => {
+            return { name: weight, description: weights[weight] };
+        });
+    });
+
+    const [selectedResultIndex, setSelectedResultIndex] = useState(-1);
+    const [selectedResultName, setSelectedResultName] = useState("");
+
     const [selectedQuestionIndex, setSelectedQuestionIndex] = useState(-1);
 
-    const [weights, setWeights] = useState(
-        Object.keys(updatedQuiz.weights).map((weight) => {
-            return { name: weight, description: updatedQuiz.weights[weight] };
-        }),
-    );
-    const [selectedResultIndex, setSelectedResultIndex] = useState(-1);
+    const [error, setError] = useState<string>();
+
+    function addResult() {
+        const name = `Option ${weights.length + 1}`;
+        setWeights((prev) => {
+            return [
+                ...prev,
+                {
+                    description: "",
+                    name,
+                },
+            ];
+        });
+        setUpdatedQuiz((prev) => {
+            prev = JSON.parse(JSON.stringify(prev));
+            prev.questions.forEach((question) => {
+                question.options.forEach((option) => {
+                    option.weights[name] = 0;
+                });
+            });
+            return prev;
+        });
+    }
+
+    function addQuestion() {
+        setUpdatedQuiz((prev) => {
+            prev.questions = [
+                ...prev.questions,
+                {
+                    question: "Question " + (prev.questions.length + 1),
+                    options: [],
+                },
+            ];
+            return { ...prev };
+        });
+    }
+
+    function saveQuiz() {
+        setError(undefined);
+        if (updatedQuiz.title == "") {
+            setError("Error: Title is Empty");
+            return;
+        }
+        if (updatedQuiz.description == "") {
+            setError("Error: Description is Empty");
+            return;
+        }
+
+        if (weights.length == 0) {
+            setError("Error: Results are Empty");
+            return;
+        }
+        for (let i = 0; i < weights.length; i++) {
+            const weight = weights[i];
+            if (weight.name == "") {
+                setError(`Error: Name of Option ${i + 1} is Empty`);
+                return;
+            }
+            if (weight.description == "") {
+                setError(`Error: Description of Option ${i + 1} is Empty`);
+                return;
+            }
+        }
+
+        if (updatedQuiz.questions.length == 0) {
+            setError("Error: Questions are Empty");
+            return;
+        }
+        for (let i = 0; i < updatedQuiz.questions.length; i++) {
+            const question = updatedQuiz.questions[i];
+            if (question.question == "") {
+                setError(`Error: Title of Question ${i + 1} is Empty`);
+                return;
+            }
+            if (question.options.length == 0) {
+                setError(`Error: Options of Question ${i + 1} are Empty`);
+                return;
+            }
+        }
+
+        const temp = updatedQuiz as IPersonalityQuiz;
+        temp.weights = {};
+        weights.forEach((weight) => {
+            temp.weights[weight.name] = weight.description;
+        });
+
+        if (quiz) {
+            updateQuiz(quizId, temp);
+        } else {
+            createQuiz(temp);
+        }
+        router.back();
+    }
+
+    function addOption() {
+        setUpdatedQuiz((prev) => {
+            const temp = {
+                value: "option",
+                weights: {} as {
+                    [key: string]: number;
+                },
+            };
+            weights.forEach((weight) => {
+                temp.weights[weight.name] = 0;
+            });
+            const question = prev.questions[selectedQuestionIndex];
+            question.options = [...question.options, temp];
+            return JSON.parse(JSON.stringify(prev));
+        });
+    }
+
+    function saveResult() {
+        setError("");
+        if (
+            weights.findIndex(
+                (value, index) =>
+                    index != selectedResultIndex &&
+                    value.name == selectedResultName,
+            ) != -1
+        ) {
+            setError("Error: Duplicate Option Name");
+            return;
+        }
+        const oldName = weights[selectedResultIndex].name;
+        setWeights((prev) => {
+            if (oldName == selectedResultName) {
+                return prev;
+            }
+            prev[selectedResultIndex].name = selectedResultName;
+            return [...prev];
+        });
+        setUpdatedQuiz((prev) => {
+            prev.questions.forEach((question) => {
+                question.options.forEach((option) => {
+                    option.weights[selectedResultName] =
+                        option.weights[oldName];
+                    delete option.weights[oldName];
+                });
+            });
+            return JSON.parse(JSON.stringify(prev));
+        });
+        setSelectedResultIndex(-1);
+    }
+
+    function deleteResult() {
+        setSelectedResultIndex(-1);
+        setWeights((prev) => {
+            const name = weights[selectedResultIndex].name;
+            setUpdatedQuiz((prev) => {
+                prev.questions.forEach((question) => {
+                    question.options.forEach((option) => {
+                        delete option.weights[name];
+                    });
+                });
+                return JSON.parse(JSON.stringify(prev));
+            });
+            prev = prev.filter((_, index) => index != selectedResultIndex);
+            return [...prev];
+        });
+    }
+
+    function deleteQuestion() {
+        setSelectedQuestionIndex(-1);
+        setUpdatedQuiz((prev) => {
+            prev.questions = prev.questions.filter(
+                (_, index) => index != selectedQuestionIndex,
+            );
+            return { ...prev };
+        });
+    }
 
     return (
         <View style={mainStyles.container}>
@@ -81,7 +253,10 @@ export default function SetQuiz() {
                             <QuizResultCard
                                 key={i}
                                 item={weight}
-                                onEdit={() => setSelectedResultIndex(i)}
+                                onEdit={() => {
+                                    setSelectedResultIndex(i);
+                                    setSelectedResultName(weight.name);
+                                }}
                             />
                         );
                     })}
@@ -91,18 +266,7 @@ export default function SetQuiz() {
                         setQuizPageStyles.linkButton,
                         setQuizPageStyles.addButton,
                     ]}
-                    onPress={() => {
-                        setWeights((prev) => {
-                            prev = [
-                                ...prev,
-                                {
-                                    description: "",
-                                    name: "Option " + (prev.length + 1),
-                                },
-                            ];
-                            return [...prev];
-                        });
-                    }}
+                    onPress={addResult}
                 >
                     Add Result
                 </Text>
@@ -132,33 +296,14 @@ export default function SetQuiz() {
                         setQuizPageStyles.linkButton,
                         setQuizPageStyles.addButton,
                     ]}
-                    onPress={() => {
-                        setUpdatedQuiz((prev) => {
-                            prev.questions = [
-                                ...prev.questions,
-                                {
-                                    question:
-                                        "Question " +
-                                        (prev.questions.length + 1),
-                                    options: [],
-                                },
-                            ];
-                            return { ...prev };
-                        });
-                    }}
+                    onPress={addQuestion}
                 >
                     Add Question
                 </Text>
+                {error && <Text style={accountStyles.error}>{error}</Text>}
                 <Button
                     title={quiz ? "Save Changes" : "Create"}
-                    onPress={() => {
-                        if (quiz) {
-                            updateQuiz(quizId, updatedQuiz);
-                        } else {
-                            createQuiz(updatedQuiz);
-                        }
-                        router.back();
-                    }}
+                    onPress={saveQuiz}
                 />
                 {quiz && (
                     <Button
@@ -189,9 +334,8 @@ export default function SetQuiz() {
                             <Input
                                 label="Question"
                                 value={
-                                    updatedQuiz?.questions[
-                                        selectedQuestionIndex
-                                    ].question
+                                    updatedQuiz.questions[selectedQuestionIndex]
+                                        .question
                                 }
                                 onChangeText={(value) =>
                                     setUpdatedQuiz((prev) => {
@@ -218,7 +362,7 @@ export default function SetQuiz() {
                                         }
                                     >
                                         <Input
-                                            label={"Option " + i}
+                                            label={"Option " + (i + 1)}
                                             value={option.value}
                                             onChangeText={(value) =>
                                                 setUpdatedQuiz((prev) => {
@@ -282,23 +426,7 @@ export default function SetQuiz() {
                                 .options.length < 4 && (
                                 <Text
                                     style={setQuizPageStyles.linkButton}
-                                    onPress={() => {
-                                        setUpdatedQuiz((prev) => {
-                                            const temp = {
-                                                value: "option",
-                                                weights: {} as {
-                                                    [key: string]: number;
-                                                },
-                                            };
-                                            weights.forEach((weight) => {
-                                                temp.weights[weight.name] = 0;
-                                            });
-                                            prev.questions[
-                                                selectedQuestionIndex
-                                            ].options.push(temp);
-                                            return { ...prev };
-                                        });
-                                    }}
+                                    onPress={addOption}
                                 >
                                     Add Option
                                 </Text>
@@ -312,16 +440,7 @@ export default function SetQuiz() {
                             <Button
                                 title="Delete Question"
                                 style={mainStyles.delete}
-                                onPress={() => {
-                                    setSelectedQuestionIndex(-1);
-                                    setUpdatedQuiz((prev) => {
-                                        prev.questions = prev.questions.filter(
-                                            (_, index) =>
-                                                index != selectedQuestionIndex,
-                                        );
-                                        return { ...prev };
-                                    });
-                                }}
+                                onPress={deleteQuestion}
                             />
                         </View>
                     </ScrollView>
@@ -344,12 +463,9 @@ export default function SetQuiz() {
                             </Text>
                             <Input
                                 label="Result Title"
-                                value={weights[selectedResultIndex].name}
+                                value={selectedResultName}
                                 onChangeText={(value) =>
-                                    setWeights((prev) => {
-                                        prev[selectedResultIndex].name = value;
-                                        return { ...prev };
-                                    })
+                                    setSelectedResultName(value)
                                 }
                                 placeholder=""
                                 autoCapitalize
@@ -361,7 +477,7 @@ export default function SetQuiz() {
                                     setWeights((prev) => {
                                         prev[selectedResultIndex].description =
                                             value;
-                                        return { ...prev };
+                                        return [...prev];
                                     })
                                 }
                                 placeholder=""
@@ -369,25 +485,14 @@ export default function SetQuiz() {
                                 multiline
                                 inputStyle={setQuizPageStyles.description}
                             />
+                            {error && (
+                                <Text style={accountStyles.error}>{error}</Text>
+                            )}
+                            <Button title="Confirm" onPress={saveResult} />
                             <Button
-                                title="Confirm"
-                                onPress={() => {
-                                    setSelectedResultIndex(-1);
-                                }}
-                            />
-                            <Button
-                                title="Delete Question"
+                                title="Delete Result"
                                 style={mainStyles.delete}
-                                onPress={() => {
-                                    setSelectedResultIndex(-1);
-                                    setWeights((prev) => {
-                                        prev = prev.filter(
-                                            (_, index) =>
-                                                index != selectedResultIndex,
-                                        );
-                                        return [...prev];
-                                    });
-                                }}
+                                onPress={deleteResult}
                             />
                         </View>
                     </ScrollView>

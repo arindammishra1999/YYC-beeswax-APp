@@ -11,6 +11,7 @@ import QuestionCard from "@/components/cards/questionCard";
 import Header from "@/components/header";
 import Input from "@/components/input";
 import { useQuizzesStore } from "@/firebase/store/quizzesStore";
+import { accountStyles } from "@/styles/accountStyles";
 import { mainStyles } from "@/styles/mainStyles";
 import { setQuizPageStyles } from "@/styles/setQuizPageStyles";
 
@@ -31,7 +32,10 @@ export default function SetQuiz() {
                 type: "Knowledge",
             } as unknown as IKnowledgeQuiz),
     );
+
     const [selectedQuestionIndex, setSelectedQuestionIndex] = useState(-1);
+
+    const [error, setError] = useState<string>();
 
     function addQuestion() {
         setUpdatedQuiz((prev) => {
@@ -57,6 +61,88 @@ export default function SetQuiz() {
                 (_, index) => index != selectedQuestionIndex,
             );
             return { ...prev };
+        });
+    }
+
+    function saveQuiz() {
+        setError(undefined);
+        if (updatedQuiz.title == "") {
+            setError("Error: Title is Empty");
+            return;
+        }
+        if (updatedQuiz.description == "") {
+            setError("Error: Description is Empty");
+            return;
+        }
+
+        if (updatedQuiz.questions.length == 0) {
+            setError("Error: Questions are Empty");
+            return;
+        }
+        for (let i = 0; i < updatedQuiz.questions.length; i++) {
+            const question = updatedQuiz.questions[i];
+            if (question.question == "") {
+                setError(`Error: Title of Question ${i + 1} is Empty`);
+                return;
+            }
+            if (question.correctAnswer == "") {
+                setError(`Error: Correct Answer of Question ${i + 1} is Empty`);
+                return;
+            }
+            if (question.incorrectAnswer1 == "") {
+                setError(
+                    `Error: Incorrect Answer 1 of Question ${i + 1} is Empty`,
+                );
+                return;
+            }
+            if (question.incorrectAnswer2 == "") {
+                setError(
+                    `Error: Incorrect Answer 2 of Question ${i + 1} is Empty`,
+                );
+                return;
+            }
+            if (question.incorrectAnswer3 == "") {
+                setError(
+                    `Error: Incorrect Answer 3 of Question ${i + 1} is Empty`,
+                );
+                return;
+            }
+        }
+
+        if (quiz) {
+            updateQuiz(quizId, updatedQuiz);
+        } else {
+            createQuiz(updatedQuiz);
+        }
+        router.back();
+    }
+
+    function updateCorrect(value: string) {
+        setUpdatedQuiz((prev) => {
+            prev = JSON.parse(JSON.stringify(prev));
+            prev.questions[selectedQuestionIndex].correctAnswer = value;
+            return prev;
+        });
+    }
+
+    function updateIncorrect(i: number) {
+        return (value: string) =>
+            setUpdatedQuiz((prev) => {
+                prev = JSON.parse(JSON.stringify(prev));
+                prev.questions[selectedQuestionIndex][
+                    ("incorrectAnswer" + i) as keyof IKnowledgeQuestion
+                ] = value as any;
+                return prev;
+            });
+    }
+
+    function updateQuestion(value: string) {
+        setUpdatedQuiz((prev) => {
+            prev.questions[selectedQuestionIndex].question = value;
+            return {
+                ...prev,
+                questions: prev.questions,
+            };
         });
     }
 
@@ -119,16 +205,10 @@ export default function SetQuiz() {
                 >
                     Add Question
                 </Text>
+                {error && <Text style={accountStyles.error}>{error}</Text>}
                 <Button
                     title={quiz ? "Save Changes" : "Create"}
-                    onPress={() => {
-                        if (quiz) {
-                            updateQuiz(quizId, updatedQuiz);
-                        } else {
-                            createQuiz(updatedQuiz);
-                        }
-                        router.back();
-                    }}
+                    onPress={saveQuiz}
                 />
                 {quiz && (
                     <Button
@@ -159,17 +239,7 @@ export default function SetQuiz() {
                                         selectedQuestionIndex
                                     ].question
                                 }
-                                onChangeText={(value) =>
-                                    setUpdatedQuiz((prev) => {
-                                        prev.questions[
-                                            selectedQuestionIndex
-                                        ].question = value;
-                                        return {
-                                            ...prev,
-                                            questions: prev.questions,
-                                        };
-                                    })
-                                }
+                                onChangeText={updateQuestion}
                                 placeholder=""
                                 autoCapitalize
                             />
@@ -180,17 +250,7 @@ export default function SetQuiz() {
                                         selectedQuestionIndex
                                     ].correctAnswer
                                 }
-                                onChangeText={(value) =>
-                                    setUpdatedQuiz((prev) => {
-                                        prev.questions[
-                                            selectedQuestionIndex
-                                        ].correctAnswer = value;
-                                        return {
-                                            ...prev,
-                                            questions: prev.questions,
-                                        };
-                                    })
-                                }
+                                onChangeText={updateCorrect}
                                 placeholder=""
                                 autoCapitalize
                             />
@@ -201,17 +261,7 @@ export default function SetQuiz() {
                                         selectedQuestionIndex
                                     ].incorrectAnswer1
                                 }
-                                onChangeText={(value) =>
-                                    setUpdatedQuiz((prev) => {
-                                        prev.questions[
-                                            selectedQuestionIndex
-                                        ].incorrectAnswer1 = value;
-                                        return {
-                                            ...prev,
-                                            questions: prev.questions,
-                                        };
-                                    })
-                                }
+                                onChangeText={updateIncorrect(1)}
                                 placeholder=""
                                 autoCapitalize
                             />
@@ -222,17 +272,7 @@ export default function SetQuiz() {
                                         selectedQuestionIndex
                                     ].incorrectAnswer2
                                 }
-                                onChangeText={(value) =>
-                                    setUpdatedQuiz((prev) => {
-                                        prev.questions[
-                                            selectedQuestionIndex
-                                        ].incorrectAnswer2 = value;
-                                        return {
-                                            ...prev,
-                                            questions: prev.questions,
-                                        };
-                                    })
-                                }
+                                onChangeText={updateIncorrect(2)}
                                 placeholder=""
                                 autoCapitalize
                             />
@@ -243,17 +283,7 @@ export default function SetQuiz() {
                                         selectedQuestionIndex
                                     ].incorrectAnswer3
                                 }
-                                onChangeText={(value) =>
-                                    setUpdatedQuiz((prev) => {
-                                        prev.questions[
-                                            selectedQuestionIndex
-                                        ].incorrectAnswer3 = value;
-                                        return {
-                                            ...prev,
-                                            questions: prev.questions,
-                                        };
-                                    })
-                                }
+                                onChangeText={updateIncorrect(3)}
                                 placeholder=""
                                 autoCapitalize
                             />

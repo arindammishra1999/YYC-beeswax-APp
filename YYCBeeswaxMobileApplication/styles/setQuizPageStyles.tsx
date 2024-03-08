@@ -21,7 +21,7 @@ export const setQuizPageStyles = StyleSheet.create({
         paddingBottom: 20,
     },
     modalBackground: {
-        flex: 1,
+        flexGrow: 1,
         justifyContent: "center",
         alignItems: "center",
         backgroundColor: "rgba(52, 52, 52, 0.8)",
