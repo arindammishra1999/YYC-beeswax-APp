@@ -1,7 +1,6 @@
 import { StyleSheet } from "react-native";
 
-import { colors } from "@/consts/styles";
-import { viewportHeight } from "@/consts/viewport";
+import { colors, fonts } from "@/consts/styles";
 
 export const editProfilePageStyles = StyleSheet.create({
     icon: {
@@ -28,7 +27,7 @@ export const editProfilePageStyles = StyleSheet.create({
         fontSize: 14,
         color: colors.red,
         paddingBottom: 15,
-        fontWeight: "bold",
+        fontFamily: fonts.mainBold,
     },
     verifyEmailButton: {
         alignSelf: "center",
@@ -39,14 +38,14 @@ export const editProfilePageStyles = StyleSheet.create({
     },
     verifyEmailText: {
         alignSelf: "center",
-        fontWeight: "bold",
+        fontFamily: fonts.mainBold,
     },
     emailVerifiedText: {
         textAlign: "center",
         fontSize: 14,
         paddingTop: 15,
         color: colors.green,
-        fontWeight: "bold",
+        fontFamily: fonts.mainBold,
     },
     form: {
         paddingBottom: 25,
@@ -56,12 +55,17 @@ export const editProfilePageStyles = StyleSheet.create({
     changePassword: {
         alignSelf: "center",
         fontSize: 20,
+        fontFamily: fonts.main,
     },
     confirmButton: {
-        top: viewportHeight * 0.88,
+        backgroundColor: colors.yellow,
+        alignSelf: "center",
+        width: "65%",
+        paddingTop: 15,
+        paddingBottom: 15,
+        borderRadius: 30,
         position: "absolute",
         bottom: "5%",
-        alignSelf: "center",
-        width: "80%",
+        top: "88.5%",
     },
 });

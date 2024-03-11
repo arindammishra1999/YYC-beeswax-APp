@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 
-import { colors } from "@/consts/styles";
+import { colors, fonts } from "@/consts/styles";
 import { viewportHeight, viewportWidth } from "@/consts/viewport";
 
 export const morePageStyles = StyleSheet.create({
@@ -34,6 +34,7 @@ export const morePageStyles = StyleSheet.create({
 
     extrasContainerText: {
         fontSize: 16,
+        fontFamily: fonts.main,
     },
 
     socialsContainer: {
@@ -51,6 +52,7 @@ export const morePageStyles = StyleSheet.create({
     socialsText: {
         fontSize: 18,
         marginVertical: 15,
+        fontFamily: fonts.main,
     },
 
     socialsIconsContainer: {
@@ -103,5 +105,6 @@ export const morePageStyles = StyleSheet.create({
         fontSize: 13,
         flexShrink: 1,
         flexWrap: "wrap",
+        fontFamily: fonts.main,
     },
 });

@@ -1,7 +1,7 @@
 import { Fontisto } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { sendEmailVerification } from "firebase/auth";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Alert, Text, View } from "react-native";
 
 import Button from "@/components/button";
@@ -14,6 +14,20 @@ import { mainStyles } from "@/styles/mainStyles";
 export default function EmailVerification() {
     const [error, setError] = useState("");
     const { user } = useUser();
+
+    useEffect(() => {
+        //Check every 2.5 seconds if the email has been verified
+        const interval = setInterval(() => {
+            if (user) {
+                user.reload();
+                if (user.emailVerified) {
+                    router.push("/dashboard/HomePage");
+                    clearInterval(interval);
+                }
+            }
+        }, 2500);
+        return () => clearInterval(interval);
+    }, []);
 
     async function resend() {
         if (!user) {
@@ -57,7 +71,7 @@ export default function EmailVerification() {
                 {error && <Text style={accountStyles.error}>{error}</Text>}
                 <View style={emailVerificationPageStyles.buttonsContainer}>
                     <Button
-                        title="Skip for now"
+                        title="Continue"
                         onPress={() => {
                             router.push("/dashboard/HomePage");
                         }}

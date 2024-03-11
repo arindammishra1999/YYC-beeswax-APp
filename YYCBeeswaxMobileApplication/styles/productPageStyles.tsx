@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 
-import { colors } from "@/consts/styles";
+import { colors, fonts } from "@/consts/styles";
 import { viewportHeight, viewportWidth } from "@/consts/viewport";
 
 export const productPageStyles = StyleSheet.create({
@@ -30,20 +30,22 @@ export const productPageStyles = StyleSheet.create({
         paddingTop: 20,
         fontSize: 20,
         alignSelf: "flex-start",
-        fontWeight: "bold",
+        fontFamily: fonts.mainBold,
     },
     productShortDescription: {
         color: colors.grey,
         fontSize: 12,
+        fontFamily: fonts.main,
     },
     productQuantitySection: {
         alignSelf: "flex-end",
         flexDirection: "row",
-        gap: 12,
+        gap: 10,
     },
     productQuantity: {
         fontSize: 18,
         alignSelf: "center",
+        fontFamily: fonts.main,
     },
     quantityButton: {
         backgroundColor: colors.yellow,
@@ -56,6 +58,7 @@ export const productPageStyles = StyleSheet.create({
     quantityButtonText: {
         color: colors.black,
         fontSize: 18,
+        fontFamily: fonts.main,
     },
 
     productNavBar: {
@@ -65,10 +68,12 @@ export const productPageStyles = StyleSheet.create({
     productNavBarSelected: {
         color: colors.blue,
         fontSize: 16,
+        fontFamily: fonts.main,
     },
     productNavBarUnselected: {
         color: colors.grey,
         fontSize: 16,
+        fontFamily: fonts.main,
     },
     productPriceContainer: {
         flexDirection: "row",
@@ -78,8 +83,8 @@ export const productPageStyles = StyleSheet.create({
     productPrice: {
         fontSize: 30,
         alignSelf: "flex-start",
-        fontWeight: "bold",
         color: colors.blue,
+        fontFamily: fonts.mainBold,
     },
     productVariantsContainer: {
         flexDirection: "row",
@@ -88,8 +93,8 @@ export const productPageStyles = StyleSheet.create({
         gap: 10,
     },
     productVariantsTitle: {
-        fontWeight: "bold",
         fontSize: 16,
+        fontFamily: fonts.mainBold,
     },
     productDropdown: {
         width: 100,
@@ -101,11 +106,13 @@ export const productPageStyles = StyleSheet.create({
     },
     productDropdownText: {
         fontSize: 14,
+        fontFamily: fonts.main,
     },
     productDescription: {
         color: colors.grey,
         paddingTop: 10,
         fontSize: 14,
+        fontFamily: fonts.main,
     },
     bottomSection: {
         borderTopLeftRadius: 25,
@@ -132,7 +139,7 @@ export const productPageStyles = StyleSheet.create({
     buttonText: {
         color: colors.black,
         fontSize: 20,
-        fontWeight: "bold",
+        fontFamily: fonts.mainBold,
     },
     buttonDisabled: {
         opacity: 0.5,

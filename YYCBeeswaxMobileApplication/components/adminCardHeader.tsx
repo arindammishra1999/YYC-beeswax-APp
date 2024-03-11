@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { View, Text } from "react-native";
 import { SelectList } from "react-native-dropdown-select-list";
 
+import { fonts } from "@/consts/styles";
 import { viewportWidth } from "@/consts/viewport";
 import { adminDashboardPageStyles } from "@/styles/adminDashboardPageStyles";
 
@@ -36,6 +37,7 @@ export default function AdminCardHeader(props: Props) {
                 defaultOption={{ key: "1", value: "All Time" }}
                 search={false}
                 save="value"
+                fontFamily={fonts.main}
             />
         </View>
     );

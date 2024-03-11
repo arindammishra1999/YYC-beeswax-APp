@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 
-import { colors } from "@/consts/styles";
+import { colors, fonts } from "@/consts/styles";
 
 export const loginPageStyles = StyleSheet.create({
     forgot: {
@@ -8,7 +8,9 @@ export const loginPageStyles = StyleSheet.create({
         color: colors.blue,
         fontSize: 16,
         textDecorationLine: "underline",
+        fontFamily: fonts.main,
     },
+
     space: {
         height: 20,
     },

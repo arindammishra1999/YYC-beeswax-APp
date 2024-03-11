@@ -5,7 +5,7 @@
         "version": "1.0.0",
         "orientation": "portrait",
         "icon": "./assets/YYCBeeswaxIcon.png",
-        "scheme": "bees",
+        "scheme": "com.anonymous.bee",
         "userInterfaceStyle": "light",
         "jsEngine": "hermes",
         "splash": {
