@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text } from "react-native";
 
 import { totalBillCardStyles } from "@/styles/components/totalBillCardStyles";
 
@@ -17,7 +17,7 @@ const TotalBillCard: React.FC<TotalBillCardProps> = ({
     totalBill,
 }) => {
     return (
-        <View style={totalBillCardStyles.cardContainer}>
+        <View>
             <View style={totalBillCardStyles.labelContainer}>
                 <Text style={totalBillCardStyles.label}>Subtotal</Text>
                 <Text style={totalBillCardStyles.value}>
@@ -47,12 +47,6 @@ const TotalBillCard: React.FC<TotalBillCardProps> = ({
                     ${(Math.round(totalBill * 100) / 100).toFixed(2)}
                 </Text>
             </View>
-
-            <TouchableOpacity style={totalBillCardStyles.button}>
-                <Text style={totalBillCardStyles.buttonText}>
-                    Continue to shipping
-                </Text>
-            </TouchableOpacity>
         </View>
     );
 };

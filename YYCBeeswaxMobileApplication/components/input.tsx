@@ -3,6 +3,11 @@ import { StyleProp, Text, TextInput, View, ViewStyle } from "react-native";
 
 import { inputStyles } from "@/styles/components/inputStyles";
 
+export enum KeyboardTypeOptions {
+    emailAddress = "email-address",
+    phonePad = "phone-pad",
+}
+
 type Props = {
     label: string;
     placeholder: string;
@@ -12,6 +17,7 @@ type Props = {
     placeholderColor?: string;
     inputStyle?: StyleProp<ViewStyle>;
     multiline?: boolean;
+    keyboardType?: KeyboardTypeOptions;
 };
 
 function Input(props: Props) {
@@ -29,6 +35,9 @@ function Input(props: Props) {
                 }
                 multiline={props.multiline}
                 textAlignVertical={props.multiline ? "top" : "center"}
+                keyboardType={
+                    props.keyboardType ? props.keyboardType : "default"
+                }
             />
         </View>
     );

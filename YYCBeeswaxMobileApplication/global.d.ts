@@ -37,6 +37,7 @@ interface IPersonalityQuestion {
 interface IUser {
     email: string;
     name: string;
+    customerId?: string;
 }
 
 interface IProduct {
@@ -71,4 +72,16 @@ interface IReview {
     review: string;
     rating: number;
     lastUpdated: firebase.firestore.Timestamp;
+}
+
+interface IShippingInfo {
+    name: string;
+    email: string;
+    phone: string;
+    line1: string;
+    line2: string;
+    city: string;
+    province: string;
+    country: string;
+    postalCode: string;
 }
