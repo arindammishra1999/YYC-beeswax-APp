@@ -36,6 +36,7 @@ export const productPageStyles = StyleSheet.create({
         color: colors.grey,
         fontSize: 12,
         fontFamily: fonts.main,
+        width: "110%",
     },
     productQuantitySection: {
         alignSelf: "flex-end",
@@ -75,39 +76,53 @@ export const productPageStyles = StyleSheet.create({
         fontSize: 16,
         fontFamily: fonts.main,
     },
-    productPriceContainer: {
+    productPriceVariantsContainer: {
         flexDirection: "row",
         justifyContent: "flex-start",
         paddingBottom: 15,
+        borderWidth: 1,
+        borderColor: colors.white,
+        width: "100%",
     },
     productPrice: {
         fontSize: 30,
         color: colors.blue,
         fontFamily: fonts.mainBold,
+        borderWidth: 1,
+        borderColor: colors.white,
+        width: "35%",
     },
     productVariantsContainer: {
-        flexDirection: "row",
-        justifyContent: "space-around",
-        alignItems: "center",
-        width: viewportWidth * 0.7,
+        flexDirection: "column",
+        width: "65%",
     },
-    productVariantsTitle: {
+    variantContainer: {
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "center",
+        borderWidth: 1,
+        borderColor: colors.white,
+        paddingBottom: 10,
+    },
+    variantTitle: {
         fontSize: 16,
         fontFamily: fonts.mainBold,
-        width: viewportWidth * 0.3,
-        marginLeft: 10,
+        width: "40%",
+        borderWidth: 1,
+        borderColor: colors.white,
     },
-    productDropdown: {
-        width: viewportWidth * 0.33,
+    variantDropdown: {
+        width: "55%",
         paddingVertical: 0,
         paddingHorizontal: 10,
         marginTop: 10,
-        marginRight: 15,
+        marginLeft: 5,
         borderWidth: 1,
         borderColor: "gray",
         borderRadius: 8,
+        height: 50,
     },
-    productDropdownText: {
+    variantDropdownText: {
         fontSize: 14,
         fontFamily: fonts.main,
     },

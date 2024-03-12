@@ -115,20 +115,15 @@ export default function CartProductCard(props: Props) {
                             key={variant.name + variant.title}
                         >
                             <View
-                                style={{
-                                    flexDirection: "row",
-                                    alignItems: "center",
-                                }}
+                                style={cartProductCardStyles.variantContainer}
                             >
                                 <Text
                                     style={cartProductCardStyles.variantsTitle}
                                 >
-                                    {variant.title + ": "}
+                                    {variant.title}
                                 </Text>
                                 <Text
-                                    style={{
-                                        justifyContent: "flex-end",
-                                    }}
+                                    style={cartProductCardStyles.variantsType}
                                 >
                                     {variant.name}
                                 </Text>

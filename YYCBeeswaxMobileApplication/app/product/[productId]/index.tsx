@@ -369,7 +369,9 @@ export default function Product() {
                             </TouchableOpacity>
                         </View>
                     </View>
-                    <View style={productPageStyles.productPriceContainer}>
+                    <View
+                        style={productPageStyles.productPriceVariantsContainer}
+                    >
                         <Text style={productPageStyles.productPrice}>
                             $
                             {validDV
@@ -377,16 +379,14 @@ export default function Product() {
                                 : "---.00"}
                         </Text>
                         <View
-                            style={{
-                                flexDirection: "column",
-                            }}
+                            style={productPageStyles.productVariantsContainer}
                         >
                             {selectedDynamicVariant &&
                                 product?.variantsDynamic?.map(
                                     (variant, index) => (
                                         <View
                                             style={
-                                                productPageStyles.productVariantsContainer
+                                                productPageStyles.variantContainer
                                             }
                                             key={
                                                 variant.options[index].name +
@@ -395,7 +395,7 @@ export default function Product() {
                                         >
                                             <Text
                                                 style={
-                                                    productPageStyles.productVariantsTitle
+                                                    productPageStyles.variantTitle
                                                 }
                                             >
                                                 {variant.title}
@@ -424,17 +424,19 @@ export default function Product() {
                                                         index,
                                                     )
                                                 }
-                                                maxHeight={200}
                                                 style={
-                                                    productPageStyles.productDropdown
+                                                    productPageStyles.variantDropdown
                                                 }
                                                 placeholder={
                                                     selectedDynamicVariant[
                                                         index
                                                     ].name
                                                 }
+                                                placeholderStyle={
+                                                    productPageStyles.variantDropdownText
+                                                }
                                                 selectedTextStyle={
-                                                    productPageStyles.productDropdownText
+                                                    productPageStyles.variantDropdownText
                                                 }
                                                 key={
                                                     variant.options[index]
