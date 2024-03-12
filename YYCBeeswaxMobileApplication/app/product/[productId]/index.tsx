@@ -3,13 +3,19 @@ import { router, useLocalSearchParams } from "expo-router";
 import * as SecureStore from "expo-secure-store";
 import { Timestamp } from "firebase/firestore";
 import React, { Suspense, useEffect, useState } from "react";
-import { ScrollView, Text, TouchableOpacity, View } from "react-native";
+import {
+    ActivityIndicator,
+    ScrollView,
+    Text,
+    TouchableOpacity,
+    View,
+} from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 
 import Header from "@/components/header";
 import Popup from "@/components/popup";
 import Reviews from "@/components/product/reviews";
-import { fonts } from "@/consts/styles";
+import { colors, fonts } from "@/consts/styles";
 import { getProductDataById } from "@/firebase/getCollections/getProductByID";
 import { useReviews } from "@/firebase/providers/reviewsProvider";
 import { useUnsavedChangesCheck } from "@/lib/hooks/useUnsavedChangesCheck";
@@ -21,9 +27,16 @@ export default function Product() {
 
     const [showPopup, setShowPopup] = useState(false);
     const [changesMade, setChangesMade] = useState(false);
+    const [changedOptions, setChangedOptions] = useState(false);
+
+    const [isLoading, setIsLoading] = useState(true);
+    const [isLoadingFromCart, setIsLoadingFromCart] = useState(true);
 
     const [quantity, setQuantity] = useState(1);
     const [orignialQuantity, setOriginalQuantity] = useState(-1);
+
+    const [dynamicPrice, setDynamicPrice] = useState(-1);
+    const [dynamicStock, setDynamicStock] = useState(-1);
 
     const [product, setProduct] = useState<IProduct>({
         name: "",
@@ -35,8 +48,10 @@ export default function Product() {
         lastUpdated: Timestamp.fromDate(new Date()),
     });
 
-    const [selectedVariant, setSelectedVariant] = useState<string>();
+    const [selectedDynamicVariant, setSelectedDynamicVariant] =
+        useState<IDynamicVariant[]>();
     const [selectedMode, setSelectedMode] = useState(0);
+    const [validDV, setValidDV] = useState(true);
 
     const buttonText = ["Add to Cart", "Update Quantity in Cart"];
     const popupTitleText = ["Success!", "Quantity Updated!"];
@@ -59,12 +74,40 @@ export default function Product() {
                 if (existingProductIndex !== -1) {
                     // Update quantity if the product is already in the cart
                     cart[existingProductIndex].quantity = quantity;
+                    cart[existingProductIndex].dynamicPrice = dynamicPrice;
+
+                    const choices = selectedDynamicVariant?.map((variant) => {
+                        return {
+                            title: variant.title,
+                            name: variant.name,
+                        };
+                    });
+                    if (choices) {
+                        cart[existingProductIndex].choices = choices;
+                    }
                 } else {
                     // Add the new product to the cart
-                    cart.push({
-                        productId,
-                        quantity,
+                    const choices = selectedDynamicVariant?.map((variant) => {
+                        return {
+                            title: variant.title,
+                            name: variant.name,
+                        };
                     });
+
+                    if (choices) {
+                        cart.push({
+                            productId,
+                            quantity,
+                            choices,
+                            dynamicPrice,
+                        });
+                    } else {
+                        cart.push({
+                            productId,
+                            quantity,
+                            dynamicPrice,
+                        });
+                    }
                 }
 
                 // Save the updated cart data to SecureStore
@@ -79,7 +122,7 @@ export default function Product() {
 
     useEffect(() => {
         if (productId) {
-            SecureStore.getItemAsync("cart").then((cartData) => {
+            SecureStore.getItemAsync("cart").then(function (cartData) {
                 const cart = cartData ? JSON.parse(cartData) : [];
                 // Check if the product is already in the cart
                 const existingProductIndex = cart.findIndex(
@@ -89,7 +132,83 @@ export default function Product() {
                     setQuantity(cart[existingProductIndex].quantity);
                     setOriginalQuantity(cart[existingProductIndex].quantity);
                     setSelectedMode(1);
+                    (async () => {
+                        const products = await getProductDataById(
+                            productId as string,
+                        );
+                        if (products) {
+                            if (products.variantsDynamic) {
+                                if (cart[existingProductIndex].choices) {
+                                    const knownChoices: IDynamicVariant[] =
+                                        cart[existingProductIndex].choices.map(
+                                            (choice: {
+                                                title: string;
+                                                name: string;
+                                            }) => {
+                                                const matchingVariant =
+                                                    products.variantsDynamic?.filter(
+                                                        (e) =>
+                                                            e.title ==
+                                                            choice.title,
+                                                    );
+
+                                                let optPrice = -1;
+                                                let optStock = -1;
+
+                                                matchingVariant?.forEach(
+                                                    (va) => {
+                                                        const matchingOption =
+                                                            va.options.filter(
+                                                                (e) =>
+                                                                    e.name ==
+                                                                    choice.name,
+                                                            );
+                                                        optPrice =
+                                                            matchingOption[0]
+                                                                .price;
+                                                        optStock =
+                                                            matchingOption[0]
+                                                                .stock;
+                                                    },
+                                                );
+
+                                                const selection = {
+                                                    name: choice.name,
+                                                    price: optPrice,
+                                                    stock: optStock,
+                                                    title: choice.title,
+                                                };
+
+                                                return selection;
+                                            },
+                                        );
+                                    setSelectedDynamicVariant(knownChoices);
+
+                                    const currentPrice = knownChoices.reduce(
+                                        (n, { price }) => n + price,
+                                        0,
+                                    );
+                                    setDynamicPrice(
+                                        currentPrice == 0
+                                            ? products.price
+                                            : currentPrice,
+                                    );
+
+                                    const minStock = knownChoices.reduce(
+                                        (prev, curr) =>
+                                            prev.stock < curr.stock
+                                                ? prev
+                                                : curr,
+                                    ).stock;
+
+                                    setDynamicStock(minStock);
+                                    setValidDV(true);
+                                }
+                            }
+                        }
+                    })();
                 }
+                setIsLoadingFromCart(false);
             });
         }
     }, []);
@@ -99,7 +218,7 @@ export default function Product() {
     }, [quantity]);
 
     function increase() {
-        if (quantity < product.stock) {
+        if (quantity < dynamicStock) {
             setQuantity(quantity + 1);
             setChangesMade(true);
         }
@@ -114,6 +233,7 @@ export default function Product() {
 
     useUnsavedChangesCheck(
         !changesMade ||
+            !changedOptions ||
             showPopup ||
             quantity == orignialQuantity ||
             (orignialQuantity == -1 && quantity == 1),
@@ -124,9 +244,23 @@ export default function Product() {
             const products = await getProductDataById(productId as string);
             if (products) {
                 setProduct(products);
-                if (products.variants) {
-                    setSelectedVariant(products.variants.values[0]);
+                setDynamicPrice(products.price);
+                setDynamicStock(products.stock);
+                if (products.variantsDynamic) {
+                    setValidDV(false);
+                    const placeholders = products.variantsDynamic.map(
+                        (variant) => {
+                            return {
+                                name: "Select..",
+                                price: -1,
+                                stock: -1,
+                                title: "",
+                            };
+                        },
+                    );
+                    setSelectedDynamicVariant(placeholders);
                 }
+                setIsLoading(false);
             }
         })();
     }, []);
@@ -134,6 +268,42 @@ export default function Product() {
     const [tab, setTab] = useState("details");
 
     const { getMoreReviews } = useReviews();
+
+    function handleDynamicVariant(value: IDynamicVariant, index: number) {
+        if (!selectedDynamicVariant) return;
+        const tempVariant = selectedDynamicVariant;
+        tempVariant[index] = value;
+        setSelectedDynamicVariant(tempVariant);
+        const currentPrice = tempVariant.reduce((n, { price }) => n + price, 0);
+        setDynamicPrice(currentPrice == 0 ? product.price : currentPrice);
+
+        const minStock = tempVariant.reduce((prev, curr) =>
+            prev.stock < curr.stock ? prev : curr,
+        ).stock;
+        setDynamicStock(minStock);
+
+        if (minStock < quantity && validDV) {
+            setQuantity(minStock);
+        }
+
+        setValidDV(
+            selectedDynamicVariant.filter(
+                (e) => e.price == -1 || e.title == "" || e.stock == -1,
+            ).length == 0,
+        );
+
+        setChangesMade(true);
+
+        setChangedOptions(true);
+    }
+
+    if (isLoading || isLoadingFromCart) {
+        return (
+            <View style={mainStyles.spinnerOverlay}>
+                <ActivityIndicator size="large" color={colors.yellow} />
+            </View>
+        );
+    }
 
     return (
         <View style={mainStyles.container}>
@@ -185,10 +355,11 @@ export default function Product() {
                             <TouchableOpacity
                                 style={[
                                     productPageStyles.quantityButton,
-                                    quantity == product.stock &&
+                                    (quantity == dynamicStock || !validDV) &&
                                         productPageStyles.buttonDisabled,
                                 ]}
                                 onPress={increase}
+                                disabled={quantity == dynamicStock || !validDV}
                             >
                                 <Text
                                     style={productPageStyles.quantityButtonText}
@@ -200,44 +371,81 @@ export default function Product() {
                     </View>
                     <View style={productPageStyles.productPriceContainer}>
                         <Text style={productPageStyles.productPrice}>
-                            ${(product.price * quantity).toFixed(2)}
+                            $
+                            {validDV
+                                ? (dynamicPrice * quantity).toFixed(2)
+                                : "---.00"}
                         </Text>
-                        {product.variants && (
-                            <View
-                                style={
-                                    productPageStyles.productVariantsContainer
-                                }
-                            >
-                                <Text
-                                    style={
-                                        productPageStyles.productVariantsTitle
-                                    }
-                                >
-                                    {product.variants.name}
-                                </Text>
-                                <Dropdown
-                                    data={product.variants.values.map(
-                                        (value) => ({
-                                            label: value,
-                                            value,
-                                        }),
-                                    )}
-                                    maxHeight={200}
-                                    style={productPageStyles.productDropdown}
-                                    placeholder="Select"
-                                    selectedTextStyle={
-                                        productPageStyles.productDropdownText
-                                    }
-                                    labelField="label"
-                                    valueField="value"
-                                    value={selectedVariant}
-                                    onChange={({ value }) => {
-                                        setSelectedVariant(value);
-                                    }}
-                                    fontFamily={fonts.main}
-                                />
-                            </View>
-                        )}
+                        <View
+                            style={{
+                                flexDirection: "column",
+                            }}
+                        >
+                            {selectedDynamicVariant &&
+                                product?.variantsDynamic?.map(
+                                    (variant, index) => (
+                                        <View
+                                            style={
+                                                productPageStyles.productVariantsContainer
+                                            }
+                                            key={
+                                                variant.options[index].name +
+                                                index.toString()
+                                            }
+                                        >
+                                            <Text
+                                                style={
+                                                    productPageStyles.productVariantsTitle
+                                                }
+                                            >
+                                                {variant.title}
+                                            </Text>
+
+                                            <Dropdown
+                                                data={variant.options.map(
+                                                    (option) => ({
+                                                        value: option,
+                                                        label: option.name,
+                                                    }),
+                                                )}
+                                                labelField="label"
+                                                valueField="value"
+                                                value={
+                                                    selectedDynamicVariant[
+                                                        index
+                                                    ].name
+                                                }
+                                                onChange={(value) =>
+                                                    handleDynamicVariant(
+                                                        {
+                                                            ...value.value,
+                                                            title: variant.title,
+                                                        },
+                                                        index,
+                                                    )
+                                                }
+                                                maxHeight={200}
+                                                style={
+                                                    productPageStyles.productDropdown
+                                                }
+                                                placeholder={
+                                                    selectedDynamicVariant[
+                                                        index
+                                                    ].name
+                                                }
+                                                selectedTextStyle={
+                                                    productPageStyles.productDropdownText
+                                                }
+                                                key={
+                                                    variant.options[index]
+                                                        .name + index.toString()
+                                                }
+                                                fontFamily={fonts.main}
+                                            />
+                                        </View>
+                                    ),
+                                )}
+                        </View>
                     </View>
                     <View style={productPageStyles.productNavBar}>
                         <Text
@@ -291,11 +499,15 @@ export default function Product() {
                 <TouchableOpacity
                     style={[
                         productPageStyles.button,
-                        orignialQuantity == quantity &&
+                        ((orignialQuantity == quantity && !changedOptions) ||
+                            !validDV) &&
                             productPageStyles.buttonDisabled,
                     ]}
                     onPress={addToCart}
-                    disabled={orignialQuantity == quantity}
+                    disabled={
+                        (orignialQuantity == quantity && !changedOptions) ||
+                        !validDV
+                    }
                 >
                     <Text style={productPageStyles.buttonText}>
                         {buttonText[selectedMode]}
@@ -309,6 +521,7 @@ export default function Product() {
                 option2Text="Checkout Now"
                 option1Action={() => {
                     setChangesMade(false);
+                    setChangedOptions(false);
                     setOriginalQuantity(quantity);
                     setShowPopup(false);
                 }}

@@ -78,4 +78,14 @@ export const cartProductCardStyles = StyleSheet.create({
         fontSize: 18,
         fontFamily: fonts.main,
     },
+    variantsContainer: {
+        flexDirection: "column",
+        width: "70%",
+    },
+    variantsTitle: {
+        fontFamily: fonts.mainBold,
+    },
+    variantsType: {
+        fontFamily: fonts.main,
+    },
 });
