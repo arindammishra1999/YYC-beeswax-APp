@@ -6,7 +6,10 @@ import { getLocalCache, setLocalCache } from "@/lib/utility";
 export async function getProductData() {
     const querySnapshot = await getDocs(collection(db, "products"));
     if (querySnapshot.metadata.fromCache && querySnapshot.empty) {
-        return getLocalCache("products");
+        return (await getLocalCache("products")) as {
+            id: string;
+            data: IProduct;
+        }[];
     }
     const products = querySnapshot.docs.map((doc) => {
         const product = doc.data() as IProduct;
