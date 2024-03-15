@@ -12,12 +12,38 @@ import Reviews from "@/components/product/reviews";
 import { fonts } from "@/consts/styles";
 import { getProductDataById } from "@/firebase/getCollections/getProductByID";
 import { useReviews } from "@/firebase/providers/reviewsProvider";
+import { useUnsavedChangesCheck } from "@/lib/hooks/useUnsavedChangesCheck";
 import { mainStyles } from "@/styles/mainStyles";
 import { productPageStyles } from "@/styles/productPageStyles";
 
 export default function Product() {
     const { productId } = useLocalSearchParams();
+
     const [showPopup, setShowPopup] = useState(false);
+    const [changesMade, setChangesMade] = useState(false);
+
+    const [quantity, setQuantity] = useState(1);
+    const [orignialQuantity, setOriginalQuantity] = useState(-1);
+
+    const [product, setProduct] = useState<IProduct>({
+        name: "",
+        description: "",
+        categories: [],
+        price: 0,
+        stock: 0,
+        url: undefined,
+        lastUpdated: Timestamp.fromDate(new Date()),
+    });
+
+    const [selectedVariant, setSelectedVariant] = useState<string>();
+    const [selectedMode, setSelectedMode] = useState(0);
+
+    const buttonText = ["Add to Cart", "Update Quantity in Cart"];
+    const popupTitleText = ["Success!", "Quantity Updated!"];
+    const popupSubtitleText = [
+        "This item has been added to your cart!",
+        "The quantity of this item has been updated in your cart!",
+    ];
 
     const addToCart = () => {
         // Ensure that product ID and quantity are present
@@ -32,7 +58,7 @@ export default function Product() {
 
                 if (existingProductIndex !== -1) {
                     // Update quantity if the product is already in the cart
-                    cart[existingProductIndex].quantity += quantity;
+                    cart[existingProductIndex].quantity = quantity;
                 } else {
                     // Add the new product to the cart
                     cart.push({
@@ -51,25 +77,47 @@ export default function Product() {
         }
     };
 
-    const [product, setProduct] = useState<IProduct>({
-        name: "",
-        description: "",
-        categories: [],
-        price: 0,
-        stock: 0,
-        url: undefined,
-        lastUpdated: Timestamp.fromDate(new Date()),
-    });
-    const [quantity, setQuantity] = useState(1);
-    const [selectedVariant, setSelectedVariant] = useState<string>();
+    useEffect(() => {
+        if (productId) {
+            SecureStore.getItemAsync("cart").then((cartData) => {
+                const cart = cartData ? JSON.parse(cartData) : [];
+                // Check if the product is already in the cart
+                const existingProductIndex = cart.findIndex(
+                    (item: any) => item.productId === productId,
+                );
+                if (existingProductIndex !== -1) {
+                    setQuantity(cart[existingProductIndex].quantity);
+                    setOriginalQuantity(cart[existingProductIndex].quantity);
+                    setSelectedMode(1);
+                }
+            });
+        }
+    }, []);
+
+    useEffect(() => {
+        if (orignialQuantity == quantity) setChangesMade(false);
+    }, [quantity]);
 
     function increase() {
-        if (quantity < product.stock) setQuantity(quantity + 1);
+        if (quantity < product.stock) {
+            setQuantity(quantity + 1);
+            setChangesMade(true);
+        }
     }
 
     function decrease() {
-        if (quantity > 1) setQuantity(quantity - 1);
+        if (quantity > 1) {
+            setQuantity(quantity - 1);
+            setChangesMade(true);
+        }
     }
+
+    useUnsavedChangesCheck(
+        !changesMade ||
+            showPopup ||
+            quantity == orignialQuantity ||
+            (orignialQuantity == -1 && quantity == 1),
+    );
 
     useEffect(() => {
         (async () => {
@@ -117,8 +165,13 @@ export default function Product() {
                         </View>
                         <View style={productPageStyles.productQuantitySection}>
                             <TouchableOpacity
-                                style={productPageStyles.quantityButton}
+                                style={[
+                                    productPageStyles.quantityButton,
+                                    quantity == 1 &&
+                                        productPageStyles.buttonDisabled,
+                                ]}
                                 onPress={decrease}
+                                disabled={quantity == 1}
                             >
                                 <Text
                                     style={productPageStyles.quantityButtonText}
@@ -130,7 +183,11 @@ export default function Product() {
                                 {quantity.toString().padStart(2, "0")}
                             </Text>
                             <TouchableOpacity
-                                style={productPageStyles.quantityButton}
+                                style={[
+                                    productPageStyles.quantityButton,
+                                    quantity == product.stock &&
+                                        productPageStyles.buttonDisabled,
+                                ]}
                                 onPress={increase}
                             >
                                 <Text
@@ -232,11 +289,16 @@ export default function Product() {
             </ScrollView>
             <View style={productPageStyles.bottomSection}>
                 <TouchableOpacity
-                    style={productPageStyles.button}
+                    style={[
+                        productPageStyles.button,
+                        orignialQuantity == quantity &&
+                            productPageStyles.buttonDisabled,
+                    ]}
                     onPress={addToCart}
+                    disabled={orignialQuantity == quantity}
                 >
                     <Text style={productPageStyles.buttonText}>
-                        Add to Cart
+                        {buttonText[selectedMode]}
                     </Text>
                 </TouchableOpacity>
             </View>
@@ -245,10 +307,17 @@ export default function Product() {
                 changeVisibility={() => setShowPopup(false)}
                 option1Text="Keep Shopping"
                 option2Text="Checkout Now"
-                option1Action={() => setShowPopup(false)}
-                option2Action={() => router.push("/dashboard/CartPage")}
-                title="Added to Cart!"
-                subTitle="Do you want to checkout now?"
+                option1Action={() => {
+                    setChangesMade(false);
+                    setOriginalQuantity(quantity);
+                    setShowPopup(false);
+                }}
+                option2Action={() => {
+                    setChangesMade(false);
+                    router.push("/dashboard/CartPage");
+                }}
+                title={popupTitleText[selectedMode]}
+                subTitle={popupSubtitleText[selectedMode]}
             />
         </View>
     );

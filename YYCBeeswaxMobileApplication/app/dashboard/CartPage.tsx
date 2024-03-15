@@ -1,20 +1,51 @@
 import { useFocusEffect } from "@react-navigation/native";
+import {
+    PaymentSheet,
+    StripeProvider,
+    useStripe,
+} from "@stripe/stripe-react-native";
 import { Image } from "expo-image";
 import { router } from "expo-router";
 import * as SecureStore from "expo-secure-store";
-import React, { useState } from "react";
-import { Text, TouchableOpacity, View } from "react-native";
+import React, { useEffect, useState } from "react";
+import { Alert, Text, TouchableOpacity, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 
 import { getProductData } from "../../firebase/getCollections/getProducts";
 
+import Button from "@/components/button";
 import CartProductCard from "@/components/cards/cartProductCard";
 import TotalBillCard from "@/components/cards/totalBillCard";
 import Header from "@/components/header";
+import { getUserById } from "@/firebase/getCollections/getUserById";
+import { useUser } from "@/firebase/providers/userProvider";
 import { cartPageStyles } from "@/styles/cartPageStyles";
+import { totalBillCardStyles } from "@/styles/components/totalBillCardStyles";
+
+const API_URL = "http://10.0.2.2:3000";
 
 export default function CartPage() {
     const [cartItems, setCartItems] = useState<any[]>([]);
+    const [stripeCustomerId, setStripeCustomerId] = useState("");
+    const [disableButton, setDisableButton] = useState(true);
+    const [loading, setLoading] = useState(false);
+
+    const { user } = useUser();
+    const { initPaymentSheet, presentPaymentSheet } = useStripe();
+
+    const gatherCustomerId = async () => {
+        //Find the users stripe id if it exists, allow them to pay if its found
+        if (user?.uid) {
+            user.reload();
+            const userDetails = await getUserById(user.uid);
+            if (userDetails?.customerId) {
+                setStripeCustomerId(userDetails.customerId);
+                setDisableButton(false);
+            }
+        }
+    };
+
+    gatherCustomerId();
 
     const calculateTotalItemsCost = (items: any[]) => {
         return items.reduce(
@@ -137,6 +168,125 @@ export default function CartPage() {
         }, []),
     );
 
+    const openPaymentSheet = async () => {
+        const { error } = await presentPaymentSheet();
+        if (error) {
+            Alert.alert(`Error code: ${error.code}`, error.message);
+        } else {
+            router.push("/checkout/ReviewInfoPage");
+            //Empty the cart on successful purchase
+            await SecureStore.setItemAsync("cart", JSON.stringify([]));
+            setCartItems([] as any[]);
+        }
+    };
+
+    const fetchPaymentSheetParams = async () => {
+        let customerIdFromDatabase = "";
+        if (user?.uid) {
+            const userDetails = await getUserById(user.uid);
+            if (userDetails?.customerId)
+                customerIdFromDatabase = userDetails.customerId;
+        }
+
+        const totalValueCart = calculateTotalBill(cartItems);
+
+        //Need to send the price to the server as a string without a decimal point
+        //e.g. $75.30 ==> 7530
+        const cartValueString = (Math.round(totalValueCart * 100) / 100)
+            .toFixed(2)
+            .replace(".", "");
+
+        const response = await fetch(`${API_URL}/payment-sheet`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                customerIdFromDatabase,
+                cartValueString,
+            }),
+        });
+
+        const { paymentIntent, ephemeralKey, customer, errorPayment } =
+            await response.json();
+
+        return {
+            paymentIntent,
+            ephemeralKey,
+            customer,
+            errorPayment,
+        };
+    };
+
+    const fetchCustomerData = async (custID: string) => {
+        //Use to load the billing address with info from the shipping address
+        const response = await fetch(`${API_URL}/customer-data`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                custID,
+            }),
+        });
+        const { retrievedShippingInfo, error } = await response.json();
+        if (error) console.log(error);
+        return {
+            retrievedShippingInfo,
+        };
+    };
+
+    const initializePaymentSheet = async () => {
+        try {
+            const { paymentIntent, ephemeralKey, customer, errorPayment } =
+                await fetchPaymentSheetParams();
+            if (errorPayment) {
+                console.log(errorPayment);
+                return;
+            }
+
+            const { retrievedShippingInfo } = await fetchCustomerData(customer);
+
+            const { error } = await initPaymentSheet({
+                merchantDisplayName: "Example, Inc.",
+                customerId: customer,
+                customerEphemeralKeySecret: ephemeralKey,
+                paymentIntentClientSecret: paymentIntent,
+                // Set `allowsDelayedPaymentMethods` to true if your business can handle payment
+                //methods that complete payment after a delay, like SEPA Debit and Sofort.
+                allowsDelayedPaymentMethods: false,
+                defaultBillingDetails: {
+                    email: retrievedShippingInfo.email,
+                    name: retrievedShippingInfo.name,
+                    phone: retrievedShippingInfo.phone,
+                    address: {
+                        line1: retrievedShippingInfo.line1,
+                        line2: retrievedShippingInfo.line2,
+                        city: retrievedShippingInfo.city,
+                        state: retrievedShippingInfo.state,
+                        country: retrievedShippingInfo.country,
+                        postalCode: retrievedShippingInfo.postalCode,
+                    },
+                },
+                billingDetailsCollectionConfiguration: {
+                    name: PaymentSheet.CollectionMode.ALWAYS,
+                    email: PaymentSheet.CollectionMode.ALWAYS,
+                    address: PaymentSheet.AddressCollectionMode.FULL,
+                    attachDefaultsToPaymentMethod: true,
+                },
+            });
+            if (error) console.log(error);
+            if (!error) setLoading(true);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    useEffect(() => {
+        //Everytime an item changes in the cart, and the stripe id is found, re-init the payment sheet
+        if (stripeCustomerId) initializePaymentSheet();
+    }, [cartItems]);
+
     if (cartItems.length == 0) {
         return (
             <View style={cartPageStyles.container}>
@@ -150,49 +300,129 @@ export default function CartPage() {
                     style={cartPageStyles.gif}
                 />
                 <TouchableOpacity
-                    style={cartPageStyles.button}
+                    style={cartPageStyles.buttonTouchableOpacity}
                     onPress={() => router.push("/dashboard/HomePage")}
                 >
                     <Text style={cartPageStyles.buttonText}>Shop Now</Text>
                 </TouchableOpacity>
             </View>
         );
-    } else {
+    }
+    if (!user) {
+        //If the user isn't signed in, can't link a stripe id to their account, thus they must be signed in
         return (
             <View style={cartPageStyles.container}>
                 <Header header="Your Cart" noBackArrow />
-                <ScrollView
-                    contentContainerStyle={{
-                        paddingBottom: 100,
-                    }}
+
+                <Text style={cartPageStyles.messageText}>
+                    You are not logged in. Please log in to an account to view
+                    your cart.
+                </Text>
+                <TouchableOpacity
+                    style={cartPageStyles.buttonTouchableOpacity}
+                    onPress={() => router.push("/auth/login")}
                 >
-                    <Image
-                        contentFit="contain"
-                        source={require("@/assets/cartProgress.png")}
-                        style={cartPageStyles.topImageContainer}
-                    />
-                    {cartItems.map((product: any) => (
-                        <CartProductCard
-                            key={product.id}
-                            id={product.id}
-                            name={product.data.name}
-                            image={product.data.url}
-                            price={product.data.price}
-                            quantity={product.quantity}
-                            onQuantityChange={handleQuantityChange}
-                            onRemoveProduct={handleRemoveProduct}
-                        />
-                    ))}
-                </ScrollView>
-                {cartItems.length > 0 && (
-                    <TotalBillCard
-                        totalItemsCost={calculateTotalItemsCost(cartItems)}
-                        shippingCost={10}
-                        gstCost={calculateGSTCost(cartItems)}
-                        totalBill={calculateTotalBill(cartItems)}
-                    />
-                )}
+                    <Text style={cartPageStyles.buttonText}>Login</Text>
+                </TouchableOpacity>
+                <View style={cartPageStyles.signUpContainer}>
+                    <Text style={cartPageStyles.signUpText}>
+                        Don't have an account?{" "}
+                    </Text>
+                    <TouchableOpacity>
+                        <Text
+                            style={cartPageStyles.signUpLink}
+                            onPress={() => router.push("/auth/signup")}
+                        >
+                            Sign Up
+                        </Text>
+                    </TouchableOpacity>
+                </View>
             </View>
         );
     }
+
+    return (
+        //Here there's at least 1 item in the cart, and the stripe id is found
+        <View style={cartPageStyles.container}>
+            <StripeProvider publishableKey="pk_test_51OXZxsGf5oZoqxSjhT1uLtbnWgEBYfCK38LmkNVZnln9C5b8D2yBE5pJzDzgO2q3oDVtTbb5bs8BlLWi237iwAeF00nxXUgnZJ">
+                <View>
+                    <Header header="Your Cart" noBackArrow />
+                    <Image
+                        contentFit="contain"
+                        source={
+                            stripeCustomerId == ""
+                                ? require("@/assets/cartProgress/0.png")
+                                : require("@/assets/cartProgress/2.png")
+                        }
+                        style={cartPageStyles.topImageContainer}
+                    />
+                    <View style={cartPageStyles.productsContainer}>
+                        <ScrollView
+                            contentContainerStyle={
+                                cartPageStyles.scrollViewContainer
+                            }
+                        >
+                            {cartItems.map((product: any) => (
+                                <CartProductCard
+                                    key={product.id}
+                                    id={product.id}
+                                    name={product.data.name}
+                                    image={product.data.url}
+                                    price={product.data.price}
+                                    quantity={product.quantity}
+                                    onQuantityChange={handleQuantityChange}
+                                    onRemoveProduct={handleRemoveProduct}
+                                />
+                            ))}
+                        </ScrollView>
+                    </View>
+
+                    {cartItems.length > 0 && (
+                        <View style={totalBillCardStyles.cardContainer}>
+                            <TotalBillCard
+                                totalItemsCost={calculateTotalItemsCost(
+                                    cartItems,
+                                )}
+                                shippingCost={10}
+                                gstCost={calculateGSTCost(cartItems)}
+                                totalBill={calculateTotalBill(cartItems)}
+                            />
+                            {stripeCustomerId == "" && (
+                                <Button
+                                    style={cartPageStyles.button}
+                                    title="Add Shipping Details"
+                                    onPress={() => {
+                                        router.push(
+                                            "/checkout/ShippingInfoPage",
+                                        );
+                                    }}
+                                />
+                            )}
+                            {stripeCustomerId != "" && (
+                                <Button
+                                    title="View Shipping Details"
+                                    onPress={() => {
+                                        router.push(
+                                            "/checkout/ShippingInfoPage",
+                                        );
+                                    }}
+                                    style={cartPageStyles.button}
+                                />
+                            )}
+                            <Button
+                                title="Continue to Payment"
+                                style={[
+                                    cartPageStyles.button,
+                                    (disableButton || !loading) &&
+                                        cartPageStyles.buttonDisabled,
+                                ]}
+                                disabled={disableButton || !loading}
+                                onPress={openPaymentSheet}
+                            />
+                        </View>
+                    )}
+                </View>
+            </StripeProvider>
+        </View>
+    );
 }

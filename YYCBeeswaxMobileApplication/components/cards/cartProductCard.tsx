@@ -18,7 +18,6 @@ type Props = {
 };
 
 export default function CartProductCard(props: Props) {
-    const [localQuantity, setLocalQuantity] = useState(props.quantity);
     const [showPopup, setShowPopup] = useState(false);
 
     const updateSecureStore = async (productId: string, quantity: number) => {
@@ -70,16 +69,14 @@ export default function CartProductCard(props: Props) {
     };
 
     function increase() {
-        const newQuantity = localQuantity + 1;
-        setLocalQuantity(newQuantity);
+        const newQuantity = props.quantity + 1;
         props.onQuantityChange(props.id, newQuantity);
         updateSecureStore(props.id, newQuantity);
     }
 
     function decrease() {
-        if (localQuantity > 1) {
-            const newQuantity = localQuantity - 1;
-            setLocalQuantity(newQuantity);
+        if (props.quantity > 1) {
+            const newQuantity = props.quantity - 1;
             props.onQuantityChange(props.id, newQuantity);
             updateSecureStore(props.id, newQuantity);
         } else {
@@ -88,7 +85,6 @@ export default function CartProductCard(props: Props) {
     }
 
     function confirmRemoveFromCart() {
-        setLocalQuantity(0);
         props.onRemoveProduct(props.id);
         removeProductFromSecureStore(props.id);
         setShowPopup(false);
