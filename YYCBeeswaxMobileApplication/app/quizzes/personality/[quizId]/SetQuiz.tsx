@@ -53,15 +53,13 @@ export default function SetQuiz() {
 
     function addResult() {
         const name = `Option ${weights.length + 1}`;
-        setWeights((prev) => {
-            return [
-                ...prev,
-                {
-                    description: "",
-                    name,
-                },
-            ];
-        });
+        setWeights((prev) => [
+            ...prev,
+            {
+                description: "",
+                name,
+            },
+        ]);
         setUpdatedQuiz((prev) => {
             prev = JSON.parse(JSON.stringify(prev));
             prev.questions.forEach((question) => {
@@ -129,7 +127,9 @@ export default function SetQuiz() {
             }
         }
 
-        const temp = updatedQuiz as IPersonalityQuiz;
+        const temp = JSON.parse(
+            JSON.stringify(updatedQuiz),
+        ) as IPersonalityQuiz;
         temp.weights = {};
         weights.forEach((weight) => {
             temp.weights[weight.name] = weight.description;
@@ -145,6 +145,7 @@ export default function SetQuiz() {
 
     function addOption() {
         setUpdatedQuiz((prev) => {
+            prev = JSON.parse(JSON.stringify(prev));
             const temp = {
                 value: "option",
                 weights: {} as {
@@ -156,7 +157,7 @@ export default function SetQuiz() {
             });
             const question = prev.questions[selectedQuestionIndex];
             question.options = [...question.options, temp];
-            return JSON.parse(JSON.stringify(prev));
+            return prev;
         });
     }
 
@@ -173,23 +174,22 @@ export default function SetQuiz() {
             return;
         }
         const oldName = selectedResult.name;
-        setWeights((prev) => {
-            if (oldName == selectedResultName) {
-                return prev;
-            }
-            prev[selectedResultIndex].name = selectedResultName;
-            return [...prev];
-        });
-        setUpdatedQuiz((prev) => {
-            prev.questions.forEach((question) => {
-                question.options.forEach((option) => {
-                    option.weights[selectedResultName] =
-                        option.weights[oldName];
-                    delete option.weights[oldName];
-                });
+        if (oldName != selectedResultName) {
+            setWeights((prev) => {
+                prev[selectedResultIndex].name = selectedResultName;
+                return [...prev];
             });
-            return JSON.parse(JSON.stringify(prev));
-        });
+            setUpdatedQuiz((prev) => {
+                prev.questions.forEach((question) => {
+                    question.options.forEach((option) => {
+                        option.weights[selectedResultName] =
+                            option.weights[oldName];
+                        delete option.weights[oldName];
+                    });
+                });
+                return JSON.parse(JSON.stringify(prev));
+            });
+        }
         setSelectedResultIndex(-1);
     }
 
