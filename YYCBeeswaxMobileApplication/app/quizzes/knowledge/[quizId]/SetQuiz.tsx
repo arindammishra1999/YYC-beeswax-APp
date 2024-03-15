@@ -2,6 +2,7 @@ import { router, useLocalSearchParams } from "expo-router";
 import React, { useState } from "react";
 import { Modal, Text, View } from "react-native";
 import {
+    DragEndParams,
     NestableDraggableFlatList,
     NestableScrollContainer,
 } from "react-native-draggable-flatlist";
@@ -34,6 +35,7 @@ export default function SetQuiz() {
     );
 
     const [selectedQuestionIndex, setSelectedQuestionIndex] = useState(-1);
+    const selectedQuestion = updatedQuiz.questions[selectedQuestionIndex];
 
     const [error, setError] = useState<string>();
 
@@ -146,6 +148,29 @@ export default function SetQuiz() {
         });
     }
 
+    function handelDeleteQuiz() {
+        deleteQuiz(quizId);
+        router.back();
+    }
+
+    function updateTitle(value: string) {
+        setUpdatedQuiz((prev) => ({ ...prev, title: value }));
+    }
+
+    function updateDescription(value: string) {
+        setUpdatedQuiz((prev) => ({
+            ...prev,
+            description: value,
+        }));
+    }
+
+    function updateQuestionsOrder({ data }: DragEndParams<IKnowledgeQuestion>) {
+        setUpdatedQuiz((prev) => ({
+            ...prev,
+            questions: data,
+        }));
+    }
+
     return (
         <View style={mainStyles.container}>
             <Header header={quiz ? "Edit Quiz" : "Create Quiz"} />
@@ -155,21 +180,14 @@ export default function SetQuiz() {
                 <Input
                     label="Title"
                     value={updatedQuiz.title}
-                    onChangeText={(value) =>
-                        setUpdatedQuiz((prev) => ({ ...prev, title: value }))
-                    }
+                    onChangeText={updateTitle}
                     placeholder=""
                     autoCapitalize
                 />
                 <Input
                     label="Description"
-                    value={updatedQuiz?.description}
-                    onChangeText={(value) =>
-                        setUpdatedQuiz((prev) => ({
-                            ...prev,
-                            description: value,
-                        }))
-                    }
+                    value={updatedQuiz.description}
+                    onChangeText={updateDescription}
                     placeholder=""
                     autoCapitalize
                     multiline
@@ -179,19 +197,12 @@ export default function SetQuiz() {
                     <Text style={setQuizPageStyles.heading}>Questions</Text>
                     <NestableDraggableFlatList
                         data={updatedQuiz.questions}
-                        onDragEnd={({ data }) =>
-                            setUpdatedQuiz((prev) => ({
-                                ...prev,
-                                questions: data,
-                            }))
-                        }
+                        onDragEnd={updateQuestionsOrder}
                         keyExtractor={(item, index) => index.toString()}
                         renderItem={(item) => (
                             <QuestionCard
                                 {...item}
-                                onEdit={(index) =>
-                                    setSelectedQuestionIndex(index)
-                                }
+                                onEdit={setSelectedQuestionIndex}
                             />
                         )}
                     />
@@ -214,10 +225,7 @@ export default function SetQuiz() {
                     <Button
                         title="Delete Quiz"
                         style={mainStyles.delete}
-                        onPress={() => {
-                            deleteQuiz(quizId);
-                            router.back();
-                        }}
+                        onPress={handelDeleteQuiz}
                     />
                 )}
             </NestableScrollContainer>
@@ -234,55 +242,35 @@ export default function SetQuiz() {
                             </Text>
                             <Input
                                 label="Question"
-                                value={
-                                    updatedQuiz?.questions[
-                                        selectedQuestionIndex
-                                    ].question
-                                }
+                                value={selectedQuestion.question}
                                 onChangeText={updateQuestion}
                                 placeholder=""
                                 autoCapitalize
                             />
                             <Input
                                 label="Correct Answer"
-                                value={
-                                    updatedQuiz?.questions[
-                                        selectedQuestionIndex
-                                    ].correctAnswer
-                                }
+                                value={selectedQuestion.correctAnswer}
                                 onChangeText={updateCorrect}
                                 placeholder=""
                                 autoCapitalize
                             />
                             <Input
                                 label="Incorrect Option 1"
-                                value={
-                                    updatedQuiz?.questions[
-                                        selectedQuestionIndex
-                                    ].incorrectAnswer1
-                                }
+                                value={selectedQuestion.incorrectAnswer1}
                                 onChangeText={updateIncorrect(1)}
                                 placeholder=""
                                 autoCapitalize
                             />
                             <Input
                                 label="Incorrect Option 2"
-                                value={
-                                    updatedQuiz?.questions[
-                                        selectedQuestionIndex
-                                    ].incorrectAnswer2
-                                }
+                                value={selectedQuestion.incorrectAnswer2}
                                 onChangeText={updateIncorrect(2)}
                                 placeholder=""
                                 autoCapitalize
                             />
                             <Input
                                 label="Incorrect Option 3"
-                                value={
-                                    updatedQuiz?.questions[
-                                        selectedQuestionIndex
-                                    ].incorrectAnswer3
-                                }
+                                value={selectedQuestion.incorrectAnswer3}
                                 onChangeText={updateIncorrect(3)}
                                 placeholder=""
                                 autoCapitalize

@@ -2,6 +2,7 @@ import { router, useLocalSearchParams } from "expo-router";
 import React, { useState } from "react";
 import { Modal, ScrollView, Text, TextInput, View } from "react-native";
 import {
+    DragEndParams,
     NestableDraggableFlatList,
     NestableScrollContainer,
 } from "react-native-draggable-flatlist";
@@ -43,8 +44,10 @@ export default function SetQuiz() {
 
     const [selectedResultIndex, setSelectedResultIndex] = useState(-1);
     const [selectedResultName, setSelectedResultName] = useState("");
+    const selectedResult = weights[selectedResultIndex];
 
     const [selectedQuestionIndex, setSelectedQuestionIndex] = useState(-1);
+    const selectedQuestion = updatedQuiz.questions[selectedQuestionIndex];
 
     const [error, setError] = useState<string>();
 
@@ -169,7 +172,7 @@ export default function SetQuiz() {
             setError("Error: Duplicate Option Name");
             return;
         }
-        const oldName = weights[selectedResultIndex].name;
+        const oldName = selectedResult.name;
         setWeights((prev) => {
             if (oldName == selectedResultName) {
                 return prev;
@@ -193,7 +196,7 @@ export default function SetQuiz() {
     function deleteResult() {
         setSelectedResultIndex(-1);
         setWeights((prev) => {
-            const name = weights[selectedResultIndex].name;
+            const name = selectedResult.name;
             setUpdatedQuiz((prev) => {
                 prev.questions.forEach((question) => {
                     question.options.forEach((option) => {
@@ -217,6 +220,50 @@ export default function SetQuiz() {
         });
     }
 
+    function updateWeights(value: string, name: string, optionIndex: number) {
+        setUpdatedQuiz((prev) => {
+            prev.questions[selectedQuestionIndex].options[optionIndex].weights[
+                name
+            ] = parseFloat(value) ?? 0;
+            return JSON.parse(JSON.stringify(prev));
+        });
+    }
+
+    function handelDeleteQuiz() {
+        deleteQuiz(quizId);
+        router.back();
+    }
+
+    function updateTitle(value: string) {
+        setUpdatedQuiz((prev) => ({ ...prev, title: value }));
+    }
+
+    function updateDescription(value: string) {
+        setUpdatedQuiz((prev) => ({
+            ...prev,
+            description: value,
+        }));
+    }
+
+    function updateQuestionsOrder({
+        data,
+    }: DragEndParams<IPersonalityQuestion>) {
+        setUpdatedQuiz((prev) => ({
+            ...prev,
+            questions: data,
+        }));
+    }
+
+    function updateQuestion(value: string) {
+        setUpdatedQuiz((prev) => {
+            prev.questions[selectedQuestionIndex].question = value;
+            return {
+                ...prev,
+                questions: prev.questions,
+            };
+        });
+    }
+
     return (
         <View style={mainStyles.container}>
             <Header header={quiz ? "Edit Quiz" : "Create Quiz"} />
@@ -225,22 +272,15 @@ export default function SetQuiz() {
             >
                 <Input
                     label="Title"
-                    value={updatedQuiz?.title}
-                    onChangeText={(value) =>
-                        setUpdatedQuiz((prev) => ({ ...prev, title: value }))
-                    }
+                    value={updatedQuiz.title}
+                    onChangeText={updateTitle}
                     placeholder=""
                     autoCapitalize
                 />
                 <Input
                     label="Description"
-                    value={updatedQuiz?.description}
-                    onChangeText={(value) =>
-                        setUpdatedQuiz((prev) => ({
-                            ...prev,
-                            description: value,
-                        }))
-                    }
+                    value={updatedQuiz.description}
+                    onChangeText={updateDescription}
                     placeholder=""
                     autoCapitalize
                     multiline
@@ -274,19 +314,12 @@ export default function SetQuiz() {
                     <Text style={setQuizPageStyles.heading}>Questions</Text>
                     <NestableDraggableFlatList
                         data={updatedQuiz.questions}
-                        onDragEnd={({ data }) =>
-                            setUpdatedQuiz((prev) => ({
-                                ...prev,
-                                questions: data,
-                            }))
-                        }
+                        onDragEnd={updateQuestionsOrder}
                         keyExtractor={(item) => item.question}
                         renderItem={(item) => (
                             <QuestionCard
                                 {...item}
-                                onEdit={(index) =>
-                                    setSelectedQuestionIndex(index)
-                                }
+                                onEdit={setSelectedQuestionIndex}
                             />
                         )}
                     />
@@ -309,10 +342,7 @@ export default function SetQuiz() {
                     <Button
                         title="Delete Quiz"
                         style={mainStyles.delete}
-                        onPress={() => {
-                            deleteQuiz(quizId);
-                            router.back();
-                        }}
+                        onPress={handelDeleteQuiz}
                     />
                 )}
             </NestableScrollContainer>
@@ -333,21 +363,8 @@ export default function SetQuiz() {
                             </Text>
                             <Input
                                 label="Question"
-                                value={
-                                    updatedQuiz.questions[selectedQuestionIndex]
-                                        .question
-                                }
-                                onChangeText={(value) =>
-                                    setUpdatedQuiz((prev) => {
-                                        prev.questions[
-                                            selectedQuestionIndex
-                                        ].question = value;
-                                        return {
-                                            ...prev,
-                                            questions: prev.questions,
-                                        };
-                                    })
-                                }
+                                value={selectedQuestion.question}
+                                onChangeText={updateQuestion}
                                 placeholder=""
                                 autoCapitalize
                             />
@@ -395,24 +412,10 @@ export default function SetQuiz() {
                                                             weight.name
                                                         ].toString()}
                                                         onChangeText={(value) =>
-                                                            setUpdatedQuiz(
-                                                                (prev) => {
-                                                                    prev.questions[
-                                                                        selectedQuestionIndex
-                                                                    ].options[
-                                                                        i
-                                                                    ].weights[
-                                                                        weight.name
-                                                                    ] =
-                                                                        parseFloat(
-                                                                            value,
-                                                                        ) ?? 0;
-                                                                    return JSON.parse(
-                                                                        JSON.stringify(
-                                                                            prev,
-                                                                        ),
-                                                                    );
-                                                                },
+                                                            updateWeights(
+                                                                value,
+                                                                weight.name,
+                                                                i,
                                                             )
                                                         }
                                                     />
@@ -422,8 +425,7 @@ export default function SetQuiz() {
                                     </View>
                                 );
                             })}
-                            {updatedQuiz.questions[selectedQuestionIndex]
-                                .options.length < 4 && (
+                            {selectedQuestion.options.length < 4 && (
                                 <Text
                                     style={setQuizPageStyles.linkButton}
                                     onPress={addOption}
@@ -464,15 +466,13 @@ export default function SetQuiz() {
                             <Input
                                 label="Result Title"
                                 value={selectedResultName}
-                                onChangeText={(value) =>
-                                    setSelectedResultName(value)
-                                }
+                                onChangeText={setSelectedResultName}
                                 placeholder=""
                                 autoCapitalize
                             />
                             <Input
                                 label="Result Description"
-                                value={weights[selectedResultIndex].description}
+                                value={selectedResult.description}
                                 onChangeText={(value) =>
                                     setWeights((prev) => {
                                         prev[selectedResultIndex].description =
