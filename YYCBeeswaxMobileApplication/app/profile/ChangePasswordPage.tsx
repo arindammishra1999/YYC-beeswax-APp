@@ -103,7 +103,7 @@ export default function ChangePasswordPage() {
                             style={accountStyles.logo}
                         />
                         <Text style={accountStyles.text}>
-                            Please enter your new password.
+                            {t("Please enter your new password.")}
                         </Text>
                         <HideableInput
                             label={t("New Password")}
@@ -134,7 +134,7 @@ export default function ChangePasswordPage() {
                     <View style={changePasswordPageStyles.viewContainer}>
                         <View style={changePasswordPageStyles.popupContainer}>
                             <Text style={changePasswordPageStyles.popupText}>
-                                Password reset successful!
+                                {t("Password reset successful! ")}
                             </Text>
                             <Button
                                 title={t("Confirm")}
@@ -154,8 +154,9 @@ export default function ChangePasswordPage() {
                     <View style={changePasswordPageStyles.viewContainer}>
                         <View style={changePasswordPageStyles.popupContainer}>
                             <Text style={changePasswordPageStyles.popupText}>
-                                Please enter your old password for account
-                                verification.
+                                {t(
+                                    "Please enter your old password for account verification.",
+                                )}
                             </Text>
                             <HideableInput
                                 label={t("Old Password")}

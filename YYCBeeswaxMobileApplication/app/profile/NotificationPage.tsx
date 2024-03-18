@@ -1,6 +1,7 @@
 import { router } from "expo-router";
 import * as SecureStore from "expo-secure-store";
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
     Switch,
     View,
@@ -16,6 +17,7 @@ import { mainStyles } from "@/styles/mainStyles";
 import { notificationPageStyles } from "@/styles/notificationPageStyles";
 
 export default function NotificationsPage() {
+    const { t } = useTranslation();
     const [commonSettings, setCommonSetting] = useState([
         { name: "General Notifications", key: "1", toggle: false },
         { name: "Sounds", key: "2", toggle: false },
@@ -135,13 +137,16 @@ export default function NotificationsPage() {
 
     return (
         <View style={mainStyles.container}>
-            <WarningHeader header="Notifications" onPress={handleBackPress} />
+            <WarningHeader
+                header={t("Notifications")}
+                onPress={handleBackPress}
+            />
             <ScrollView>
-                <Text style={notificationPageStyles.header}>Common</Text>
+                <Text style={notificationPageStyles.header}>{t("Common")}</Text>
                 {commonSettings.map((item) => (
                     <View style={notificationPageStyles.item} key={item.key}>
                         <Text style={notificationPageStyles.itemTitle}>
-                            {item.name}
+                            {t(item.name)}
                         </Text>
                         <Switch
                             style={notificationPageStyles.itemToggle}
@@ -158,11 +163,13 @@ export default function NotificationsPage() {
                     </View>
                 ))}
                 <View style={notificationPageStyles.divider} />
-                <Text style={notificationPageStyles.header}>Promotions</Text>
+                <Text style={notificationPageStyles.header}>
+                    {t("Promotions")}
+                </Text>
                 {promotionSettings.map((item) => (
                     <View style={notificationPageStyles.item} key={item.key}>
                         <Text style={notificationPageStyles.itemTitle}>
-                            {item.name}
+                            {t(item.name)}
                         </Text>
                         <Switch
                             style={notificationPageStyles.itemToggle}
@@ -188,7 +195,7 @@ export default function NotificationsPage() {
                 disabled={!changesMade}
             >
                 <Text style={notificationPageStyles.buttonText}>
-                    Save Changes
+                    {t("Save Changes")}
                 </Text>
             </TouchableOpacity>
         </View>

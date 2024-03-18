@@ -1,6 +1,6 @@
 const fs = require("fs");
 
-const filePath = "app/profile/ChangePasswordPage.tsx"; // Path to your component file
+const filePath = "app/profile/OrderHistoryPage.tsx"; // Path to your component file
 
 // Read the file contents
 fs.readFile(filePath, "utf8", (err, data) => {
@@ -11,7 +11,16 @@ fs.readFile(filePath, "utf8", (err, data) => {
 
     // Define regular expression patterns to match text that needs translation
     const textPatterns = [
-        { pattern: /<Text style={[^>]*}>(.*?)<\/Text>/gi, needsCurly: true }, // Match <Text> tags and their content
+        {
+            // Match <Text> tags without style attributes and their content
+            pattern: /<Text\s*>(.*?)<\/Text>/gi,
+            needsCurly: true, // Set needsCurly to false for <Text> elements without style attributes
+        },
+        {
+            // Match <Text> tags with style attributes and their content
+            pattern: /<Text\s+style={([^>]*)}>\s*([^<]+)\s*<\/Text>/gi,
+            needsCurly: true,
+        },
         { pattern: /label="([^"]+)"/gi, needsCurly: true }, // Match label prop values
         { pattern: /header="([^"]+)"/gi, needsCurly: true }, // Match header prop values
         { pattern: /placeholder="([^"]+)"/gi, needsCurly: true }, // Match placeholder prop values
@@ -22,14 +31,9 @@ fs.readFile(filePath, "utf8", (err, data) => {
     // Apply patterns to the file contents
     let modifiedData = data;
     textPatterns.forEach(({ pattern, needsCurly }) => {
-        modifiedData = modifiedData.replace(pattern, (match, p1) => {
-            let curly;
-            if (needsCurly) {
-                curly = `{t("${p1}")}`;
-            } else {
-                curly = `t("${p1}")`;
-            }
-            return match.replace(`"${p1}"`, curly); // Replace quoted string with curly braces
+        modifiedData = modifiedData.replace(pattern, (match, p1, p2) => {
+            let translatedText = needsCurly ? `{t("${p2}")}` : `t("${p2}")`;
+            return match.replace(p2, translatedText);
         });
     });
 

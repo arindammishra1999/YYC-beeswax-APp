@@ -2,6 +2,7 @@ import { FlashList } from "@shopify/flash-list";
 import { Image } from "expo-image";
 import { router } from "expo-router";
 import React, { useCallback, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Text, View, TouchableOpacity, RefreshControl } from "react-native";
 
 import Header from "@/components/header";
@@ -9,6 +10,7 @@ import { colors } from "@/consts/styles";
 import { orderHistoryPageStyles } from "@/styles/orderHistoryPageStyles";
 
 export default function OrderHistoryPage() {
+    const { t } = useTranslation();
     const [orderHistory] = useState(true);
     const [refreshing, setRefreshing] = useState(false);
 
@@ -138,11 +140,11 @@ export default function OrderHistoryPage() {
                     </Text>
                     <View style={orderHistoryPageStyles.orderDetails}>
                         <Text style={setOrderStatusType(order)}>
-                            {numberProducts} product
+                            {numberProducts} {t("product")}
                             {numberProducts > 1 ? "s" : ""} -{" "}
                         </Text>
                         <Text style={setOrderStatusType(order)}>
-                            {order} on {date}
+                            {t(order)} {t("on")} {t(date)}
                         </Text>
                     </View>
                 </View>
@@ -153,7 +155,7 @@ export default function OrderHistoryPage() {
     if (orderHistory) {
         return (
             <View style={orderHistoryPageStyles.container}>
-                <Header header="Order History" />
+                <Header header={t("Order History")} />
                 <FlashList
                     data={listings}
                     estimatedItemSize={100}
@@ -166,7 +168,7 @@ export default function OrderHistoryPage() {
                     }
                     renderItem={({ item }) => (
                         <Item
-                            title={item.title}
+                            title={t(item.title)}
                             numberProducts={item.numberProducts}
                             order={item.order}
                             date={item.date}
@@ -180,7 +182,7 @@ export default function OrderHistoryPage() {
     } else {
         return (
             <View style={orderHistoryPageStyles.container}>
-                <Header header="Order History" />
+                <Header header={t("Order History")} />
                 <Text style={orderHistoryPageStyles.messageText}>
                     You haven't ordered anything yet! Go ahead and check out our
                     products.
