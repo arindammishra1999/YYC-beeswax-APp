@@ -3,6 +3,7 @@ import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { Image } from "expo-image";
 import { router } from "expo-router";
 import React, { useCallback, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
     RefreshControl,
     ScrollView,
@@ -32,6 +33,7 @@ function LoadingItemCardList() {
 }
 
 export default function HomePage() {
+    const { t } = useTranslation();
     const [allProducts, setAllProducts] = useState<
         { id: string; data: IProduct }[]
     >([]);
@@ -100,10 +102,10 @@ export default function HomePage() {
                                 color="gray"
                             />
                             <Text style={{ fontSize: 24, fontWeight: "bold" }}>
-                                Error Loading Products:
+                                {t("Error Loading Products:")}
                             </Text>
                             <Text style={{ fontSize: 18, textAlign: "center" }}>
-                                Please check your internet connection
+                                {t("Please check your internet connection")}
                             </Text>
                         </View>
                     </View>
@@ -138,7 +140,7 @@ export default function HomePage() {
                         />
                         <TextInput
                             style={homePageStyles.searchBar}
-                            placeholder="Search all Products"
+                            placeholder={t("Search all Products")}
                             placeholderTextColor={colors.darkGrey}
                             onChangeText={setSearchQuery}
                             onSubmitEditing={() => {
@@ -149,23 +151,31 @@ export default function HomePage() {
                         />
                     </View>
                     <Text style={homePageStyles.headerText}>
-                        Shop by Category
+                        {t("Shop by Category")}
                     </Text>
                     <View style={homePageStyles.categoriesContainer}>
                         <ScrollView
                             horizontal
                             showsHorizontalScrollIndicator={false}
                         >
-                            <CategoryCard iconName="candle" title="Candles" />
+                            <CategoryCard
+                                iconName="candle"
+                                title={t("Candles")}
+                            />
                             <CategoryCard
                                 iconName="lipstick"
-                                title="Lip Balm"
+                                title={t("Lip Balm")}
                             />
-                            <CategoryCard iconName="lotion" title="Lotion" />
-                            <CategoryCard iconName="store" title="Other" />
+                            <CategoryCard
+                                iconName="lotion"
+                                title={t("Lotion")}
+                            />
+                            <CategoryCard iconName="store" title={t("Other")} />
                         </ScrollView>
                     </View>
-                    <Text style={homePageStyles.headerText}>New Arrivals</Text>
+                    <Text style={homePageStyles.headerText}>
+                        {t("New Arrivals")}
+                    </Text>
                     <View style={homePageStyles.horizontalScrollContainer}>
                         <ScrollView
                             horizontal
@@ -179,14 +189,16 @@ export default function HomePage() {
                                         key={product.id}
                                         id={product.id}
                                         image={product.data.url}
-                                        title={product.data.name}
+                                        title={t(product.data.name)}
                                         price={product.data.price}
                                     />
                                 ))
                             )}
                         </ScrollView>
                     </View>
-                    <Text style={homePageStyles.headerText}>Best Sellers</Text>
+                    <Text style={homePageStyles.headerText}>
+                        {t("Best Sellers")}
+                    </Text>
                     <View style={homePageStyles.horizontalScrollContainer}>
                         <ScrollView
                             horizontal
@@ -200,7 +212,7 @@ export default function HomePage() {
                                         key={product.id}
                                         id={product.id}
                                         image={product.data.url}
-                                        title={product.data.name}
+                                        title={t(product.data.name)}
                                         price={product.data.price}
                                     />
                                 ))
@@ -208,7 +220,7 @@ export default function HomePage() {
                         </ScrollView>
                     </View>
                     <Text style={homePageStyles.headerText}>
-                        Recommended for You
+                        {t("Recommended for You")}
                     </Text>
                     <View style={homePageStyles.lastHorizontalScrollContainer}>
                         <ScrollView
@@ -223,7 +235,7 @@ export default function HomePage() {
                                         key={product.id}
                                         id={product.id}
                                         image={product.data.url}
-                                        title={product.data.name}
+                                        title={t(product.data.name)}
                                         price={product.data.price}
                                     />
                                 ))

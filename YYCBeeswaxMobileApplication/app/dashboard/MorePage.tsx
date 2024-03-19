@@ -3,6 +3,7 @@ import { Image } from "expo-image";
 import { router } from "expo-router";
 import * as WebBrowser from "expo-web-browser";
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { ScrollView, Text, TouchableOpacity, View } from "react-native";
 
 import Header from "@/components/header";
@@ -13,6 +14,7 @@ import { mainStyles } from "@/styles/mainStyles";
 import { morePageStyles } from "@/styles/morePageStyles";
 
 export default function MorePage() {
+    const { t } = useTranslation();
     const [allFunFacts, setAllFunFacts] = useState([] as any);
     const [threeFacts, setThreeFacts] = useState([] as any);
 
@@ -41,7 +43,7 @@ export default function MorePage() {
 
     return (
         <View style={mainStyles.container}>
-            <Header header="Explore" noBackArrow />
+            <Header header={t("Explore")} noBackArrow />
             <ScrollView>
                 <View style={morePageStyles.topContainer}>
                     <TouchableOpacity onPress={() => router.push("/quizzes/")}>
@@ -52,7 +54,7 @@ export default function MorePage() {
                                 style={morePageStyles.extrasImage}
                             />
                             <Text style={morePageStyles.extrasContainerText}>
-                                Quizzes & Trivia
+                                {t("Quizzes & Trivia")}
                             </Text>
                         </View>
                     </TouchableOpacity>
@@ -66,14 +68,14 @@ export default function MorePage() {
                                 style={morePageStyles.extrasImage}
                             />
                             <Text style={morePageStyles.extrasContainerText}>
-                                Upcoming Events
+                                {t("Upcoming Events")}
                             </Text>
                         </View>
                     </TouchableOpacity>
                 </View>
                 <View style={morePageStyles.socialsContainer}>
                     <Text style={morePageStyles.socialsText}>
-                        Connect with us on social media!
+                        {t("Connect with us on social media!")}
                     </Text>
                     <View style={morePageStyles.socialsIconsContainer}>
                         <TouchableOpacity
@@ -161,7 +163,7 @@ export default function MorePage() {
                                     name={item.icon}
                                 />
                                 <Text style={morePageStyles.factText}>
-                                    {item.fact}
+                                    {t(item.fact)}
                                 </Text>
                             </View>
                         ))}

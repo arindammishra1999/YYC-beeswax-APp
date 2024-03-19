@@ -3,6 +3,7 @@ import { Image } from "expo-image";
 import { router } from "expo-router";
 import * as SecureStore from "expo-secure-store";
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Text, TouchableOpacity, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 
@@ -14,6 +15,7 @@ import Header from "@/components/header";
 import { cartPageStyles } from "@/styles/cartPageStyles";
 
 export default function CartPage() {
+    const { t } = useTranslation();
     const [cartItems, setCartItems] = useState<any[]>([]);
 
     const calculateTotalItemsCost = (items: any[]) => {
@@ -140,9 +142,11 @@ export default function CartPage() {
     if (cartItems.length == 0) {
         return (
             <View style={cartPageStyles.container}>
-                <Header header="Your Cart" noBackArrow />
+                <Header header={t("Your Cart")} noBackArrow />
                 <Text style={cartPageStyles.messageText}>
-                    Your cart is empty! Go ahead and check out our products.
+                    {t(
+                        "Your cart is empty! Go ahead and check out our products.",
+                    )}
                 </Text>
                 <Image
                     contentFit="contain"
@@ -153,14 +157,16 @@ export default function CartPage() {
                     style={cartPageStyles.button}
                     onPress={() => router.push("/dashboard/HomePage")}
                 >
-                    <Text style={cartPageStyles.buttonText}>Shop Now</Text>
+                    <Text style={cartPageStyles.buttonText}>
+                        {t("Shop Now")}
+                    </Text>
                 </TouchableOpacity>
             </View>
         );
     } else {
         return (
             <View style={cartPageStyles.container}>
-                <Header header="Your Cart" noBackArrow />
+                <Header header={t("Your Cart")} noBackArrow />
                 <ScrollView
                     contentContainerStyle={{
                         paddingBottom: 100,
@@ -175,7 +181,7 @@ export default function CartPage() {
                         <CartProductCard
                             key={product.id}
                             id={product.id}
-                            name={product.data.name}
+                            name={t(product.data.name)}
                             image={product.data.url}
                             price={product.data.price}
                             quantity={product.quantity}

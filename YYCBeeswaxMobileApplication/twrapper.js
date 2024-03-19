@@ -1,6 +1,6 @@
 const fs = require("fs");
 
-const filePath = "app/profile/OrderHistoryPage.tsx"; // Path to your component file
+const filePath = "app/events/EventsPage.tsx"; // Path to your component file
 
 // Read the file contents
 fs.readFile(filePath, "utf8", (err, data) => {

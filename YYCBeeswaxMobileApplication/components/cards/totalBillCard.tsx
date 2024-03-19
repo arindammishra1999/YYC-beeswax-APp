@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { View, Text, TouchableOpacity } from "react-native";
 
 import { totalBillCardStyles } from "@/styles/components/totalBillCardStyles";
@@ -16,24 +17,27 @@ const TotalBillCard: React.FC<TotalBillCardProps> = ({
     gstCost,
     totalBill,
 }) => {
+    const { t } = useTranslation();
     return (
         <View style={totalBillCardStyles.cardContainer}>
             <View style={totalBillCardStyles.labelContainer}>
-                <Text style={totalBillCardStyles.label}>Subtotal</Text>
+                <Text style={totalBillCardStyles.label}>{t("Subtotal")}</Text>
                 <Text style={totalBillCardStyles.value}>
                     ${(Math.round(totalItemsCost * 100) / 100).toFixed(2)}
                 </Text>
             </View>
 
             <View style={totalBillCardStyles.labelContainer}>
-                <Text style={totalBillCardStyles.label}>Shipping Fee</Text>
+                <Text style={totalBillCardStyles.label}>
+                    {t("Shipping Fee")}
+                </Text>
                 <Text style={totalBillCardStyles.value}>
                     ${shippingCost.toFixed(2)}
                 </Text>
             </View>
 
             <View style={totalBillCardStyles.labelContainer}>
-                <Text style={totalBillCardStyles.label}>GST</Text>
+                <Text style={totalBillCardStyles.label}>{t("GST")}</Text>
                 <Text style={totalBillCardStyles.value}>
                     ${gstCost.toFixed(2)}
                 </Text>
@@ -42,7 +46,7 @@ const TotalBillCard: React.FC<TotalBillCardProps> = ({
             <View style={totalBillCardStyles.horizontalLine} />
 
             <View style={totalBillCardStyles.labelContainer}>
-                <Text style={totalBillCardStyles.totalLabel}>Total</Text>
+                <Text style={totalBillCardStyles.totalLabel}>{t("Total")}</Text>
                 <Text style={totalBillCardStyles.totalValue}>
                     ${(Math.round(totalBill * 100) / 100).toFixed(2)}
                 </Text>
@@ -50,7 +54,7 @@ const TotalBillCard: React.FC<TotalBillCardProps> = ({
 
             <TouchableOpacity style={totalBillCardStyles.button}>
                 <Text style={totalBillCardStyles.buttonText}>
-                    Continue to shipping
+                    {t("Continue to shipping")}
                 </Text>
             </TouchableOpacity>
         </View>

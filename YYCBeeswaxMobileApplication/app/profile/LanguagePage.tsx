@@ -83,6 +83,7 @@ const LanguageSelectionPage = () => {
             const savedLanguage = await SecureStore.getItemAsync("language");
             const languageToSet = savedLanguage ?? "English";
             setSelectedLanguage(languageToSet);
+            i18n.changeLanguage(languageMap[languageToSet]);
         };
 
         loadLanguageSettings();

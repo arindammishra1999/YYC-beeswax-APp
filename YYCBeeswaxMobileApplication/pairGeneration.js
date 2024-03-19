@@ -1,6 +1,6 @@
 const fs = require("fs");
 
-const sourceFilePath = "app/profile/EditProfilePage.tsx"; // Path to your source component file
+const sourceFilePath = "app/events/EventsPage.tsx"; // Path to your source component file
 const translationFilePath = "locales/en.json"; // Path to your translation file
 
 // Read the source file contents

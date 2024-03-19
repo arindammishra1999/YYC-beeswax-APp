@@ -2,6 +2,7 @@ import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { Image } from "expo-image";
 import * as WebBrowser from "expo-web-browser";
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
     Alert,
     Linking,
@@ -20,6 +21,7 @@ import { eventDetailsPageStyles } from "@/styles/eventDetailsPageStyles";
 import { mainStyles } from "@/styles/mainStyles";
 
 export default function EventDetailsPage() {
+    const { t } = useTranslation();
     const [eventImage, setEventImage] = useState(null);
     const [eventName, setEventName] = useState(String);
     const [eventStartTime, setEventStartTime] = useState(String);
@@ -45,15 +47,15 @@ export default function EventDetailsPage() {
 
     const openInMaps = (address: string) => {
         Alert.alert(
-            "Open in Maps?",
-            "Do you want to open this address in Maps?",
+            t("Open in Maps?"),
+            t("Do you want to open this address in Maps?"),
             [
                 {
-                    text: "No",
+                    text: t("No"),
                     onPress: () => {},
                 },
                 {
-                    text: "Yes",
+                    text: t("Yes"),
                     onPress: () => {
                         const url = Platform.select({
                             ios: `http://maps.apple.com/maps?q=${encodeURIComponent(
@@ -78,7 +80,7 @@ export default function EventDetailsPage() {
 
     return (
         <View style={mainStyles.container}>
-            <Header header="Event Details" />
+            <Header header={t("Event Details")} />
             <ScrollView>
                 {eventImage && (
                     <Image
@@ -86,7 +88,7 @@ export default function EventDetailsPage() {
                         source={{ uri: eventImage }}
                     />
                 )}
-                <Text style={eventDetailsPageStyles.title}>{eventName}</Text>
+                <Text style={eventDetailsPageStyles.title}>{t(eventName)}</Text>
                 <View style={eventDetailsPageStyles.eventInfoContainer}>
                     <View style={eventDetailsPageStyles.iconContainer}>
                         <MaterialIcons
@@ -96,7 +98,7 @@ export default function EventDetailsPage() {
                     </View>
                     <View style={eventDetailsPageStyles.innerDetailsContainer}>
                         <Text style={eventDetailsPageStyles.infoHeaderText}>
-                            {eventStartTime}
+                            {t(eventStartTime)}
                         </Text>
                     </View>
                 </View>
@@ -119,10 +121,10 @@ export default function EventDetailsPage() {
                     </View>
                 </TouchableOpacity>
                 <Text style={eventDetailsPageStyles.eventTextHeader}>
-                    About this Event:
+                    {t("About this Event:")}
                 </Text>
                 <Text style={eventDetailsPageStyles.eventText}>
-                    {eventDescription}
+                    {t(eventDescription)}
                 </Text>
             </ScrollView>
             <View style={eventDetailsPageStyles.bottomBar}>
@@ -131,7 +133,7 @@ export default function EventDetailsPage() {
                     onPress={() => WebBrowser.openBrowserAsync(eventTicketUrl)}
                 >
                     <Text style={eventDetailsPageStyles.buttonText}>
-                        Buy Tickets
+                        {t("Buy Tickets")}
                     </Text>
                 </TouchableOpacity>
             </View>
