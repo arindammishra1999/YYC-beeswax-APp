@@ -21,12 +21,15 @@ import { useEffect, useState } from "react";
 import { db } from "@/firebase/config";
 import { useUser } from "@/firebase/providers/userProvider";
 
-async function getReviewsByProductId(
-    productId: string,
-    userId?: string,
-    lastVisible?: QueryDocumentSnapshot,
-) {
-    const col = collection(db, "products", productId, "reviews");
+async function getReviewsByProductId({
+    productId,
+    userId,
+    lastVisible,
+}: {
+    productId: string;
+    userId?: string;
+    lastVisible?: QueryDocumentSnapshot;
+}) {
     const constraints: QueryConstraint[] = [];
     if (userId) {
         constraints.push(orderBy("userId"));
@@ -37,7 +40,9 @@ async function getReviewsByProductId(
         constraints.push(startAfter(lastVisible));
     }
     constraints.push(limit(4));
-    const querySnap = await getDocs(query(col, ...constraints));
+    const querySnap = await getDocs(
+        query(collection(db, "products", productId, "reviews"), ...constraints),
+    );
     return {
         lastVisible: querySnap.docs.at(-1),
         reviews: querySnap.docs.map((doc) => {
@@ -75,11 +80,15 @@ async function setReviewByUserId(
     await setDoc(reviewRef, review, { merge: true });
 }
 
-export async function updateReviewAggregation(
-    productId: string,
-    rating?: number,
-    oldRating?: number,
-) {
+async function updateReviewAggregation({
+    productId,
+    rating,
+    oldRating,
+}: {
+    productId: string;
+    rating?: number;
+    oldRating?: number;
+}) {
     if (oldRating && oldRating == rating) {
         return;
     }
@@ -112,28 +121,28 @@ export function useReviewsByProductId(id: string) {
             if (user) {
                 setUserReview(await getReviewByUserId(id, user.uid));
             }
-            const { reviews, lastVisible } = await getReviewsByProductId(
-                id,
-                user?.uid,
-            );
+            const { reviews, lastVisible } = await getReviewsByProductId({
+                productId: id,
+                userId: user?.uid,
+            });
             setLastVisible(lastVisible);
             setReviews(reviews);
         })();
     }, []);
 
-    const getMoreReviews = async () => {
+    async function getMoreReviews() {
         if (lastVisible) {
-            const data = await getReviewsByProductId(
-                id,
-                user?.uid,
+            const data = await getReviewsByProductId({
+                productId: id,
+                userId: user?.uid,
                 lastVisible,
-            );
+            });
             setLastVisible(data.lastVisible);
             setReviews((prev) => {
                 return [...prev, ...data.reviews];
             });
         }
-    };
+    }
 
     function updateUserReview(review: {
         title: string;
@@ -141,7 +150,11 @@ export function useReviewsByProductId(id: string) {
         rating: number;
     }) {
         if (user) {
-            updateReviewAggregation(id, review.rating, userReview?.rating);
+            updateReviewAggregation({
+                productId: id,
+                rating: review.rating,
+                oldRating: userReview?.rating,
+            });
             setReviewByUserId(id, user.uid, {
                 ...review,
                 userId: user.uid,
@@ -159,7 +172,10 @@ export function useReviewsByProductId(id: string) {
 
     function deleteUserReview() {
         if (user && userReview) {
-            updateReviewAggregation(id, undefined, userReview.rating);
+            updateReviewAggregation({
+                productId: id,
+                oldRating: userReview.rating,
+            });
             deleteReviewByUserId(id, user.uid);
             setUserReview(undefined);
         }
