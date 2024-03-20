@@ -1,7 +1,7 @@
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { Platform, View } from "react-native";
 import React from "react";
-import { View } from "react-native";
 
 import CartPage from "./CartPage";
 import HomePage from "./HomePage";
@@ -17,12 +17,17 @@ const Tab = createBottomTabNavigator();
 export default function Layout() {
     return (
         <View
-            style={{
-                width: viewportWidth,
-                height: viewportHeight,
-            }}
+            style={
+                Platform.OS === "ios"
+                    ? { flex: 1 }
+                    : {
+                          width: viewportWidth,
+                          height: viewportHeight,
+                      }
+            }
         >
             <Tab.Navigator
+                safeAreaInsets={{ bottom: 0 }}
                 screenOptions={{
                     headerShown: false,
                     tabBarActiveTintColor: colors.yellow,
