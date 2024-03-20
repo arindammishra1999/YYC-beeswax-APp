@@ -95,8 +95,8 @@ export default function SetQuiz() {
             return;
         }
 
-        if (weights.length == 0) {
-            setError("Error: Results are Empty");
+        if (weights.length < 2) {
+            setError("Error: Minimum of 2 Results are Needed");
             return;
         }
         for (let i = 0; i < weights.length; i++) {
@@ -121,8 +121,12 @@ export default function SetQuiz() {
                 setError(`Error: Title of Question ${i + 1} is Empty`);
                 return;
             }
-            if (question.options.length == 0) {
-                setError(`Error: Options of Question ${i + 1} are Empty`);
+            if (question.options.length < 2) {
+                setError(
+                    `Error: Minimum of 2 Options for Question ${
+                        i + 1
+                    } are Needed`,
+                );
                 return;
             }
         }
@@ -267,7 +271,11 @@ export default function SetQuiz() {
 
     return (
         <View style={mainStyles.container}>
-            <Header header={quiz ? "Edit Quiz" : "Create Quiz"} />
+            <Header
+                header={
+                    quiz ? "Edit Personality Quiz" : "Create Personality Quiz"
+                }
+            />
             <NestableScrollContainer
                 contentContainerStyle={setQuizPageStyles.container}
             >

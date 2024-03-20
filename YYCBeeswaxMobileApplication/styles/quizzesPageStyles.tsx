@@ -6,13 +6,14 @@ import { viewportWidth } from "@/consts/viewport";
 export const quizzesPageStyles = StyleSheet.create({
     container: {
         paddingTop: 10,
-        paddingBottom: 30,
+        paddingBottom: 80,
         paddingHorizontal: 20,
     },
     adminContainer: {
         flexDirection: "row",
         marginHorizontal: 20,
         marginVertical: 10,
+        marginTop: 20,
         gap: 20,
     },
     adminButton: {

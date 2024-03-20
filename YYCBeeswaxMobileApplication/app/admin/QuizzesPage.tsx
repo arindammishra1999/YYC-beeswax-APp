@@ -55,7 +55,9 @@ export default function AdminDashboardPage() {
                 option1Action={() => setLogoutPopupVisible(false)}
                 option2Action={logout}
             />
-            <QuizzesScreen />
+            <View style={adminDashboardPageStyles.page}>
+                <QuizzesScreen />
+            </View>
         </View>
     );
 }
