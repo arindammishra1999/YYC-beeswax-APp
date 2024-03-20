@@ -173,7 +173,9 @@ export default function SetQuiz() {
 
     return (
         <View style={mainStyles.container}>
-            <Header header={quiz ? "Edit Knowledge Quiz" : "Create Knowledge Quiz"} />
+            <Header
+                header={quiz ? "Edit Knowledge Quiz" : "Create Knowledge Quiz"}
+            />
             <NestableScrollContainer
                 contentContainerStyle={setQuizPageStyles.container}
             >
