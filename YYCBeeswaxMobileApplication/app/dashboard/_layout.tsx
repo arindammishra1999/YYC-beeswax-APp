@@ -1,7 +1,7 @@
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Platform, View } from "react-native";
 import React from "react";
+import { Platform, View } from "react-native";
 
 import CartPage from "./CartPage";
 import HomePage from "./HomePage";
