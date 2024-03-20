@@ -1,6 +1,7 @@
 import { StyleSheet } from "react-native";
 
 import { colors, fonts } from "@/consts/styles";
+import { viewportWidth } from "@/consts/viewport";
 
 export const cartPageStyles = StyleSheet.create({
     container: {
@@ -9,7 +10,7 @@ export const cartPageStyles = StyleSheet.create({
     },
     button: {
         marginTop: "4%",
-        width: "80%",
+        width: "95%",
         alignSelf: "center",
     },
     buttonTouchableOpacity: {
@@ -29,6 +30,21 @@ export const cartPageStyles = StyleSheet.create({
     },
     buttonDisabled: {
         opacity: 0.5,
+    },
+    buttonContainer: {
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    paymentButtonContainer: {
+        flexDirection: "column",
+        justifyContent: "center",
+        width: "75%",
+    },
+    discountIcon: {
+        fontSize: 35,
+        position: "absolute",
+        bottom: 1,
     },
     messageText: {
         alignSelf: "center",
@@ -68,5 +84,75 @@ export const cartPageStyles = StyleSheet.create({
     },
     scrollViewContainer: {
         paddingBottom: 100,
+    },
+    codePopupContainer: {
+        flex: 1,
+        justifyContent: "center",
+    },
+    touchableOverlay: {
+        position: "absolute",
+        top: 0,
+        bottom: 0,
+        left: 0,
+        right: 0,
+    },
+    popupView: {
+        backgroundColor: colors.white,
+        borderRadius: 20,
+        paddingVertical: 15,
+        justifyContent: "center",
+        alignSelf: "center",
+        shadowColor: colors.black,
+        shadowOpacity: 0.25,
+        shadowRadius: 10,
+        elevation: 3,
+        width: viewportWidth * 0.88,
+        height: 230,
+    },
+    popupHeaderContainer: {
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        flexDirection: "row",
+        width: "90%",
+        paddingVertical: 15,
+        marginHorizontal: "5%",
+    },
+    headerTitle: {
+        fontSize: 18,
+        fontWeight: "500",
+        paddingBottom: 3.5,
+        fontFamily: fonts.main,
+    },
+    inputContainer: {
+        paddingHorizontal: 10,
+        flex: 1,
+        alignItems: "center",
+    },
+    codeInput: {
+        width: "95%",
+        borderRadius: 8,
+        borderWidth: 1,
+        borderColor: "lightgrey",
+        height: 55,
+        fontSize: 14,
+        paddingHorizontal: 15,
+        marginVertical: 5,
+        fontFamily: fonts.main,
+    },
+    discountButton: {
+        backgroundColor: colors.yellow,
+        alignSelf: "center",
+        width: "95%",
+        paddingTop: 15,
+        paddingBottom: 15,
+        borderRadius: 30,
+        marginTop: 20,
+        zIndex: -1,
+    },
+    discountButtonText: {
+        fontSize: 18,
+        alignSelf: "center",
+        fontFamily: fonts.mainBold,
     },
 });

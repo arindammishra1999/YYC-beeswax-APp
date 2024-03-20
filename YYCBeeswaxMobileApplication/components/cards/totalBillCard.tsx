@@ -8,6 +8,8 @@ interface TotalBillCardProps {
     shippingCost: number;
     gstCost: number;
     totalBill: number;
+    discountAmount?: number;
+    discountType?: boolean;
 }
 
 const TotalBillCard: React.FC<TotalBillCardProps> = ({
@@ -15,11 +17,23 @@ const TotalBillCard: React.FC<TotalBillCardProps> = ({
     shippingCost,
     gstCost,
     totalBill,
+    discountAmount,
+    discountType,
 }) => {
     return (
         <View>
             <View style={totalBillCardStyles.labelContainer}>
-                <Text style={totalBillCardStyles.label}>Subtotal</Text>
+                {discountAmount ? (
+                    <Text style={totalBillCardStyles.label}>
+                        Subtotal (Discount Applied:
+                        {discountType
+                            ? ` ${discountAmount}%`
+                            : ` $${discountAmount}`}
+                        )
+                    </Text>
+                ) : (
+                    <Text style={totalBillCardStyles.label}>Subtotal</Text>
+                )}
                 <Text style={totalBillCardStyles.value}>
                     ${(Math.round(totalItemsCost * 100) / 100).toFixed(2)}
                 </Text>
@@ -33,7 +47,7 @@ const TotalBillCard: React.FC<TotalBillCardProps> = ({
             </View>
 
             <View style={totalBillCardStyles.labelContainer}>
-                <Text style={totalBillCardStyles.label}>GST</Text>
+                <Text style={totalBillCardStyles.label}>Applicable Taxes</Text>
                 <Text style={totalBillCardStyles.value}>
                     ${gstCost.toFixed(2)}
                 </Text>

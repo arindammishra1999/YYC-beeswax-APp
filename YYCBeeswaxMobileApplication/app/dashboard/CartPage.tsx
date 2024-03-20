@@ -1,3 +1,4 @@
+import { Ionicons } from "@expo/vector-icons";
 import { useFocusEffect } from "@react-navigation/native";
 import {
     PaymentSheet,
@@ -7,8 +8,17 @@ import {
 import { Image } from "expo-image";
 import { router } from "expo-router";
 import * as SecureStore from "expo-secure-store";
+import { collection, getDocs, query, where } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
-import { Alert, Text, TouchableOpacity, View } from "react-native";
+import {
+    Alert,
+    Modal,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    TouchableWithoutFeedback,
+    View,
+} from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 
 import { getProductData } from "../../firebase/getCollections/getProducts";
@@ -17,6 +27,7 @@ import Button from "@/components/button";
 import CartProductCard from "@/components/cards/cartProductCard";
 import TotalBillCard from "@/components/cards/totalBillCard";
 import Header from "@/components/header";
+import { db } from "@/firebase/config";
 import { getUserById } from "@/firebase/getCollections/getUserById";
 import { useUser } from "@/firebase/providers/userProvider";
 import { cartPageStyles } from "@/styles/cartPageStyles";
@@ -29,9 +40,71 @@ export default function CartPage() {
     const [stripeCustomerId, setStripeCustomerId] = useState("");
     const [disableButton, setDisableButton] = useState(true);
     const [loading, setLoading] = useState(false);
+    const [discountPopupVisible, setDiscountPopupVisible] = useState(false);
+    const [discountCode, setDiscountCode] = useState("");
+    const [discountCodeApplied, setDiscountCodeApplied] = useState(false);
+    const [discountAmount, setDiscountAmount] = useState(0);
+    const [discountType, setDiscountType] = useState(true);
 
     const { user } = useUser();
     const { initPaymentSheet, presentPaymentSheet } = useStripe();
+
+    const applyDiscount = async () => {
+        try {
+            const querySnapshot = await getDocs(
+                query(
+                    collection(db, "discounts"),
+                    where("code", "==", discountCode),
+                ),
+            );
+            if (!querySnapshot.empty) {
+                setDiscountCodeApplied(true);
+                const discountDoc = querySnapshot.docs[0];
+                const discountData = discountDoc.data();
+                setDiscountAmount(discountData.amount);
+                setDiscountType(discountData.type);
+                setDiscountCodeApplied(true);
+                setDiscountCode("");
+                Alert.alert(
+                    "Success!",
+                    "This discount code has been applied to your cart.",
+                    [
+                        {
+                            text: "OK",
+                            onPress: () => {
+                                setDiscountPopupVisible(false);
+                            },
+                        },
+                    ],
+                );
+            } else {
+                Alert.alert(
+                    "No Discount Found",
+                    "There is no discount code matching the one you entered.",
+                    [
+                        {
+                            text: "OK",
+                        },
+                    ],
+                );
+            }
+        } catch (error) {
+            console.error("Error finding document ", error);
+        }
+    };
+
+    const calculateDiscountedBill = (items: any[]) => {
+        const subTotal = items.reduce(
+            (total, item) => total + item.quantity * item.data.price,
+            0,
+        );
+        if (discountType) {
+            const discount = subTotal * (discountAmount / 100);
+            return discount >= subTotal ? 0 : subTotal - discount;
+        } else {
+            return discountAmount >= subTotal ? 0 : subTotal - discountAmount;
+        }
+    };
 
     const gatherCustomerId = async () => {
         //Find the users stripe id if it exists, allow them to pay if its found
@@ -48,6 +121,9 @@ export default function CartPage() {
     gatherCustomerId();
 
     const calculateTotalItemsCost = (items: any[]) => {
+        if (discountCodeApplied) {
+            return calculateDiscountedBill(items);
+        }
         return items.reduce(
             (total, item) => total + item.quantity * item.data.price,
             0,
@@ -386,42 +462,106 @@ export default function CartPage() {
                                 shippingCost={10}
                                 gstCost={calculateGSTCost(cartItems)}
                                 totalBill={calculateTotalBill(cartItems)}
+                                discountAmount={discountAmount}
+                                discountType={discountType}
                             />
-                            {stripeCustomerId == "" && (
-                                <Button
-                                    style={cartPageStyles.button}
-                                    title="Add Shipping Details"
-                                    onPress={() => {
-                                        router.push(
-                                            "/checkout/ShippingInfoPage",
-                                        );
-                                    }}
-                                />
-                            )}
-                            {stripeCustomerId != "" && (
-                                <Button
-                                    title="View Shipping Details"
-                                    onPress={() => {
-                                        router.push(
-                                            "/checkout/ShippingInfoPage",
-                                        );
-                                    }}
-                                    style={cartPageStyles.button}
-                                />
-                            )}
-                            <Button
-                                title="Continue to Payment"
-                                style={[
-                                    cartPageStyles.button,
-                                    (disableButton || !loading) &&
-                                        cartPageStyles.buttonDisabled,
-                                ]}
-                                disabled={disableButton || !loading}
-                                onPress={openPaymentSheet}
-                            />
+                            <View style={cartPageStyles.buttonContainer}>
+                                <View
+                                    style={
+                                        cartPageStyles.paymentButtonContainer
+                                    }
+                                >
+                                    {stripeCustomerId == "" && (
+                                        <Button
+                                            style={cartPageStyles.button}
+                                            title="Add Shipping Details"
+                                            onPress={() => {
+                                                router.push(
+                                                    "/checkout/ShippingInfoPage",
+                                                );
+                                            }}
+                                        />
+                                    )}
+                                    {stripeCustomerId != "" && (
+                                        <Button
+                                            title="View Shipping Details"
+                                            onPress={() => {
+                                                router.push(
+                                                    "/checkout/ShippingInfoPage",
+                                                );
+                                            }}
+                                            style={cartPageStyles.button}
+                                        />
+                                    )}
+                                    <Button
+                                        title="Continue to Payment"
+                                        style={[
+                                            cartPageStyles.button,
+                                            (disableButton || !loading) &&
+                                                cartPageStyles.buttonDisabled,
+                                        ]}
+                                        disabled={disableButton || !loading}
+                                        onPress={openPaymentSheet}
+                                    />
+                                </View>
+                                <TouchableOpacity
+                                    onPress={() =>
+                                        setDiscountPopupVisible(true)
+                                    }
+                                >
+                                    <Ionicons
+                                        name="pricetags"
+                                        style={cartPageStyles.discountIcon}
+                                    />
+                                </TouchableOpacity>
+                            </View>
                         </View>
                     )}
                 </View>
+                <Modal
+                    animationType="slide"
+                    transparent
+                    visible={discountPopupVisible}
+                    onRequestClose={() => {
+                        setDiscountPopupVisible(!discountPopupVisible);
+                    }}
+                >
+                    <View style={[cartPageStyles.codePopupContainer]}>
+                        <TouchableWithoutFeedback
+                            onPress={() => setDiscountPopupVisible(false)}
+                        >
+                            <View style={cartPageStyles.touchableOverlay} />
+                        </TouchableWithoutFeedback>
+                        <View style={cartPageStyles.popupView}>
+                            <View style={cartPageStyles.popupHeaderContainer}>
+                                <Text style={cartPageStyles.headerTitle}>
+                                    Add Discount Code
+                                </Text>
+                            </View>
+                            <View style={cartPageStyles.inputContainer}>
+                                <TextInput
+                                    style={cartPageStyles.codeInput}
+                                    placeholder="Discount Code"
+                                    placeholderTextColor="grey"
+                                    value={discountCode}
+                                    onChangeText={setDiscountCode}
+                                />
+                                <TouchableOpacity
+                                    style={[cartPageStyles.discountButton]}
+                                    onPress={() => applyDiscount()}
+                                >
+                                    <Text
+                                        style={
+                                            cartPageStyles.discountButtonText
+                                        }
+                                    >
+                                        Apply Code
+                                    </Text>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                    </View>
+                </Modal>
             </StripeProvider>
         </View>
     );
