@@ -171,7 +171,7 @@ export default function CartPage() {
     const openPaymentSheet = async () => {
         const { error } = await presentPaymentSheet();
         if (error) {
-            Alert.alert(`Error code: ${error.code}`, error.message);
+            Alert.alert(`${error.code}`, error.message);
         } else {
             router.push("/checkout/ReviewInfoPage");
             //Empty the cart on successful purchase
