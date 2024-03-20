@@ -102,8 +102,9 @@ export default function CartPage() {
             console.error("Error removing product from SecureStore:", error);
         }
 
-        setICartItems((prevICartItems) =>
-            prevICartItems?.filter((item) => item.id !== productId),
+        setICartItems(
+            (prevICartItems) =>
+                prevICartItems?.filter((item) => item.id !== productId),
         );
     };
 
