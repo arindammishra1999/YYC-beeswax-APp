@@ -17,7 +17,7 @@ import { useUnsavedChangesCheck } from "@/lib/hooks/useUnsavedChangesCheck";
 import { mainStyles } from "@/styles/mainStyles";
 import { shippingInfoPageStyles } from "@/styles/shippingInfoPageStyles";
 
-const API_URL = "http://10.0.2.2:3000"; //Need this to link with a server, unsure if its different for apple
+const API_URL = `http://${process.env.EXPO_PUBLIC_LOCAL_IP}:3000`; //Need this to link with a server, unsure if its different for apple
 
 type Props = {
     customerID?: string;
