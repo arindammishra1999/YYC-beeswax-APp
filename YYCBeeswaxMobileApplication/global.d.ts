@@ -85,3 +85,15 @@ interface IShippingInfo {
     country: string;
     postalCode: string;
 }
+
+interface IOrder {
+    date: Date;
+    total: number;
+    products: IOrderProduct[];
+}
+
+interface IOrderProduct {
+    amount: number;
+    costPer: number;
+    name: string;
+}

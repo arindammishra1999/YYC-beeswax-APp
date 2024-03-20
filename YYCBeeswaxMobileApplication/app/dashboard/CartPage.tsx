@@ -19,13 +19,16 @@ import TotalBillCard from "@/components/cards/totalBillCard";
 import Header from "@/components/header";
 import { getUserById } from "@/firebase/getCollections/getUserById";
 import { useUser } from "@/firebase/providers/userProvider";
+import { newOrder } from "@/firebase/setCollections/newOrder";
 import { cartPageStyles } from "@/styles/cartPageStyles";
 import { totalBillCardStyles } from "@/styles/components/totalBillCardStyles";
 
 const API_URL = `http://${process.env.EXPO_PUBLIC_LOCAL_IP}:3000`;
+const PUBLISHABLE_KEY = process.env.EXPO_PUBLIC_PUBLISHABLE_KEY;
 
 export default function CartPage() {
     const [cartItems, setCartItems] = useState<any[]>([]);
+    const [totalBill, setTotalBill] = useState(0);
     const [stripeCustomerId, setStripeCustomerId] = useState("");
     const [disableButton, setDisableButton] = useState(true);
     const [loading, setLoading] = useState(false);
@@ -168,11 +171,36 @@ export default function CartPage() {
         }, []),
     );
 
+    const parseOrder = (items: any[]) => {
+        if (!items) return;
+        // eslint-disable-next-line prefer-const
+        let parsedProducts: IOrderProduct[] = [];
+        const today = new Date();
+        items.forEach((item) => {
+            const orderProduct = {
+                amount: item.quantity,
+                name: item.data.name,
+                costPer: item.data.price,
+            };
+            parsedProducts.push(orderProduct);
+        });
+        return {
+            date: today,
+            total: totalBill,
+            products: parsedProducts,
+        } as IOrder;
+    };
+
     const openPaymentSheet = async () => {
         const { error } = await presentPaymentSheet();
         if (error) {
             Alert.alert(`${error.code}`, error.message);
         } else {
+            const order = parseOrder(cartItems);
+
+            if (user?.uid && order) {
+                await newOrder(user?.uid, order);
+            }
             router.push("/checkout/ReviewInfoPage");
             //Empty the cart on successful purchase
             await SecureStore.setItemAsync("cart", JSON.stringify([]));
@@ -190,6 +218,7 @@ export default function CartPage() {
 
         const totalValueCart = calculateTotalBill(cartItems);
 
+        setTotalBill(totalValueCart - calculateGSTCost(cartItems) - 10);
         //Need to send the price to the server as a string without a decimal point
         //e.g. $75.30 ==> 7530
         const cartValueString = (Math.round(totalValueCart * 100) / 100)
@@ -344,7 +373,7 @@ export default function CartPage() {
     return (
         //Here there's at least 1 item in the cart, and the stripe id is found
         <View style={cartPageStyles.container}>
-            <StripeProvider publishableKey="pk_test_51OXZxsGf5oZoqxSjhT1uLtbnWgEBYfCK38LmkNVZnln9C5b8D2yBE5pJzDzgO2q3oDVtTbb5bs8BlLWi237iwAeF00nxXUgnZJ">
+            <StripeProvider publishableKey={PUBLISHABLE_KEY ?? ""}>
                 <View>
                     <Header header="Your Cart" noBackArrow />
                     <Image
