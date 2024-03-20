@@ -13,6 +13,7 @@ type Props = {
     price: number;
     name: string;
     quantity: number;
+    choices?: { title: string; name: string }[];
     onQuantityChange: (productId: any, newQuantity: number) => void;
     onRemoveProduct: (productId: any) => void;
 };
@@ -28,6 +29,7 @@ export default function CartProductCard(props: Props) {
                 const parsedCart = JSON.parse(cartData) as {
                     productId: string;
                     quantity: number;
+                    choices?: { title: string; name: string }[];
                 }[];
 
                 const updatedCart = parsedCart.map((item) =>
@@ -52,6 +54,7 @@ export default function CartProductCard(props: Props) {
                 const parsedCart = JSON.parse(cartData) as {
                     productId: string;
                     quantity: number;
+                    choices?: { title: string; name: string }[];
                 }[];
 
                 const updatedCart = parsedCart.filter(
@@ -106,6 +109,27 @@ export default function CartProductCard(props: Props) {
                     <Text style={cartProductCardStyles.title}>
                         {props.name}
                     </Text>
+                    {props?.choices?.map((variant) => (
+                        <View
+                            style={cartProductCardStyles.variantsContainer}
+                            key={variant.name + variant.title}
+                        >
+                            <View
+                                style={cartProductCardStyles.variantContainer}
+                            >
+                                <Text
+                                    style={cartProductCardStyles.variantsTitle}
+                                >
+                                    {variant.title}
+                                </Text>
+                                <Text
+                                    style={cartProductCardStyles.variantsType}
+                                >
+                                    {variant.name}
+                                </Text>
+                            </View>
+                        </View>
+                    ))}
                     <View style={cartProductCardStyles.subInfoContainer}>
                         <Text style={cartProductCardStyles.price}>
                             ${(Math.round(props.price * 100) / 100).toFixed(2)}

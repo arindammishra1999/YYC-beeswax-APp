@@ -36,7 +36,7 @@ import { totalBillCardStyles } from "@/styles/components/totalBillCardStyles";
 const API_URL = `http://${process.env.EXPO_PUBLIC_LOCAL_IP}:3000`;
 
 export default function CartPage() {
-    const [cartItems, setCartItems] = useState<any[]>([]);
+    const [ICartItems, setICartItems] = useState<ICartItem[]>([]);
     const [stripeCustomerId, setStripeCustomerId] = useState("");
     const [disableButton, setDisableButton] = useState(true);
     const [loading, setLoading] = useState(false);
@@ -120,23 +120,23 @@ export default function CartPage() {
 
     gatherCustomerId();
 
-    const calculateTotalItemsCost = (items: any[]) => {
+    const calculateTotalItemsCost = (items: ICartItem[]) => {
         if (discountCodeApplied) {
             return calculateDiscountedBill(items);
         }
         return items.reduce(
-            (total, item) => total + item.quantity * item.data.price,
+            (total, item) => total + item.quantity * item.dynamicPrice,
             0,
         );
     };
 
-    const calculateGSTCost = (items: any[]) => {
+    const calculateGSTCost = (items: ICartItem[]) => {
         const totalItemsCost = calculateTotalItemsCost(items) + 10; // added the shipping cost
         const gstRate = 0.05;
         return totalItemsCost * gstRate;
     };
 
-    const calculateTotalBill = (items: any[]) => {
+    const calculateTotalBill = (items: ICartItem[]) => {
         const totalItemsCost = calculateTotalItemsCost(items);
         const shippingFee = 10; // Set your shipping fee
         const gstCost = calculateGSTCost(items);
@@ -145,8 +145,8 @@ export default function CartPage() {
     };
 
     const handleQuantityChange = (productId: string, newQuantity: number) => {
-        setCartItems((prevCartItems) => {
-            return prevCartItems.map((item) => {
+        setICartItems((prevICartItems) => {
+            return prevICartItems?.map((item) => {
                 if (item.id === productId) {
                     return { ...item, quantity: newQuantity };
                 }
@@ -178,8 +178,9 @@ export default function CartPage() {
             console.error("Error removing product from SecureStore:", error);
         }
 
-        setCartItems((prevCartItems) =>
-            prevCartItems.filter((item) => item.id !== productId),
+        setICartItems(
+            (prevICartItems) =>
+                prevICartItems?.filter((item) => item.id !== productId),
         );
     };
 
@@ -188,53 +189,76 @@ export default function CartPage() {
             const fetchCartData = async () => {
                 try {
                     const cartData = await SecureStore.getItemAsync("cart");
+                    if (!cartData) return;
+                    const parsedCart = JSON.parse(cartData) as {
+                        productId: string;
+                        quantity: number;
+                        choices?: { title: string; name: string }[];
+                        dynamicPrice: number;
+                    }[];
 
-                    if (cartData) {
-                        const parsedCart = JSON.parse(cartData) as {
-                            productId: string;
-                            quantity: number;
-                        }[];
-                        const productDetails = await Promise.all(
-                            parsedCart.map(async ({ productId, quantity }) => {
-                                try {
-                                    const products = await getProductData();
-                                    if (products) {
-                                        const product = products.find(
-                                            (product: { id: string }) =>
-                                                product.id === productId,
-                                        );
+                    const products: { id: string; data: IProduct }[] =
+                        await getProductData();
 
-                                        if (product) {
-                                            return {
-                                                ...product,
-                                                quantity,
-                                            };
-                                        } else {
-                                            console.warn(
-                                                `Product with ID ${productId} not found.`,
-                                            );
-                                            return null;
-                                        }
-                                    } else {
-                                        console.error("Products is undefined.");
-                                        return null;
-                                    }
-                                } catch (error) {
-                                    console.error(
-                                        "Error fetching products:",
-                                        error,
-                                    );
-                                    return null;
-                                }
-                            }),
-                        );
-                        const filteredProductDetails = productDetails.filter(
-                            (product) => product !== null,
-                        );
-
-                        setCartItems(filteredProductDetails);
-                    } else {
+                    if (!products) {
+                        console.error("Products is undefined.");
+                        return;
                     }
+
+                    const productDetails: ICartItem[] = await Promise.all(
+                        parsedCart.map(
+                            async ({
+                                productId,
+                                quantity,
+                                choices,
+                                dynamicPrice,
+                            }) => {
+                                const product = products.find(
+                                    (product) => product.id === productId,
+                                );
+
+                                if (!product) {
+                                    console.warn(
+                                        `Product with ID ${productId} not found.`,
+                                    );
+                                    return {
+                                        id: "",
+                                        quantity: 0,
+                                        data: {
+                                            categories: [],
+                                            description: "",
+                                            name: "",
+                                            stock: 0,
+                                            url: "",
+                                        },
+                                        dynamicPrice: 0,
+                                    };
+                                }
+
+                                const item: ICartItem = {
+                                    id: product.id,
+                                    quantity,
+                                    data: {
+                                        categories: product.data.categories,
+                                        description: product.data.description,
+                                        name: product.data.name,
+                                        stock: product.data.stock,
+                                        url: product.data.url ?? "",
+                                    },
+                                    dynamicPrice,
+                                };
+
+                                if (choices) item.choices = choices;
+
+                                return item;
+                            },
+                        ),
+                    );
+
+                    const filteredProductDetails = productDetails.filter(
+                        (product) => product !== null,
+                    );
+                    setICartItems(filteredProductDetails);
                 } catch (error) {
                     console.error("Error fetching cart data:", error);
                 }
@@ -252,7 +276,7 @@ export default function CartPage() {
             router.push("/checkout/ReviewInfoPage");
             //Empty the cart on successful purchase
             await SecureStore.setItemAsync("cart", JSON.stringify([]));
-            setCartItems([] as any[]);
+            setICartItems([] as any[]);
         }
     };
 
@@ -264,7 +288,7 @@ export default function CartPage() {
                 customerIdFromDatabase = userDetails.customerId;
         }
 
-        const totalValueCart = calculateTotalBill(cartItems);
+        const totalValueCart = calculateTotalBill(ICartItems);
 
         //Need to send the price to the server as a string without a decimal point
         //e.g. $75.30 ==> 7530
@@ -361,9 +385,9 @@ export default function CartPage() {
     useEffect(() => {
         //Everytime an item changes in the cart, and the stripe id is found, re-init the payment sheet
         if (stripeCustomerId) initializePaymentSheet();
-    }, [cartItems]);
+    }, [ICartItems]);
 
-    if (cartItems.length == 0) {
+    if (ICartItems.length == 0) {
         return (
             <View style={cartPageStyles.container}>
                 <Header header="Your Cart" noBackArrow />
@@ -438,30 +462,31 @@ export default function CartPage() {
                                 cartPageStyles.scrollViewContainer
                             }
                         >
-                            {cartItems.map((product: any) => (
+                            {ICartItems.map((product: any) => (
                                 <CartProductCard
                                     key={product.id}
                                     id={product.id}
                                     name={product.data.name}
                                     image={product.data.url}
-                                    price={product.data.price}
+                                    price={product.dynamicPrice}
                                     quantity={product.quantity}
                                     onQuantityChange={handleQuantityChange}
                                     onRemoveProduct={handleRemoveProduct}
+                                    choices={product?.choices}
                                 />
                             ))}
                         </ScrollView>
                     </View>
 
-                    {cartItems.length > 0 && (
+                    {ICartItems.length > 0 && (
                         <View style={totalBillCardStyles.cardContainer}>
                             <TotalBillCard
                                 totalItemsCost={calculateTotalItemsCost(
-                                    cartItems,
+                                    ICartItems,
                                 )}
                                 shippingCost={10}
-                                gstCost={calculateGSTCost(cartItems)}
-                                totalBill={calculateTotalBill(cartItems)}
+                                gstCost={calculateGSTCost(ICartItems)}
+                                totalBill={calculateTotalBill(ICartItems)}
                                 discountAmount={discountAmount}
                                 discountType={discountType}
                             />
