@@ -10,6 +10,7 @@ export const quizzesPageStyles = StyleSheet.create({
         paddingHorizontal: 20,
     },
     adminContainer: {
+        background: colors.white,
         flexDirection: "row",
         marginHorizontal: 20,
         marginVertical: 10,
