@@ -222,10 +222,11 @@ export default function SetQuiz() {
 
     function updateWeights(value: string, name: string, optionIndex: number) {
         setUpdatedQuiz((prev) => {
+            prev = JSON.parse(JSON.stringify(prev));
             prev.questions[selectedQuestionIndex].options[optionIndex].weights[
                 name
-            ] = parseFloat(value) ?? 0;
-            return JSON.parse(JSON.stringify(prev));
+            ] = parseFloat(value) || 0;
+            return prev;
         });
     }
 
