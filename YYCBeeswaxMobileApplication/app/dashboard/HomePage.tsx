@@ -12,6 +12,7 @@ import {
     View,
 } from "react-native";
 
+import loadLanguageSettings from "@/app/profile/LanguagePage";
 import CategoryCard from "@/components/cards/categoryCard";
 import ItemCard, { LoadingItemCard } from "@/components/cards/itemCard";
 import { colors } from "@/consts/styles";
@@ -58,6 +59,7 @@ export default function HomePage() {
         (async () => {
             await setAllProductData();
             setLoading(false);
+            loadLanguageSettings();
         })();
     }, []);
 

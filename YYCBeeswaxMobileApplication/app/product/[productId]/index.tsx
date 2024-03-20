@@ -3,6 +3,7 @@ import { router, useLocalSearchParams } from "expo-router";
 import * as SecureStore from "expo-secure-store";
 import { Timestamp } from "firebase/firestore";
 import React, { Suspense, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 
@@ -16,6 +17,7 @@ import { mainStyles } from "@/styles/mainStyles";
 import { productPageStyles } from "@/styles/productPageStyles";
 
 export default function Product() {
+    const { t } = useTranslation();
     const { productId } = useLocalSearchParams();
     const [showPopup, setShowPopup] = useState(false);
 
@@ -89,7 +91,7 @@ export default function Product() {
 
     return (
         <View style={mainStyles.container}>
-            <Header header={product.name} />
+            <Header header={t(product.name)} />
             <ScrollView
                 contentContainerStyle={productPageStyles.display}
                 onScrollEndDrag={getMoreReviews}
@@ -105,14 +107,16 @@ export default function Product() {
                     <View style={productPageStyles.productHeadingContainer}>
                         <View style={productPageStyles.productTitleSection}>
                             <Text style={productPageStyles.productName}>
-                                {product.name}
+                                {t(product.name)}
                             </Text>
                             <Text
                                 style={
                                     productPageStyles.productShortDescription
                                 }
                             >
-                                This is where a short description will go.
+                                {t(
+                                    "This is where a short description will go.",
+                                )}
                             </Text>
                         </View>
                         <View style={productPageStyles.productQuantitySection}>
@@ -191,7 +195,7 @@ export default function Product() {
                             }
                             onPress={() => setTab("details")}
                         >
-                            Details
+                            {t("Details")}
                         </Text>
                         {product.additionalInfo && (
                             <Text
@@ -213,12 +217,12 @@ export default function Product() {
                             }
                             onPress={() => setTab("reviews")}
                         >
-                            Reviews
+                            {t("Reviews")}
                         </Text>
                     </View>
                     {tab == "details" && (
                         <Text style={productPageStyles.productDescription}>
-                            {product.description}
+                            {t(product.description)}
                         </Text>
                     )}
                     {tab == "additionalInfo" && <></>}
@@ -236,19 +240,19 @@ export default function Product() {
                     onPress={addToCart}
                 >
                     <Text style={productPageStyles.buttonText}>
-                        Add to Cart
+                        {t("Add to Cart")}
                     </Text>
                 </TouchableOpacity>
             </View>
             <Popup
                 visible={showPopup}
                 changeVisibility={() => setShowPopup(false)}
-                option1Text="Keep Shopping"
-                option2Text="Checkout Now"
+                option1Text={t("Keep Shopping")}
+                option2Text={t("Checkout Now")}
                 option1Action={() => setShowPopup(false)}
                 option2Action={() => router.push("/dashboard/CartPage")}
-                title="Added to Cart!"
-                subTitle="Do you want to checkout now?"
+                title={t("Added to Cart!")}
+                subTitle={t("Do you want to checkout now?")}
             />
         </View>
     );
