@@ -9,8 +9,12 @@ export const shippingInfoPageStyles = StyleSheet.create({
         backgroundColor: colors.white,
         justifyContent: "center",
     },
+    innerContainer: {
+        flex: 1,
+        paddingHorizontal: 20,
+    },
     button: {
-        width: "65%",
+        width: "80%",
         alignSelf: "center",
         marginVertical: 20,
     },
@@ -34,7 +38,7 @@ export const shippingInfoPageStyles = StyleSheet.create({
         fontSize: 14,
     },
     dropdownContainer: {
-        paddingHorizontal: 10,
+        marginVertical: 8,
     },
     dropdownLabel: {
         fontSize: 16,
