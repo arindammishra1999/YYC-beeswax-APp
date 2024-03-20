@@ -20,4 +20,9 @@ export const loginPageStyles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
     },
+    button: {
+        marginVertical: 20,
+        width: "90%",
+        alignSelf: "center",
+    },
 });
