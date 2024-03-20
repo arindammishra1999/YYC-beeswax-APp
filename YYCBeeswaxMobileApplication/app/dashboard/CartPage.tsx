@@ -112,7 +112,9 @@ export default function CartPage() {
             const fetchCartData = async () => {
                 try {
                     const cartData = await SecureStore.getItemAsync("cart");
+                    
                     if (!cartData) return;
+                    
                     const parsedCart = JSON.parse(cartData) as {
                         productId: string;
                         quantity: number;
