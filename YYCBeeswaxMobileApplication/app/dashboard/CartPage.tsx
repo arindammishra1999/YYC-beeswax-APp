@@ -1,4 +1,4 @@
-import { Ionicons } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useFocusEffect } from "@react-navigation/native";
 import {
     PaymentSheet,
@@ -93,9 +93,9 @@ export default function CartPage() {
         }
     };
 
-    const calculateDiscountedBill = (items: any[]) => {
+    const calculateDiscountedBill = (items: ICartItem[]) => {
         const subTotal = items.reduce(
-            (total, item) => total + item.quantity * item.data.price,
+            (total, item) => total + item.quantity * item.dynamicPrice,
             0,
         );
         if (discountType) {
@@ -265,7 +265,7 @@ export default function CartPage() {
             };
 
             fetchCartData();
-        }, []),
+        }, [discountCode]),
     );
 
     const openPaymentSheet = async () => {
@@ -274,6 +274,10 @@ export default function CartPage() {
             Alert.alert(`${error.code}`, error.message);
         } else {
             router.push("/checkout/ReviewInfoPage");
+            setDiscountCodeApplied(false);
+            setDiscountAmount(0);
+            setDiscountCode("");
+            setDiscountType(true);
             //Empty the cart on successful purchase
             await SecureStore.setItemAsync("cart", JSON.stringify([]));
             setICartItems([] as any[]);
@@ -534,8 +538,8 @@ export default function CartPage() {
                                         setDiscountPopupVisible(true)
                                     }
                                 >
-                                    <Ionicons
-                                        name="pricetags"
+                                    <MaterialCommunityIcons
+                                        name="brightness-percent"
                                         style={cartPageStyles.discountIcon}
                                     />
                                 </TouchableOpacity>

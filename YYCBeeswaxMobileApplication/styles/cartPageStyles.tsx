@@ -44,7 +44,7 @@ export const cartPageStyles = StyleSheet.create({
     discountIcon: {
         fontSize: 35,
         position: "absolute",
-        bottom: 1,
+        bottom: 5,
     },
     messageText: {
         alignSelf: "center",
