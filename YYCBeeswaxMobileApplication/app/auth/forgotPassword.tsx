@@ -64,7 +64,11 @@ export default function App() {
                         <Text style={forgotPageStyles.error}>{error}</Text>
                     )}
                 </View>
-                <Button title="Confirm" onPress={confirm} />
+                <Button
+                    style={forgotPageStyles.button}
+                    title="Confirm"
+                    onPress={confirm}
+                />
                 <Modal
                     animationType="slide"
                     visible={loginPopupVisible}
