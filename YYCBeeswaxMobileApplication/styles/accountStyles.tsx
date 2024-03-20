@@ -5,7 +5,6 @@ import { colors, fonts } from "@/consts/styles";
 export const accountStyles = StyleSheet.create({
     container: {
         paddingHorizontal: 10,
-        paddingBottom: 10,
         flex: 1,
         alignContent: "space-between",
         backgroundColor: colors.white,
