@@ -113,168 +113,77 @@ export default function CartPage() {
                 try {
                     const cartData = await SecureStore.getItemAsync("cart");
 
-                    if (cartData) {
-                        const parsedCart = JSON.parse(cartData) as {
-                            productId: string;
-                            quantity: number;
-                            choices?: { title: string; name: string }[];
-                            dynamicPrice: number;
-                        }[];
-                        const productDetails: ICartItem[] = await Promise.all(
-                            parsedCart.map(
-                                async ({
-                                    productId,
-                                    quantity,
-                                    choices,
-                                    dynamicPrice,
-                                }) => {
-                                    try {
-                                        const products: {
-                                            id: string;
-                                            data: IProduct;
-                                        }[] = await getProductData();
-                                        if (products) {
-                                            const product = products.find(
-                                                (product) =>
-                                                    product.id === productId,
-                                            );
+                    if (!cartData) return;
 
-                                            if (product) {
-                                                if (choices) {
-                                                    const tempICartItemChoices: ICartItem =
-                                                        {
-                                                            choices,
-                                                            id: product.id,
-                                                            quantity,
-                                                            data: {
-                                                                categories:
-                                                                    product.data
-                                                                        .categories,
-                                                                description:
-                                                                    product.data
-                                                                        .description,
-                                                                name: product
-                                                                    .data.name,
-                                                                stock: product
-                                                                    .data.stock,
-                                                                variantsDynamic:
-                                                                    product.data
-                                                                        .variantsDynamic,
-                                                                url:
-                                                                    product.data
-                                                                        .url ??
-                                                                    "",
-                                                            },
-                                                            dynamicPrice,
-                                                        };
-                                                    return tempICartItemChoices;
-                                                }
-                                                const tempICartItem: ICartItem =
-                                                    {
-                                                        id: product.id,
-                                                        quantity,
-                                                        data: {
-                                                            categories:
-                                                                product.data
-                                                                    .categories,
-                                                            description:
-                                                                product.data
-                                                                    .description,
-                                                            name: product.data
-                                                                .name,
-                                                            stock: product.data
-                                                                .stock,
-                                                            url:
-                                                                product.data
-                                                                    .url ?? "",
-                                                        },
-                                                        dynamicPrice,
-                                                    };
-                                                return tempICartItem;
-                                            } else {
-                                                console.warn(
-                                                    `Product with ID ${productId} not found.`,
-                                                );
-                                                const nullICartItem: ICartItem =
-                                                    {
-                                                        id: "",
-                                                        quantity: 0,
-                                                        data: {
-                                                            categories: [],
-                                                            description: "",
-                                                            name: "",
-                                                            stock: 0,
-                                                            url: "",
-                                                        },
-                                                        dynamicPrice: 0,
-                                                    };
-                                                return nullICartItem;
-                                                /*return {
-                                                    id: "-1",
-                                                    data: null,
-                                                    quantity: 0,
-                                                };*/
-                                            }
-                                        } else {
-                                            console.error(
-                                                "Products is undefined.",
-                                            );
-                                            /*return {
-                                                id: "-1",
-                                                quantity: -1,
-                                            };*/
-                                            /*return {
-                                                    id: "-1",
-                                                    data: null,
-                                                    quantity: 0,
-                                                };*/
-                                            const nullICartItem: ICartItem = {
-                                                id: "",
-                                                quantity: 0,
-                                                data: {
-                                                    categories: [],
-                                                    description: "",
-                                                    name: "",
-                                                    stock: 0,
-                                                    url: "",
-                                                },
-                                                dynamicPrice: 0,
-                                            };
-                                            return nullICartItem;
-                                        }
-                                    } catch (error) {
-                                        console.error(
-                                            "Error fetching products:",
-                                            error,
-                                        );
-                                        const nullICartItem: ICartItem = {
-                                            id: "",
-                                            quantity: 0,
-                                            data: {
-                                                categories: [],
-                                                description: "",
-                                                name: "",
-                                                stock: 0,
-                                                url: "",
-                                            },
-                                            dynamicPrice: 0,
-                                        };
-                                        return nullICartItem;
-                                        /*return {
-                                                    id: "-1",
-                                                    data: null,
-                                                    quantity: 0,
-                                                };*/
-                                    }
-                                },
-                            ),
-                        );
-                        const filteredProductDetails = productDetails.filter(
-                            (product) => product !== null,
-                        );
-                        setICartItems(filteredProductDetails);
-                    } else {
+                    const parsedCart = JSON.parse(cartData) as {
+                        productId: string;
+                        quantity: number;
+                        choices?: { title: string; name: string }[];
+                        dynamicPrice: number;
+                    }[];
+
+                    const products: { id: string; data: IProduct }[] =
+                        await getProductData();
+
+                    if (!products) {
+                        console.error("Products is undefined.");
+                        return;
                     }
+
+                    const productDetails: ICartItem[] = await Promise.all(
+                        parsedCart.map(
+                            async ({
+                                productId,
+                                quantity,
+                                choices,
+                                dynamicPrice,
+                            }) => {
+                                const product = products.find(
+                                    (product) => product.id === productId,
+                                );
+
+                                if (!product) {
+                                    console.warn(
+                                        `Product with ID ${productId} not found.`,
+                                    );
+                                    return {
+                                        id: "",
+                                        quantity: 0,
+                                        data: {
+                                            categories: [],
+                                            description: "",
+                                            name: "",
+                                            stock: 0,
+                                            url: "",
+                                        },
+                                        dynamicPrice: 0,
+                                    };
+                                }
+
+                                const item: ICartItem = {
+                                    id: product.id,
+                                    quantity,
+                                    data: {
+                                        categories: product.data.categories,
+                                        description: product.data.description,
+                                        name: product.data.name,
+                                        stock: product.data.stock,
+                                        url: product.data.url ?? "",
+                                    },
+                                    dynamicPrice,
+                                };
+
+                                if (choices) item.choices = choices;
+
+                                return item;
+                            },
+                        ),
+                    );
+
+                    const filteredProductDetails = productDetails.filter(
+                        (product) => product !== null,
+                    );
+                    setICartItems(filteredProductDetails);
                 } catch (error) {
                     console.error("Error fetching cart data:", error);
                 }
