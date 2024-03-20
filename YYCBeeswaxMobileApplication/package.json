@@ -15,6 +15,7 @@
     "dependencies": {
         "@expo-google-fonts/montserrat": "^0.2.3",
         "@react-native-async-storage/async-storage": "1.18.2",
+        "@react-navigation/bottom-tabs": "^6.5.20",
         "@shopify/flash-list": "1.4.3",
         "@stripe/stripe-react-native": "0.28.0",
         "damerau-levenshtein": "^1.0.8",
