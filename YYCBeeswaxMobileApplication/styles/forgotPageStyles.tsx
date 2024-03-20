@@ -10,7 +10,7 @@ export const forgotPageStyles = StyleSheet.create({
         alignContent: "space-between",
         backgroundColor: colors.white,
     },
-    form: { flex: 1, paddingTop: 10, gap: 20 },
+    form: { flex: 1, paddingTop: 10, gap: 20, paddingHorizontal: 10 },
     logo: {
         alignSelf: "center",
         marginTop: 10,
@@ -24,5 +24,10 @@ export const forgotPageStyles = StyleSheet.create({
         textAlign: "center",
         fontSize: 18,
         fontFamily: fonts.main,
+    },
+    button: {
+        marginVertical: 20,
+        width: "90%",
+        alignSelf: "center",
     },
 });

@@ -22,7 +22,7 @@ import { useUser } from "@/firebase/providers/userProvider";
 import { cartPageStyles } from "@/styles/cartPageStyles";
 import { totalBillCardStyles } from "@/styles/components/totalBillCardStyles";
 
-const API_URL = "http://10.0.2.2:3000";
+const API_URL = `http://${process.env.EXPO_PUBLIC_LOCAL_IP}:3000`;
 
 export default function CartPage() {
     const [cartItems, setCartItems] = useState<any[]>([]);
@@ -124,7 +124,7 @@ export default function CartPage() {
                                     const products = await getProductData();
                                     if (products) {
                                         const product = products.find(
-                                            (product) =>
+                                            (product: { id: string }) =>
                                                 product.id === productId,
                                         );
 

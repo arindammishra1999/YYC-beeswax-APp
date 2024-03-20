@@ -1,8 +1,9 @@
+import { config } from "dotenv";
 import express from "express";
 import Stripe from "stripe";
+config();
 
-const SECRET_KEY =
-    "sk_test_51OXZxsGf5oZoqxSjaErbe9690mPXlOGIj4Ay7S0vk4l0HAx0oNYLkClsXe8ogokJNTVqoDbcUeuhYLBuS5HDq6FQ00z9byt9aY";
+const SECRET_KEY = process.env.EXPO_PUBLIC_SECRET_STRIPE_KEY;
 
 const stripe = Stripe(SECRET_KEY, { apiVersion: "2023-10-16" });
 
