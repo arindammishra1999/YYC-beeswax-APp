@@ -17,7 +17,7 @@ import { useUnsavedChangesCheck } from "@/lib/hooks/useUnsavedChangesCheck";
 import { mainStyles } from "@/styles/mainStyles";
 import { shippingInfoPageStyles } from "@/styles/shippingInfoPageStyles";
 
-const API_URL = "http://10.0.2.2:3000"; //Need this to link with a server, unsure if its different for apple
+const API_URL = `http://${process.env.EXPO_PUBLIC_LOCAL_IP}:3000`; //Need this to link with a server, unsure if its different for apple
 
 type Props = {
     customerID?: string;
@@ -366,7 +366,9 @@ export default function ShippingInfoPage(props: Props) {
             return false;
         }
         if (!validateCanadianPostalCode(shippingInfo.postalCode)) {
-            Alert.alert("Please enter the postal code of your address.");
+            Alert.alert(
+                "Please enter the correct postal code for your address.",
+            );
             return false;
         }
         return true;
@@ -446,7 +448,7 @@ export default function ShippingInfoPage(props: Props) {
                 source={imageSource[selectedMode]}
                 style={shippingInfoPageStyles.image}
             />
-            <ScrollView>
+            <ScrollView style={shippingInfoPageStyles.innerContainer}>
                 <Input
                     label="Full Name"
                     autoCapitalize
@@ -455,6 +457,7 @@ export default function ShippingInfoPage(props: Props) {
                     }
                     placeholder={shippingInfo.name || placeholder.name}
                     value={shippingInfo.name}
+                    viewStyle={{ marginVertical: 8 }}
                 />
                 <Input
                     label="E-mail"
@@ -465,6 +468,7 @@ export default function ShippingInfoPage(props: Props) {
                     }
                     placeholder={shippingInfo.email || placeholder.email}
                     value={shippingInfo.email}
+                    viewStyle={{ marginVertical: 8 }}
                 />
                 <Input
                     label="Phone"
@@ -475,6 +479,7 @@ export default function ShippingInfoPage(props: Props) {
                     }
                     placeholder={shippingInfo.phone || placeholder.phoneNumber}
                     value={shippingInfo.phone}
+                    viewStyle={{ marginVertical: 8 }}
                 />
 
                 <Input
@@ -485,6 +490,7 @@ export default function ShippingInfoPage(props: Props) {
                     }
                     placeholder={shippingInfo.line1 || placeholder.line1}
                     value={shippingInfo.line1}
+                    viewStyle={{ marginVertical: 8 }}
                 />
                 <Input
                     label="Address 2 (optional)"
@@ -494,6 +500,7 @@ export default function ShippingInfoPage(props: Props) {
                     }
                     placeholder={shippingInfo.line2 || placeholder.line2}
                     value={shippingInfo.line2}
+                    viewStyle={{ marginVertical: 8 }}
                 />
                 <Input
                     label="City"
@@ -503,6 +510,7 @@ export default function ShippingInfoPage(props: Props) {
                     }
                     placeholder={shippingInfo.city || placeholder.city}
                     value={shippingInfo.city}
+                    viewStyle={{ marginVertical: 8 }}
                 />
                 <View style={shippingInfoPageStyles.dropdownContainer}>
                     <Text style={shippingInfoPageStyles.dropdownLabel}>
@@ -544,6 +552,7 @@ export default function ShippingInfoPage(props: Props) {
                         shippingInfo.postalCode || placeholder.postalCode
                     }
                     value={shippingInfo.postalCode.toUpperCase()}
+                    viewStyle={{ marginVertical: 8 }}
                 />
                 <View style={shippingInfoPageStyles.extraSpace} />
             </ScrollView>

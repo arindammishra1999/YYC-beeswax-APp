@@ -133,7 +133,11 @@ export default function Signup() {
                         </View>
                     )}
                 </View>
-                <Button title="Create Account" onPress={signup} />
+                <Button
+                    style={loginPageStyles.button}
+                    title="Create Account"
+                    onPress={signup}
+                />
             </ScrollView>
         </View>
     );

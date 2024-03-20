@@ -5,6 +5,7 @@ import { viewportWidth } from "@/consts/viewport";
 
 export const adminDashboardPageStyles = StyleSheet.create({
     page: {
+        flex: 1,
         backgroundColor: colors.lightGrey,
     },
     header: {

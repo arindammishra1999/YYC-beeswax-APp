@@ -18,11 +18,12 @@ type Props = {
     inputStyle?: StyleProp<ViewStyle>;
     multiline?: boolean;
     keyboardType?: KeyboardTypeOptions;
+    viewStyle?: StyleProp<ViewStyle>;
 };
 
 function Input(props: Props) {
     return (
-        <View style={[inputStyles.inputContainer]}>
+        <View style={[props.viewStyle ?? inputStyles.inputContainer]}>
             <Text style={[inputStyles.label]}>{props.label}</Text>
             <TextInput
                 style={[inputStyles.input, props.inputStyle]}

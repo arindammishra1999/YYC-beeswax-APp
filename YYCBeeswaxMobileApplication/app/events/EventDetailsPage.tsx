@@ -56,7 +56,7 @@ export default function EventDetailsPage() {
                     text: "Yes",
                     onPress: () => {
                         const url = Platform.select({
-                            ios: `http://maps.apple.com/maps?q=${encodeURIComponent(
+                            ios: `https://maps.apple.com/maps?q=${encodeURIComponent(
                                 address,
                             )}`,
                             android: `geo:0,0?q=${encodeURIComponent(address)}`,

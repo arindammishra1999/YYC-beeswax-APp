@@ -22,7 +22,7 @@ import { useUser } from "@/firebase/providers/userProvider";
 import { cartPageStyles } from "@/styles/cartPageStyles";
 import { totalBillCardStyles } from "@/styles/components/totalBillCardStyles";
 
-const API_URL = "http://10.0.2.2:3000";
+const API_URL = `http://${process.env.EXPO_PUBLIC_LOCAL_IP}:3000`;
 
 export default function CartPage() {
     const [ICartItems, setICartItems] = useState<ICartItem[]>([]);
@@ -112,9 +112,7 @@ export default function CartPage() {
             const fetchCartData = async () => {
                 try {
                     const cartData = await SecureStore.getItemAsync("cart");
-
                     if (!cartData) return;
-
                     const parsedCart = JSON.parse(cartData) as {
                         productId: string;
                         quantity: number;
@@ -196,7 +194,7 @@ export default function CartPage() {
     const openPaymentSheet = async () => {
         const { error } = await presentPaymentSheet();
         if (error) {
-            Alert.alert(`Error code: ${error.code}`, error.message);
+            Alert.alert(`${error.code}`, error.message);
         } else {
             router.push("/checkout/ReviewInfoPage");
             //Empty the cart on successful purchase

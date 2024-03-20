@@ -8,7 +8,7 @@ import { mainStyles } from "@/styles/mainStyles";
 import { quizPageStyles } from "@/styles/quizPageStyles";
 
 type Props = {
-    quiz: IQuiz | null;
+    quiz: IQuiz;
     onStart: () => void;
     imageURI: string;
 };
@@ -36,7 +36,7 @@ export function QuizStartScreen({ quiz, onStart, imageURI }: Props) {
                     <View style={quizPageStyles.stats}>
                         <Text style={quizPageStyles.bodyText}>Questions</Text>
                         <Text style={quizPageStyles.bodyText}>
-                            {quiz?.count}
+                            {quiz.questions.length}
                         </Text>
                     </View>
                 </View>

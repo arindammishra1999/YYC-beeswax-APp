@@ -1,3 +1,4 @@
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { Tabs } from "expo-router";
 import React from "react";
@@ -42,6 +43,19 @@ export default function Layout() {
                     tabBarIcon: ({ color }) => (
                         <MaterialIcons
                             name="money-off"
+                            style={navbarStyles.optionIcon}
+                            color={color}
+                        />
+                    ),
+                }}
+            />
+            <Tabs.Screen
+                name="QuizzesPage"
+                options={{
+                    title: "Quizzes",
+                    tabBarIcon: ({ color }) => (
+                        <MaterialCommunityIcons
+                            name="comment-question"
                             style={navbarStyles.optionIcon}
                             color={color}
                         />
