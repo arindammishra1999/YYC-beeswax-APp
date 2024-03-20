@@ -12,7 +12,7 @@ export const editProfilePageStyles = StyleSheet.create({
         paddingVertical: 20,
         paddingHorizontal: 15,
         borderRadius: 10,
-        margintop: 10,
+        marginTop: 10,
         marginBottom: 20,
         width: "90%",
         alignSelf: "center",

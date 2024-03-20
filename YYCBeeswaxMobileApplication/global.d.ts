@@ -2,22 +2,27 @@ interface IQuiz {
     id: string;
     title: string;
     description: string;
-    count: number;
+    // count: number;
     type: "Knowledge" | "Personality";
     created: firebase.firestore.Timestamp;
-    plays: number;
+    plays: number | FieldValue;
+    questions: (IKnowledgeQuestion | IPersonalityQuestion)[];
+}
 
+interface IKnowledgeQuiz extends IQuiz {
     // Knowledge Quiz
-    difficulty: string;
+    // difficulty: string;
+    questions: IKnowledgeQuestion[];
+}
 
+interface IPersonalityQuiz extends IQuiz {
     // Personality Quiz
     weights: { [key: string]: string };
+    questions: IPersonalityQuestion[];
 }
 
 interface IKnowledgeQuestion {
-    id: string;
     question: string;
-    difficulty: string;
     correctAnswer: string;
     incorrectAnswer1: string;
     incorrectAnswer2: string;
@@ -26,7 +31,6 @@ interface IKnowledgeQuestion {
 }
 
 interface IPersonalityQuestion {
-    id: string;
     question: string;
     options: {
         value: string;
