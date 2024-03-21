@@ -489,7 +489,7 @@ export default function Product() {
                     </View>
                     {tab == "details" && (
                         <Text style={productPageStyles.productDescription}>
-                            {t(product.description)}
+                            {t(product.name + "desc")}
                         </Text>
                     )}
                     {tab == "additionalInfo" && <></>}

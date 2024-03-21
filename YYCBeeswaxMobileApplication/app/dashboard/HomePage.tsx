@@ -162,17 +162,24 @@ export default function HomePage() {
                         >
                             <CategoryCard
                                 iconName="candle"
+                                englishTitle="Candles"
                                 title={t("Candles")}
                             />
                             <CategoryCard
                                 iconName="lipstick"
+                                englishTitle="Lip Balm"
                                 title={t("Lip Balm")}
                             />
                             <CategoryCard
                                 iconName="lotion"
+                                englishTitle="Lotion"
                                 title={t("Lotion")}
                             />
-                            <CategoryCard iconName="store" title={t("Other")} />
+                            <CategoryCard
+                                iconName="store"
+                                englishTitle="Other"
+                                title={t("Other")}
+                            />
                         </ScrollView>
                     </View>
                     <Text style={homePageStyles.headerText}>
