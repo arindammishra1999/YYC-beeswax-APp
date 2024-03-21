@@ -55,11 +55,11 @@ export default function Product() {
     const [selectedMode, setSelectedMode] = useState(0);
     const [validDV, setValidDV] = useState(true);
 
-    const buttonText = ["Add to Cart", "Update Quantity in Cart"];
-    const popupTitleText = ["Success!", "Quantity Updated!"];
+    const buttonText = [t("Add to Cart"), t("Update Quantity in Cart")];
+    const popupTitleText = [t("Success!)", "t(Quantity Updated!")];
     const popupSubtitleText = [
-        "This item has been added to your cart!",
-        "The quantity of this item has been updated in your cart!",
+        t("This item has been added to your cart!"),
+        t("The quantity of this item has been updated in your cart!"),
     ];
 
     const addToCart = () => {
@@ -473,7 +473,7 @@ export default function Product() {
                                 }
                                 onPress={() => setTab("additionalInfo")}
                             >
-                                Details
+                                t(Details)
                             </Text>
                         )}
                         <Text
@@ -523,8 +523,8 @@ export default function Product() {
             <Popup
                 visible={showPopup}
                 changeVisibility={() => setShowPopup(false)}
-                option1Text="Keep Shopping"
-                option2Text="Checkout Now"
+                option1Text={t("Keep Shopping")}
+                option2Text={t("Checkout Now")}
                 option1Action={() => {
                     setChangesMade(false);
                     setChangedOptions(false);
