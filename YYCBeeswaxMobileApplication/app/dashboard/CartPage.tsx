@@ -1,4 +1,3 @@
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useFocusEffect } from "@react-navigation/native";
 import {
     PaymentSheet,
@@ -494,56 +493,45 @@ export default function CartPage() {
                                 discountAmount={discountAmount}
                                 discountType={discountType}
                             />
-                            <View style={cartPageStyles.buttonContainer}>
-                                <View
-                                    style={
-                                        cartPageStyles.paymentButtonContainer
-                                    }
-                                >
-                                    {stripeCustomerId == "" && (
-                                        <Button
-                                            style={cartPageStyles.button}
-                                            title="Add Shipping Details"
-                                            onPress={() => {
-                                                router.push(
-                                                    "/checkout/ShippingInfoPage",
-                                                );
-                                            }}
-                                        />
-                                    )}
-                                    {stripeCustomerId != "" && (
-                                        <Button
-                                            title="View Shipping Details"
-                                            onPress={() => {
-                                                router.push(
-                                                    "/checkout/ShippingInfoPage",
-                                                );
-                                            }}
-                                            style={cartPageStyles.button}
-                                        />
-                                    )}
-                                    <Button
-                                        title="Continue to Payment"
-                                        style={[
-                                            cartPageStyles.button,
-                                            (disableButton || !loading) &&
-                                                cartPageStyles.buttonDisabled,
-                                        ]}
-                                        disabled={disableButton || !loading}
-                                        onPress={openPaymentSheet}
-                                    />
-                                </View>
-                                <TouchableOpacity
-                                    onPress={() =>
-                                        setDiscountPopupVisible(true)
-                                    }
-                                >
-                                    <MaterialCommunityIcons
-                                        name="brightness-percent"
-                                        style={cartPageStyles.discountIcon}
-                                    />
-                                </TouchableOpacity>
-                            </View>
+                            <TouchableOpacity
+                                onPress={() => setDiscountPopupVisible(true)}
+                            >
+                                <Text style={cartPageStyles.discountCodeLink}>
+                                    Add Discount Code
+                                </Text>
+                            </TouchableOpacity>
+                            {stripeCustomerId == "" && (
+                                <Button
+                                    style={cartPageStyles.button}
+                                    title="Add Shipping Details"
+                                    onPress={() => {
+                                        router.push(
+                                            "/checkout/ShippingInfoPage",
+                                        );
+                                    }}
+                                />
+                            )}
+                            {stripeCustomerId != "" && (
+                                <Button
+                                    title="View Shipping Details"
+                                    onPress={() => {
+                                        router.push(
+                                            "/checkout/ShippingInfoPage",
+                                        );
+                                    }}
+                                    style={cartPageStyles.button}
+                                />
+                            )}
+                            <Button
+                                title="Continue to Payment"
+                                style={[
+                                    cartPageStyles.button,
+                                    (disableButton || !loading) &&
+                                        cartPageStyles.buttonDisabled,
+                                ]}
+                                disabled={disableButton || !loading}
+                                onPress={openPaymentSheet}
+                            />
                         </View>
                     )}
                 </View>

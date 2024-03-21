@@ -8,7 +8,7 @@ export const totalBillCardStyles = StyleSheet.create({
         width: "100%",
         paddingHorizontal: 20,
         paddingTop: 20,
-        paddingBottom: viewportHeight / 6,
+        paddingBottom: viewportHeight / 20,
         backgroundColor: colors.white,
         borderRadius: 32,
         shadowOffset: {
@@ -34,16 +34,19 @@ export const totalBillCardStyles = StyleSheet.create({
         marginVertical: 6,
         fontFamily: fonts.main,
     },
+
     value: {
         fontSize: 16,
         marginBottom: 8,
         fontFamily: fonts.mainBold,
     },
+
     totalLabel: {
         fontSize: 18,
         marginTop: 6,
         fontFamily: fonts.mainBold,
     },
+
     totalValue: {
         fontSize: 18,
         marginBottom: 0,
@@ -54,6 +57,7 @@ export const totalBillCardStyles = StyleSheet.create({
         borderBottomWidth: 1,
         marginVertical: 6,
     },
+
     button: {
         backgroundColor: colors.yellow,
         borderRadius: 25,
@@ -63,6 +67,7 @@ export const totalBillCardStyles = StyleSheet.create({
         marginLeft: "15%",
         marginRight: "15%",
     },
+
     buttonText: {
         color: colors.black,
         fontSize: 16,

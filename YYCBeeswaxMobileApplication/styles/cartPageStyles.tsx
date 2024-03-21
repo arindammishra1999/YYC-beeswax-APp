@@ -8,11 +8,13 @@ export const cartPageStyles = StyleSheet.create({
         flex: 1,
         backgroundColor: colors.white,
     },
+
     button: {
-        marginTop: "4%",
-        width: "95%",
+        marginTop: "3%",
+        width: "80%",
         alignSelf: "center",
     },
+
     buttonTouchableOpacity: {
         backgroundColor: colors.yellow,
         borderRadius: 25,
@@ -23,29 +25,26 @@ export const cartPageStyles = StyleSheet.create({
         marginLeft: "25%",
         marginRight: "25%",
     },
+
     buttonText: {
         color: colors.black,
         fontSize: 16,
         fontFamily: fonts.mainBold,
     },
+
     buttonDisabled: {
         opacity: 0.5,
     },
-    buttonContainer: {
-        flexDirection: "row",
-        justifyContent: "center",
-        alignItems: "center",
+
+    discountCodeLink: {
+        fontSize: 16,
+        color: colors.blue,
+        textDecorationLine: "underline",
+        fontFamily: fonts.main,
+        textAlign: "center",
+        marginTop: 10,
     },
-    paymentButtonContainer: {
-        flexDirection: "column",
-        justifyContent: "center",
-        width: "75%",
-    },
-    discountIcon: {
-        fontSize: 35,
-        position: "absolute",
-        bottom: 5,
-    },
+
     messageText: {
         alignSelf: "center",
         textAlign: "center",
@@ -55,40 +54,49 @@ export const cartPageStyles = StyleSheet.create({
         marginRight: "10%",
         fontFamily: fonts.mainBold,
     },
+
     gif: {
         alignSelf: "center",
         marginTop: 10,
         height: 240,
         width: 320,
     },
+
     topImageContainer: {
         alignSelf: "center",
         width: 300,
         height: 70,
     },
+
     signUpContainer: {
         flexDirection: "row",
         justifyContent: "center",
         marginTop: "5%",
     },
+
     signUpText: {
         fontSize: 16,
     },
+
     signUpLink: {
         fontSize: 16,
         color: colors.blue,
         textDecorationLine: "underline",
     },
+
     productsContainer: {
         height: "40%",
     },
+
     scrollViewContainer: {
         paddingBottom: 100,
     },
+
     codePopupContainer: {
         flex: 1,
         justifyContent: "center",
     },
+
     touchableOverlay: {
         position: "absolute",
         top: 0,
@@ -96,6 +104,7 @@ export const cartPageStyles = StyleSheet.create({
         left: 0,
         right: 0,
     },
+
     popupView: {
         backgroundColor: colors.white,
         borderRadius: 20,
@@ -109,6 +118,7 @@ export const cartPageStyles = StyleSheet.create({
         width: viewportWidth * 0.88,
         height: 230,
     },
+
     popupHeaderContainer: {
         display: "flex",
         alignItems: "center",
@@ -118,17 +128,20 @@ export const cartPageStyles = StyleSheet.create({
         paddingVertical: 15,
         marginHorizontal: "5%",
     },
+
     headerTitle: {
         fontSize: 18,
         fontWeight: "500",
         paddingBottom: 3.5,
         fontFamily: fonts.main,
     },
+
     inputContainer: {
         paddingHorizontal: 10,
         flex: 1,
         alignItems: "center",
     },
+
     codeInput: {
         width: "95%",
         borderRadius: 8,
@@ -140,16 +153,18 @@ export const cartPageStyles = StyleSheet.create({
         marginVertical: 5,
         fontFamily: fonts.main,
     },
+
     discountButton: {
         backgroundColor: colors.yellow,
         alignSelf: "center",
-        width: "95%",
+        width: "80%",
         paddingTop: 15,
         paddingBottom: 15,
         borderRadius: 30,
         marginTop: 20,
         zIndex: -1,
     },
+
     discountButtonText: {
         fontSize: 18,
         alignSelf: "center",
