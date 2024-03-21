@@ -7,12 +7,16 @@ import {
 import { Image } from "expo-image";
 import { router } from "expo-router";
 import * as SecureStore from "expo-secure-store";
+import { collection, getDocs, query, where } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import {
     ActivityIndicator,
     Alert,
+    Modal,
     Text,
+    TextInput,
     TouchableOpacity,
+    TouchableWithoutFeedback,
     View,
 } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
@@ -24,6 +28,7 @@ import CartProductCard from "@/components/cards/cartProductCard";
 import TotalBillCard from "@/components/cards/totalBillCard";
 import Header from "@/components/header";
 import { colors } from "@/consts/styles";
+import { db } from "@/firebase/config";
 import { getUserById } from "@/firebase/getCollections/getUserById";
 import { useUser } from "@/firebase/providers/userProvider";
 import { cartPageStyles } from "@/styles/cartPageStyles";
@@ -39,9 +44,71 @@ export default function CartPage() {
     const [taxProvince, setTaxProvince] = useState("Alberta");
     const [isPaymentLoading, setIsPaymentLoading] = useState(false);
     const [isUpdatedPageLoading, setIsUpdatedPageLoading] = useState(false);
+    const [discountPopupVisible, setDiscountPopupVisible] = useState(false);
+    const [discountCode, setDiscountCode] = useState("");
+    const [discountCodeApplied, setDiscountCodeApplied] = useState(false);
+    const [discountAmount, setDiscountAmount] = useState(0);
+    const [discountType, setDiscountType] = useState(true);
 
     const { user } = useUser();
     const { initPaymentSheet, presentPaymentSheet } = useStripe();
+
+    const applyDiscount = async () => {
+        try {
+            const querySnapshot = await getDocs(
+                query(
+                    collection(db, "discounts"),
+                    where("code", "==", discountCode),
+                ),
+            );
+            if (!querySnapshot.empty) {
+                setDiscountCodeApplied(true);
+                const discountDoc = querySnapshot.docs[0];
+                const discountData = discountDoc.data();
+                setDiscountAmount(discountData.amount);
+                setDiscountType(discountData.type);
+                setDiscountCodeApplied(true);
+                setDiscountCode("");
+                Alert.alert(
+                    "Success!",
+                    "This discount code has been applied to your cart.",
+                    [
+                        {
+                            text: "OK",
+                            onPress: () => {
+                                setDiscountPopupVisible(false);
+                            },
+                        },
+                    ],
+                );
+            } else {
+                Alert.alert(
+                    "No Discount Found",
+                    "There is no discount code matching the one you entered.",
+                    [
+                        {
+                            text: "OK",
+                        },
+                    ],
+                );
+            }
+        } catch (error) {
+            console.error("Error finding document ", error);
+        }
+    };
+
+    const calculateDiscountedBill = (items: ICartItem[]) => {
+        const subTotal = items.reduce(
+            (total, item) => total + item.quantity * item.dynamicPrice,
+            0,
+        );
+        if (discountType) {
+            const discount = subTotal * (discountAmount / 100);
+            return discount >= subTotal ? 0 : subTotal - discount;
+        } else {
+            return discountAmount >= subTotal ? 0 : subTotal - discountAmount;
+        }
+    };
 
     const gatherCustomerId = async () => {
         //Find the users stripe id if it exists, allow them to pay if its found
@@ -58,6 +125,9 @@ export default function CartPage() {
     gatherCustomerId();
 
     const calculateTotalItemsCost = (items: ICartItem[]) => {
+        if (discountCodeApplied) {
+            return calculateDiscountedBill(items);
+        }
         return items.reduce(
             (total, item) => total + item.quantity * item.dynamicPrice,
             0,
@@ -212,7 +282,7 @@ export default function CartPage() {
             };
 
             fetchCartData();
-        }, []),
+        }, [discountCode]),
     );
 
     const openPaymentSheet = async () => {
@@ -224,6 +294,10 @@ export default function CartPage() {
             Alert.alert(`${error.code}`, error.message);
         } else {
             router.push("/checkout/ReviewInfoPage");
+            setDiscountCodeApplied(false);
+            setDiscountAmount(0);
+            setDiscountCode("");
+            setDiscountType(true);
             //Empty the cart on successful purchase
             await SecureStore.setItemAsync("cart", JSON.stringify([]));
             setICartItems([] as any[]);
@@ -447,7 +521,16 @@ export default function CartPage() {
                                 gstCost={calculateGSTCost(ICartItems)}
                                 totalBill={calculateTotalBill(ICartItems)}
                                 taxProvince={taxProvince}
+                                discountAmount={discountAmount}
+                                discountType={discountType}
                             />
+                            <TouchableOpacity
+                                onPress={() => setDiscountPopupVisible(true)}
+                            >
+                                <Text style={cartPageStyles.discountCodeLink}>
+                                    Add Discount Code
+                                </Text>
+                            </TouchableOpacity>
                             {stripeCustomerId == "" && (
                                 <Button
                                     style={cartPageStyles.button}
@@ -484,6 +567,50 @@ export default function CartPage() {
                         </View>
                     )}
                 </View>
+                <Modal
+                    animationType="slide"
+                    transparent
+                    visible={discountPopupVisible}
+                    onRequestClose={() => {
+                        setDiscountPopupVisible(!discountPopupVisible);
+                    }}
+                >
+                    <View style={[cartPageStyles.codePopupContainer]}>
+                        <TouchableWithoutFeedback
+                            onPress={() => setDiscountPopupVisible(false)}
+                        >
+                            <View style={cartPageStyles.touchableOverlay} />
+                        </TouchableWithoutFeedback>
+                        <View style={cartPageStyles.popupView}>
+                            <View style={cartPageStyles.popupHeaderContainer}>
+                                <Text style={cartPageStyles.headerTitle}>
+                                    Add Discount Code
+                                </Text>
+                            </View>
+                            <View style={cartPageStyles.inputContainer}>
+                                <TextInput
+                                    style={cartPageStyles.codeInput}
+                                    placeholder="Discount Code"
+                                    placeholderTextColor="grey"
+                                    value={discountCode}
+                                    onChangeText={setDiscountCode}
+                                />
+                                <TouchableOpacity
+                                    style={[cartPageStyles.discountButton]}
+                                    onPress={() => applyDiscount()}
+                                >
+                                    <Text
+                                        style={
+                                            cartPageStyles.discountButtonText
+                                        }
+                                    >
+                                        Apply Code
+                                    </Text>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                    </View>
+                </Modal>
             </StripeProvider>
         </View>
     );
