@@ -3,6 +3,7 @@ import { Image } from "expo-image";
 import { router } from "expo-router";
 import { Timestamp } from "firebase/firestore";
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { Text, TouchableOpacity, View } from "react-native";
 
 import Skeleton from "@/components/skeleton";
@@ -24,6 +25,7 @@ type Props = {
 export let selectedEventID: number;
 
 export default function EventCard(props: Props) {
+    const { t } = useTranslation();
     const date = convertTimestampToDateTime(props.startTime.seconds);
     const eventDate = secondsToDate(props.startTime.seconds);
     const today = new Date();
@@ -47,9 +49,9 @@ export default function EventCard(props: Props) {
                         style={eventCardStyles.image}
                     />
                     <View style={eventCardStyles.textContainer}>
-                        <Text style={eventCardStyles.dateText}>{date}</Text>
+                        <Text style={eventCardStyles.dateText}>{t(date)}</Text>
                         <Text style={eventCardStyles.nameText}>
-                            {props.name}
+                            {t(props.name)}
                         </Text>
                         <View style={eventCardStyles.locationContainer}>
                             <MaterialIcons
