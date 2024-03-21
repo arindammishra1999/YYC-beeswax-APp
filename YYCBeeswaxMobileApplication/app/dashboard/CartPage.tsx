@@ -104,8 +104,9 @@ export default function CartPage() {
             console.error("Error removing product from SecureStore:", error);
         }
 
-        setICartItems((prevICartItems) =>
-            prevICartItems?.filter((item) => item.id !== productId),
+        setICartItems(
+            (prevICartItems) =>
+                prevICartItems?.filter((item) => item.id !== productId),
         );
     };
 
@@ -375,7 +376,7 @@ export default function CartPage() {
         <View style={cartPageStyles.container}>
             <StripeProvider publishableKey="pk_test_51OXZxsGf5oZoqxSjhT1uLtbnWgEBYfCK38LmkNVZnln9C5b8D2yBE5pJzDzgO2q3oDVtTbb5bs8BlLWi237iwAeF00nxXUgnZJ">
                 <View>
-                    <Header header="Your Cart" noBackArrow />
+                    <Header header={t("Your Cart")} noBackArrow />
                     <Image
                         contentFit="contain"
                         source={
@@ -395,7 +396,7 @@ export default function CartPage() {
                                 <CartProductCard
                                     key={product.id}
                                     id={product.id}
-                                    name={product.data.name}
+                                    name={t(product.data.name)}
                                     image={product.data.url}
                                     price={product.dynamicPrice}
                                     quantity={product.quantity}
@@ -420,7 +421,7 @@ export default function CartPage() {
                             {stripeCustomerId == "" && (
                                 <Button
                                     style={cartPageStyles.button}
-                                    title="Add Shipping Details"
+                                    title={t("Add Shipping Details")}
                                     onPress={() => {
                                         router.push(
                                             "/checkout/ShippingInfoPage",
@@ -430,7 +431,7 @@ export default function CartPage() {
                             )}
                             {stripeCustomerId != "" && (
                                 <Button
-                                    title="View Shipping Details"
+                                    title={t("View Shipping Details")}
                                     onPress={() => {
                                         router.push(
                                             "/checkout/ShippingInfoPage",
@@ -440,7 +441,7 @@ export default function CartPage() {
                                 />
                             )}
                             <Button
-                                title="Continue to Payment"
+                                title={t("Continue to Payment")}
                                 style={[
                                     cartPageStyles.button,
                                     (disableButton || !loading) &&

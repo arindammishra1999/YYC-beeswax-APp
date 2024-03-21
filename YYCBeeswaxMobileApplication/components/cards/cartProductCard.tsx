@@ -21,7 +21,6 @@ type Props = {
 
 export default function CartProductCard(props: Props) {
     const { t } = useTranslation();
-    const [localQuantity, setLocalQuantity] = useState(props.quantity);
     const [showPopup, setShowPopup] = useState(false);
 
     const updateSecureStore = async (productId: string, quantity: number) => {

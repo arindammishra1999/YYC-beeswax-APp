@@ -2,6 +2,7 @@ import { Image } from "expo-image";
 import { router } from "expo-router";
 import { doc, setDoc } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { View, ScrollView, Alert, Text, ActivityIndicator } from "react-native";
 import { SelectCountry } from "react-native-element-dropdown";
 
@@ -79,25 +80,29 @@ const provinceData = [
 const placeholder = {
     name: "Full Name",
     email: "E-mail",
-    phoneNumber: "Phone number",
+    phoneNumber: "Phone Number",
     line1: "Street, PO Box, or Company Name",
     line2: "Apartment, Suite, Unit, or Building",
     city: "City, District, Suburb, Town, or Village",
     province: "Select a Province",
     country: "CA",
-    postalCode: "Postal code",
+    postalCode: "Postal Code",
 };
 
 export default function ShippingInfoPage(props: Props) {
+    const { t } = useTranslation();
     const { user } = useUser();
     const [foundId, setFoundId] = useState("");
 
     const [selectedMode, setSelectedMode] = useState(0);
     const buttonText = [
-        "Submit Shipping Information",
-        "Update Shipping Information",
+        t("Submit Shipping Information"),
+        t("Update Shipping Information"),
     ];
-    const headerText = ["Enter Shipping Details", "View Shipping Details"];
+    const headerText = [
+        t("Enter Shipping Details"),
+        t("View Shipping Details"),
+    ];
     const imageSource = [
         require("@/assets/cartProgress/1.png"),
         require("@/assets/cartProgress/2.png"),
@@ -450,71 +455,73 @@ export default function ShippingInfoPage(props: Props) {
             />
             <ScrollView style={shippingInfoPageStyles.innerContainer}>
                 <Input
-                    label="Full Name"
+                    label={t("Full Name")}
                     autoCapitalize
                     onChangeText={(name) =>
                         setShippingInfo({ ...shippingInfo, name })
                     }
-                    placeholder={shippingInfo.name || placeholder.name}
+                    placeholder={shippingInfo.name || t(placeholder.name)}
                     value={shippingInfo.name}
                     viewStyle={{ marginVertical: 8 }}
                 />
                 <Input
-                    label="E-mail"
+                    label={t("E-mail")}
                     autoCapitalize={false}
                     keyboardType={KeyboardTypeOptions.emailAddress}
                     onChangeText={(email) =>
                         setShippingInfo({ ...shippingInfo, email })
                     }
-                    placeholder={shippingInfo.email || placeholder.email}
+                    placeholder={shippingInfo.email || t(placeholder.email)}
                     value={shippingInfo.email}
                     viewStyle={{ marginVertical: 8 }}
                 />
                 <Input
-                    label="Phone"
+                    label={t("Phone")}
                     autoCapitalize={false}
                     keyboardType={KeyboardTypeOptions.phonePad}
                     onChangeText={(phone) =>
                         setShippingInfo({ ...shippingInfo, phone })
                     }
-                    placeholder={shippingInfo.phone || placeholder.phoneNumber}
+                    placeholder={
+                        shippingInfo.phone || t(placeholder.phoneNumber)
+                    }
                     value={shippingInfo.phone}
                     viewStyle={{ marginVertical: 8 }}
                 />
 
                 <Input
-                    label="Address 1"
+                    label={t("Address 1")}
                     autoCapitalize
                     onChangeText={(line1) =>
                         setShippingInfo({ ...shippingInfo, line1 })
                     }
-                    placeholder={shippingInfo.line1 || placeholder.line1}
+                    placeholder={shippingInfo.line1 || t(placeholder.line1)}
                     value={shippingInfo.line1}
                     viewStyle={{ marginVertical: 8 }}
                 />
                 <Input
-                    label="Address 2 (optional)"
+                    label={t("Address 2 (optional)")}
                     autoCapitalize
                     onChangeText={(line2) =>
                         setShippingInfo({ ...shippingInfo, line2 })
                     }
-                    placeholder={shippingInfo.line2 || placeholder.line2}
+                    placeholder={shippingInfo.line2 || t(placeholder.line2)}
                     value={shippingInfo.line2}
                     viewStyle={{ marginVertical: 8 }}
                 />
                 <Input
-                    label="City"
+                    label={t("City")}
                     autoCapitalize
                     onChangeText={(city) =>
                         setShippingInfo({ ...shippingInfo, city })
                     }
-                    placeholder={shippingInfo.city || placeholder.city}
+                    placeholder={shippingInfo.city || t(placeholder.city)}
                     value={shippingInfo.city}
                     viewStyle={{ marginVertical: 8 }}
                 />
                 <View style={shippingInfoPageStyles.dropdownContainer}>
                     <Text style={shippingInfoPageStyles.dropdownLabel}>
-                        Province
+                        {t("Province")}
                     </Text>
                     <SelectCountry
                         style={shippingInfoPageStyles.dropdown}
@@ -532,7 +539,7 @@ export default function ShippingInfoPage(props: Props) {
                         imageField="image"
                         labelField="label"
                         valueField="value"
-                        placeholder={placeholder.province}
+                        placeholder={t(placeholder.province)}
                         onChange={(e) =>
                             setShippingInfo({
                                 ...shippingInfo,
@@ -543,13 +550,13 @@ export default function ShippingInfoPage(props: Props) {
                 </View>
 
                 <Input
-                    label="Postal code"
+                    label={t("Postal code")}
                     autoCapitalize
                     onChangeText={(postalCode) =>
                         setShippingInfo({ ...shippingInfo, postalCode })
                     }
                     placeholder={
-                        shippingInfo.postalCode || placeholder.postalCode
+                        shippingInfo.postalCode || t(placeholder.postalCode)
                     }
                     value={shippingInfo.postalCode.toUpperCase()}
                     viewStyle={{ marginVertical: 8 }}
