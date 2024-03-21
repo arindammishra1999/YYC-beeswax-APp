@@ -464,7 +464,7 @@ export default function Product() {
                         >
                             {t("Details")}
                         </Text>
-                        {product.additionalInfo && (
+                        {t(product.additionalInfo) && (
                             <Text
                                 style={
                                     tab == "additionalInfo"
