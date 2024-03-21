@@ -8,7 +8,13 @@ import { Image } from "expo-image";
 import { router } from "expo-router";
 import * as SecureStore from "expo-secure-store";
 import React, { useEffect, useState } from "react";
-import { Alert, Text, TouchableOpacity, View } from "react-native";
+import {
+    ActivityIndicator,
+    Alert,
+    Text,
+    TouchableOpacity,
+    View,
+} from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 
 import { getProductData } from "../../firebase/getCollections/getProducts";
@@ -17,6 +23,7 @@ import Button from "@/components/button";
 import CartProductCard from "@/components/cards/cartProductCard";
 import TotalBillCard from "@/components/cards/totalBillCard";
 import Header from "@/components/header";
+import { colors } from "@/consts/styles";
 import { getUserById } from "@/firebase/getCollections/getUserById";
 import { useUser } from "@/firebase/providers/userProvider";
 import { cartPageStyles } from "@/styles/cartPageStyles";
@@ -30,6 +37,8 @@ export default function CartPage() {
     const [disableButton, setDisableButton] = useState(true);
     const [loading, setLoading] = useState(false);
     const [taxProvince, setTaxProvince] = useState("Alberta");
+    const [isPaymentLoading, setIsPaymentLoading] = useState(false);
+    const [isUpdatedPageLoading, setIsUpdatedPageLoading] = useState(false);
 
     const { user } = useUser();
     const { initPaymentSheet, presentPaymentSheet } = useStripe();
@@ -203,10 +212,13 @@ export default function CartPage() {
             };
 
             fetchCartData();
-        }, [taxProvince]),
+        }, []),
     );
 
     const openPaymentSheet = async () => {
+        setIsPaymentLoading(true);
+        await initializePaymentSheet();
+        setIsPaymentLoading(false);
         const { error } = await presentPaymentSheet();
         if (error) {
             Alert.alert(`${error.code}`, error.message);
@@ -316,6 +328,7 @@ export default function CartPage() {
             });
             if (error) console.log(error);
             if (!error) setLoading(true);
+            setIsUpdatedPageLoading(false);
         } catch (error) {
             console.log(error);
         }
@@ -350,31 +363,33 @@ export default function CartPage() {
     if (!user) {
         //If the user isn't signed in, can't link a stripe id to their account, thus they must be signed in
         return (
-            <View style={cartPageStyles.container}>
-                <Header header="Your Cart" noBackArrow />
+            <View>
+                <View style={cartPageStyles.container}>
+                    <Header header="Your Cart" noBackArrow />
 
-                <Text style={cartPageStyles.messageText}>
-                    You are not logged in. Please log in to an account to view
-                    your cart.
-                </Text>
-                <TouchableOpacity
-                    style={cartPageStyles.buttonTouchableOpacity}
-                    onPress={() => router.push("/auth/login")}
-                >
-                    <Text style={cartPageStyles.buttonText}>Login</Text>
-                </TouchableOpacity>
-                <View style={cartPageStyles.signUpContainer}>
-                    <Text style={cartPageStyles.signUpText}>
-                        Don't have an account?{" "}
+                    <Text style={cartPageStyles.messageText}>
+                        You are not logged in. Please log in to an account to
+                        view your cart.
                     </Text>
-                    <TouchableOpacity>
-                        <Text
-                            style={cartPageStyles.signUpLink}
-                            onPress={() => router.push("/auth/signup")}
-                        >
-                            Sign Up
-                        </Text>
+                    <TouchableOpacity
+                        style={cartPageStyles.buttonTouchableOpacity}
+                        onPress={() => router.push("/auth/login")}
+                    >
+                        <Text style={cartPageStyles.buttonText}>Login</Text>
                     </TouchableOpacity>
+                    <View style={cartPageStyles.signUpContainer}>
+                        <Text style={cartPageStyles.signUpText}>
+                            Don't have an account?{" "}
+                        </Text>
+                        <TouchableOpacity>
+                            <Text
+                                style={cartPageStyles.signUpLink}
+                                onPress={() => router.push("/auth/signup")}
+                            >
+                                Sign Up
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
             </View>
         );
@@ -383,6 +398,11 @@ export default function CartPage() {
     return (
         //Here there's at least 1 item in the cart, and the stripe id is found
         <View style={cartPageStyles.container}>
+            {(isPaymentLoading || isUpdatedPageLoading) && (
+                <View style={cartPageStyles.spinnerOverlay}>
+                    <ActivityIndicator size="large" color={colors.yellow} />
+                </View>
+            )}
             <StripeProvider publishableKey="pk_test_51OXZxsGf5oZoqxSjhT1uLtbnWgEBYfCK38LmkNVZnln9C5b8D2yBE5pJzDzgO2q3oDVtTbb5bs8BlLWi237iwAeF00nxXUgnZJ">
                 <View>
                     <Header header="Your Cart" noBackArrow />
@@ -446,6 +466,7 @@ export default function CartPage() {
                                         router.push(
                                             "/checkout/ShippingInfoPage",
                                         );
+                                        setIsUpdatedPageLoading(true);
                                     }}
                                     style={cartPageStyles.button}
                                 />
