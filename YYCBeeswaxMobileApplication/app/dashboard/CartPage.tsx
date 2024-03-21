@@ -29,6 +29,7 @@ export default function CartPage() {
     const [stripeCustomerId, setStripeCustomerId] = useState("");
     const [disableButton, setDisableButton] = useState(true);
     const [loading, setLoading] = useState(false);
+    const [taxProvince, setTaxProvince] = useState("Alberta");
 
     const { user } = useUser();
     const { initPaymentSheet, presentPaymentSheet } = useStripe();
@@ -56,8 +57,21 @@ export default function CartPage() {
 
     const calculateGSTCost = (items: ICartItem[]) => {
         const totalItemsCost = calculateTotalItemsCost(items) + 10; // added the shipping cost
-        const gstRate = 0.05;
-        return totalItemsCost * gstRate;
+
+        const taxRates: Record<string, number> = {
+            Alberta: 0.05,
+            "British Columbia": 0.12,
+            Saskatchewan: 0.11,
+            Manitoba: 0.12,
+            Ontario: 0.13,
+            Quebec: 0.14975,
+            "New Brunswick": 0.15,
+            "Newfoundland and Labrador": 0.15,
+            "Prince Edward Island": 0.15,
+            "Nova Scotia": 0.15,
+        };
+        const taxRate = taxRates[taxProvince] || 0.05;
+        return totalItemsCost * taxRate;
     };
 
     const calculateTotalBill = (items: ICartItem[]) => {
@@ -189,7 +203,7 @@ export default function CartPage() {
             };
 
             fetchCartData();
-        }, []),
+        }, [taxProvince]),
     );
 
     const openPaymentSheet = async () => {
@@ -254,6 +268,7 @@ export default function CartPage() {
             }),
         });
         const { retrievedShippingInfo, error } = await response.json();
+        setTaxProvince(retrievedShippingInfo.province);
         if (error) console.log(error);
         return {
             retrievedShippingInfo,
@@ -411,6 +426,7 @@ export default function CartPage() {
                                 shippingCost={10}
                                 gstCost={calculateGSTCost(ICartItems)}
                                 totalBill={calculateTotalBill(ICartItems)}
+                                taxProvince={taxProvince}
                             />
                             {stripeCustomerId == "" && (
                                 <Button
