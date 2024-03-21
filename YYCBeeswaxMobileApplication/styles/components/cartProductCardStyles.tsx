@@ -78,4 +78,27 @@ export const cartProductCardStyles = StyleSheet.create({
         fontSize: 18,
         fontFamily: fonts.main,
     },
+    variantsContainer: {
+        flexDirection: "column",
+        borderWidth: 1,
+        borderColor: colors.white,
+        alignItems: "flex-start",
+    },
+    variantContainer: {
+        flexDirection: "row",
+        alignItems: "center",
+        paddingBottom: 5,
+    },
+    variantsTitle: {
+        fontFamily: fonts.mainBold,
+        width: "55%",
+        borderWidth: 2,
+        borderColor: colors.white,
+    },
+    variantsType: {
+        fontFamily: fonts.main,
+        borderWidth: 2,
+        borderColor: colors.white,
+        width: "40%",
+    },
 });

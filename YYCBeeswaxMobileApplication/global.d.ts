@@ -48,10 +48,14 @@ interface IProduct {
     name: string;
     description: string;
     categories: string[];
-    variants?: {
-        name: string;
-        values: string[];
-    };
+    variantsDynamic?: {
+        title: string;
+        options: {
+            name: string;
+            stock: number;
+            price: number;
+        }[];
+    }[];
     additionalInfo?: any[];
     reviews?: {
         "1"?: number;
@@ -100,4 +104,35 @@ interface IOrderProduct {
     amount: number;
     costPer: number;
     name: string;
+}
+interface ICartItem {
+    choices?: {
+        name: string;
+        title: string;
+    }[];
+    data: {
+        categories: string[];
+        description: string;
+        name: string;
+        stock: number;
+        variantsDynamic?: {
+            title: string;
+            options: {
+                name: string;
+                stock: number;
+                price: number;
+            }[];
+        }[];
+        url: string;
+    };
+    dynamicPrice: number;
+    id: string;
+    quantity: number;
+}
+
+interface IDynamicVariant {
+    name: string;
+    price: number;
+    stock: number;
+    title: string;
 }
