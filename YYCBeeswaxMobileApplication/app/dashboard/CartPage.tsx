@@ -25,7 +25,9 @@ import { getProductData } from "../../firebase/getCollections/getProducts";
 
 import Button from "@/components/button";
 import CartProductCard from "@/components/cards/cartProductCard";
-import TotalBillCard from "@/components/cards/totalBillCard";
+import TotalBillCard, {
+    LoadingTotalBillCard,
+} from "@/components/cards/totalBillCard";
 import Header from "@/components/header";
 import { colors } from "@/consts/styles";
 import { db } from "@/firebase/config";
@@ -472,7 +474,7 @@ export default function CartPage() {
     return (
         //Here there's at least 1 item in the cart, and the stripe id is found
         <View style={cartPageStyles.container}>
-            {(isPaymentLoading || isUpdatedPageLoading) && (
+            {isPaymentLoading && (
                 <View style={cartPageStyles.spinnerOverlay}>
                     <ActivityIndicator size="large" color={colors.yellow} />
                 </View>
@@ -513,17 +515,21 @@ export default function CartPage() {
 
                     {ICartItems.length > 0 && (
                         <View style={totalBillCardStyles.cardContainer}>
-                            <TotalBillCard
-                                totalItemsCost={calculateTotalItemsCost(
-                                    ICartItems,
-                                )}
-                                shippingCost={10}
-                                gstCost={calculateGSTCost(ICartItems)}
-                                totalBill={calculateTotalBill(ICartItems)}
-                                taxProvince={taxProvince}
-                                discountAmount={discountAmount}
-                                discountType={discountType}
-                            />
+                            {isUpdatedPageLoading ? (
+                                <LoadingTotalBillCard />
+                            ) : (
+                                <TotalBillCard
+                                    totalItemsCost={calculateTotalItemsCost(
+                                        ICartItems,
+                                    )}
+                                    shippingCost={10}
+                                    gstCost={calculateGSTCost(ICartItems)}
+                                    totalBill={calculateTotalBill(ICartItems)}
+                                    taxProvince={taxProvince}
+                                    discountAmount={discountAmount}
+                                    discountType={discountType}
+                                />
+                            )}
                             <TouchableOpacity
                                 onPress={() => setDiscountPopupVisible(true)}
                             >
@@ -558,10 +564,16 @@ export default function CartPage() {
                                 title="Continue to Payment"
                                 style={[
                                     cartPageStyles.button,
-                                    (disableButton || !loading) &&
+                                    (disableButton ||
+                                        !loading ||
+                                        isUpdatedPageLoading) &&
                                         cartPageStyles.buttonDisabled,
                                 ]}
-                                disabled={disableButton || !loading}
+                                disabled={
+                                    disableButton ||
+                                    !loading ||
+                                    isUpdatedPageLoading
+                                }
                                 onPress={openPaymentSheet}
                             />
                         </View>

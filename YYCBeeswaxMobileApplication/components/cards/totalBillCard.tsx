@@ -1,6 +1,8 @@
 import React from "react";
 import { View, Text } from "react-native";
 
+import Skeleton from "../skeleton";
+
 import { totalBillCardStyles } from "@/styles/components/totalBillCardStyles";
 
 interface TotalBillCardProps {
@@ -84,3 +86,39 @@ const TotalBillCard: React.FC<TotalBillCardProps> = ({
 };
 
 export default TotalBillCard;
+
+export function LoadingTotalBillCard() {
+    return (
+        <View>
+            <View style={totalBillCardStyles.labelContainer}>
+                <Skeleton
+                    width="100%"
+                    height={21}
+                    style={{ marginVertical: 4 }}
+                />
+            </View>
+            <View style={totalBillCardStyles.labelContainer}>
+                <Skeleton
+                    width="100%"
+                    height={21}
+                    style={{ marginVertical: 4 }}
+                />
+            </View>
+            <View style={totalBillCardStyles.labelContainer}>
+                <Skeleton
+                    width="100%"
+                    height={21}
+                    style={{ marginVertical: 4 }}
+                />
+            </View>
+            <View style={totalBillCardStyles.horizontalLine} />
+            <View style={totalBillCardStyles.labelContainer}>
+                <Skeleton
+                    width="100%"
+                    height={21}
+                    style={{ marginVertical: 4 }}
+                />
+            </View>
+        </View>
+    );
+}
