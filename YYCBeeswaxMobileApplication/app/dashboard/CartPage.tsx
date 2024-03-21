@@ -41,7 +41,6 @@ const API_URL = `http://${process.env.EXPO_PUBLIC_LOCAL_IP}:3000`;
 const PUBLISHABLE_KEY = process.env.EXPO_PUBLIC_PUBLISHABLE_KEY;
 
 export default function CartPage() {
-    const [cartItems, setCartItems] = useState<any[]>([]);
     const [totalBill, setTotalBill] = useState(0);
     const [ICartItems, setICartItems] = useState<ICartItem[]>([]);
     const [stripeCustomerId, setStripeCustomerId] = useState("");
@@ -319,7 +318,7 @@ export default function CartPage() {
         if (error) {
             Alert.alert(`${error.code}`, error.message);
         } else {
-            const order = parseOrder(cartItems);
+            const order = parseOrder(ICartItems);
 
             if (user?.uid && order) {
                 await newOrder(user?.uid, order);
@@ -345,7 +344,7 @@ export default function CartPage() {
 
         const totalValueCart = calculateTotalBill(ICartItems);
 
-        setTotalBill(totalValueCart - calculateGSTCost(cartItems) - 10);
+        setTotalBill(totalValueCart - calculateGSTCost(ICartItems) - 10);
         //Need to send the price to the server as a string without a decimal point
         //e.g. $75.30 ==> 7530
         const cartValueString = (Math.round(totalValueCart * 100) / 100)
