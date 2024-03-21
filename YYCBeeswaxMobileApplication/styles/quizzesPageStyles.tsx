@@ -6,8 +6,19 @@ import { viewportWidth } from "@/consts/viewport";
 export const quizzesPageStyles = StyleSheet.create({
     container: {
         paddingTop: 10,
-        paddingBottom: 30,
+        paddingBottom: 80,
         paddingHorizontal: 20,
+    },
+    adminContainer: {
+        background: colors.white,
+        flexDirection: "row",
+        marginHorizontal: 20,
+        marginVertical: 10,
+        marginTop: 20,
+        gap: 20,
+    },
+    adminButton: {
+        flex: 1,
     },
     cardSpacing: {
         height: 20,
@@ -34,6 +45,8 @@ export const quizzesPageStyles = StyleSheet.create({
     image: {
         width: viewportWidth / 4,
         height: viewportWidth / 4,
+        borderRadius: 10,
+        overflow: "hidden",
     },
     imageText: {
         position: "absolute",
@@ -50,6 +63,15 @@ export const quizzesPageStyles = StyleSheet.create({
         flexDirection: "column",
         justifyContent: "space-between",
         flex: 1,
+    },
+    headingContainer: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        gap: 10,
+    },
+    editIcon: {
+        margin: 10,
+        transform: [{ translateX: 10 }, { translateY: -10 }],
     },
     textGroup: {
         gap: 10,

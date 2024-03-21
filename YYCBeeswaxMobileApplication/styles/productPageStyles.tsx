@@ -36,6 +36,7 @@ export const productPageStyles = StyleSheet.create({
         color: colors.grey,
         fontSize: 12,
         fontFamily: fonts.main,
+        width: "110%",
     },
     productQuantitySection: {
         alignSelf: "flex-end",
@@ -75,36 +76,53 @@ export const productPageStyles = StyleSheet.create({
         fontSize: 16,
         fontFamily: fonts.main,
     },
-    productPriceContainer: {
+    productPriceVariantsContainer: {
         flexDirection: "row",
-        justifyContent: "space-between",
+        justifyContent: "flex-start",
         paddingBottom: 15,
+        borderWidth: 1,
+        borderColor: colors.white,
+        width: "100%",
     },
     productPrice: {
         fontSize: 30,
-        alignSelf: "flex-start",
         color: colors.blue,
         fontFamily: fonts.mainBold,
+        borderWidth: 1,
+        borderColor: colors.white,
+        width: "35%",
     },
     productVariantsContainer: {
-        flexDirection: "row",
-        justifyContent: "space-between",
-        alignItems: "center",
-        gap: 10,
+        flexDirection: "column",
+        width: "65%",
     },
-    productVariantsTitle: {
+    variantContainer: {
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "center",
+        borderWidth: 1,
+        borderColor: colors.white,
+        paddingBottom: 10,
+    },
+    variantTitle: {
         fontSize: 16,
         fontFamily: fonts.mainBold,
+        width: "40%",
+        borderWidth: 1,
+        borderColor: colors.white,
     },
-    productDropdown: {
-        width: 100,
+    variantDropdown: {
+        width: "55%",
         paddingVertical: 0,
         paddingHorizontal: 10,
+        marginTop: 10,
+        marginLeft: 5,
         borderWidth: 1,
         borderColor: "gray",
         borderRadius: 8,
+        height: 50,
     },
-    productDropdownText: {
+    variantDropdownText: {
         fontSize: 14,
         fontFamily: fonts.main,
     },
@@ -132,7 +150,7 @@ export const productPageStyles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         padding: 15,
-        width: viewportWidth / 2,
+        width: viewportWidth * 0.7,
         marginLeft: "25%",
         marginRight: "25%",
     },
@@ -140,5 +158,8 @@ export const productPageStyles = StyleSheet.create({
         color: colors.black,
         fontSize: 20,
         fontFamily: fonts.mainBold,
+    },
+    buttonDisabled: {
+        opacity: 0.5,
     },
 });

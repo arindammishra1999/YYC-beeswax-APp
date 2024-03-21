@@ -11,13 +11,13 @@ import {
 } from "react-native";
 
 import Button from "@/components/button";
-import Divider from "@/components/divider";
+// import Divider from "@/components/divider";
 import Header from "@/components/header";
 import HideableInput from "@/components/hideableInput";
 import Input from "@/components/input";
 import { colors } from "@/consts/styles";
 import { auth } from "@/firebase/config";
-import { useLoginWithGoogle } from "@/firebase/hooks/loginWithGoogle";
+// import { useLoginWithGoogle } from "@/firebase/hooks/loginWithGoogle";
 import { useUser } from "@/firebase/providers/userProvider";
 import { accountStyles } from "@/styles/accountStyles";
 import { loginPageStyles } from "@/styles/loginPageStyles";
@@ -29,7 +29,7 @@ export default function Login() {
     const [error, setError] = useState("");
     const [logoutSpinner, setLogoutSpinner] = useState(false);
 
-    const { handleLoginGoogle } = useLoginWithGoogle();
+    // const { handleLoginGoogle } = useLoginWithGoogle();
     const { isAdmin } = useUser();
 
     const showAccountDisabledMessage = () =>
@@ -107,9 +107,13 @@ export default function Login() {
                     </Link>
                     {error && <Text style={accountStyles.error}>{error}</Text>}
                 </View>
-                <Button title="Login" onPress={login} />
-                <Divider />
-                <Button title="Login with Google" onPress={handleLoginGoogle} />
+                <Button
+                    style={loginPageStyles.button}
+                    title="Login"
+                    onPress={login}
+                />
+                {/*<Divider />
+                <Button title="Login with Google" onPress={handleLoginGoogle} />*/}
             </View>
         </TouchableWithoutFeedback>
     );

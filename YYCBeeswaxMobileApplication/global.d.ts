@@ -2,22 +2,27 @@ interface IQuiz {
     id: string;
     title: string;
     description: string;
-    count: number;
+    // count: number;
     type: "Knowledge" | "Personality";
     created: firebase.firestore.Timestamp;
-    plays: number;
+    plays: number | FieldValue;
+    questions: (IKnowledgeQuestion | IPersonalityQuestion)[];
+}
 
+interface IKnowledgeQuiz extends IQuiz {
     // Knowledge Quiz
-    difficulty: string;
+    // difficulty: string;
+    questions: IKnowledgeQuestion[];
+}
 
+interface IPersonalityQuiz extends IQuiz {
     // Personality Quiz
     weights: { [key: string]: string };
+    questions: IPersonalityQuestion[];
 }
 
 interface IKnowledgeQuestion {
-    id: string;
     question: string;
-    difficulty: string;
     correctAnswer: string;
     incorrectAnswer1: string;
     incorrectAnswer2: string;
@@ -26,7 +31,6 @@ interface IKnowledgeQuestion {
 }
 
 interface IPersonalityQuestion {
-    id: string;
     question: string;
     options: {
         value: string;
@@ -37,16 +41,21 @@ interface IPersonalityQuestion {
 interface IUser {
     email: string;
     name: string;
+    customerId?: string;
 }
 
 interface IProduct {
     name: string;
     description: string;
     categories: string[];
-    variants?: {
-        name: string;
-        values: string[];
-    };
+    variantsDynamic?: {
+        title: string;
+        options: {
+            name: string;
+            stock: number;
+            price: number;
+        }[];
+    }[];
     additionalInfo?: any[];
     reviews?: {
         "1"?: number;
@@ -71,4 +80,48 @@ interface IReview {
     review: string;
     rating: number;
     lastUpdated: firebase.firestore.Timestamp;
+}
+
+interface IShippingInfo {
+    name: string;
+    email: string;
+    phone: string;
+    line1: string;
+    line2: string;
+    city: string;
+    province: string;
+    country: string;
+    postalCode: string;
+}
+
+interface ICartItem {
+    choices?: {
+        name: string;
+        title: string;
+    }[];
+    data: {
+        categories: string[];
+        description: string;
+        name: string;
+        stock: number;
+        variantsDynamic?: {
+            title: string;
+            options: {
+                name: string;
+                stock: number;
+                price: number;
+            }[];
+        }[];
+        url: string;
+    };
+    dynamicPrice: number;
+    id: string;
+    quantity: number;
+}
+
+interface IDynamicVariant {
+    name: string;
+    price: number;
+    stock: number;
+    title: string;
 }

@@ -29,7 +29,7 @@ export default function NotificationsPage() {
     ]);
     const [changesMade, setChangesMade] = useState(false);
 
-    const showChangesSavedMesssage = () =>
+    const showChangesSavedMessage = () =>
         Alert.alert("Success!", "Your changes have been saved.", [
             { text: "OK" },
         ]);
@@ -108,7 +108,7 @@ export default function NotificationsPage() {
             const value = (setting?.toggle ?? false).toString();
             await SecureStore.setItemAsync(key, value);
         }
-        showChangesSavedMesssage();
+        showChangesSavedMessage();
         setChangesMade(false);
     };
 

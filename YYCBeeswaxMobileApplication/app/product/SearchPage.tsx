@@ -34,7 +34,7 @@ export default function SearchPage() {
     useEffect(() => {
         getProductData().then((products) => {
             if (products) {
-                setValidProducts(searchAlorithm(products));
+                setValidProducts(searchAlgorithm(products));
             } else {
                 console.log("Issue getting products");
             }
@@ -47,7 +47,7 @@ export default function SearchPage() {
         setTimeout(() => {
             getProductData().then((products) => {
                 if (products) {
-                    setValidProducts(searchAlorithm(products));
+                    setValidProducts(searchAlgorithm(products));
                 } else {
                     console.log("Issue getting products");
                 }
@@ -57,7 +57,7 @@ export default function SearchPage() {
         }, 2000);
     }, []);
 
-    function searchAlorithm(allProducts: any): any[] {
+    function searchAlgorithm(allProducts: any): any[] {
         //This is the algorithm to filter out products based off of a users search
         //It starts by iterating through the list of all of the products
         //It prepares two lists, one contains the search terms, and the other contains the values to compare them against
@@ -65,10 +65,10 @@ export default function SearchPage() {
         //The second comparisons uses a fuzzy search by comparing string metrics using the Damerau-Levenshtein distance
         //Whenever a match is made, the product gets added to the screen, and the loop moves to the next product
 
-        //These values can be changed, they appear valid with current data set
+        //These values can be changed, they appear valid with the current data set
         const minSimilarity: number = 0.8;
         const maxStepCount: number = 3;
-        const minWordLength: number = 2; //Used along side valid step count, otherwise single letters can be converted into numbers too easily
+        const minWordLength: number = 2; //Used alongside valid step count, otherwise single letters can be converted into numbers too easily
         const productsInCategory: any[] = [];
 
         allProducts.forEach((product: any) => {

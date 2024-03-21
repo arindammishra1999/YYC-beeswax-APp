@@ -113,7 +113,7 @@ export default function OrderHistoryPage() {
     const onRefresh = useCallback(() => {
         setRefreshing(true);
         setTimeout(() => {
-            // Can put API call to database here once we remove the dummy data
+            // Can put API call to the database here once we remove the dummy data
             setRefreshing(false);
         }, 2000);
     }, []);
