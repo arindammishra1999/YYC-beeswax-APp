@@ -72,7 +72,7 @@ const LanguageSelectionPage = () => {
 
     const handleConfirmChange = async () => {
         await SecureStore.setItemAsync("language", selectedLanguage);
-        const languageCode = languageMap[selectedLanguage];
+        const languageCode = languageMap[selectedLanguage as LanguageName];
         i18n.changeLanguage(languageCode);
         showChangesSavedMesssage();
         setChangesMade(false);
@@ -80,7 +80,9 @@ const LanguageSelectionPage = () => {
 
     useEffect(() => {
         const loadLanguageSettings = async () => {
-            const savedLanguage = await SecureStore.getItemAsync("language");
+            const savedLanguage = (await SecureStore.getItemAsync(
+                "language",
+            )) as LanguageName | null;
             const languageToSet = savedLanguage ?? "English";
             setSelectedLanguage(languageToSet);
             i18n.changeLanguage(languageMap[languageToSet]);

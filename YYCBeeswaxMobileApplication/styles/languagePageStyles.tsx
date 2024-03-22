@@ -1,6 +1,7 @@
 import { StyleSheet } from "react-native";
 
 import { colors, fonts } from "@/consts/styles";
+import { viewportHeight } from "@/consts/viewport";
 
 export const languagePageStyles = StyleSheet.create({
     languageList: {
@@ -44,7 +45,7 @@ export const languagePageStyles = StyleSheet.create({
     bottomContainer: {
         justifyContent: "flex-end",
         display: "flex",
-        height: "9%",
+        height: "11%",
     },
     bottomButton: {
         backgroundColor: colors.yellow,
@@ -54,8 +55,7 @@ export const languagePageStyles = StyleSheet.create({
         paddingBottom: 15,
         borderRadius: 30,
         position: "absolute",
-        bottom: "5%",
-        top: "15.5%",
+        bottom: viewportHeight / 50,
     },
     buttonText: {
         fontSize: 21,

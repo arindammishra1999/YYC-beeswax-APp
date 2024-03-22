@@ -74,11 +74,11 @@ export default function CartPage() {
                 setDiscountCodeApplied(true);
                 setDiscountCode("");
                 Alert.alert(
-                    "Success!",
-                    "This discount code has been applied to your cart.",
+                    t("Success!"),
+                    t("This discount code has been applied to your cart."),
                     [
                         {
-                            text: "OK",
+                            text: t("OK"),
                             onPress: () => {
                                 setDiscountPopupVisible(false);
                             },
