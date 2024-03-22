@@ -6,20 +6,20 @@ import Carousel, { Pagination } from "react-native-snap-carousel";
 import { viewportWidth } from "@/consts/viewport";
 import { landingCarouselStyles } from "@/styles/components/landingCarouselStyles";
 
-type item = {
+export type Item = {
     text: string;
     iconName: keyof typeof MaterialIcons.glyphMap;
 };
 
 type Props = {
-    items: item[];
+    items: Item[];
 };
 
 export default function LandingCarousel(props: Props) {
     const [activeSlide, setActiveSlide] = useState(0);
     const isCarousel = React.useRef(null);
 
-    const _renderItem = ({ item }: { item: item }) => {
+    const _renderItem = ({ item }: { item: Item }) => {
         return (
             <View style={landingCarouselStyles.option}>
                 <MaterialIcons name={item.iconName} size={200} />
