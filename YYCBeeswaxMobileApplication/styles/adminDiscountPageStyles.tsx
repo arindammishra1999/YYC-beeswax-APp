@@ -83,8 +83,9 @@ export const adminDiscountPageStyles = StyleSheet.create({
     },
 
     headerButton: {
-        padding: 8,
-        width: "90%",
+        marginHorizontal: 20,
+        marginVertical: 5,
+        marginTop: 20,
     },
 
     cardContainer: {
