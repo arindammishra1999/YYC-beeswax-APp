@@ -98,6 +98,7 @@ interface IOrder {
     date: Date;
     total: number;
     products: IOrderProduct[];
+    shippingInfo: string;
 }
 
 interface IOrderProduct {

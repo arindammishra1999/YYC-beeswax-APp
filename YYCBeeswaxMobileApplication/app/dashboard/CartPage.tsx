@@ -42,6 +42,7 @@ const PUBLISHABLE_KEY = process.env.EXPO_PUBLIC_PUBLISHABLE_KEY;
 
 export default function CartPage() {
     const [totalBill, setTotalBill] = useState(0);
+    const [shippingInfo, setShippingInfo] = useState("");
     const [ICartItems, setICartItems] = useState<ICartItem[]>([]);
     const [stripeCustomerId, setStripeCustomerId] = useState("");
     const [disableButton, setDisableButton] = useState(true);
@@ -140,7 +141,8 @@ export default function CartPage() {
     };
 
     const calculateGSTCost = (items: ICartItem[]) => {
-        const totalItemsCost = calculateTotalItemsCost(items) + 10; // added the shipping cost
+        const totalItemsCost = calculateTotalItemsCost(items);
+        const preTaxPrice = totalItemsCost + 10; // added the shipping cost
 
         const taxRates: Record<string, number> = {
             Alberta: 0.05,
@@ -155,15 +157,16 @@ export default function CartPage() {
             "Nova Scotia": 0.15,
         };
         const taxRate = taxRates[taxProvince] || 0.05;
-        return totalItemsCost * taxRate;
+        return preTaxPrice * taxRate;
     };
 
     const calculateTotalBill = (items: ICartItem[]) => {
-        const totalItemsCost = calculateTotalItemsCost(items);
+        const preTaxPrice = calculateTotalItemsCost(items);
+
         const shippingFee = 10; // Set your shipping fee
         const gstCost = calculateGSTCost(items);
 
-        return totalItemsCost + shippingFee + gstCost;
+        return preTaxPrice + shippingFee + gstCost;
     };
 
     const handleQuantityChange = (productId: string, newQuantity: number) => {
@@ -292,21 +295,21 @@ export default function CartPage() {
 
     const parseOrder = (items: any[]) => {
         if (!items) return;
-        // eslint-disable-next-line prefer-const
-        let parsedProducts: IOrderProduct[] = [];
+        const parsedProducts: IOrderProduct[] = [];
         const today = new Date();
         items.forEach((item) => {
             const orderProduct = {
                 amount: item.quantity,
                 name: item.data.name,
-                costPer: item.data.price,
+                costPer: item.dynamicPrice,
             };
             parsedProducts.push(orderProduct);
         });
         return {
             date: today,
-            total: totalBill,
+            total: calculateTotalItemsCost(items),
             products: parsedProducts,
+            shippingInfo,
         } as IOrder;
     };
 
@@ -344,7 +347,6 @@ export default function CartPage() {
 
         const totalValueCart = calculateTotalBill(ICartItems);
 
-        setTotalBill(totalValueCart - calculateGSTCost(ICartItems) - 10);
         //Need to send the price to the server as a string without a decimal point
         //e.g. $75.30 ==> 7530
         const cartValueString = (Math.round(totalValueCart * 100) / 100)
@@ -385,6 +387,15 @@ export default function CartPage() {
             }),
         });
         const { retrievedShippingInfo, error } = await response.json();
+        const addressString =
+            retrievedShippingInfo.line1 +
+            ", " +
+            retrievedShippingInfo.city +
+            ", " +
+            retrievedShippingInfo.province +
+            ", " +
+            retrievedShippingInfo.postalCode;
+        setShippingInfo(addressString);
         setTaxProvince(retrievedShippingInfo.province);
         if (error) console.log(error);
         return {
