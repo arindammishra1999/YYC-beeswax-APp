@@ -5,7 +5,7 @@ import AdminCardHeader from "@/components/adminCardHeader";
 import AdminOverviewSection from "@/components/cards/adminOverviewSection";
 import { adminDashboardPageStyles } from "@/styles/adminDashboardPageStyles";
 
-export default function AdminOverviewCard() {
+export default function AdminOverviewCard(orders: any) {
     return (
         <View style={adminDashboardPageStyles.cardContainer}>
             <AdminCardHeader title="Overview" />

@@ -6,8 +6,8 @@ import AdminProductCard from "@/components/cards/adminProductCard";
 import { getProductData } from "@/firebase/getCollections/getProducts";
 import { adminDashboardPageStyles } from "@/styles/adminDashboardPageStyles";
 
-export default function AdminPopularProductsCard() {
-    const [allProducts, setAllProducts] = useState([] as any);
+export default function AdminPopularProductsCard(orders: any) {
+    const [allProducts, setAllProducts] = useState(orders);
 
     useEffect(() => {
         getProductData().then((products: any) => {
