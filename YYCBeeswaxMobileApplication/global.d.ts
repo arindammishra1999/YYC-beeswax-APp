@@ -101,6 +101,7 @@ interface IOrder {
     shippingInfo: string;
     taxes: number;
     discount: number;
+    user: string;
 }
 
 interface IOrderProduct {

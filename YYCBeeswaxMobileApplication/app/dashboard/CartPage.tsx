@@ -312,6 +312,7 @@ export default function CartPage() {
             shippingInfo,
             taxes: calculateGSTCost(items),
             discount: discountAmount,
+            user: user?.uid,
         } as IOrder;
     };
 
