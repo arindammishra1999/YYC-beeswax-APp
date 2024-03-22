@@ -105,6 +105,7 @@ interface IOrderProduct {
     amount: number;
     costPer: number;
     name: string;
+    choices?: any[];
 }
 interface ICartItem {
     choices?: {

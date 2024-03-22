@@ -301,6 +301,7 @@ export default function CartPage() {
                 amount: item.quantity,
                 name: item.data.name,
                 costPer: item.dynamicPrice,
+                choices: item?.choices,
             };
             parsedProducts.push(orderProduct);
         });
@@ -388,6 +389,8 @@ export default function CartPage() {
         const { retrievedShippingInfo, error } = await response.json();
         const addressString =
             retrievedShippingInfo.line1 +
+            " " +
+            retrievedShippingInfo.line2 +
             ", " +
             retrievedShippingInfo.city +
             ", " +
