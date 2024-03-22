@@ -529,7 +529,7 @@ export default function Product() {
                     setChangesMade(false);
                     setChangedOptions(false);
                     setOriginalQuantity(quantity);
-                    setShowPopup(false);
+                    router.push("/dashboard/HomePage");
                 }}
                 option2Action={() => {
                     setChangesMade(false);

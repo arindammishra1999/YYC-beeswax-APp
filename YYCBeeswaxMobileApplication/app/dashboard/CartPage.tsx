@@ -34,13 +34,16 @@ import { colors } from "@/consts/styles";
 import { db } from "@/firebase/config";
 import { getUserById } from "@/firebase/getCollections/getUserById";
 import { useUser } from "@/firebase/providers/userProvider";
+import { newOrder } from "@/firebase/setCollections/newOrder";
 import { cartPageStyles } from "@/styles/cartPageStyles";
 import { totalBillCardStyles } from "@/styles/components/totalBillCardStyles";
 
 const API_URL = `http://${process.env.EXPO_PUBLIC_LOCAL_IP}:3000`;
+const PUBLISHABLE_KEY = process.env.EXPO_PUBLIC_PUBLISHABLE_KEY;
 
 export default function CartPage() {
     const { t } = useTranslation();
+    const [shippingInfo, setShippingInfo] = useState("");
     const [ICartItems, setICartItems] = useState<ICartItem[]>([]);
     const [stripeCustomerId, setStripeCustomerId] = useState("");
     const [disableButton, setDisableButton] = useState(true);
@@ -141,7 +144,8 @@ export default function CartPage() {
     };
 
     const calculateGSTCost = (items: ICartItem[]) => {
-        const totalItemsCost = calculateTotalItemsCost(items) + 10; // added the shipping cost
+        const totalItemsCost = calculateTotalItemsCost(items);
+        const preTaxPrice = totalItemsCost + 10; // added the shipping cost
 
         const taxRates: Record<string, number> = {
             Alberta: 0.05,
@@ -156,15 +160,16 @@ export default function CartPage() {
             "Nova Scotia": 0.15,
         };
         const taxRate = taxRates[taxProvince] || 0.05;
-        return totalItemsCost * taxRate;
+        return preTaxPrice * taxRate;
     };
 
     const calculateTotalBill = (items: ICartItem[]) => {
-        const totalItemsCost = calculateTotalItemsCost(items);
+        const preTaxPrice = calculateTotalItemsCost(items);
+
         const shippingFee = 10; // Set your shipping fee
         const gstCost = calculateGSTCost(items);
 
-        return totalItemsCost + shippingFee + gstCost;
+        return preTaxPrice + shippingFee + gstCost;
     };
 
     const handleQuantityChange = (productId: string, newQuantity: number) => {
@@ -291,6 +296,30 @@ export default function CartPage() {
         }, [discountCode]),
     );
 
+    const parseOrder = (items: any[]) => {
+        if (!items) return;
+        const parsedProducts: IOrderProduct[] = [];
+        const today = new Date();
+        items.forEach((item) => {
+            const orderProduct = {
+                amount: item.quantity,
+                name: item.data.name,
+                costPer: item.dynamicPrice,
+                choices: item?.choices || [],
+            };
+            parsedProducts.push(orderProduct);
+        });
+        return {
+            date: today,
+            total: calculateTotalItemsCost(items),
+            products: parsedProducts,
+            shippingInfo,
+            taxes: calculateGSTCost(items),
+            discount: discountAmount,
+            user: user?.uid,
+        } as IOrder;
+    };
+
     const openPaymentSheet = async () => {
         setIsPaymentLoading(true);
         await initializePaymentSheet();
@@ -299,6 +328,11 @@ export default function CartPage() {
         if (error) {
             Alert.alert(`${error.code}`, error.message);
         } else {
+            const order = parseOrder(ICartItems);
+
+            if (user?.uid && order) {
+                await newOrder(user?.uid, order);
+            }
             router.push("/checkout/ReviewInfoPage");
             setDiscountCodeApplied(false);
             setDiscountAmount(0);
@@ -360,6 +394,17 @@ export default function CartPage() {
             }),
         });
         const { retrievedShippingInfo, error } = await response.json();
+        const addressString =
+            retrievedShippingInfo.line1 +
+            " " +
+            retrievedShippingInfo.line2 +
+            ", " +
+            retrievedShippingInfo.city +
+            ", " +
+            retrievedShippingInfo.province +
+            ", " +
+            retrievedShippingInfo.postalCode;
+        setShippingInfo(addressString);
         setTaxProvince(retrievedShippingInfo.province);
         if (error) console.log(error);
         return {
@@ -487,7 +532,7 @@ export default function CartPage() {
                     <ActivityIndicator size="large" color={colors.yellow} />
                 </View>
             )}
-            <StripeProvider publishableKey="pk_test_51OXZxsGf5oZoqxSjhT1uLtbnWgEBYfCK38LmkNVZnln9C5b8D2yBE5pJzDzgO2q3oDVtTbb5bs8BlLWi237iwAeF00nxXUgnZJ">
+            <StripeProvider publishableKey={PUBLISHABLE_KEY ?? ""}>
                 <View>
                     <Header header={t("Your Cart")} noBackArrow />
                     <Image
