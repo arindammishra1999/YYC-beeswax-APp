@@ -50,7 +50,11 @@ export default function EventCard(props: Props) {
                     />
                     <View style={eventCardStyles.textContainer}>
                         <Text style={eventCardStyles.dateText}>{t(date)}</Text>
-                        <Text style={eventCardStyles.nameText}>
+                        <Text
+                            numberOfLines={2}
+                            ellipsizeMode="tail"
+                            style={eventCardStyles.nameText}
+                        >
                             {t(props.name)}
                         </Text>
                         <View style={eventCardStyles.locationContainer}>
