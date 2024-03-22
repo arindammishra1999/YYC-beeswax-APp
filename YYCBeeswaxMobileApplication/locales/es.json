@@ -163,7 +163,7 @@
     "Error Loading Products:": "Error al cargar productos:",
     "Please check your internet connection": "Por favor revise su conexion a internet",
     "Subtotal": "Total parcial",
-    "Shipping Fee": "Gastos de envío",
+    "Shipping Fee:": "Gastos de envío:",
     "GST": "IVA",
     "Total": "Total",
     "Continue to shipping": "Continuar con el envío",
@@ -299,5 +299,12 @@
     "Sensual Awakenings Beeswax Massage Candledesc": "Disfrute de la mejor experiencia de mimos con nuestra vela de masaje de cera de abejas. ",
     "Lip Balmdesc": "Refresca tus labios con una mezcla de lavanda y menta. ",
     "Mason Jar Beeswax Candledesc": "Ilumina tu espacio con el cálido resplandor de nuestra vela de cera de abejas en tarro de cristal. ",
-    "Mini Self Care Kit": "Mini Kit de Autocuidado"
+    "Mini Self Care Kit": "Mini kit de cuidado personal",
+    "Subtotal: (Discount Applied:": "Subtotal: (Descuento aplicado:",
+    "Taxes:": "Impuestos:",
+    "Tax is based on Shipping Information": "El impuesto se basa en la información de envío.",
+    "Add Discount Code": "Agregar código de descuento",
+    "Discount Code": "Código de descuento",
+    "Apply Code": "Aplica el código",
+    "Subtotal:": "Subtotal:"
 }

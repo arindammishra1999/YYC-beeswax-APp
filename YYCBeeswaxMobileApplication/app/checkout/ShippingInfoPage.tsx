@@ -423,7 +423,7 @@ export default function ShippingInfoPage(props: Props) {
                     );
                     user.reload(); //reload the user to ensure that the app knows that the shipping info exists
                     Alert.alert(
-                        "Shippining Information saved successfully.",
+                        "Shipping Information saved successfully.",
                         "",
                         [{ text: "OK", onPress: () => router.back() }],
                     );
