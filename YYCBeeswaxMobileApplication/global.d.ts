@@ -100,7 +100,8 @@ interface IOrder {
     products: IOrderProduct[];
     shippingInfo: string;
     taxes: number;
-    discount?: number;
+    discount: number;
+    user: string;
 }
 
 interface IOrderProduct {
