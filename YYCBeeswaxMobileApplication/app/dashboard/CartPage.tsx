@@ -310,6 +310,8 @@ export default function CartPage() {
             total: calculateTotalItemsCost(items),
             products: parsedProducts,
             shippingInfo,
+            taxes: calculateGSTCost(items),
+            discount: discountAmount,
         } as IOrder;
     };
 
