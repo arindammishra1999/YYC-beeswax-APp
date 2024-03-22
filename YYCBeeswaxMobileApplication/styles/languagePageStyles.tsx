@@ -55,6 +55,7 @@ export const languagePageStyles = StyleSheet.create({
         borderRadius: 30,
         position: "absolute",
         bottom: "5%",
+        top: "15.5%",
     },
     buttonText: {
         fontSize: 21,

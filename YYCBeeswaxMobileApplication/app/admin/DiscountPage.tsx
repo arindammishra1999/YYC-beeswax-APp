@@ -1,37 +1,33 @@
 import { Ionicons } from "@expo/vector-icons";
-import { router } from "expo-router";
-import { signOut } from "firebase/auth";
 import { addDoc, collection, deleteDoc, doc } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import {
     ActivityIndicator,
-    ScrollView,
-    Text,
-    View,
-    TextInput,
-    TouchableOpacity,
     Alert,
     KeyboardAvoidingView,
-    Platform,
     Modal,
+    Platform,
+    ScrollView,
+    Text,
+    TextInput,
+    TouchableOpacity,
     TouchableWithoutFeedback,
+    View,
 } from "react-native";
 import { SelectList } from "react-native-dropdown-select-list";
 
+import AdminHeader from "@/components/adminHeader";
 import Button from "@/components/button";
-import Popup from "@/components/popup";
 import { colors, fonts } from "@/consts/styles";
 import { viewportWidth } from "@/consts/viewport";
-import { auth, db } from "@/firebase/config";
+import { db } from "@/firebase/config";
 import { getDiscountData } from "@/firebase/getCollections/getDiscounts";
 import { adminDashboardPageStyles } from "@/styles/adminDashboardPageStyles";
 import { adminDiscountPageStyles } from "@/styles/adminDiscountPageStyles";
 import { mainStyles } from "@/styles/mainStyles";
 
 export default function DiscountPage() {
-    const [logoutPopupVisible, setLogoutPopupVisible] = useState(false);
     const [addCodePopupVisible, setAddCodePopupVisible] = useState(false);
-    const [logoutSpinner, setLogoutSpinner] = useState(false);
     const [loadingSpinner, setLoadingSpinner] = useState(false);
     const [selectedCodeType, setSelectedCodeType] = useState(true);
     const [discountCode, setDiscountCode] = useState("");
@@ -157,29 +153,12 @@ export default function DiscountPage() {
         }
     }
 
-    async function logout() {
-        try {
-            setLogoutSpinner(true);
-            setLogoutPopupVisible(false);
-            await signOut(auth);
-        } catch (error) {
-            console.error("Error during logout:", error);
-        } finally {
-            setLogoutSpinner(false);
-        }
-        router.replace("/");
-    }
-
     return (
         <KeyboardAvoidingView
             style={mainStyles.container}
             behavior={Platform.OS === "ios" ? "padding" : "height"}
         >
-            {logoutSpinner && (
-                <View style={mainStyles.spinnerOverlay}>
-                    <ActivityIndicator size="large" color={colors.yellow} />
-                </View>
-            )}
+            <AdminHeader header="Discounts Dashboard" />
             {loadingSpinner && (
                 <View style={adminDiscountPageStyles.spinnerOverlay}>
                     <ActivityIndicator size="large" color={colors.yellow} />
@@ -188,29 +167,15 @@ export default function DiscountPage() {
                     </Text>
                 </View>
             )}
-            <View style={adminDiscountPageStyles.header}>
-                <View style={adminDiscountPageStyles.headerContainer}>
-                    <Text style={adminDashboardPageStyles.headerTitle}>
-                        Discounts Dashboard
-                    </Text>
-                    <View style={adminDiscountPageStyles.headerButtonContainer}>
-                        <Button
-                            title="Sign Out"
-                            style={adminDiscountPageStyles.headerButton}
-                            onPress={() => setLogoutPopupVisible(true)}
-                        />
-                        <Button
-                            title="Create Code"
-                            style={adminDiscountPageStyles.headerButton}
-                            onPress={() => setAddCodePopupVisible(true)}
-                        />
-                    </View>
-                </View>
-            </View>
             <ScrollView
                 style={adminDashboardPageStyles.page}
                 keyboardShouldPersistTaps="always"
             >
+                <Button
+                    title="Create Code"
+                    style={adminDiscountPageStyles.headerButton}
+                    onPress={() => setAddCodePopupVisible(true)}
+                />
                 <View style={adminDiscountPageStyles.cardContainer}>
                     <View style={adminDashboardPageStyles.headerContainer}>
                         <Text style={adminDashboardPageStyles.headerTitle}>
@@ -363,16 +328,6 @@ export default function DiscountPage() {
                         </View>
                     </View>
                 </Modal>
-                <Popup
-                    subTitle="Are you sure you want to logout? This will take you back
-                    to the login screen."
-                    option1Text="No"
-                    option2Text="Yes"
-                    visible={logoutPopupVisible}
-                    changeVisibility={() => setLogoutPopupVisible(false)}
-                    option1Action={() => setLogoutPopupVisible(false)}
-                    option2Action={logout}
-                />
             </ScrollView>
         </KeyboardAvoidingView>
     );

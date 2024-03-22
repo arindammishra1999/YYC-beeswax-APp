@@ -74,6 +74,9 @@ const TotalBillCard: React.FC<TotalBillCardProps> = ({
                     {taxInformation[taxProvince] ||
                         t("Tax is based on Shipping Information")}
                 </Text>
+                <Text style={totalBillCardStyles.value}>
+                    ${gstCost.toFixed(2)}
+                </Text>
             </View>
 
             <View style={totalBillCardStyles.horizontalLine} />

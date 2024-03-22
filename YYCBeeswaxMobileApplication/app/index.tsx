@@ -1,4 +1,3 @@
-import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { Image } from "expo-image";
 import { Redirect, router } from "expo-router";
 import i18n from "i18next";
@@ -8,7 +7,7 @@ import { Text, TouchableOpacity, View } from "react-native";
 import "intl-pluralrules";
 
 import Button from "@/components/button";
-import LandingCarousel from "@/components/landingCarousel";
+import LandingCarousel, { Item } from "@/components/landingCarousel";
 import { useUser } from "@/firebase/providers/userProvider";
 import enTranslation from "@/locales/en.json";
 import esTranslation from "@/locales/es.json";
@@ -28,9 +27,18 @@ i18n.use(initReactI18next).init({
         escapeValue: false, // React already handles escaping
     },
 });
+const items: Item[] = [
+    {
+        text: "Shop for all your favourite YYC Beeswax products",
+        iconName: "add-shopping-cart",
+    },
+    { text: "Take YYC Beeswax related quizzes", iconName: "list-alt" },
+    { text: "Discover upcoming events", iconName: "event" },
+];
 
 export default function App() {
     const { user, isAdmin } = useUser();
+
     if (user) {
         if (isAdmin) {
             return <Redirect href="/admin/AdminDashboardPage" />;
@@ -40,18 +48,6 @@ export default function App() {
             return <Redirect href="/auth/emailVerification" />;
         }
     }
-
-    const items: {
-        text: string;
-        iconName: keyof typeof MaterialIcons.glyphMap;
-    }[] = [
-        {
-            text: "Shop for all your favourite YYC Beeswax products",
-            iconName: "add-shopping-cart",
-        },
-        { text: "Take YYC Beeswax related quizzes", iconName: "list-alt" },
-        { text: "Discover upcoming events", iconName: "event" },
-    ];
 
     return (
         <View style={mainStyles.container}>

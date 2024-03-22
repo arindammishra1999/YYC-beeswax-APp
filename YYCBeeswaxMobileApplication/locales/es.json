@@ -300,11 +300,13 @@
     "Lip Balmdesc": "Refresca tus labios con una mezcla de lavanda y menta. ",
     "Mason Jar Beeswax Candledesc": "Ilumina tu espacio con el cálido resplandor de nuestra vela de cera de abejas en tarro de cristal. ",
     "Mini Self Care Kit": "Mini kit de cuidado personal",
-    "Subtotal: (Discount Applied:": "Subtotal: (Descuento aplicado:",
-    "Taxes:": "Impuestos:",
+    "Subtotal: (Discount Applied": "Subtotal: (Descuento aplicado",
+    "Taxes": "Impuestos",
     "Tax is based on Shipping Information": "El impuesto se basa en la información de envío.",
     "Add Discount Code": "Agregar código de descuento",
     "Discount Code": "Código de descuento",
     "Apply Code": "Aplica el código",
-    "Subtotal:": "Subtotal:"
+    "No Discount Found": "No se encontró ningún descuento",
+    "There is no discount code matching the one you entered.": "No hay ningún código de descuento que coincida con el que ingresaste.",
+    "This discount code has been applied to your cart.": "Este código de descuento se ha aplicado a su carrito."
 }
