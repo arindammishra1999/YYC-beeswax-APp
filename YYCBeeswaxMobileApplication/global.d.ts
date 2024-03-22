@@ -94,6 +94,21 @@ interface IShippingInfo {
     postalCode: string;
 }
 
+interface IOrder {
+    date: Date;
+    total: number;
+    products: IOrderProduct[];
+    shippingInfo: string;
+    taxes: number;
+    discount?: number;
+}
+
+interface IOrderProduct {
+    amount: number;
+    costPer: number;
+    name: string;
+    choices?: any[];
+}
 interface ICartItem {
     choices?: {
         name: string;
