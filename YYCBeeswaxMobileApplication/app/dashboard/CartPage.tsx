@@ -41,7 +41,6 @@ const API_URL = `http://${process.env.EXPO_PUBLIC_LOCAL_IP}:3000`;
 const PUBLISHABLE_KEY = process.env.EXPO_PUBLIC_PUBLISHABLE_KEY;
 
 export default function CartPage() {
-    const [totalBill, setTotalBill] = useState(0);
     const [shippingInfo, setShippingInfo] = useState("");
     const [ICartItems, setICartItems] = useState<ICartItem[]>([]);
     const [stripeCustomerId, setStripeCustomerId] = useState("");
