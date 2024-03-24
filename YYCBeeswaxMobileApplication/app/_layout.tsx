@@ -53,8 +53,11 @@ export default function RootLayout() {
                         screenOptions={{
                             headerShown: false,
                             gestureEnabled: !(
-                                pathname.startsWith("/product/") &&
-                                pathname.endsWith("SetUserReview")
+                                (pathname.startsWith("/product/") &&
+                                    pathname.endsWith("SetUserReview")) ||
+                                (pathname.startsWith("/quizzes") &&
+                                    (pathname.includes("knowledge") ||
+                                        pathname.includes("personality")))
                             ),
                         }}
                     >
@@ -84,6 +87,19 @@ export default function RootLayout() {
                             options={{
                                 gestureEnabled: false,
                                 animation: "slide_from_bottom",
+                            }}
+                        />
+                        <Stack.Screen
+                            name="checkout/ShippingInfoPage"
+                            options={{
+                                gestureEnabled: false,
+                                animation: "slide_from_bottom",
+                            }}
+                        />
+                        <Stack.Screen
+                            name="checkout/ReviewInfoPage"
+                            options={{
+                                gestureEnabled: false,
                             }}
                         />
                     </Stack>
