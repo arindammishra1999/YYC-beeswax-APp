@@ -301,7 +301,7 @@ export default function CartPage() {
                 amount: item.quantity,
                 name: item.data.name,
                 costPer: item.dynamicPrice,
-                choices: item?.choices || null,
+                choices: item?.choices || [],
                 imageUrl: item.data.url,
             };
             parsedProducts.push(orderProduct);
@@ -313,6 +313,7 @@ export default function CartPage() {
             shippingInfo,
             taxes: calculateGSTCost(items),
             discount: discountAmount,
+            user: user?.uid,
         } as IOrder;
     };
 
