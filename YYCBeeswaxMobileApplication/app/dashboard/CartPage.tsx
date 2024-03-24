@@ -301,7 +301,8 @@ export default function CartPage() {
                 amount: item.quantity,
                 name: item.data.name,
                 costPer: item.dynamicPrice,
-                choices: item?.choices,
+                choices: item?.choices || null,
+                imageUrl: item.data.url,
             };
             parsedProducts.push(orderProduct);
         });

@@ -100,7 +100,7 @@ interface IOrder {
     products: IOrderProduct[];
     shippingInfo: string;
     taxes: number;
-    discount?: number;
+    discount: number;
 }
 
 interface IOrderProduct {
@@ -108,6 +108,7 @@ interface IOrderProduct {
     costPer: number;
     name: string;
     choices?: any[];
+    imageUrl: string;
 }
 interface ICartItem {
     choices?: {
