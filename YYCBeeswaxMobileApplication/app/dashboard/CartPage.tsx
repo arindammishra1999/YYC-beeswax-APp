@@ -302,6 +302,7 @@ export default function CartPage() {
                 name: item.data.name,
                 costPer: item.dynamicPrice,
                 choices: item?.choices || [],
+                imageUrl: item.data.url,
             };
             parsedProducts.push(orderProduct);
         });
