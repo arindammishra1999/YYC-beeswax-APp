@@ -168,7 +168,11 @@ export default function CartPage() {
         return preTaxPrice + shippingFee + gstCost;
     };
 
-    const handleQuantityChange = (productId: string, newQuantity: number) => {
+    const handleQuantityChange = async (
+        productId: string,
+        newQuantity: number,
+    ) => {
+        setDisableButton(true);
         setICartItems((prevICartItems) => {
             return prevICartItems?.map((item) => {
                 if (item.id === productId) {
@@ -177,6 +181,8 @@ export default function CartPage() {
                 return item;
             });
         });
+        await new Promise((resolve) => setTimeout(resolve, 5000));
+        setDisableButton(false);
     };
 
     const handleRemoveProduct = async (productId: string) => {
