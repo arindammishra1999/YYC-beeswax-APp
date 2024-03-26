@@ -2,6 +2,7 @@ import Feather from "@expo/vector-icons/Feather";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { Image } from "expo-image";
 import { router } from "expo-router";
+import * as SecureStore from "expo-secure-store";
 import React, { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
@@ -12,7 +13,6 @@ import {
     View,
 } from "react-native";
 
-import loadLanguageSettings from "@/app/profile/LanguagePage";
 import CategoryCard from "@/components/cards/categoryCard";
 import ItemCard, { LoadingItemCard } from "@/components/cards/itemCard";
 import { colors } from "@/consts/styles";
@@ -34,7 +34,7 @@ function LoadingItemCardList() {
 }
 
 export default function HomePage() {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     const [allProducts, setAllProducts] = useState<
         { id: string; data: IProduct }[]
     >([]);
@@ -59,9 +59,14 @@ export default function HomePage() {
         (async () => {
             await setAllProductData();
             setLoading(false);
-            loadLanguageSettings();
         })();
+        loadLanguageSettings();
     }, []);
+
+    const loadLanguageSettings = async () => {
+        const savedLanguage = await SecureStore.getItemAsync("languageCode");
+        i18n.changeLanguage(savedLanguage ?? "en");
+    };
 
     const onRefresh = useCallback(() => {
         setRefreshing(true);

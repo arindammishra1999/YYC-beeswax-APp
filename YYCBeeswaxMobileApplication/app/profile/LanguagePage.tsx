@@ -71,9 +71,10 @@ const LanguageSelectionPage = () => {
         Alert.alert(t("Success"), t("ChangesSaved"), [{ text: t("ok") }]);
 
     const handleConfirmChange = async () => {
-        await SecureStore.setItemAsync("language", selectedLanguage);
         const languageCode = languageMap[selectedLanguage as LanguageName];
-        i18n.changeLanguage(languageCode);
+        await SecureStore.setItemAsync("languageCode", languageCode);
+        await SecureStore.setItemAsync("language", selectedLanguage);
+        i18n.changeLanguage(languageCode); // Change the language using i18n
         showChangesSavedMesssage();
         setChangesMade(false);
     };

@@ -31,7 +31,7 @@ export default function NotificationsPage() {
 
     const showChangesSavedMessage = () =>
         Alert.alert(t("Success!"), t("Your changes have been saved."), [
-            { text: "OK" },
+            { text: t("OK") },
         ]);
 
     useEffect(() => {
