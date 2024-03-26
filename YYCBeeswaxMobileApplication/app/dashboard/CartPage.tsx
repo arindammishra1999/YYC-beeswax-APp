@@ -32,6 +32,7 @@ import TotalBillCard, {
 import Header from "@/components/header";
 import { colors } from "@/consts/styles";
 import { db } from "@/firebase/config";
+import { getProductDataById } from "@/firebase/getCollections/getProductByID";
 import { getUserById } from "@/firebase/getCollections/getUserById";
 import { useUser } from "@/firebase/providers/userProvider";
 import { newOrder } from "@/firebase/setCollections/newOrder";
@@ -172,7 +173,11 @@ export default function CartPage() {
         return preTaxPrice + shippingFee + gstCost;
     };
 
-    const handleQuantityChange = (productId: string, newQuantity: number) => {
+    const handleQuantityChange = async (
+        productId: string,
+        newQuantity: number,
+    ) => {
+        setDisableButton(true);
         setICartItems((prevICartItems) => {
             return prevICartItems?.map((item) => {
                 if (item.id === productId) {
@@ -181,6 +186,8 @@ export default function CartPage() {
                 return item;
             });
         });
+        await new Promise((resolve) => setTimeout(resolve, 500));
+        setDisableButton(false);
     };
 
     const handleRemoveProduct = async (productId: string) => {
@@ -306,6 +313,8 @@ export default function CartPage() {
                 name: item.data.name,
                 costPer: item.dynamicPrice,
                 choices: item?.choices || [],
+                imageUrl: item.data.url,
+                id: item.id,
             };
             parsedProducts.push(orderProduct);
         });
@@ -320,12 +329,58 @@ export default function CartPage() {
         } as IOrder;
     };
 
+    const fixStock = async (id: string, stock: number) => {
+        try {
+            const cartData = await SecureStore.getItemAsync("cart");
+            if (cartData) {
+                const parsedCart = JSON.parse(cartData) as {
+                    productId: string;
+                    quantity: number;
+                }[];
+                for (let i = 0; i < parsedCart.length; i++) {
+                    if (parsedCart[i].productId == id)
+                        parsedCart[i].quantity = stock;
+                }
+                await SecureStore.setItemAsync(
+                    "cart",
+                    JSON.stringify(parsedCart),
+                );
+            }
+        } catch (error) {
+            console.error("Error fetching cart data:", error);
+        }
+    };
+
+    const validateStock = async (): Promise<boolean> => {
+        let validStock = true;
+        for (const item of ICartItems) {
+            const productInfo = await getProductDataById(item.id);
+            if (productInfo && item.quantity > productInfo.stock) {
+                validStock = false;
+                await handleQuantityChange(item.id, productInfo.stock);
+                await fixStock(item.id, productInfo.stock);
+            }
+        }
+        return validStock;
+    };
+
     const openPaymentSheet = async () => {
         setIsPaymentLoading(true);
+        const validStock = await validateStock();
+        if (!validStock) {
+            Alert.alert(
+                "Low stock of a selected product, updated quantity in cart.",
+            );
+            setIsPaymentLoading(false);
+            return;
+        }
+
         await initializePaymentSheet();
         setIsPaymentLoading(false);
         const { error } = await presentPaymentSheet();
+        setIsPaymentLoading(true);
         if (error) {
+            setIsPaymentLoading(false);
             Alert.alert(`${error.code}`, error.message);
         } else {
             const order = parseOrder(ICartItems);
@@ -341,6 +396,7 @@ export default function CartPage() {
             //Empty the cart on successful purchase
             await SecureStore.setItemAsync("cart", JSON.stringify([]));
             setICartItems([] as any[]);
+            setIsPaymentLoading(false);
         }
     };
 

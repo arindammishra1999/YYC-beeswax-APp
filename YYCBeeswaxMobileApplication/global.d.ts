@@ -109,6 +109,8 @@ interface IOrderProduct {
     costPer: number;
     name: string;
     choices?: any[];
+    imageUrl: string;
+    id: string;
 }
 interface ICartItem {
     choices?: {

@@ -13,7 +13,6 @@ export function shuffleArray(array: any[]) {
 export async function setLocalCache(key: string, data: any) {
     try {
         await AsyncStorage.setItem(key, JSON.stringify(data));
-        console.log("Data cached successfully");
     } catch (e) {
         console.error("Error caching data: ", e);
     }
@@ -23,10 +22,8 @@ export async function getLocalCache(key: string) {
     try {
         const cachedData = await AsyncStorage.getItem(key);
         if (cachedData) {
-            console.log("Cached data found");
             return JSON.parse(cachedData);
         }
-        console.log("No cached data found");
     } catch (e) {
         console.error("Error retrieving cached data: ", e);
     }
