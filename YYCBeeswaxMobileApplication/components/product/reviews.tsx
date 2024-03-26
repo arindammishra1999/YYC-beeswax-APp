@@ -1,5 +1,6 @@
 import { router } from "expo-router";
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { Text, View } from "react-native";
 
 import Button from "@/components/button";
@@ -16,6 +17,7 @@ type Props = {
 };
 
 export default function Reviews(props: Props) {
+    const { t } = useTranslation();
     const { reviews, userReview } = useReviews();
     const { user } = useUser();
     return (
@@ -50,7 +52,7 @@ export default function Reviews(props: Props) {
                             {props.product.reviews.avg.toPrecision(2)}
                         </Text>
                         <Text style={reviewsStyles.countText}>
-                            {props.product.reviews.count} reviews
+                            {props.product.reviews.count} {t("reviews")}
                         </Text>
                         <ProgressCircle
                             progress={1 - props.product.reviews.avg / 5}
@@ -61,11 +63,11 @@ export default function Reviews(props: Props) {
             {user && userReview && (
                 <>
                     <Text style={reviewsStyles.userReviewHeading}>
-                        Your Review
+                        {t("Your Review")}
                     </Text>
                     <Review review={userReview} />
                     <Button
-                        title="Edit Review"
+                        title={t("Edit Review")}
                         onPress={() =>
                             router.push(
                                 `/product/${props.productId}/SetUserReview`,
@@ -77,12 +79,12 @@ export default function Reviews(props: Props) {
             )}
             {(!props.product.reviews || props.product.reviews.count == 0) && (
                 <Text style={reviewsStyles.noReviewText}>
-                    This product has no reviews
+                    {t("This product has no reviews")}
                 </Text>
             )}
             {user && !userReview && (
                 <Button
-                    title="Write a Review"
+                    title={t("Write a Review")}
                     onPress={() =>
                         router.push(`/product/${props.productId}/SetUserReview`)
                     }
@@ -92,7 +94,7 @@ export default function Reviews(props: Props) {
             {reviews.length > 0 && (
                 <>
                     <Text style={reviewsStyles.customerReviewHeading}>
-                        Customer Reviews
+                        {t("Customer Reviews")}
                     </Text>
                     {reviews.map((review, index) => {
                         return (

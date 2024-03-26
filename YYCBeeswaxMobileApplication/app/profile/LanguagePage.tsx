@@ -1,6 +1,7 @@
 import { router } from "expo-router";
 import * as SecureStore from "expo-secure-store";
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Alert, ScrollView, Text, TouchableOpacity, View } from "react-native";
 
 import WarningHeader from "@/components/warningHeader";
@@ -8,6 +9,7 @@ import { languagePageStyles } from "@/styles/languagePageStyles";
 import { mainStyles } from "@/styles/mainStyles";
 
 const LanguageSelectionPage = () => {
+    const { t, i18n } = useTranslation();
     const [selectedLanguage, setSelectedLanguage] = useState("English");
     const [changesMade, setChangesMade] = useState(false);
     const availableLanguages = [
@@ -27,27 +29,64 @@ const LanguageSelectionPage = () => {
         "Tiếng Việt (Vietnamese)",
     ];
 
-    const showChangesSavedMesssage = () =>
-        Alert.alert("Success!", "Your changes have been saved.", [
-            { text: "OK" },
-        ]);
+    type LanguageName =
+        | "English"
+        | "Nederlands (Dutch)"
+        | "Français (French)"
+        | "Deutsch (German)"
+        | "हिंदी (Hindi)"
+        | "Italiano (Italian)"
+        | "日本語 (Japanese)"
+        | "한국인 (Korean)"
+        | "普通话 (Mandarin)"
+        | "Português (Portuguese)"
+        | "Русский (Russian)"
+        | "Español (Spanish)"
+        | "Türkçe (Turkish)"
+        | "Tiếng Việt (Vietnamese)";
 
-    const handleLanguageChange = (language: string) => {
-        setChangesMade(true);
-        setSelectedLanguage(language);
+    const languageMap: Record<LanguageName, string> = {
+        English: "en",
+        "Nederlands (Dutch)": "nl",
+        "Français (French)": "fr",
+        "Deutsch (German)": "de",
+        "हिंदी (Hindi)": "hi",
+        "Italiano (Italian)": "it",
+        "日本語 (Japanese)": "ja",
+        "한국인 (Korean)": "ko",
+        "普通话 (Mandarin)": "zh",
+        "Português (Portuguese)": "pt",
+        "Русский (Russian)": "ru",
+        "Español (Spanish)": "es",
+        "Türkçe (Turkish)": "tr",
+        "Tiếng Việt (Vietnamese)": "vi",
     };
 
+    const handleLanguageChange = (language: string) => {
+        setSelectedLanguage(language);
+        setChangesMade(true);
+    };
+
+    const showChangesSavedMesssage = () =>
+        Alert.alert(t("Success"), t("ChangesSaved"), [{ text: t("ok") }]);
+
     const handleConfirmChange = async () => {
+        const languageCode = languageMap[selectedLanguage as LanguageName];
+        await SecureStore.setItemAsync("languageCode", languageCode);
         await SecureStore.setItemAsync("language", selectedLanguage);
+        i18n.changeLanguage(languageCode); // Change the language using i18n
         showChangesSavedMesssage();
         setChangesMade(false);
     };
 
     useEffect(() => {
         const loadLanguageSettings = async () => {
-            const savedLanguage = await SecureStore.getItemAsync("language");
+            const savedLanguage = (await SecureStore.getItemAsync(
+                "language",
+            )) as LanguageName | null;
             const languageToSet = savedLanguage ?? "English";
             setSelectedLanguage(languageToSet);
+            i18n.changeLanguage(languageMap[languageToSet]);
         };
 
         loadLanguageSettings();
@@ -55,22 +94,18 @@ const LanguageSelectionPage = () => {
 
     const handleBackPress = () => {
         if (changesMade) {
-            Alert.alert(
-                "Discard Changes?",
-                "You have unsaved changes. Are you sure you want to discard them and leave this screen?",
-                [
-                    {
-                        text: "Don't Leave",
-                        style: "cancel",
-                        onPress: () => {},
-                    },
-                    {
-                        text: "Discard",
-                        style: "destructive",
-                        onPress: () => router.back(),
-                    },
-                ],
-            );
+            Alert.alert(t("discardChanges"), t("unsavedChanges"), [
+                {
+                    text: t("dontLeave"),
+                    style: "cancel",
+                    onPress: () => {},
+                },
+                {
+                    text: t("discard"),
+                    style: "destructive",
+                    onPress: () => router.back(),
+                },
+            ]);
         } else {
             router.back();
         }
@@ -78,10 +113,10 @@ const LanguageSelectionPage = () => {
 
     return (
         <View style={mainStyles.container}>
-            <WarningHeader header="Language" onPress={handleBackPress} />
+            <WarningHeader header={t("language")} onPress={handleBackPress} />
             <View>
                 <Text style={languagePageStyles.sectionHeader}>
-                    Available Languages
+                    {t("availableLanguages")}
                 </Text>
             </View>
             <ScrollView style={languagePageStyles.languageList}>
@@ -125,7 +160,7 @@ const LanguageSelectionPage = () => {
                     disabled={!changesMade}
                 >
                     <Text style={languagePageStyles.buttonText}>
-                        Save Changes
+                        {t("saveChangesButton")}
                     </Text>
                 </TouchableOpacity>
             </View>

@@ -1,5 +1,6 @@
 import { FlashList } from "@shopify/flash-list";
 import React, { useCallback, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { RefreshControl, View } from "react-native";
 
 import EventCard, { LoadingEventCard } from "@/components/cards/eventCard";
@@ -9,6 +10,7 @@ import { getEventData } from "@/firebase/getCollections/getEvents";
 import { mainStyles } from "@/styles/mainStyles";
 
 export default function EventsPage() {
+    const { t } = useTranslation();
     const [allEvents, setAllEvents] = useState([] as any);
     const [loading, setLoading] = useState(true);
     const [refreshing, setRefreshing] = useState(false);
@@ -41,7 +43,7 @@ export default function EventsPage() {
 
     return (
         <View style={mainStyles.container}>
-            <Header header="Upcoming Events" />
+            <Header header={t("Upcoming Events")} />
             {loading ? (
                 <FlashList
                     estimatedItemSize={144}

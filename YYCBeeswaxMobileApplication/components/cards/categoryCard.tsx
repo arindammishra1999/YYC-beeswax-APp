@@ -7,6 +7,7 @@ import { categoryCardStyles } from "@/styles/components/categoryCardStyles";
 
 type Props = {
     title: string;
+    englishTitle: string;
     iconName: any;
 };
 
@@ -14,7 +15,7 @@ export default function CategoryCard(props: Props) {
     return (
         <TouchableOpacity
             onPress={() => {
-                router.push(`/category/${props.title}`);
+                router.push(`/category/${props.englishTitle}`);
             }}
         >
             <View style={categoryCardStyles.cardContainer}>

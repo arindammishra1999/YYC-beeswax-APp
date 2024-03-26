@@ -1,5 +1,6 @@
 import { useLocalSearchParams } from "expo-router";
 import React, { useCallback, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { RefreshControl, ScrollView, View } from "react-native";
 
 import ProductSimpleCard from "@/components/cards/productSimpleCard";
@@ -9,6 +10,7 @@ import { getProductDataByCategory } from "@/firebase/getCollections/getProductBy
 import { queryPageStyles } from "@/styles/queryPageStyles";
 
 export default function CategoryId() {
+    const { t } = useTranslation();
     const { categoryId } = useLocalSearchParams() as Record<string, string>;
     const [refreshing, setRefreshing] = useState(false);
     const [allProductsInCategory, setAllProductsInCategory] = useState(
@@ -41,7 +43,7 @@ export default function CategoryId() {
 
     return (
         <View style={queryPageStyles.container}>
-            <Header header={categoryId + " Page"} />
+            <Header header={t(categoryId) + " Page"} />
             <View>
                 <ScrollView
                     contentContainerStyle={queryPageStyles.display}

@@ -1,5 +1,4 @@
 import { config } from "dotenv";
-
 import express from "express";
 import Stripe from "stripe";
 config();

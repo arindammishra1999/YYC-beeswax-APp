@@ -1,5 +1,6 @@
 import { router } from "expo-router";
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
     Keyboard,
     ScrollView,
@@ -19,6 +20,7 @@ import { accountStyles } from "@/styles/accountStyles";
 import { setUserReviewPageStyles } from "@/styles/setUserReviewPageStyles";
 
 export default function SetUserReview() {
+    const { t } = useTranslation();
     const { userReview, updateUserReview, deleteUserReview } = useReviews();
     const [review, setReview] = useState<{
         title: string;
@@ -77,12 +79,14 @@ export default function SetUserReview() {
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View style={accountStyles.container}>
                 <Header
-                    header={userReview ? "Update Review" : "Write a Review"}
+                    header={
+                        userReview ? t("Update Review") : t("Write a Review")
+                    }
                 />
                 <ScrollView style={accountStyles.formContainer}>
                     <View style={accountStyles.form}>
                         <Text style={setUserReviewPageStyles.text}>
-                            Overall Rating
+                            {t("Overall Rating")}
                         </Text>
                         <View style={setUserReviewPageStyles.ratingsContainer}>
                             {Array(5)
@@ -109,7 +113,7 @@ export default function SetUserReview() {
                                 })}
                         </View>
                         <Input
-                            label="Title"
+                            label={t("Title")}
                             placeholder=""
                             autoCapitalize
                             value={review.title}
@@ -121,7 +125,7 @@ export default function SetUserReview() {
                             }}
                         />
                         <Input
-                            label="Review"
+                            label={t("Review")}
                             placeholder=""
                             autoCapitalize
                             inputStyle={setUserReviewPageStyles.textArea}
@@ -139,7 +143,7 @@ export default function SetUserReview() {
                                 style={setUserReviewPageStyles.delete}
                                 onPress={handleDeleteReview}
                             >
-                                Delete Review
+                                {t("Delete Review")}
                             </Text>
                         )}
                         {error && (
@@ -147,7 +151,7 @@ export default function SetUserReview() {
                         )}
                     </View>
                 </ScrollView>
-                <Button title="Submit Review" onPress={submit} />
+                <Button title={t("Submit Review")} onPress={submit} />
             </View>
         </TouchableWithoutFeedback>
     );

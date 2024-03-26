@@ -2,6 +2,7 @@ import { Image } from "expo-image";
 import { router } from "expo-router";
 import * as SecureStore from "expo-secure-store";
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { View, TouchableOpacity, Text } from "react-native";
 
 import Popup from "@/components/popup";
@@ -20,6 +21,7 @@ type Props = {
 };
 
 export default function CartProductCard(props: Props) {
+    const { t } = useTranslation();
     const [showPopup, setShowPopup] = useState(false);
     const [disableIncrease, setDisableIncrease] = useState(false);
 
@@ -205,12 +207,14 @@ export default function CartProductCard(props: Props) {
                 <Popup
                     visible={showPopup}
                     changeVisibility={() => setShowPopup(false)}
-                    option1Text="Cancel"
-                    option2Text="Remove"
+                    option1Text={t("Cancel")}
+                    option2Text={t("Remove")}
                     option1Action={() => setShowPopup(false)}
                     option2Action={confirmRemoveFromCart}
-                    title="Remove from Cart"
-                    subTitle="Are you sure you want to remove this item from your cart?"
+                    title={t("Remove from Cart")}
+                    subTitle={t(
+                        "Are you sure you want to remove this item from your cart?",
+                    )}
                 />
             </View>
         </TouchableOpacity>

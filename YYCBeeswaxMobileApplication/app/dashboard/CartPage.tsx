@@ -9,6 +9,7 @@ import { router } from "expo-router";
 import * as SecureStore from "expo-secure-store";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
     ActivityIndicator,
     Alert,
@@ -42,6 +43,7 @@ const API_URL = `http://${process.env.EXPO_PUBLIC_LOCAL_IP}:3000`;
 const PUBLISHABLE_KEY = process.env.EXPO_PUBLIC_PUBLISHABLE_KEY;
 
 export default function CartPage() {
+    const { t } = useTranslation();
     const [shippingInfo, setShippingInfo] = useState("");
     const [ICartItems, setICartItems] = useState<ICartItem[]>([]);
     const [stripeCustomerId, setStripeCustomerId] = useState("");
@@ -76,11 +78,11 @@ export default function CartPage() {
                 setDiscountCodeApplied(true);
                 setDiscountCode("");
                 Alert.alert(
-                    "Success!",
-                    "This discount code has been applied to your cart.",
+                    t("Success!"),
+                    t("This discount code has been applied to your cart."),
                     [
                         {
-                            text: "OK",
+                            text: t("OK"),
                             onPress: () => {
                                 setDiscountPopupVisible(false);
                             },
@@ -89,11 +91,13 @@ export default function CartPage() {
                 );
             } else {
                 Alert.alert(
-                    "No Discount Found",
-                    "There is no discount code matching the one you entered.",
+                    t("No Discount Found"),
+                    t(
+                        "There is no discount code matching the one you entered.",
+                    ),
                     [
                         {
-                            text: "OK",
+                            text: t("OK"),
                         },
                     ],
                 );
@@ -519,9 +523,11 @@ export default function CartPage() {
     if (ICartItems.length == 0) {
         return (
             <View style={cartPageStyles.container}>
-                <Header header="Your Cart" noBackArrow />
+                <Header header={t("Your Cart")} noBackArrow />
                 <Text style={cartPageStyles.messageText}>
-                    Your cart is empty! Go ahead and check out our products.
+                    {t(
+                        "Your cart is empty! Go ahead and check out our products.",
+                    )}
                 </Text>
                 <Image
                     contentFit="contain"
@@ -532,7 +538,9 @@ export default function CartPage() {
                     style={cartPageStyles.buttonTouchableOpacity}
                     onPress={() => router.push("/dashboard/HomePage")}
                 >
-                    <Text style={cartPageStyles.buttonText}>Shop Now</Text>
+                    <Text style={cartPageStyles.buttonText}>
+                        {t("Shop Now")}
+                    </Text>
                 </TouchableOpacity>
             </View>
         );
@@ -582,7 +590,7 @@ export default function CartPage() {
             )}
             <StripeProvider publishableKey={PUBLISHABLE_KEY ?? ""}>
                 <View>
-                    <Header header="Your Cart" noBackArrow />
+                    <Header header={t("Your Cart")} noBackArrow />
                     <Image
                         contentFit="contain"
                         source={
@@ -635,13 +643,13 @@ export default function CartPage() {
                                 onPress={() => setDiscountPopupVisible(true)}
                             >
                                 <Text style={cartPageStyles.discountCodeLink}>
-                                    Add Discount Code
+                                    {t("Add Discount Code")}
                                 </Text>
                             </TouchableOpacity>
                             {stripeCustomerId == "" && (
                                 <Button
                                     style={cartPageStyles.button}
-                                    title="Add Shipping Details"
+                                    title={t("Add Shipping Details")}
                                     onPress={() => {
                                         router.push(
                                             "/checkout/ShippingInfoPage",
@@ -651,7 +659,7 @@ export default function CartPage() {
                             )}
                             {stripeCustomerId != "" && (
                                 <Button
-                                    title="View Shipping Details"
+                                    title={t("View Shipping Details")}
                                     onPress={() => {
                                         router.push(
                                             "/checkout/ShippingInfoPage",
@@ -662,7 +670,7 @@ export default function CartPage() {
                                 />
                             )}
                             <Button
-                                title="Continue to Payment"
+                                title={t("Continue to Payment")}
                                 style={[
                                     cartPageStyles.button,
                                     (disableButton ||
@@ -697,13 +705,13 @@ export default function CartPage() {
                         <View style={cartPageStyles.popupView}>
                             <View style={cartPageStyles.popupHeaderContainer}>
                                 <Text style={cartPageStyles.headerTitle}>
-                                    Add Discount Code
+                                    {t("Add Discount Code")}
                                 </Text>
                             </View>
                             <View style={cartPageStyles.inputContainer}>
                                 <TextInput
                                     style={cartPageStyles.codeInput}
-                                    placeholder="Discount Code"
+                                    placeholder={t("Discount Code")}
                                     placeholderTextColor="grey"
                                     value={discountCode}
                                     onChangeText={setDiscountCode}
@@ -717,7 +725,7 @@ export default function CartPage() {
                                             cartPageStyles.discountButtonText
                                         }
                                     >
-                                        Apply Code
+                                        {t("Apply Code")}
                                     </Text>
                                 </TouchableOpacity>
                             </View>
