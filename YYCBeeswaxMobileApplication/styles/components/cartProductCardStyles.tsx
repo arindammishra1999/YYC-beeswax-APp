@@ -65,6 +65,9 @@ export const cartProductCardStyles = StyleSheet.create({
         alignSelf: "center",
         fontFamily: fonts.main,
     },
+    buttonDisabled: {
+        opacity: 0.5,
+    },
     quantityButton: {
         backgroundColor: colors.yellow,
         borderRadius: 10,
