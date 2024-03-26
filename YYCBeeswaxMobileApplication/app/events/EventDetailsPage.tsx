@@ -88,7 +88,7 @@ export default function EventDetailsPage() {
                         source={{ uri: eventImage }}
                     />
                 )}
-                <Text style={eventDetailsPageStyles.title}>{t(eventName)}</Text>
+                <Text style={eventDetailsPageStyles.title}>{eventName}</Text>
                 <View style={eventDetailsPageStyles.eventInfoContainer}>
                     <View style={eventDetailsPageStyles.iconContainer}>
                         <MaterialIcons
@@ -98,7 +98,7 @@ export default function EventDetailsPage() {
                     </View>
                     <View style={eventDetailsPageStyles.innerDetailsContainer}>
                         <Text style={eventDetailsPageStyles.infoHeaderText}>
-                            {t(eventStartTime)}
+                            {eventStartTime}
                         </Text>
                     </View>
                 </View>
