@@ -30,7 +30,7 @@ export default function NotificationsPage() {
     const [changesMade, setChangesMade] = useState(false);
 
     const showChangesSavedMessage = () =>
-        Alert.alert("Success!", "Your changes have been saved.", [
+        Alert.alert(t("Success!"), t("Your changes have been saved."), [
             { text: "OK" },
         ]);
 
@@ -115,16 +115,18 @@ export default function NotificationsPage() {
     const handleBackPress = () => {
         if (changesMade) {
             Alert.alert(
-                "Discard Changes?",
-                "You have unsaved changes. Are you sure you want to discard them and leave this screen?",
+                t("Discard Changes?"),
+                t(
+                    "You have unsaved changes. Are you sure you want to discard them and leave this screen?",
+                ),
                 [
                     {
-                        text: "Don't Leave",
+                        text: t("Don't Leave"),
                         style: "cancel",
                         onPress: () => {},
                     },
                     {
-                        text: "Discard",
+                        text: t("Discard"),
                         style: "destructive",
                         onPress: () => router.back(),
                     },

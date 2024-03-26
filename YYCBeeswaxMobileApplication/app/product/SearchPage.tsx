@@ -148,7 +148,7 @@ export default function SearchPage() {
                             <ProductSimpleCard
                                 key={product.id}
                                 image={product.data.url}
-                                name={t(product.data.name)}
+                                name={product.data.name}
                                 price={product.data.price}
                                 id={product.id}
                             />

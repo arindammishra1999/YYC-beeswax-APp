@@ -24,7 +24,9 @@ export default function ReviewInfoPage() {
                 style={reviewInfoPageStyles.button}
                 onPress={() => router.push("/dashboard/HomePage")}
             >
-                <Text style={reviewInfoPageStyles.buttonText}>Return Home</Text>
+                <Text style={reviewInfoPageStyles.buttonText}>
+                    {t("Return Home")}
+                </Text>
             </TouchableOpacity>
         </View>
     );

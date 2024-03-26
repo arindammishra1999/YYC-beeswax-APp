@@ -554,7 +554,7 @@ export default function CartPage() {
                                 <CartProductCard
                                     key={product.id}
                                     id={product.id}
-                                    name={t(product.data.name)}
+                                    name={product.data.name}
                                     image={product.data.url}
                                     price={product.dynamicPrice}
                                     quantity={product.quantity}

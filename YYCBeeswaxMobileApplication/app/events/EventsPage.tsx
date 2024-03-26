@@ -67,7 +67,7 @@ export default function EventsPage() {
                             id={item.id}
                             image={item.data.photo}
                             startTime={item.data.time}
-                            name={t(item.data.name)}
+                            name={item.data.name}
                             place={item.data.place}
                         />
                     )}

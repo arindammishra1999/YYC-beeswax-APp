@@ -124,7 +124,7 @@ export default function EventDetailsPage() {
                     {t("About this Event:")}
                 </Text>
                 <Text style={eventDetailsPageStyles.eventText}>
-                    {t(eventDescription)}
+                    {eventDescription}
                 </Text>
             </ScrollView>
             <View style={eventDetailsPageStyles.bottomBar}>

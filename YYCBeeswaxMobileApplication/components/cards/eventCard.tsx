@@ -55,7 +55,7 @@ export default function EventCard(props: Props) {
                             ellipsizeMode="tail"
                             style={eventCardStyles.nameText}
                         >
-                            {t(props.name)}
+                            {props.name}
                         </Text>
                         <View style={eventCardStyles.locationContainer}>
                             <MaterialIcons

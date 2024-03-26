@@ -56,7 +56,7 @@ export default function Product() {
     const [validDV, setValidDV] = useState(true);
 
     const buttonText = [t("Add to Cart"), t("Update Quantity in Cart")];
-    const popupTitleText = [t("Success!)", "t(Quantity Updated!")];
+    const popupTitleText = [t("Success!"), t("Quantity Updated!")];
     const popupSubtitleText = [
         t("This item has been added to your cart!"),
         t("The quantity of this item has been updated in your cart!"),
@@ -325,7 +325,7 @@ export default function Product() {
                     <View style={productPageStyles.productHeadingContainer}>
                         <View style={productPageStyles.productTitleSection}>
                             <Text style={productPageStyles.productName}>
-                                {t(product.name)}
+                                {product.name}
                             </Text>
                             <Text
                                 style={

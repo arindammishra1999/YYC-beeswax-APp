@@ -344,35 +344,35 @@ export default function ShippingInfoPage(props: Props) {
     function customerInfoValid() {
         //Some checks just ensure that the value is present, others use regex to ensure that its valid
         if (!shippingInfo.name && shippingInfo.name != placeholder.name) {
-            Alert.alert("Please enter your full name.");
+            Alert.alert(t("Please enter your full name."));
             return false;
         }
         if (!validateEmail(shippingInfo.email)) {
-            Alert.alert("Please enter your email.");
+            Alert.alert(t("Please enter your email."));
             return false;
         }
         if (!validateCanadianPhoneNumber(shippingInfo.phone)) {
-            Alert.alert("Please enter your phone number.");
+            Alert.alert(t("Please enter your phone number."));
             return false;
         }
         if (!shippingInfo.line1 && shippingInfo.line1 != placeholder.line1) {
-            Alert.alert("Please enter the first line of your address.");
+            Alert.alert(t("Please enter the first line of your address."));
             return false;
         }
         if (
             !validateCanadianCity(shippingInfo.city) &&
             shippingInfo.city != placeholder.city
         ) {
-            Alert.alert("Please enter the city of your address.");
+            Alert.alert(t("Please enter the city of your address."));
             return false;
         }
         if (shippingInfo.province == placeholder.province) {
-            Alert.alert("Please select the province of your address.");
+            Alert.alert(t("Please select the province of your address."));
             return false;
         }
         if (!validateCanadianPostalCode(shippingInfo.postalCode)) {
             Alert.alert(
-                "Please enter the correct postal code for your address.",
+                t("Please enter the correct postal code for your address."),
             );
             return false;
         }
@@ -393,8 +393,8 @@ export default function ShippingInfoPage(props: Props) {
                     console.log(error);
                     return;
                 }
-                Alert.alert("Information changed successfully.", "", [
-                    { text: "OK", onPress: () => router.back() },
+                Alert.alert(t("Information changed successfully."), "", [
+                    { text: t("OK"), onPress: () => router.back() },
                 ]);
             } catch (error) {
                 console.log(error);
@@ -423,7 +423,7 @@ export default function ShippingInfoPage(props: Props) {
                     );
                     user.reload(); //reload the user to ensure that the app knows that the shipping info exists
                     Alert.alert(
-                        "Shipping Information saved successfully.",
+                        t("Shipping Information saved successfully."),
                         "",
                         [{ text: "OK", onPress: () => router.back() }],
                     );
@@ -550,7 +550,7 @@ export default function ShippingInfoPage(props: Props) {
                 </View>
 
                 <Input
-                    label={t("Postal code")}
+                    label={t("Postal Code")}
                     autoCapitalize
                     onChangeText={(postalCode) =>
                         setShippingInfo({ ...shippingInfo, postalCode })
