@@ -303,6 +303,7 @@ export default function CartPage() {
                 costPer: item.dynamicPrice,
                 choices: item?.choices || [],
                 imageUrl: item.data.url,
+                id: item.id,
             };
             parsedProducts.push(orderProduct);
         });
@@ -322,7 +323,9 @@ export default function CartPage() {
         await initializePaymentSheet();
         setIsPaymentLoading(false);
         const { error } = await presentPaymentSheet();
+        setIsPaymentLoading(true);
         if (error) {
+            setIsPaymentLoading(false);
             Alert.alert(`${error.code}`, error.message);
         } else {
             const order = parseOrder(ICartItems);
@@ -338,6 +341,7 @@ export default function CartPage() {
             //Empty the cart on successful purchase
             await SecureStore.setItemAsync("cart", JSON.stringify([]));
             setICartItems([] as any[]);
+            setIsPaymentLoading(false);
         }
     };
 

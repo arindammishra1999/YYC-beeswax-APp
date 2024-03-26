@@ -110,6 +110,7 @@ interface IOrderProduct {
     name: string;
     choices?: any[];
     imageUrl: string;
+    id: string;
 }
 interface ICartItem {
     choices?: {
