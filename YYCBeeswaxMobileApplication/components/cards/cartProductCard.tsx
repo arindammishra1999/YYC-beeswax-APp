@@ -1,10 +1,12 @@
 import { Image } from "expo-image";
 import { router } from "expo-router";
 import * as SecureStore from "expo-secure-store";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { View, TouchableOpacity, Text } from "react-native";
 
 import Popup from "@/components/popup";
+import { getProductDataById } from "@/firebase/getCollections/getProductByID";
 import { cartProductCardStyles } from "@/styles/components/cartProductCardStyles";
 
 type Props = {
@@ -19,7 +21,9 @@ type Props = {
 };
 
 export default function CartProductCard(props: Props) {
+    const { t } = useTranslation();
     const [showPopup, setShowPopup] = useState(false);
+    const [disableIncrease, setDisableIncrease] = useState(false);
 
     const updateSecureStore = async (productId: string, quantity: number) => {
         try {
@@ -71,13 +75,37 @@ export default function CartProductCard(props: Props) {
         }
     };
 
-    function increase() {
+    async function getStock(productId: string): Promise<number> {
+        const productInfo = await getProductDataById(productId);
+        return productInfo?.stock ?? 0;
+    }
+
+    useEffect(() => {
+        (async () => {
+            const productInfo = await getProductDataById(props.id);
+            if (productInfo) {
+                if (props.quantity > productInfo.stock) {
+                    props.onQuantityChange(props.id, productInfo.stock);
+                    updateSecureStore(props.id, productInfo.stock);
+                    setDisableIncrease(true);
+                }
+                if (props.quantity < productInfo.stock)
+                    setDisableIncrease(false);
+            }
+        })();
+    }, [props.quantity]);
+
+    async function increase() {
+        const currentStock = getStock(props.id);
+        if (props.quantity + 1 >= (await currentStock)) {
+            setDisableIncrease(true);
+        }
         const newQuantity = props.quantity + 1;
         props.onQuantityChange(props.id, newQuantity);
         updateSecureStore(props.id, newQuantity);
     }
 
-    function decrease() {
+    async function decrease() {
         if (props.quantity > 1) {
             const newQuantity = props.quantity - 1;
             props.onQuantityChange(props.id, newQuantity);
@@ -155,8 +183,14 @@ export default function CartProductCard(props: Props) {
                                     : "N/A"}
                             </Text>
                             <TouchableOpacity
-                                style={cartProductCardStyles.quantityButton}
+                                //style={cartProductCardStyles.quantityButton}
+                                style={[
+                                    cartProductCardStyles.quantityButton,
+                                    disableIncrease &&
+                                        cartProductCardStyles.buttonDisabled,
+                                ]}
                                 onPress={increase}
+                                disabled={disableIncrease}
                             >
                                 <Text
                                     style={
@@ -173,12 +207,14 @@ export default function CartProductCard(props: Props) {
                 <Popup
                     visible={showPopup}
                     changeVisibility={() => setShowPopup(false)}
-                    option1Text="Cancel"
-                    option2Text="Remove"
+                    option1Text={t("Cancel")}
+                    option2Text={t("Remove")}
                     option1Action={() => setShowPopup(false)}
                     option2Action={confirmRemoveFromCart}
-                    title="Remove from Cart"
-                    subTitle="Are you sure you want to remove this item from your cart?"
+                    title={t("Remove from Cart")}
+                    subTitle={t(
+                        "Are you sure you want to remove this item from your cart?",
+                    )}
                 />
             </View>
         </TouchableOpacity>

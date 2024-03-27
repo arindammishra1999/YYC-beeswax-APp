@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { View, Text } from "react-native";
 
 import Skeleton from "../skeleton";
@@ -36,19 +37,22 @@ const TotalBillCard: React.FC<TotalBillCardProps> = ({
         "Prince Edward Island": "HST (15%)",
         "Nova Scotia": "HST (15%)",
     };
+    const { t } = useTranslation();
     return (
         <View>
             <View style={totalBillCardStyles.labelContainer}>
                 {discountAmount ? (
                     <Text style={totalBillCardStyles.label}>
-                        Subtotal: (Discount Applied:
+                        {t("Subtotal: (Discount Applied")}:
                         {discountType
                             ? ` ${discountAmount}%`
                             : ` $${discountAmount}`}
-                        )
+                        {t(")")}
                     </Text>
                 ) : (
-                    <Text style={totalBillCardStyles.label}>Subtotal:</Text>
+                    <Text style={totalBillCardStyles.label}>
+                        {t("Subtotal")}:
+                    </Text>
                 )}
                 <Text style={totalBillCardStyles.value}>
                     ${(Math.round(totalItemsCost * 100) / 100).toFixed(2)}
@@ -56,7 +60,9 @@ const TotalBillCard: React.FC<TotalBillCardProps> = ({
             </View>
 
             <View style={totalBillCardStyles.labelContainer}>
-                <Text style={totalBillCardStyles.label}>Shipping Fee:</Text>
+                <Text style={totalBillCardStyles.label}>
+                    {t("Shipping Fee:")}
+                </Text>
                 <Text style={totalBillCardStyles.value}>
                     ${shippingCost.toFixed(2)}
                 </Text>
@@ -64,9 +70,9 @@ const TotalBillCard: React.FC<TotalBillCardProps> = ({
 
             <View style={totalBillCardStyles.labelContainer}>
                 <Text style={totalBillCardStyles.label}>
-                    Taxes:{" "}
+                    {t("Taxes")}:{" "}
                     {taxInformation[taxProvince] ||
-                        "Tax is based on Shipping Information"}
+                        t("Tax is based on Shipping Information")}
                 </Text>
                 <Text style={totalBillCardStyles.value}>
                     ${gstCost.toFixed(2)}
@@ -76,7 +82,7 @@ const TotalBillCard: React.FC<TotalBillCardProps> = ({
             <View style={totalBillCardStyles.horizontalLine} />
 
             <View style={totalBillCardStyles.labelContainer}>
-                <Text style={totalBillCardStyles.totalLabel}>Total:</Text>
+                <Text style={totalBillCardStyles.totalLabel}>{t("Total")}</Text>
                 <Text style={totalBillCardStyles.totalValue}>
                     ${(Math.round(totalBill * 100) / 100).toFixed(2)}
                 </Text>

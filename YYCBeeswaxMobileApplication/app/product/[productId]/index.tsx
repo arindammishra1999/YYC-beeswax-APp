@@ -3,6 +3,7 @@ import { router, useLocalSearchParams } from "expo-router";
 import * as SecureStore from "expo-secure-store";
 import { Timestamp } from "firebase/firestore";
 import React, { Suspense, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
     ActivityIndicator,
     ScrollView,
@@ -23,6 +24,7 @@ import { mainStyles } from "@/styles/mainStyles";
 import { productPageStyles } from "@/styles/productPageStyles";
 
 export default function Product() {
+    const { t } = useTranslation();
     const { productId } = useLocalSearchParams();
 
     const [showPopup, setShowPopup] = useState(false);
@@ -53,11 +55,11 @@ export default function Product() {
     const [selectedMode, setSelectedMode] = useState(0);
     const [validDV, setValidDV] = useState(true);
 
-    const buttonText = ["Add to Cart", "Update Quantity in Cart"];
-    const popupTitleText = ["Success!", "Quantity Updated!"];
+    const buttonText = [t("Add to Cart"), t("Update Quantity in Cart")];
+    const popupTitleText = [t("Success!"), t("Quantity Updated!")];
     const popupSubtitleText = [
-        "This item has been added to your cart!",
-        "The quantity of this item has been updated in your cart!",
+        t("This item has been added to your cart!"),
+        t("The quantity of this item has been updated in your cart!"),
     ];
 
     const addToCart = () => {
@@ -307,7 +309,7 @@ export default function Product() {
 
     return (
         <View style={mainStyles.container}>
-            <Header header={product.name} />
+            <Header header={t(product.name)} />
             <ScrollView
                 contentContainerStyle={productPageStyles.display}
                 onScrollEndDrag={getMoreReviews}
@@ -330,7 +332,9 @@ export default function Product() {
                                     productPageStyles.productShortDescription
                                 }
                             >
-                                This is where a short description will go.
+                                {t(
+                                    "This is where a short description will go.",
+                                )}
                             </Text>
                         </View>
                         <View style={productPageStyles.productQuantitySection}>
@@ -458,9 +462,9 @@ export default function Product() {
                             }
                             onPress={() => setTab("details")}
                         >
-                            Details
+                            {t("Details")}
                         </Text>
-                        {product.additionalInfo && (
+                        {t(product.additionalInfo) && (
                             <Text
                                 style={
                                     tab == "additionalInfo"
@@ -469,7 +473,7 @@ export default function Product() {
                                 }
                                 onPress={() => setTab("additionalInfo")}
                             >
-                                Details
+                                t(Details)
                             </Text>
                         )}
                         <Text
@@ -480,7 +484,7 @@ export default function Product() {
                             }
                             onPress={() => setTab("reviews")}
                         >
-                            Reviews
+                            {t("Reviews")}
                         </Text>
                     </View>
                     {tab == "details" && (
@@ -519,8 +523,8 @@ export default function Product() {
             <Popup
                 visible={showPopup}
                 changeVisibility={() => setShowPopup(false)}
-                option1Text="Keep Shopping"
-                option2Text="Checkout Now"
+                option1Text={t("Keep Shopping")}
+                option2Text={t("Checkout Now")}
                 option1Action={() => {
                     setChangesMade(false);
                     setChangedOptions(false);

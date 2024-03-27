@@ -4,6 +4,7 @@ import { router } from "expo-router";
 import { sendEmailVerification, updateEmail } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
     Alert,
     Keyboard,
@@ -25,6 +26,7 @@ import { editProfilePageStyles } from "@/styles/editProfilePageStyles";
 import { mainStyles } from "@/styles/mainStyles";
 
 export default function EditProfilePage() {
+    const { t } = useTranslation();
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [error, setError] = useState("");
@@ -65,20 +67,24 @@ export default function EditProfilePage() {
                     emailUpdateSuccess = false;
                     if (err.code === "auth/operation-not-allowed") {
                         Alert.alert(
-                            "Error!",
-                            "You must verify the current email address before you can change it.",
-                            [{ text: "OK" }],
+                            t("Error!"),
+                            t(
+                                "You must verify the current email address before you can change it.",
+                            ),
+                            [{ text: t("OK") }],
                         );
                     } else if (err.code === "auth/invalid-email") {
                         Alert.alert(
-                            "Error!",
-                            "You must enter a valid email address.",
-                            [{ text: "OK" }],
+                            t("Error!"),
+                            t("You must enter a valid email address."),
+                            [{ text: t("OK") }],
                         );
                     } else {
                         console.log(err.code, err.message);
                         setError(
-                            "Failed to update account information. Please try again later.",
+                            t(
+                                "Failed to update account information. Please try again later.",
+                            ),
                         );
                     }
                 }
@@ -95,14 +101,16 @@ export default function EditProfilePage() {
                 );
 
                 Alert.alert(
-                    "Success!",
-                    "Your account information has been updated.",
+                    t("Success!"),
+                    t("Your account information has been updated."),
                     [{ text: "OK" }],
                 );
             }
         } catch {
             setError(
-                "Failed to update account information. Please try again later.",
+                t(
+                    "Failed to update account information. Please try again later.",
+                ),
             );
         }
         setConfirmPressed(!confirmPressed);
@@ -111,32 +119,36 @@ export default function EditProfilePage() {
     async function emailVerificationPressed() {
         if (!user) {
             Alert.alert(
-                "Verification Email Error!",
-                "Verification Email Failed - User is invalid.",
-                [{ text: "OK" }],
+                t("Verification Email Error!"),
+                t("Verification Email Failed - User is invalid."),
+                [{ text: t("OK") }],
             );
             return;
         }
         try {
             await sendEmailVerification(user);
             Alert.alert(
-                "Email Sent Successfully!",
-                "Please click on the link that has been sent to your email account to verify your email.",
-                [{ text: "OK" }],
+                t("Email Sent Successfully!"),
+                t(
+                    "Please click on the link that has been sent to your email account to verify your email.",
+                ),
+                [{ text: t("OK") }],
             );
         } catch (err: any) {
             console.error(err);
             if (err?.code === "auth/too-many-requests") {
                 Alert.alert(
-                    "Verification Email Error!",
-                    "Verification Email Failed - There were too many requests, please try again later.",
-                    [{ text: "OK" }],
+                    t("Verification Email Error!"),
+                    t(
+                        "Verification Email Failed - There were too many requests, please try again later.",
+                    ),
+                    [{ text: t("OK") }],
                 );
             } else {
                 Alert.alert(
-                    "Verification Email Error!",
-                    "Verification Email Failed - User is invalid.",
-                    [{ text: "OK" }],
+                    t("Verification Email Error!"),
+                    t("Verification Email Failed - User is invalid."),
+                    [{ text: t("OK") }],
                 );
             }
         }
@@ -145,7 +157,7 @@ export default function EditProfilePage() {
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View style={mainStyles.container}>
-                <Header header="My Account" />
+                <Header header={t("My Account")} />
                 <ScrollView contentContainerStyle={accountStyles.formContainer}>
                     <MaterialIcons
                         name="account-edit-outline"
@@ -158,8 +170,9 @@ export default function EditProfilePage() {
                                     editProfilePageStyles.emailNotVerifiedText
                                 }
                             >
-                                The email for this account is not verified. You
-                                must have a verified email to make purchases.
+                                {t(
+                                    "The email for this account is not verified. You must have a verified email to make purchases.",
+                                )}
                             </Text>
                             <TouchableOpacity
                                 onPress={() => emailVerificationPressed()}
@@ -170,18 +183,18 @@ export default function EditProfilePage() {
                                         editProfilePageStyles.verifyEmailText
                                     }
                                 >
-                                    Verify Email
+                                    {t("Verify Email")}
                                 </Text>
                             </TouchableOpacity>
                         </View>
                     ) : (
                         <Text style={editProfilePageStyles.emailVerifiedText}>
-                            This email is verified!
+                            {t("This email is verified!")}
                         </Text>
                     )}
                     <View style={editProfilePageStyles.form}>
                         <Input
-                            label="Email"
+                            label={t("Email")}
                             placeholder={email}
                             value={email}
                             onChangeText={setEmail}
@@ -189,7 +202,7 @@ export default function EditProfilePage() {
                             placeholderColor="#000000"
                         />
                         <Input
-                            label="Name"
+                            label={t("Name")}
                             placeholder={name}
                             value={name}
                             onChangeText={setName}
@@ -197,7 +210,7 @@ export default function EditProfilePage() {
                             placeholderColor="#000000"
                         />
                         {error && (
-                            <Text style={accountStyles.error}>{error}</Text>
+                            <Text style={accountStyles.error}>{t(error)}</Text>
                         )}
                     </View>
                     <TouchableOpacity
@@ -207,13 +220,13 @@ export default function EditProfilePage() {
                         style={editProfilePageStyles.changePassword}
                     >
                         <Text style={accountStyles.forgot}>
-                            Change Password
+                            {t("Change Password")}
                         </Text>
                     </TouchableOpacity>
                 </ScrollView>
                 <Button
                     style={editProfilePageStyles.confirmButton}
-                    title="Confirm Changes"
+                    title={t("Confirm Changes")}
                     onPress={login}
                 />
             </View>

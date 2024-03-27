@@ -9,6 +9,7 @@ import { router } from "expo-router";
 import * as SecureStore from "expo-secure-store";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
     ActivityIndicator,
     Alert,
@@ -31,6 +32,7 @@ import TotalBillCard, {
 import Header from "@/components/header";
 import { colors } from "@/consts/styles";
 import { db } from "@/firebase/config";
+import { getProductDataById } from "@/firebase/getCollections/getProductByID";
 import { getUserById } from "@/firebase/getCollections/getUserById";
 import { useUser } from "@/firebase/providers/userProvider";
 import { newOrder } from "@/firebase/setCollections/newOrder";
@@ -41,6 +43,7 @@ const API_URL = `http://${process.env.EXPO_PUBLIC_LOCAL_IP}:3000`;
 const PUBLISHABLE_KEY = process.env.EXPO_PUBLIC_PUBLISHABLE_KEY;
 
 export default function CartPage() {
+    const { t } = useTranslation();
     const [shippingInfo, setShippingInfo] = useState("");
     const [ICartItems, setICartItems] = useState<ICartItem[]>([]);
     const [stripeCustomerId, setStripeCustomerId] = useState("");
@@ -75,11 +78,11 @@ export default function CartPage() {
                 setDiscountCodeApplied(true);
                 setDiscountCode("");
                 Alert.alert(
-                    "Success!",
-                    "This discount code has been applied to your cart.",
+                    t("Success!"),
+                    t("This discount code has been applied to your cart."),
                     [
                         {
-                            text: "OK",
+                            text: t("OK"),
                             onPress: () => {
                                 setDiscountPopupVisible(false);
                             },
@@ -88,11 +91,13 @@ export default function CartPage() {
                 );
             } else {
                 Alert.alert(
-                    "No Discount Found",
-                    "There is no discount code matching the one you entered.",
+                    t("No Discount Found"),
+                    t(
+                        "There is no discount code matching the one you entered.",
+                    ),
                     [
                         {
-                            text: "OK",
+                            text: t("OK"),
                         },
                     ],
                 );
@@ -168,7 +173,11 @@ export default function CartPage() {
         return preTaxPrice + shippingFee + gstCost;
     };
 
-    const handleQuantityChange = (productId: string, newQuantity: number) => {
+    const handleQuantityChange = async (
+        productId: string,
+        newQuantity: number,
+    ) => {
+        setDisableButton(true);
         setICartItems((prevICartItems) => {
             return prevICartItems?.map((item) => {
                 if (item.id === productId) {
@@ -177,6 +186,8 @@ export default function CartPage() {
                 return item;
             });
         });
+        await new Promise((resolve) => setTimeout(resolve, 500));
+        setDisableButton(false);
     };
 
     const handleRemoveProduct = async (productId: string) => {
@@ -301,7 +312,9 @@ export default function CartPage() {
                 amount: item.quantity,
                 name: item.data.name,
                 costPer: item.dynamicPrice,
-                choices: item?.choices,
+                choices: item?.choices || [],
+                imageUrl: item.data.url,
+                id: item.id,
             };
             parsedProducts.push(orderProduct);
         });
@@ -312,15 +325,62 @@ export default function CartPage() {
             shippingInfo,
             taxes: calculateGSTCost(items),
             discount: discountAmount,
+            user: user?.uid,
         } as IOrder;
+    };
+
+    const fixStock = async (id: string, stock: number) => {
+        try {
+            const cartData = await SecureStore.getItemAsync("cart");
+            if (cartData) {
+                const parsedCart = JSON.parse(cartData) as {
+                    productId: string;
+                    quantity: number;
+                }[];
+                for (let i = 0; i < parsedCart.length; i++) {
+                    if (parsedCart[i].productId == id)
+                        parsedCart[i].quantity = stock;
+                }
+                await SecureStore.setItemAsync(
+                    "cart",
+                    JSON.stringify(parsedCart),
+                );
+            }
+        } catch (error) {
+            console.error("Error fetching cart data:", error);
+        }
+    };
+
+    const validateStock = async (): Promise<boolean> => {
+        let validStock = true;
+        for (const item of ICartItems) {
+            const productInfo = await getProductDataById(item.id);
+            if (productInfo && item.quantity > productInfo.stock) {
+                validStock = false;
+                await handleQuantityChange(item.id, productInfo.stock);
+                await fixStock(item.id, productInfo.stock);
+            }
+        }
+        return validStock;
     };
 
     const openPaymentSheet = async () => {
         setIsPaymentLoading(true);
+        const validStock = await validateStock();
+        if (!validStock) {
+            Alert.alert(
+                "Low stock of a selected product, updated quantity in cart.",
+            );
+            setIsPaymentLoading(false);
+            return;
+        }
+
         await initializePaymentSheet();
         setIsPaymentLoading(false);
         const { error } = await presentPaymentSheet();
+        setIsPaymentLoading(true);
         if (error) {
+            setIsPaymentLoading(false);
             Alert.alert(`${error.code}`, error.message);
         } else {
             const order = parseOrder(ICartItems);
@@ -336,6 +396,7 @@ export default function CartPage() {
             //Empty the cart on successful purchase
             await SecureStore.setItemAsync("cart", JSON.stringify([]));
             setICartItems([] as any[]);
+            setIsPaymentLoading(false);
         }
     };
 
@@ -462,9 +523,11 @@ export default function CartPage() {
     if (ICartItems.length == 0) {
         return (
             <View style={cartPageStyles.container}>
-                <Header header="Your Cart" noBackArrow />
+                <Header header={t("Your Cart")} noBackArrow />
                 <Text style={cartPageStyles.messageText}>
-                    Your cart is empty! Go ahead and check out our products.
+                    {t(
+                        "Your cart is empty! Go ahead and check out our products.",
+                    )}
                 </Text>
                 <Image
                     contentFit="contain"
@@ -475,7 +538,9 @@ export default function CartPage() {
                     style={cartPageStyles.buttonTouchableOpacity}
                     onPress={() => router.push("/dashboard/HomePage")}
                 >
-                    <Text style={cartPageStyles.buttonText}>Shop Now</Text>
+                    <Text style={cartPageStyles.buttonText}>
+                        {t("Shop Now")}
+                    </Text>
                 </TouchableOpacity>
             </View>
         );
@@ -525,7 +590,7 @@ export default function CartPage() {
             )}
             <StripeProvider publishableKey={PUBLISHABLE_KEY ?? ""}>
                 <View>
-                    <Header header="Your Cart" noBackArrow />
+                    <Header header={t("Your Cart")} noBackArrow />
                     <Image
                         contentFit="contain"
                         source={
@@ -578,13 +643,13 @@ export default function CartPage() {
                                 onPress={() => setDiscountPopupVisible(true)}
                             >
                                 <Text style={cartPageStyles.discountCodeLink}>
-                                    Add Discount Code
+                                    {t("Add Discount Code")}
                                 </Text>
                             </TouchableOpacity>
                             {stripeCustomerId == "" && (
                                 <Button
                                     style={cartPageStyles.button}
-                                    title="Add Shipping Details"
+                                    title={t("Add Shipping Details")}
                                     onPress={() => {
                                         router.push(
                                             "/checkout/ShippingInfoPage",
@@ -594,7 +659,7 @@ export default function CartPage() {
                             )}
                             {stripeCustomerId != "" && (
                                 <Button
-                                    title="View Shipping Details"
+                                    title={t("View Shipping Details")}
                                     onPress={() => {
                                         router.push(
                                             "/checkout/ShippingInfoPage",
@@ -605,7 +670,7 @@ export default function CartPage() {
                                 />
                             )}
                             <Button
-                                title="Continue to Payment"
+                                title={t("Continue to Payment")}
                                 style={[
                                     cartPageStyles.button,
                                     (disableButton ||
@@ -640,13 +705,13 @@ export default function CartPage() {
                         <View style={cartPageStyles.popupView}>
                             <View style={cartPageStyles.popupHeaderContainer}>
                                 <Text style={cartPageStyles.headerTitle}>
-                                    Add Discount Code
+                                    {t("Add Discount Code")}
                                 </Text>
                             </View>
                             <View style={cartPageStyles.inputContainer}>
                                 <TextInput
                                     style={cartPageStyles.codeInput}
-                                    placeholder="Discount Code"
+                                    placeholder={t("Discount Code")}
                                     placeholderTextColor="grey"
                                     value={discountCode}
                                     onChangeText={setDiscountCode}
@@ -660,7 +725,7 @@ export default function CartPage() {
                                             cartPageStyles.discountButtonText
                                         }
                                     >
-                                        Apply Code
+                                        {t("Apply Code")}
                                     </Text>
                                 </TouchableOpacity>
                             </View>

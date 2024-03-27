@@ -1,6 +1,7 @@
 import levenshtein from "damerau-levenshtein";
 import { router } from "expo-router";
 import React, { useCallback, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
     View,
     ScrollView,
@@ -25,6 +26,7 @@ interface LevenshteinResponse {
 }
 
 export default function SearchPage() {
+    const { t } = useTranslation();
     const [isLoading, setIsLoading] = useState(true);
     const [validProducts, setValidProducts] = useState([] as any);
     const [refreshing, setRefreshing] = useState(false);
@@ -130,7 +132,7 @@ export default function SearchPage() {
     if (validProducts.length > 0) {
         return (
             <View style={queryPageStyles.container}>
-                <Header header={"Results for: " + searchTerm} />
+                <Header header={t("Results for: ") + searchTerm} />
                 <View>
                     <ScrollView
                         contentContainerStyle={queryPageStyles.display}
@@ -159,16 +161,16 @@ export default function SearchPage() {
     } else {
         return (
             <View style={mainStyles.container}>
-                <Header header="Search Results" />
+                <Header header={t("Search Results")} />
                 <Text style={queryPageStyles.messageText}>
-                    Sorry, nothing was found for {searchTerm}.
+                    {t("Sorry, nothing was found for")} {searchTerm}.
                 </Text>
                 <TouchableOpacity
                     style={queryPageStyles.button}
                     onPress={() => router.push("/dashboard/HomePage")}
                 >
                     <Text style={queryPageStyles.buttonText}>
-                        Shop Other Products
+                        {t("Shop Other Products")}
                     </Text>
                 </TouchableOpacity>
             </View>

@@ -3,6 +3,7 @@ import { router } from "expo-router";
 import * as WebBrowser from "expo-web-browser";
 import { signOut } from "firebase/auth";
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { ActivityIndicator, Text, TouchableOpacity, View } from "react-native";
 
 import Header from "@/components/header";
@@ -16,6 +17,7 @@ import { profilePageStyles } from "@/styles/profilePageStyles";
 
 export default function ProfilePage() {
     const { user } = useUser();
+    const { t } = useTranslation();
     const [logoutPopupVisible, setLogoutPopupVisible] = useState(false);
     const [logoutSpinner, setLogoutSpinner] = useState(false);
 
@@ -35,27 +37,28 @@ export default function ProfilePage() {
     if (!user) {
         return (
             <View style={mainStyles.container}>
-                <Header header="Your Profile" noBackArrow />
+                <Header header={t("yourProfile")} noBackArrow />
                 <Text style={profilePageStyles.messageText}>
-                    You are currently browsing as a guest! Login or create an
-                    account to view your profile and save your settings.
+                    {t("guestMessage")}
                 </Text>
                 <TouchableOpacity
                     style={profilePageStyles.button}
                     onPress={() => router.push("/auth/login")}
                 >
-                    <Text style={profilePageStyles.buttonText}>Login</Text>
+                    <Text style={profilePageStyles.buttonText}>
+                        {t("login")}
+                    </Text>
                 </TouchableOpacity>
                 <View style={profilePageStyles.signUpContainer}>
                     <Text style={profilePageStyles.signUpText}>
-                        Don't have an account?{" "}
+                        {t("noAccount")}Don't have an account?{" "}
                     </Text>
                     <TouchableOpacity>
                         <Text
                             style={profilePageStyles.signUpLink}
                             onPress={() => router.push("/auth/signup")}
                         >
-                            Sign Up
+                            {t("signUp")}
                         </Text>
                     </TouchableOpacity>
                 </View>
@@ -69,7 +72,7 @@ export default function ProfilePage() {
                         <ActivityIndicator size="large" color={colors.yellow} />
                     </View>
                 )}
-                <Header header="Your Profile" noBackArrow />
+                <Header header={t("yourProfile")} noBackArrow />
                 <Ionicons
                     name="person-outline"
                     style={profilePageStyles.largeIcon}
@@ -77,24 +80,24 @@ export default function ProfilePage() {
                 <View style={profilePageStyles.optionContainer}>
                     <ProfileOption
                         onPress={() => router.push("/profile/OrderHistoryPage")}
-                        label="Order History"
+                        label={t("orderHistory")}
                         iconName="history"
                     />
                 </View>
                 <View style={profilePageStyles.optionContainer}>
                     <ProfileOption
                         onPress={() => router.push("/profile/EditProfilePage")}
-                        label="My Account"
+                        label={t("myAccount")}
                         iconName="edit"
                     />
                     <ProfileOption
                         onPress={() => router.push("/profile/NotificationPage")}
-                        label="Notifications"
+                        label={t("notifications")}
                         iconName="notifications"
                     />
                     <ProfileOption
                         onPress={() => router.push("/profile/LanguagePage")}
-                        label="Language"
+                        label={t("language")}
                         iconName="language"
                     />
                 </View>
@@ -105,7 +108,7 @@ export default function ProfilePage() {
                                 "https://yycwax.com/about/frequently-asked-questions/",
                             )
                         }
-                        label="Help & Support"
+                        label={t("help&Support")}
                         iconName="help-outline"
                     />
                     <ProfileOption
@@ -114,29 +117,28 @@ export default function ProfilePage() {
                                 "https://yycwax.com/contact-us/",
                             )
                         }
-                        label="Contact Us"
+                        label={t("contactUs")}
                         iconName="message"
                     />
                     <ProfileOption
                         onPress={() =>
                             router.push("/profile/PrivacyPolicyPage")
                         }
-                        label="Privacy Policy"
+                        label={t("privacyPolicy")}
                         iconName="lock-outline"
                     />
                 </View>
                 <View style={profilePageStyles.optionContainer}>
                     <ProfileOption
                         onPress={() => setLogoutPopupVisible(true)}
-                        label="Logout"
+                        label={t("logout")}
                         iconName="logout"
                     />
                 </View>
                 <Popup
-                    subTitle="Are you sure you want to logout? This will take you back
-                    to the login screen."
-                    option1Text="No"
-                    option2Text="Yes"
+                    subTitle={t("logoutConfirmation")}
+                    option1Text={t("no")}
+                    option2Text={t("yes")}
                     visible={logoutPopupVisible}
                     changeVisibility={() => setLogoutPopupVisible(false)}
                     option1Action={() => setLogoutPopupVisible(false)}
