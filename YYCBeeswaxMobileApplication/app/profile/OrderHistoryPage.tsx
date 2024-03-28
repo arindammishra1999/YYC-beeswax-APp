@@ -3,13 +3,20 @@ import { router } from "expo-router";
 import { collection, getDocs, DocumentData } from "firebase/firestore";
 import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { Text, View, TouchableOpacity, RefreshControl } from "react-native";
+import {
+    Text,
+    View,
+    TouchableOpacity,
+    RefreshControl,
+    ActivityIndicator,
+} from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 
 import Header from "@/components/header";
 import { colors } from "@/consts/styles";
 import { db } from "@/firebase/config";
 import { useUser } from "@/firebase/providers/userProvider";
+import { mainStyles } from "@/styles/mainStyles";
 import { orderHistoryPageStyles } from "@/styles/orderHistoryPageStyles";
 
 export default function OrderHistoryPage() {
@@ -17,6 +24,7 @@ export default function OrderHistoryPage() {
     const { user } = useUser();
     const [orderHistory, setOrderHistory] = useState<DocumentData[]>([]);
     const [refreshing, setRefreshing] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     const onRefresh = async () => {
         setRefreshing(true);
@@ -30,6 +38,7 @@ export default function OrderHistoryPage() {
             const ordersSnapshot = await getDocs(userOrdersRef);
             const ordersData = ordersSnapshot.docs.map((doc) => doc.data());
             setOrderHistory(ordersData);
+            setLoading(false);
         }
     };
 
@@ -62,7 +71,13 @@ export default function OrderHistoryPage() {
         </TouchableOpacity>
     );
 
-    if (orderHistory.length > 0) {
+    if (loading) {
+        return (
+            <View style={mainStyles.spinnerOverlay}>
+                <ActivityIndicator size="large" color={colors.yellow} />
+            </View>
+        );
+    } else if (orderHistory.length > 0) {
         return (
             <View style={orderHistoryPageStyles.container}>
                 <Header header={t("Order History")} />
