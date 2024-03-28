@@ -1,8 +1,9 @@
 import { Image } from "expo-image";
 import { router } from "expo-router";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 
+import { getProductDataById } from "@/firebase/getCollections/getProductByID";
 import { productSimpleCardStyles } from "@/styles/components/productSimpleCardStyles";
 
 type Props = {
@@ -13,22 +14,43 @@ type Props = {
 };
 
 export default function ProductSimpleCard(props: Props) {
+    const [invalidStock, setInvalidStock] = useState(false);
+
+    useEffect(() => {
+        (async () => {
+            const productInfo = await getProductDataById(props.id);
+            if (productInfo && productInfo.stock <= 0) {
+                setInvalidStock(true);
+            }
+        })();
+    }, []);
+
     return (
         <View style={productSimpleCardStyles.cardContainer}>
             <TouchableOpacity
                 onPress={() => {
                     router.push(`/product/${props.id}/`);
                 }}
+                style={[invalidStock && productSimpleCardStyles.invalidStock]}
+                disabled={invalidStock}
             >
                 <Image
                     contentFit="contain"
                     source={{ uri: props.image }}
                     style={productSimpleCardStyles.image}
                 />
+
                 <Text style={productSimpleCardStyles.title}>{props.name}</Text>
-                <Text style={productSimpleCardStyles.price}>
-                    ${(Math.round(props.price * 100) / 100).toFixed(2)}
-                </Text>
+                {invalidStock && (
+                    <Text style={productSimpleCardStyles.invalidText}>
+                        Out of stock
+                    </Text>
+                )}
+                {!invalidStock && (
+                    <Text style={productSimpleCardStyles.price}>
+                        ${(Math.round(props.price * 100) / 100).toFixed(2)}
+                    </Text>
+                )}
             </TouchableOpacity>
         </View>
     );

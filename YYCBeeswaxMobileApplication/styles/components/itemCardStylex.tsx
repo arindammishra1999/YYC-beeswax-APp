@@ -27,6 +27,16 @@ export const itemCardStyles = StyleSheet.create({
         borderBottomEndRadius: 0,
         borderBottomStartRadius: 0,
     },
+    invalidStock: {
+        opacity: 0.5,
+    },
+    invalidText: {
+        fontSize: 14,
+        color: colors.red,
+        marginVertical: 5,
+        alignSelf: "center",
+        fontFamily: fonts.mainBold,
+    },
     title: {
         alignSelf: "center",
         marginTop: 5,

@@ -358,7 +358,11 @@ export default function CartPage() {
             if (productInfo && item.quantity > productInfo.stock) {
                 validStock = false;
                 await handleQuantityChange(item.id, productInfo.stock);
-                await fixStock(item.id, productInfo.stock);
+                if (productInfo.stock <= 0) {
+                    await handleRemoveProduct(item.id);
+                } else {
+                    await fixStock(item.id, productInfo.stock);
+                }
             }
         }
         return validStock;
