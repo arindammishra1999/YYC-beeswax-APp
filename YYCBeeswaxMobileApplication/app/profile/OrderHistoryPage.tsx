@@ -1,16 +1,15 @@
 import { Image } from "expo-image";
 import { router } from "expo-router";
+import { collection, getDocs, DocumentData } from "firebase/firestore";
 import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Text, View, TouchableOpacity, RefreshControl } from "react-native";
-import { collection, getDocs } from "firebase/firestore";
-import { db } from "@/firebase/config";
-import { useUser } from "@/firebase/providers/userProvider";
-import { DocumentData } from "firebase/firestore";
 import { ScrollView } from "react-native-gesture-handler";
 
 import Header from "@/components/header";
 import { colors } from "@/consts/styles";
+import { db } from "@/firebase/config";
+import { useUser } from "@/firebase/providers/userProvider";
 import { orderHistoryPageStyles } from "@/styles/orderHistoryPageStyles";
 
 export default function OrderHistoryPage() {
@@ -65,27 +64,25 @@ export default function OrderHistoryPage() {
 
     if (orderHistory.length > 0) {
         return (
-            <ScrollView
-                contentContainerStyle={
-                    orderHistoryPageStyles.scrollViewContainer
-                }
-            >
-                <View style={orderHistoryPageStyles.container}>
-                    <Header header={t("Order History")} />
-                    <View>
-                        {orderHistory.map((order, index) => (
-                            <React.Fragment key={index}>
-                                {renderOrder(order)}
-                            </React.Fragment>
-                        ))}
-                        <RefreshControl
-                            refreshing={refreshing}
-                            onRefresh={onRefresh}
-                            tintColor={colors.yellow}
-                        />
-                    </View>
-                </View>
-            </ScrollView>
+            <View style={orderHistoryPageStyles.container}>
+                <Header header={t("Order History")} />
+                <ScrollView
+                    contentContainerStyle={
+                        orderHistoryPageStyles.scrollViewContainer
+                    }
+                >
+                    {orderHistory.map((order, index) => (
+                        <React.Fragment key={index}>
+                            {renderOrder(order)}
+                        </React.Fragment>
+                    ))}
+                    <RefreshControl
+                        refreshing={refreshing}
+                        onRefresh={onRefresh}
+                        tintColor={colors.yellow}
+                    />
+                </ScrollView>
+            </View>
         );
     } else {
         return (
