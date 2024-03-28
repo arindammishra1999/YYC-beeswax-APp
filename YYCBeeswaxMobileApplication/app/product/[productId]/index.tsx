@@ -309,7 +309,7 @@ export default function Product() {
 
     return (
         <View style={mainStyles.container}>
-            <Header header={t(product.name)} />
+            <Header header={product.name} />
             <ScrollView
                 contentContainerStyle={productPageStyles.display}
                 onScrollEndDrag={getMoreReviews}
