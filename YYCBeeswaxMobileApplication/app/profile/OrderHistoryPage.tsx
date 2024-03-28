@@ -1,150 +1,69 @@
-import { FlashList } from "@shopify/flash-list";
 import { Image } from "expo-image";
 import { router } from "expo-router";
-import React, { useCallback, useState } from "react";
+import { collection, getDocs, DocumentData } from "firebase/firestore";
+import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { Text, View, TouchableOpacity, RefreshControl } from "react-native";
+import {
+    Text,
+    View,
+    TouchableOpacity,
+    RefreshControl,
+    ActivityIndicator,
+} from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
 
 import Header from "@/components/header";
 import { colors } from "@/consts/styles";
+import { db } from "@/firebase/config";
+import { useUser } from "@/firebase/providers/userProvider";
+import { mainStyles } from "@/styles/mainStyles";
 import { orderHistoryPageStyles } from "@/styles/orderHistoryPageStyles";
 
 export default function OrderHistoryPage() {
     const { t } = useTranslation();
-    const [orderHistory] = useState(true);
+    const { user } = useUser();
+    const [orderHistory, setOrderHistory] = useState<DocumentData[]>([]);
     const [refreshing, setRefreshing] = useState(false);
+    const [loading, setLoading] = useState(true);
 
-    enum orderStatus {
-        Placed = "Placed",
-        Shipped = "Shipped",
-        Delivered = "Delivered",
-        Cancelled = "Cancelled",
-    }
-
-    const listings = [
-        {
-            id: 1,
-            title: "Chakra Treasure Beeswax Pillar Candle",
-            numberProducts: 2,
-            order: orderStatus.Shipped,
-            date: "Feb 12, 2023",
-            imageLink: require("@/assets/tempImages/chakra.jpg"),
-        },
-        {
-            id: 2,
-            title: "Mini Self Care Kit",
-            numberProducts: 1,
-            order: orderStatus.Delivered,
-            date: "Jan 20, 2023",
-            imageLink: require("@/assets/tempImages/miniSelfCare.jpg"),
-        },
-        {
-            id: 3,
-            title: "Online Rolled Candle Making Starter Kit",
-            numberProducts: 2,
-            order: orderStatus.Delivered,
-            date: "Jan 4, 2023",
-            imageLink: require("@/assets/tempImages/onlineRolled.jpg"),
-        },
-        {
-            id: 4,
-            title: "Extra - Placed",
-            numberProducts: 2,
-            order: orderStatus.Placed,
-            date: "Jan 5, 2023",
-            imageLink: require("@/assets/tempImages/onlineRolled.jpg"),
-        },
-        {
-            id: 5,
-            title: "Extra - Shipped",
-            numberProducts: 1,
-            order: orderStatus.Shipped,
-            date: "Jan 6, 2023",
-            imageLink: require("@/assets/tempImages/onlineRolled.jpg"),
-        },
-        {
-            id: 6,
-            title: "Extra - Delivered",
-            numberProducts: 2,
-            order: orderStatus.Delivered,
-            date: "Jan 7, 2023",
-            imageLink: require("@/assets/tempImages/onlineRolled.jpg"),
-        },
-        {
-            id: 7,
-            title: "Extra - Cancelled",
-            numberProducts: 5,
-            order: orderStatus.Cancelled,
-            date: "Jan 8, 2023",
-            imageLink: require("@/assets/tempImages/onlineRolled.jpg"),
-        },
-        {
-            id: 8,
-            title: "Extra",
-            numberProducts: 2,
-            order: orderStatus.Cancelled,
-            date: "Jan 4, 2023",
-            imageLink: require("@/assets/tempImages/onlineRolled.jpg"),
-        },
-    ];
-
-    type ItemProps = {
-        title: string;
-        numberProducts: number;
-        order: orderStatus;
-        date: string;
-        imageLink: string;
+    const onRefresh = async () => {
+        setRefreshing(true);
+        await fetchOrderHistory();
+        setRefreshing(false);
     };
 
-    const setOrderStatusType = (order: orderStatus) => {
-        switch (order) {
-            case orderStatus.Delivered:
-                return orderHistoryPageStyles.orderDetailsDelivered;
-            case orderStatus.Shipped:
-                return orderHistoryPageStyles.orderDetailsShipped;
-            case orderStatus.Placed:
-                return orderHistoryPageStyles.orderDetailsPlaced;
-            case orderStatus.Cancelled:
-                return orderHistoryPageStyles.orderDetailsCancelled;
-            default:
+    const fetchOrderHistory = async () => {
+        if (user) {
+            const userOrdersRef = collection(db, `users/${user.uid}/orders`);
+            const ordersSnapshot = await getDocs(userOrdersRef);
+            const ordersData = ordersSnapshot.docs.map((doc) => doc.data());
+            setOrderHistory(ordersData);
+            setLoading(false);
         }
     };
 
-    const onRefresh = useCallback(() => {
-        setRefreshing(true);
-        setTimeout(() => {
-            // Can put API call to the database here once we remove the dummy data
-            setRefreshing(false);
-        }, 2000);
-    }, []);
+    useEffect(() => {
+        fetchOrderHistory();
+    }, [user]);
 
-    const Item = ({
-        title,
-        numberProducts,
-        order,
-        date,
-        imageLink,
-    }: ItemProps) => (
+    const renderOrder = (order: DocumentData) => (
         <TouchableOpacity onPress={() => {}}>
             <View style={orderHistoryPageStyles.orderCard}>
                 <Image
                     style={orderHistoryPageStyles.image}
-                    source={imageLink as any}
+                    source={{ uri: order.products[0].imageUrl }}
                 />
                 <View style={orderHistoryPageStyles.detailsContainer}>
                     <Text
                         style={orderHistoryPageStyles.orderName}
                         numberOfLines={1}
                     >
-                        {title}
+                        {t(order.products[0].name)}
                     </Text>
                     <View style={orderHistoryPageStyles.orderDetails}>
-                        <Text style={setOrderStatusType(order)}>
-                            {numberProducts} {t("product")}
-                            {numberProducts > 1 ? "s" : ""} -{" "}
-                        </Text>
-                        <Text style={setOrderStatusType(order)}>
-                            {t(order)} {t("on")} {t(date)}
+                        <Text>
+                            {order.products.length} {t("product")}
+                            {order.products.length > 1 ? "s" : ""}
                         </Text>
                     </View>
                 </View>
@@ -152,31 +71,32 @@ export default function OrderHistoryPage() {
         </TouchableOpacity>
     );
 
-    if (orderHistory) {
+    if (loading) {
+        return (
+            <View style={mainStyles.spinnerOverlay}>
+                <ActivityIndicator size="large" color={colors.yellow} />
+            </View>
+        );
+    } else if (orderHistory.length > 0) {
         return (
             <View style={orderHistoryPageStyles.container}>
                 <Header header={t("Order History")} />
-                <FlashList
-                    data={listings}
-                    estimatedItemSize={100}
-                    refreshControl={
-                        <RefreshControl
-                            refreshing={refreshing}
-                            onRefresh={onRefresh}
-                            tintColor={colors.yellow}
-                        />
+                <ScrollView
+                    contentContainerStyle={
+                        orderHistoryPageStyles.scrollViewContainer
                     }
-                    renderItem={({ item }) => (
-                        <Item
-                            title={t(item.title)}
-                            numberProducts={item.numberProducts}
-                            order={item.order}
-                            date={item.date}
-                            imageLink={item.imageLink}
-                        />
-                    )}
-                    keyExtractor={(listings) => listings.id.toString()}
-                />
+                >
+                    {orderHistory.map((order, index) => (
+                        <React.Fragment key={index}>
+                            {renderOrder(order)}
+                        </React.Fragment>
+                    ))}
+                    <RefreshControl
+                        refreshing={refreshing}
+                        onRefresh={onRefresh}
+                        tintColor={colors.yellow}
+                    />
+                </ScrollView>
             </View>
         );
     } else {

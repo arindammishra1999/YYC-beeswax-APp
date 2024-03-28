@@ -84,4 +84,7 @@ export const orderHistoryPageStyles = StyleSheet.create({
         height: 240,
         width: 320,
     },
+    scrollViewContainer: {
+        paddingBottom: 10,
+    },
 });
