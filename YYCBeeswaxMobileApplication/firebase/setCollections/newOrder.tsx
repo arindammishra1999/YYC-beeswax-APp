@@ -34,6 +34,33 @@ export async function newOrder(userId: string, orderData: IOrder) {
                 await updateDoc(productDocRef, {
                     stock: newStock > 0 ? newStock : 0,
                 });
+                if (item.choices && productData.variantsDynamic) {
+                    const choices = item.choices as {
+                        name: string;
+                        title: string;
+                    }[];
+                    const varDyn: IProduct["variantsDynamic"] =
+                        productData.variantsDynamic;
+                    if (varDyn) {
+                        for (const variant of varDyn) {
+                            choices.forEach((choice) => {
+                                if (choice.title == variant.title) {
+                                    for (const option of variant.options) {
+                                        if (choice.name == option.name) {
+                                            const newerStock =
+                                                option.stock - item.amount;
+                                            option.stock =
+                                                newerStock > 0 ? newerStock : 0;
+                                        }
+                                    }
+                                }
+                            });
+                        }
+                        await updateDoc(productDocRef, {
+                            variantsDynamic: varDyn,
+                        });
+                    }
+                }
             } else {
                 console.error(`Product with ID ${item.id} does not exist.`);
             }
