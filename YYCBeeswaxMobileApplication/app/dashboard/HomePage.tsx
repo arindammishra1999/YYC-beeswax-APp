@@ -226,7 +226,7 @@ export default function HomePage() {
                                         key={product.id}
                                         id={product.id}
                                         image={product.data.url}
-                                        title={t(product.data.name)}
+                                        title={product.data.name}
                                         price={product.data.price}
                                     />
                                 ))
