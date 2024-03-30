@@ -43,7 +43,10 @@ export default function App() {
                 setLoading(false);
             }
         };
+        fetchOrderDetails();
+    }, []);
 
+    useEffect(() => {
         const fetchUserName = async () => {
             try {
                 if (order?.user) {
@@ -56,10 +59,8 @@ export default function App() {
                 console.error("Error fetching user details:", error);
             }
         };
-
-        fetchOrderDetails();
         fetchUserName();
-    }, []);
+    }, [order]);
 
     if (loading) {
         return (
