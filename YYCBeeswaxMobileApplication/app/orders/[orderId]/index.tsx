@@ -43,7 +43,10 @@ export default function App() {
                 setLoading(false);
             }
         };
+        fetchOrderDetails();
+    }, []);
 
+    useEffect(() => {
         const fetchUserName = async () => {
             try {
                 if (order?.user) {
@@ -57,9 +60,8 @@ export default function App() {
             }
         };
 
-        fetchOrderDetails();
         fetchUserName();
-    }, []);
+    }, [order]);
 
     if (loading) {
         return (
@@ -97,13 +99,13 @@ export default function App() {
                             product.choices.length > 0 &&
                             product.choices.map((choice: any) => {
                                 if (choice.title === "Size") {
-                                    return `Height - ${choice.name}, `;
+                                    return `Height - ${choice.name}`;
                                 }
                                 if (
                                     product.name ===
                                     "Divine Meditation Gift Set"
                                 ) {
-                                    return `${choice.title} - ${choice.name},\n`;
+                                    return `${choice.title} - ${choice.name}\n`;
                                 }
                             })}
                         {t("Quantity : ")} {product.amount}
@@ -121,26 +123,7 @@ export default function App() {
             0,
         );
 
-        let total;
-        if (order.discount > 0) {
-            if (order.discountType) {
-                total =
-                    Math.max(
-                        0,
-                        totalProductCost -
-                            totalProductCost * (order.discount / 100),
-                    ) +
-                    order.taxes +
-                    10;
-            } else {
-                total =
-                    Math.max(0, totalProductCost - order.discount) +
-                    order.taxes +
-                    10;
-            }
-        } else {
-            total = totalProductCost + order.taxes + 10;
-        }
+        const total = totalProductCost + order.taxes + 10;
 
         return (
             <View style={orderDetailsPageStyles.billingCard}>
@@ -150,51 +133,33 @@ export default function App() {
                             style={orderDetailsPageStyles.billingCardText}
                             numberOfLines={1}
                         >
-                            {product.amount} x {t(product.name)}:
+                            {product.amount} x {t(product.name)}
                         </Text>
                         <Text style={orderDetailsPageStyles.billingCardPrices}>
                             ${(product.amount * product.costPer).toFixed(2)}
                         </Text>
                     </View>
                 ))}
-                {order.discount > 0 && (
-                    <View style={orderDetailsPageStyles.billingRow}>
-                        <Text style={orderDetailsPageStyles.billingCardText}>
-                            Discount Applied: {order.discountType ? "" : "$"}
-                            {order.discount}
-                            {order.discountType ? "%" : ""}
-                        </Text>
-                        <Text style={orderDetailsPageStyles.billingCardPrices}>
-                            {order.discountType
-                                ? "- $" +
-                                  (
-                                      totalProductCost *
-                                      (order.discount / 100)
-                                  ).toFixed(2)
-                                : "- $" + parseFloat(order.discount).toFixed(2)}
-                        </Text>
-                    </View>
-                )}
                 <View style={orderDetailsPageStyles.billingRow}>
                     <Text style={orderDetailsPageStyles.billingCardText}>
-                        Shipping:
-                    </Text>
-                    <Text style={orderDetailsPageStyles.billingCardPrices}>
-                        $10.00
-                    </Text>
-                </View>
-                <View style={orderDetailsPageStyles.billingRow}>
-                    <Text style={orderDetailsPageStyles.billingCardText}>
-                        Taxes: {order.taxString}
+                        Taxes
                     </Text>
                     <Text style={orderDetailsPageStyles.billingCardPrices}>
                         ${order.taxes.toFixed(2)}
                     </Text>
                 </View>
+                <View style={orderDetailsPageStyles.billingRow}>
+                    <Text style={orderDetailsPageStyles.billingCardText}>
+                        Shipping
+                    </Text>
+                    <Text style={orderDetailsPageStyles.billingCardPrices}>
+                        $10
+                    </Text>
+                </View>
                 <View style={orderDetailsPageStyles.dottedLine} />
                 <View style={orderDetailsPageStyles.billingRow}>
                     <Text style={orderDetailsPageStyles.billingCardText}>
-                        Total:
+                        Total
                     </Text>
                     <Text style={orderDetailsPageStyles.billingCardPrices}>
                         ${(total as number).toFixed(2)}
