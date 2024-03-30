@@ -338,6 +338,7 @@ export default function CartPage() {
             taxes: calculateGSTCost(items),
             taxString: taxInformation[taxProvince],
             discount: discountAmount,
+            // eslint-disable-next-line object-shorthand
             discountType: discountType,
             user: user?.uid,
         } as IOrder;

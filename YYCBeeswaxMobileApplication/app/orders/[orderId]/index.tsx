@@ -125,12 +125,18 @@ export default function App() {
         if (order.discount > 0) {
             if (order.discountType) {
                 total =
-                    totalProductCost -
-                    totalProductCost * (order.discount / 100) +
+                    Math.max(
+                        0,
+                        totalProductCost -
+                            totalProductCost * (order.discount / 100),
+                    ) +
                     order.taxes +
                     10;
             } else {
-                total = totalProductCost - order.discount + order.taxes + 10;
+                total =
+                    Math.max(0, totalProductCost - order.discount) +
+                    order.taxes +
+                    10;
             }
         } else {
             total = totalProductCost + order.taxes + 10;
