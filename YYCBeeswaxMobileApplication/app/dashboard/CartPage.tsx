@@ -318,13 +318,27 @@ export default function CartPage() {
             };
             parsedProducts.push(orderProduct);
         });
+        const taxInformation: Record<string, string> = {
+            Alberta: "GST (5%)",
+            "British Columbia": "PST (7%) + GST (5%)",
+            Saskatchewan: "PST (6%) + GST (5%)",
+            Manitoba: "PST (7%) + GST (5%)",
+            Ontario: "HST (13%)",
+            Quebec: "QST (9.975%) + GST (5%)",
+            "New Brunswick": "HST (15%)",
+            "Newfoundland and Labrador": "HST (15%)",
+            "Prince Edward Island": "HST (15%)",
+            "Nova Scotia": "HST (15%)",
+        };
         return {
             date: today,
             total: calculateTotalItemsCost(items),
             products: parsedProducts,
             shippingInfo,
             taxes: calculateGSTCost(items),
+            taxString: taxInformation[taxProvince],
             discount: discountAmount,
+            discountType: discountType,
             user: user?.uid,
         } as IOrder;
     };
