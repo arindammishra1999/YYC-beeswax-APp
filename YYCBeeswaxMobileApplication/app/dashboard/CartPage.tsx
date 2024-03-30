@@ -357,7 +357,7 @@ export default function CartPage() {
             const productInfo = await getProductDataById(item.id);
             if (productInfo) {
                 let enoughVariants = true;
-                let minStock = -1;
+                let minStock = productInfo.stock;
                 if (item.choices && productInfo.variantsDynamic) {
                     const varDyn = productInfo.variantsDynamic;
                     item.choices.forEach((individualItem) => {
@@ -370,7 +370,6 @@ export default function CartPage() {
                         )[0].stock;
                         if (item.quantity > variantStock) {
                             enoughVariants = false;
-                            minStock = minStock == -1 ? variantStock : minStock;
                             minStock =
                                 minStock < variantStock
                                     ? minStock
@@ -381,15 +380,12 @@ export default function CartPage() {
 
                 if (item.quantity > productInfo.stock || !enoughVariants) {
                     validStock = false;
-                    const lowestStock =
-                        minStock < productInfo.stock
-                            ? minStock
-                            : productInfo.stock;
-                    await handleQuantityChange(item.id, lowestStock);
-                    if (lowestStock <= 0) {
+
+                    await handleQuantityChange(item.id, minStock);
+                    if (minStock <= 0) {
                         await handleRemoveProduct(item.id);
                     } else {
-                        await fixStock(item.id, lowestStock);
+                        await fixStock(item.id, minStock);
                     }
                 }
             }

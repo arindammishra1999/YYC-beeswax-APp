@@ -12,6 +12,7 @@ type Props = {
     title: string;
     price: number;
     id: string;
+    onRefresh: (productId: string) => Promise<boolean>;
 };
 
 export default function ItemCard(props: Props) {
@@ -22,9 +23,11 @@ export default function ItemCard(props: Props) {
             const productInfo = await getProductDataById(props.id);
             if (productInfo && productInfo.stock <= 0) {
                 setInvalidStock(true);
+            } else {
+                setInvalidStock(false);
             }
         })();
-    }, []);
+    }, [props.onRefresh]);
 
     return (
         <View style={itemCardStyles.cardContainer}>
