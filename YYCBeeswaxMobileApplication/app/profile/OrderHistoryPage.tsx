@@ -36,7 +36,12 @@ export default function OrderHistoryPage() {
         if (user) {
             const userOrdersRef = collection(db, `users/${user.uid}/orders`);
             const ordersSnapshot = await getDocs(userOrdersRef);
-            const ordersData = ordersSnapshot.docs.map((doc) => doc.data());
+            const ordersData = ordersSnapshot.docs.map((doc) => {
+                return {
+                    id: doc.id,
+                    data: doc.data(),
+                };
+            });
             setOrderHistory(ordersData);
             setLoading(false);
         }
@@ -46,24 +51,28 @@ export default function OrderHistoryPage() {
         fetchOrderHistory();
     }, [user]);
 
-    const renderOrder = (order: DocumentData) => (
-        <TouchableOpacity onPress={() => {}}>
+    const renderOrder = (order: any) => (
+        <TouchableOpacity
+            onPress={() => {
+                router.push(`/orders/${order.id}/`);
+            }}
+        >
             <View style={orderHistoryPageStyles.orderCard}>
                 <Image
                     style={orderHistoryPageStyles.image}
-                    source={{ uri: order.products[0].imageUrl }}
+                    source={{ uri: order.data.products[0].imageUrl }}
                 />
                 <View style={orderHistoryPageStyles.detailsContainer}>
                     <Text
                         style={orderHistoryPageStyles.orderName}
                         numberOfLines={1}
                     >
-                        {t(order.products[0].name)}
+                        {t(order.data.products[0].name)}{" "}
                     </Text>
                     <View style={orderHistoryPageStyles.orderDetails}>
                         <Text>
-                            {order.products.length} {t("product")}
-                            {order.products.length > 1 ? "s" : ""}
+                            {order.data.products.length} {t("product")}
+                            {order.data.products.length > 1 ? "s" : ""}
                         </Text>
                     </View>
                 </View>

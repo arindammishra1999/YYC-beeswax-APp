@@ -34,6 +34,10 @@ export const orderHistoryPageStyles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "flex-start",
     },
+    orderDetailsText: {
+        color: "grey",
+        fontFamily: fonts.main,
+    },
     orderDetailsShipped: {
         color: colors.blue,
         fontSize: 15,
