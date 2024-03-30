@@ -15,6 +15,14 @@ export const productSimpleCardStyles = StyleSheet.create({
         height: viewportWidth / 2 - 30,
         top: -10,
     },
+    invalidStock: {
+        opacity: 0.5,
+    },
+    invalidText: {
+        fontSize: 14,
+        color: colors.red,
+        fontFamily: fonts.mainBold,
+    },
     title: {
         fontSize: 14,
         color: colors.darkGrey,

@@ -1,9 +1,10 @@
 import { Image } from "expo-image";
 import { router } from "expo-router";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 
 import Skeleton from "@/components/skeleton";
+import { getProductDataById } from "@/firebase/getCollections/getProductByID";
 import { itemCardStyles } from "@/styles/components/itemCardStylex";
 
 type Props = {
@@ -14,12 +15,25 @@ type Props = {
 };
 
 export default function ItemCard(props: Props) {
+    const [invalidStock, setInvalidStock] = useState(false);
+
+    useEffect(() => {
+        (async () => {
+            const productInfo = await getProductDataById(props.id);
+            if (productInfo && productInfo.stock <= 0) {
+                setInvalidStock(true);
+            }
+        })();
+    }, []);
+
     return (
         <View style={itemCardStyles.cardContainer}>
             <TouchableOpacity
                 onPress={() => {
                     router.push(`/product/${props.id}/`);
                 }}
+                style={[invalidStock && itemCardStyles.invalidStock]}
+                disabled={invalidStock}
             >
                 <Image
                     contentFit="cover"
@@ -33,9 +47,14 @@ export default function ItemCard(props: Props) {
                 >
                     {props.title}
                 </Text>
-                <Text style={itemCardStyles.price}>
-                    ${props.price.toFixed(2)}
-                </Text>
+                {invalidStock && (
+                    <Text style={itemCardStyles.invalidText}>Out of stock</Text>
+                )}
+                {!invalidStock && (
+                    <Text style={itemCardStyles.price}>
+                        ${props.price.toFixed(2)}
+                    </Text>
+                )}
             </TouchableOpacity>
         </View>
     );

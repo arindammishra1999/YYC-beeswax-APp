@@ -355,10 +355,43 @@ export default function CartPage() {
         let validStock = true;
         for (const item of ICartItems) {
             const productInfo = await getProductDataById(item.id);
-            if (productInfo && item.quantity > productInfo.stock) {
-                validStock = false;
-                await handleQuantityChange(item.id, productInfo.stock);
-                await fixStock(item.id, productInfo.stock);
+            if (productInfo) {
+                let enoughVariants = true;
+                let minStock = -1;
+                if (item.choices && productInfo.variantsDynamic) {
+                    const varDyn = productInfo.variantsDynamic;
+                    item.choices.forEach((individualItem) => {
+                        const itemsOption = varDyn.filter(
+                            (e) => e.title == individualItem.title,
+                        )[0].options;
+
+                        const variantStock = itemsOption.filter(
+                            (e) => e.name == individualItem.name,
+                        )[0].stock;
+                        if (item.quantity > variantStock) {
+                            enoughVariants = false;
+                            minStock = minStock == -1 ? variantStock : minStock;
+                            minStock =
+                                minStock < variantStock
+                                    ? minStock
+                                    : variantStock;
+                        }
+                    });
+                }
+
+                if (item.quantity > productInfo.stock || !enoughVariants) {
+                    validStock = false;
+                    const lowestStock =
+                        minStock < productInfo.stock
+                            ? minStock
+                            : productInfo.stock;
+                    await handleQuantityChange(item.id, lowestStock);
+                    if (lowestStock <= 0) {
+                        await handleRemoveProduct(item.id);
+                    } else {
+                        await fixStock(item.id, lowestStock);
+                    }
+                }
             }
         }
         return validStock;

@@ -249,8 +249,23 @@ export default function Product() {
                 setDynamicPrice(products.price);
                 setDynamicStock(products.stock);
                 if (products.variantsDynamic) {
+                    const varDyn = products.variantsDynamic;
+                    const filteredVariants = varDyn.map((variant) => {
+                        const filteredOptions = variant.options.filter(
+                            (option) => option.stock > 0,
+                        );
+                        return {
+                            title: variant.title,
+                            options: filteredOptions,
+                        };
+                    });
+                    const updatedProduct: IProduct = {
+                        ...products,
+                        variantsDynamic: filteredVariants,
+                    };
+                    setProduct(updatedProduct);
                     setValidDV(false);
-                    const placeholders = products.variantsDynamic.map(
+                    const placeholders = updatedProduct?.variantsDynamic?.map(
                         (variant) => {
                             return {
                                 name: "Select..",
@@ -309,7 +324,7 @@ export default function Product() {
 
     return (
         <View style={mainStyles.container}>
-            <Header header={t(product.name)} />
+            <Header header={product.name} />
             <ScrollView
                 contentContainerStyle={productPageStyles.display}
                 onScrollEndDrag={getMoreReviews}
