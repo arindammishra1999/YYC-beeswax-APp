@@ -40,8 +40,12 @@ export default function OrderHistoryPage() {
                 return {
                     id: doc.id,
                     data: doc.data(),
+                    date: doc.data().date.toDate(),
                 };
             });
+            ordersData.sort((a, b) =>
+                a.date > b.date ? -1 : b.date > a.date ? 1 : 0,
+            );
             setOrderHistory(ordersData);
             setLoading(false);
         }
