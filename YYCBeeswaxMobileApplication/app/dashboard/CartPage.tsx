@@ -1,4 +1,4 @@
-import { useFocusEffect } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import {
     PaymentSheet,
     StripeProvider,
@@ -51,12 +51,14 @@ export default function CartPage() {
     const [loading, setLoading] = useState(false);
     const [taxProvince, setTaxProvince] = useState("Alberta");
     const [isPaymentLoading, setIsPaymentLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     const [isUpdatedPageLoading, setIsUpdatedPageLoading] = useState(false);
     const [discountPopupVisible, setDiscountPopupVisible] = useState(false);
     const [discountCode, setDiscountCode] = useState("");
     const [discountCodeApplied, setDiscountCodeApplied] = useState(false);
     const [discountAmount, setDiscountAmount] = useState(0);
     const [discountType, setDiscountType] = useState(true);
+    const navigation = useNavigation();
 
     const { user } = useUser();
     const { initPaymentSheet, presentPaymentSheet } = useStripe();
@@ -294,6 +296,7 @@ export default function CartPage() {
                         (product) => product !== null,
                     );
                     setICartItems(filteredProductDetails);
+                    setIsLoading(false);
                 } catch (error) {
                     console.error("Error fetching cart data:", error);
                 }
@@ -547,12 +550,23 @@ export default function CartPage() {
             console.log(error);
         }
     };
-
+    useEffect(() => {
+        const unsubscribe = navigation.addListener("blur", () => {
+            setIsLoading(true);
+        });
+        return unsubscribe;
+    }, [navigation]);
     useEffect(() => {
         //Everytime an item changes in the cart, and the stripe id is found, re-init the payment sheet
         if (stripeCustomerId) initializePaymentSheet();
     }, [ICartItems]);
-
+    if (isLoading) {
+        return (
+            <View style={cartPageStyles.spinnerOverlay}>
+                <ActivityIndicator size="large" color={colors.yellow} />
+            </View>
+        );
+    }
     if (ICartItems.length == 0) {
         return (
             <View style={cartPageStyles.container}>

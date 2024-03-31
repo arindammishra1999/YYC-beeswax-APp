@@ -51,7 +51,7 @@ export default function ProfilePage() {
                 </TouchableOpacity>
                 <View style={profilePageStyles.signUpContainer}>
                     <Text style={profilePageStyles.signUpText}>
-                        {t("noAccount")}Don't have an account?{" "}
+                        {t("noAccount")}{" "}
                     </Text>
                     <TouchableOpacity>
                         <Text
