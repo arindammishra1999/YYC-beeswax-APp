@@ -9,7 +9,7 @@ export default function AdminSalesCard(orders: any) {
     return (
         <View style={adminDashboardPageStyles.cardContainer}>
             <AdminCardHeader title="Sales" />
-            <AdminLineChart />
+            <AdminLineChart orders={orders} />
         </View>
     );
 }

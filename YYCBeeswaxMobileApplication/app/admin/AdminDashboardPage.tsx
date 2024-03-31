@@ -11,18 +11,31 @@ import { mainStyles } from "@/styles/mainStyles";
 
 export default function AdminDashboardPage() {
     const [orders, setOrders] = useState([] as any);
+
     useEffect(() => {
-        getAllOrders().then((orders) => {
-            setOrders(orders);
-        });
+        getOrderData();
     }, []);
+
+    const getOrderData = () => {
+        getAllOrders().then((orders) => {
+            if (orders) {
+                orders.sort(
+                    (one, two) => one.data.date.seconds - two.data.date.seconds,
+                );
+                setOrders(orders);
+            } else {
+                console.log("Issue getting events");
+            }
+        });
+    };
+
     return (
         <View style={mainStyles.container}>
             <AdminHeader header="Dashboard" />
             <ScrollView style={adminDashboardPageStyles.page}>
-                <AdminOverviewCard orders />
-                <AdminSalesCard orders />
-                <AdminPopularProductsCard orders />
+                <AdminOverviewCard orders={orders} />
+
+                <AdminPopularProductsCard orders={orders} />
             </ScrollView>
         </View>
     );
