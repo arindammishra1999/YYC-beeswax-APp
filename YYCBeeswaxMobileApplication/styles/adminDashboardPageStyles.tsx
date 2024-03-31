@@ -170,4 +170,11 @@ export const adminDashboardPageStyles = StyleSheet.create({
         textAlign: "center",
         marginVertical: 10,
     },
+    loadingGraph: {
+        width: 330,
+        height: 220,
+        alignSelf: "center",
+        marginLeft: "12.5%",
+        marginVertical: 8,
+    },
 });

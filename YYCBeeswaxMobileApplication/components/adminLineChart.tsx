@@ -2,6 +2,7 @@ import React from "react";
 import { View } from "react-native";
 import { LineChart } from "react-native-chart-kit";
 
+import Skeleton from "@/components/skeleton";
 import { colors } from "@/consts/styles";
 import { adminDashboardPageStyles } from "@/styles/adminDashboardPageStyles";
 
@@ -48,6 +49,14 @@ export default function AdminLineChart(orders: any) {
                     borderRadius: 16,
                 }}
             />
+        </View>
+    );
+}
+
+export function LoadingAdmnLineChart() {
+    return (
+        <View style={adminDashboardPageStyles.graphContainer}>
+            <Skeleton style={adminDashboardPageStyles.loadingGraph} />
         </View>
     );
 }

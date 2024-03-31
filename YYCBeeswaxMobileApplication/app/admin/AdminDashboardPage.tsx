@@ -34,7 +34,7 @@ export default function AdminDashboardPage() {
             <AdminHeader header="Dashboard" />
             <ScrollView style={adminDashboardPageStyles.page}>
                 <AdminOverviewCard orders={orders} />
-
+                <AdminSalesCard orders={orders} />
                 <AdminPopularProductsCard orders={orders} />
             </ScrollView>
         </View>
