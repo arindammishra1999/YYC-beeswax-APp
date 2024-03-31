@@ -39,8 +39,6 @@ export default function App() {
                 }
             } catch (error) {
                 console.error("Error fetching order details:", error);
-            } finally {
-                setLoading(false);
             }
         };
         fetchOrderDetails();
@@ -53,6 +51,7 @@ export default function App() {
                     const userDetails = await getUserById(order.user);
                     if (userDetails) {
                         setUserName(userDetails.name);
+                        setLoading(false);
                     }
                 }
             } catch (error) {
