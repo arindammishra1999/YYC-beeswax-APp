@@ -1,6 +1,7 @@
 import { Image } from "expo-image";
 import { router } from "expo-router";
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Text, TouchableOpacity, View } from "react-native";
 
 import { getProductDataById } from "@/firebase/getCollections/getProductByID";
@@ -14,6 +15,7 @@ type Props = {
 };
 
 export default function ProductSimpleCard(props: Props) {
+    const { t } = useTranslation();
     const [invalidStock, setInvalidStock] = useState(false);
 
     useEffect(() => {
@@ -43,7 +45,7 @@ export default function ProductSimpleCard(props: Props) {
                 <Text style={productSimpleCardStyles.title}>{props.name}</Text>
                 {invalidStock && (
                     <Text style={productSimpleCardStyles.invalidText}>
-                        Out of stock
+                        {t("Out of Stock")}
                     </Text>
                 )}
                 {!invalidStock && (

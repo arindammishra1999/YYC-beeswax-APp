@@ -75,8 +75,10 @@ export default function OrderHistoryPage() {
                     </Text>
                     <View style={orderHistoryPageStyles.orderDetails}>
                         <Text>
-                            {order.data.products.length} {t("product")}
-                            {order.data.products.length > 1 ? "s" : ""}
+                            {order.data.products.length}{" "}
+                            {order.data.products.length > 1
+                                ? t("products")
+                                : t("product")}
                         </Text>
                     </View>
                 </View>

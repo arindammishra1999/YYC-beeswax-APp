@@ -275,5 +275,15 @@
     "Province": "Vilayet",
     "Return Home": "Eve dön",
     "Buy Tickets": "Bilet satın al",
-    "Email Address": "E-posta adresi"
+    "Email Address": "E-posta adresi",
+    "Order Details": "sipariş detayları",
+    "Items": "Öğeler",
+    "Payment Details": "Ödeme detayları",
+    "Shipping": "Nakliye",
+    "Order Date": "Sipariş tarihi",
+    "Shipping Info": "Gönderim Bilgileri",
+    "Order Address": "Sipariş Adresi",
+    "Discount Applied": "İndirim Uygulandı",
+    "Quantity": "Miktar",
+    "Out of Stock": "Stokta Yok"
 }

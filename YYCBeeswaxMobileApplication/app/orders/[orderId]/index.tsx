@@ -106,7 +106,7 @@ export default function App() {
                                     return `${choice.title} - ${choice.name},\n`;
                                 }
                             })}
-                        {t("Quantity : ")} {product.amount}
+                        {t("Quantity")}: {product.amount}
                     </Text>
                 </View>
             </View>
@@ -160,7 +160,8 @@ export default function App() {
                 {order.discount > 0 && (
                     <View style={orderDetailsPageStyles.billingRow}>
                         <Text style={orderDetailsPageStyles.billingCardText}>
-                            Discount Applied: {order.discountType ? "" : "$"}
+                            {t("Discount Applied")}:{" "}
+                            {order.discountType ? "" : "$"}
                             {order.discount}
                             {order.discountType ? "%" : ""}
                         </Text>
@@ -177,7 +178,7 @@ export default function App() {
                 )}
                 <View style={orderDetailsPageStyles.billingRow}>
                     <Text style={orderDetailsPageStyles.billingCardText}>
-                        Shipping:
+                        {t("Shipping")}:
                     </Text>
                     <Text style={orderDetailsPageStyles.billingCardPrices}>
                         $10.00
@@ -185,7 +186,7 @@ export default function App() {
                 </View>
                 <View style={orderDetailsPageStyles.billingRow}>
                     <Text style={orderDetailsPageStyles.billingCardText}>
-                        Taxes: {order.taxString}
+                        {t("Taxes")}: {order.taxString}
                     </Text>
                     <Text style={orderDetailsPageStyles.billingCardPrices}>
                         ${order.taxes.toFixed(2)}
@@ -194,7 +195,7 @@ export default function App() {
                 <View style={orderDetailsPageStyles.dottedLine} />
                 <View style={orderDetailsPageStyles.billingRow}>
                     <Text style={orderDetailsPageStyles.billingCardText}>
-                        Total:
+                        {t("Total")}:
                     </Text>
                     <Text style={orderDetailsPageStyles.billingCardPrices}>
                         ${(total as number).toFixed(2)}
@@ -208,18 +209,20 @@ export default function App() {
         <View style={orderDetailsPageStyles.container}>
             <Header header={t("Order Details")} />
             <ScrollView>
-                <Text style={orderDetailsPageStyles.messageText}>Items</Text>
+                <Text style={orderDetailsPageStyles.messageText}>
+                    {t("Items")}
+                </Text>
                 {order.products.map((product: any, index: number) =>
                     renderProductCard(product, index),
                 )}
                 <View style={orderDetailsPageStyles.horizontalLine} />
                 <Text style={orderDetailsPageStyles.messageText}>
-                    Payment Details
+                    {t("Payment Details")}
                 </Text>
                 {renderBillingCard()}
                 <View style={orderDetailsPageStyles.horizontalLine} />
                 <Text style={orderDetailsPageStyles.orderDateText}>
-                    Order Date
+                    {t("Order Date")}
                 </Text>
                 <Text style={orderDetailsPageStyles.dateText}>
                     {new Date(order.date.seconds * 1000).toLocaleDateString(
@@ -233,16 +236,16 @@ export default function App() {
                 </Text>
                 <View style={orderDetailsPageStyles.horizontalLine} />
                 <Text style={orderDetailsPageStyles.messageText}>
-                    Shipping Info
+                    {t("Shipping Info")}
                 </Text>
                 <Text style={orderDetailsPageStyles.shippingInfoTitle}>
-                    Order Address
+                    {t("Order Address")}
                 </Text>
                 <Text style={orderDetailsPageStyles.shippingInfoText}>
                     {order.shippingInfo}
                 </Text>
                 <Text style={orderDetailsPageStyles.shippingInfoTitle}>
-                    Name
+                    {t("Name")}
                 </Text>
                 <Text style={orderDetailsPageStyles.shippingInfoName}>
                     {userName}

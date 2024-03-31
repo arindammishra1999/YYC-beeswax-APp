@@ -275,5 +275,15 @@
     "Province": "Provincia",
     "Return Home": "Torna a casa",
     "Buy Tickets": "Comprare biglietti",
-    "Email Address": "Indirizzo email"
+    "Email Address": "Indirizzo email",
+    "Order Details": "Dettagli dell'ordine",
+    "Items": "Elementi",
+    "Payment Details": "Dettagli di pagamento",
+    "Shipping": "Spedizione",
+    "Order Date": "Data dell'ordine",
+    "Shipping Info": "informazioni di spedizione",
+    "Order Address": "Indirizzo dell'ordine",
+    "Discount Applied": "Sconto applicato",
+    "Quantity": "Quantità",
+    "Out of Stock": "Esaurito"
 }

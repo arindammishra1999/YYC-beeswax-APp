@@ -275,5 +275,15 @@
     "Province": "Provincie",
     "Return Home": "Terug naar huis",
     "Buy Tickets": "Koop kaartjes",
-    "Email Address": "E-mailadres"
+    "Email Address": "E-mailadres",
+    "Order Details": "Bestel Details",
+    "Items": "Artikelen",
+    "Payment Details": "Betalingsdetails",
+    "Shipping": "Verzenden",
+    "Order Date": "Besteldatum",
+    "Shipping Info": "Verzendingsinfo",
+    "Order Address": "Besteladres",
+    "Discount Applied": "Korting toegepast",
+    "Quantity": "Aantal",
+    "Out of Stock": "Uit voorraad"
 }

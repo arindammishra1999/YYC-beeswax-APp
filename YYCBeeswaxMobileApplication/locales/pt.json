@@ -275,5 +275,15 @@
     "Province": "Província",
     "Return Home": "Voltar para casa",
     "Buy Tickets": "Comprar bilhetes",
-    "Email Address": "Endereço de e-mail"
+    "Email Address": "Endereço de e-mail",
+    "Order Details": "detalhes do pedido",
+    "Items": "Unid",
+    "Payment Details": "Detalhes do pagamento",
+    "Shipping": "Envio",
+    "Order Date": "Data do pedido",
+    "Shipping Info": "Informação de Envio",
+    "Order Address": "Endereço do pedido",
+    "Discount Applied": "Desconto Aplicado",
+    "Quantity": "Quantidade",
+    "Out of Stock": "Fora de estoque"
 }

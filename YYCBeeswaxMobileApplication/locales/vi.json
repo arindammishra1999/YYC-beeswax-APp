@@ -275,5 +275,15 @@
     "Province": "Tỉnh",
     "Return Home": "Trở về nhà",
     "Buy Tickets": "Mua vé",
-    "Email Address": "Địa chỉ email"
+    "Email Address": "Địa chỉ email",
+    "Order Details": "Chi tiết đặt hàng",
+    "Items": "Mặt hàng",
+    "Payment Details": "Chi tiết thanh toán",
+    "Shipping": "Đang chuyển hàng",
+    "Order Date": "Ngày đặt hàng",
+    "Shipping Info": "Thông tin vận chuyển",
+    "Order Address": "Địa chỉ đặt hàng",
+    "Discount Applied": "Giảm giá được áp dụng",
+    "Quantity": "Số lượng",
+    "Out of Stock": "Hết hàng"
 }

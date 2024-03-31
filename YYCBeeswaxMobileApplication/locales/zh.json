@@ -275,5 +275,15 @@
     "Province": "省",
     "Return Home": "回家",
     "Buy Tickets": "买票",
-    "Email Address": "电子邮件地址"
+    "Email Address": "电子邮件地址",
+    "Order Details": "订单详细信息",
+    "Items": "项目",
+    "Payment Details": "付款详情",
+    "Shipping": "船运",
+    "Order Date": "订购日期",
+    "Shipping Info": "运输信息",
+    "Order Address": "订单地址",
+    "Discount Applied": "折扣已应用",
+    "Quantity": "数量",
+    "Out of Stock": "缺货"
 }
