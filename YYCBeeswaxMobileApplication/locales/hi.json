@@ -279,8 +279,11 @@
     "Order Details": "ऑर्डर का विवरण",
     "Items": "सामान",
     "Payment Details": "भुगतान विवरण",
-    "Shipping:": "शिपिंग:",
+    "Shipping": "शिपिंग:",
     "Order Date": "आर्डर की तारीख",
     "Shipping Info": "शिपिंग जानकारी",
-    "Order Address": "आदेश का पता"
+    "Order Address": "आदेश का पता",
+    "Discount Applied": "डिस्काउंट लागू",
+    "Quantity": "मात्रा",
+    "Out of Stock": "स्टॉक समाप्त"
 }

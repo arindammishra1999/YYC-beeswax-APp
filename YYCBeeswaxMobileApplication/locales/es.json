@@ -279,8 +279,11 @@
     "Order Details": "Detalles del pedido",
     "Items": "Elementos",
     "Payment Details": "Detalles del pago",
-    "Shipping:": "Envío:",
+    "Shipping": "Envío:",
     "Order Date": "Fecha de orden",
     "Shipping Info": "Datos de envío",
-    "Order Address": "Dirección del pedido"
+    "Order Address": "Dirección del pedido",
+    "Discount Applied": "Descuento aplicado",
+    "Quantity": "Cantidad",
+    "Out of Stock": "Agotado"
 }

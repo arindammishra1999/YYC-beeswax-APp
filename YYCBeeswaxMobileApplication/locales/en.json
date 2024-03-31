@@ -278,8 +278,11 @@
     "Order Details": "Order Details",
     "Items": "Items",
     "Payment Details": "Payment Details",
-    "Shipping:": "Shipping:",
+    "Shipping": "Shipping",
     "Order Date": "Order Date",
     "Shipping Info": "Shipping Info",
-    "Order Address": "Order Address"
+    "Order Address": "Order Address",
+    "Discount Applied": "Discount Applied",
+    "Quantity": "Quantity",
+    "Out of Stock": "Out of Stock"
 }

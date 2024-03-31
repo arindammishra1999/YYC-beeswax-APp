@@ -106,7 +106,7 @@ export default function App() {
                                     return `${choice.title} - ${choice.name},\n`;
                                 }
                             })}
-                        {t("Quantity : ")} {product.amount}
+                        {t("Quantity")}: {product.amount}
                     </Text>
                 </View>
             </View>
@@ -160,7 +160,8 @@ export default function App() {
                 {order.discount > 0 && (
                     <View style={orderDetailsPageStyles.billingRow}>
                         <Text style={orderDetailsPageStyles.billingCardText}>
-                            Discount Applied: {order.discountType ? "" : "$"}
+                            {t("Discount Applied")}:{" "}
+                            {order.discountType ? "" : "$"}
                             {order.discount}
                             {order.discountType ? "%" : ""}
                         </Text>
@@ -208,7 +209,9 @@ export default function App() {
         <View style={orderDetailsPageStyles.container}>
             <Header header={t("Order Details")} />
             <ScrollView>
-                <Text style={orderDetailsPageStyles.messageText}>Items</Text>
+                <Text style={orderDetailsPageStyles.messageText}>
+                    {t("Items")}
+                </Text>
                 {order.products.map((product: any, index: number) =>
                     renderProductCard(product, index),
                 )}

@@ -279,8 +279,11 @@
     "Order Details": "Bestel Details",
     "Items": "Artikelen",
     "Payment Details": "Betalingsdetails",
-    "Shipping:": "Verzenden:",
+    "Shipping": "Verzenden:",
     "Order Date": "Besteldatum",
     "Shipping Info": "Verzendingsinfo",
-    "Order Address": "Besteladres"
+    "Order Address": "Besteladres",
+    "Discount Applied": "Korting toegepast",
+    "Quantity": "Aantal",
+    "Out of Stock": "Uit voorraad"
 }

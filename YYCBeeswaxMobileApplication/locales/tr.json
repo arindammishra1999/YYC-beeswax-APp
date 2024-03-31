@@ -279,8 +279,11 @@
     "Order Details": "sipariş detayları",
     "Items": "Öğeler",
     "Payment Details": "Ödeme detayları",
-    "Shipping:": "Nakliye:",
+    "Shipping": "Nakliye:",
     "Order Date": "Sipariş tarihi",
     "Shipping Info": "Gönderim Bilgileri",
-    "Order Address": "Sipariş Adresi"
+    "Order Address": "Sipariş Adresi",
+    "Discount Applied": "İndirim Uygulandı",
+    "Quantity": "Miktar",
+    "Out of Stock": "Stokta Yok"
 }

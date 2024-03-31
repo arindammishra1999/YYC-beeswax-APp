@@ -282,5 +282,8 @@
     "Shipping": "Versand",
     "Order Date": "Auftragsdatum",
     "Shipping Info": "Versandinformation",
-    "Order Address": "Bestelladresse"
+    "Order Address": "Bestelladresse",
+    "Discount Applied": "Rabatt angewendet",
+    "Quantity": "Menge",
+    "Out of Stock": "Ausverkauft"
 }

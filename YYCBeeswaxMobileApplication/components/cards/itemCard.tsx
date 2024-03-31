@@ -1,6 +1,7 @@
 import { Image } from "expo-image";
 import { router } from "expo-router";
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Text, TouchableOpacity, View } from "react-native";
 
 import Skeleton from "@/components/skeleton";
@@ -16,6 +17,7 @@ type Props = {
 };
 
 export default function ItemCard(props: Props) {
+    const { t } = useTranslation();
     const [invalidStock, setInvalidStock] = useState(false);
 
     useEffect(() => {
@@ -51,7 +53,9 @@ export default function ItemCard(props: Props) {
                     {props.title}
                 </Text>
                 {invalidStock && (
-                    <Text style={itemCardStyles.invalidText}>Out of stock</Text>
+                    <Text style={itemCardStyles.invalidText}>
+                        {t("Out of Stock")}
+                    </Text>
                 )}
                 {!invalidStock && (
                     <Text style={itemCardStyles.price}>
