@@ -38,6 +38,7 @@ import { useUser } from "@/firebase/providers/userProvider";
 import { newOrder } from "@/firebase/setCollections/newOrder";
 import { cartPageStyles } from "@/styles/cartPageStyles";
 import { totalBillCardStyles } from "@/styles/components/totalBillCardStyles";
+import { mainStyles } from "@/styles/mainStyles";
 
 const API_URL = `http://${process.env.EXPO_PUBLIC_LOCAL_IP}:3000`;
 const PUBLISHABLE_KEY = process.env.EXPO_PUBLIC_PUBLISHABLE_KEY;
@@ -550,19 +551,21 @@ export default function CartPage() {
             console.log(error);
         }
     };
+
     useEffect(() => {
         const unsubscribe = navigation.addListener("blur", () => {
             setIsLoading(true);
         });
         return unsubscribe;
     }, [navigation]);
+
     useEffect(() => {
         //Everytime an item changes in the cart, and the stripe id is found, re-init the payment sheet
         if (stripeCustomerId) initializePaymentSheet();
     }, [ICartItems]);
     if (isLoading) {
         return (
-            <View style={cartPageStyles.spinnerOverlay}>
+            <View style={mainStyles.spinnerOverlay}>
                 <ActivityIndicator size="large" color={colors.yellow} />
             </View>
         );
