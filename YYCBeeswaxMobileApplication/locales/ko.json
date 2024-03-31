@@ -275,5 +275,12 @@
     "Province": "주",
     "Return Home": "귀국",
     "Buy Tickets": "표를 사다",
-    "Email Address": "이메일 주소"
+    "Email Address": "이메일 주소",
+    "Order Details": "주문 세부정보",
+    "Items": "품목",
+    "Payment Details": "지불 세부 사항",
+    "Shipping:": "배송:",
+    "Order Date": "주문 날짜",
+    "Shipping Info": "배송 정보",
+    "Order Address": "주문 주소"
 }

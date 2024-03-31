@@ -275,5 +275,12 @@
     "Province": "Провинция",
     "Return Home": "Вернуться домой",
     "Buy Tickets": "Купить билеты",
-    "Email Address": "Адрес электронной почты"
+    "Email Address": "Адрес электронной почты",
+    "Order Details": "Информация для заказа",
+    "Items": "Предметы",
+    "Payment Details": "Детали оплаты",
+    "Shipping:": "Перевозки:",
+    "Order Date": "Дата заказа",
+    "Shipping Info": "Информация о доставке",
+    "Order Address": "Адрес заказа"
 }

@@ -275,5 +275,12 @@
     "Province": "प्रांत",
     "Return Home": "घर लौटना",
     "Buy Tickets": "टिकट खरीदें",
-    "Email Address": "ईमेल पता"
+    "Email Address": "ईमेल पता",
+    "Order Details": "ऑर्डर का विवरण",
+    "Items": "सामान",
+    "Payment Details": "भुगतान विवरण",
+    "Shipping:": "शिपिंग:",
+    "Order Date": "आर्डर की तारीख",
+    "Shipping Info": "शिपिंग जानकारी",
+    "Order Address": "आदेश का पता"
 }

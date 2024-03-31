@@ -274,5 +274,12 @@
     "City": "City",
     "Province": "Province",
     "Return Home": "Return Home",
-    "Buy Tickets": "Buy Tickets"
+    "Buy Tickets": "Buy Tickets",
+    "Order Details": "Order Details",
+    "Items": "Items",
+    "Payment Details": "Payment Details",
+    "Shipping:": "Shipping:",
+    "Order Date": "Order Date",
+    "Shipping Info": "Shipping Info",
+    "Order Address": "Order Address"
 }
