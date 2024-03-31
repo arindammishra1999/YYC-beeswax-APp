@@ -16,6 +16,7 @@ import {
 import CategoryCard from "@/components/cards/categoryCard";
 import ItemCard, { LoadingItemCard } from "@/components/cards/itemCard";
 import { colors } from "@/consts/styles";
+import { getProductDataById } from "@/firebase/getCollections/getProductByID";
 import { getProductData } from "@/firebase/getCollections/getProducts";
 import { shuffleArray } from "@/lib/utility";
 import { homePageStyles } from "@/styles/homePageStyles";
@@ -66,6 +67,14 @@ export default function HomePage() {
     const loadLanguageSettings = async () => {
         const savedLanguage = await SecureStore.getItemAsync("languageCode");
         i18n.changeLanguage(savedLanguage ?? "en");
+    };
+
+    const updateProducts = async (productId: string): Promise<boolean> => {
+        const productInfo = await getProductDataById(productId);
+        if (productInfo && productInfo.stock <= 0) {
+            return true;
+        }
+        return false;
     };
 
     const onRefresh = useCallback(() => {
@@ -205,6 +214,7 @@ export default function HomePage() {
                                         image={product.data.url}
                                         title={product.data.name}
                                         price={product.data.price}
+                                        onRefresh={updateProducts}
                                     />
                                 ))
                             )}
@@ -228,6 +238,7 @@ export default function HomePage() {
                                         image={product.data.url}
                                         title={product.data.name}
                                         price={product.data.price}
+                                        onRefresh={updateProducts}
                                     />
                                 ))
                             )}
@@ -251,6 +262,7 @@ export default function HomePage() {
                                         image={product.data.url}
                                         title={product.data.name}
                                         price={product.data.price}
+                                        onRefresh={updateProducts}
                                     />
                                 ))
                             )}

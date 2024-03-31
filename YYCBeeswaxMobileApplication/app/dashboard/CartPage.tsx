@@ -318,13 +318,28 @@ export default function CartPage() {
             };
             parsedProducts.push(orderProduct);
         });
+        const taxInformation: Record<string, string> = {
+            Alberta: "GST (5%)",
+            "British Columbia": "PST (7%) + GST (5%)",
+            Saskatchewan: "PST (6%) + GST (5%)",
+            Manitoba: "PST (7%) + GST (5%)",
+            Ontario: "HST (13%)",
+            Quebec: "QST (9.975%) + GST (5%)",
+            "New Brunswick": "HST (15%)",
+            "Newfoundland and Labrador": "HST (15%)",
+            "Prince Edward Island": "HST (15%)",
+            "Nova Scotia": "HST (15%)",
+        };
         return {
             date: today,
             total: calculateTotalItemsCost(items),
             products: parsedProducts,
             shippingInfo,
             taxes: calculateGSTCost(items),
+            taxString: taxInformation[taxProvince],
             discount: discountAmount,
+            // eslint-disable-next-line object-shorthand
+            discountType: discountType,
             user: user?.uid,
         } as IOrder;
     };
@@ -357,7 +372,7 @@ export default function CartPage() {
             const productInfo = await getProductDataById(item.id);
             if (productInfo) {
                 let enoughVariants = true;
-                let minStock = -1;
+                let minStock = productInfo.stock;
                 if (item.choices && productInfo.variantsDynamic) {
                     const varDyn = productInfo.variantsDynamic;
                     item.choices.forEach((individualItem) => {
@@ -370,7 +385,6 @@ export default function CartPage() {
                         )[0].stock;
                         if (item.quantity > variantStock) {
                             enoughVariants = false;
-                            minStock = minStock == -1 ? variantStock : minStock;
                             minStock =
                                 minStock < variantStock
                                     ? minStock
@@ -381,15 +395,12 @@ export default function CartPage() {
 
                 if (item.quantity > productInfo.stock || !enoughVariants) {
                     validStock = false;
-                    const lowestStock =
-                        minStock < productInfo.stock
-                            ? minStock
-                            : productInfo.stock;
-                    await handleQuantityChange(item.id, lowestStock);
-                    if (lowestStock <= 0) {
+
+                    await handleQuantityChange(item.id, minStock);
+                    if (minStock <= 0) {
                         await handleRemoveProduct(item.id);
                     } else {
-                        await fixStock(item.id, lowestStock);
+                        await fixStock(item.id, minStock);
                     }
                 }
             }
