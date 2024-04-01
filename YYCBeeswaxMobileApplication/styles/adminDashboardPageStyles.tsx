@@ -56,6 +56,11 @@ export const adminDashboardPageStyles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
     },
+    figureLoading: {
+        alignItems: "center",
+        justifyContent: "center",
+        height: 45,
+    },
     figureText: {
         fontSize: 35,
         fontFamily: fonts.mainBold,
@@ -118,9 +123,9 @@ export const adminDashboardPageStyles = StyleSheet.create({
         borderRadius: 10,
     },
     productName: {
-        fontSize: 16,
+        fontSize: 14,
         alignSelf: "center",
-        maxWidth: 140,
+        maxWidth: 120,
         flexWrap: "wrap",
         fontFamily: fonts.main,
     },
@@ -132,6 +137,11 @@ export const adminDashboardPageStyles = StyleSheet.create({
         fontSize: 16,
         alignSelf: "center",
         fontFamily: fonts.mainBold,
+    },
+    productEarningsLoading: {
+        maxWidth: 50,
+        height: 20,
+        alignSelf: "center",
     },
     graphContainer: {
         width: "90%",
@@ -150,6 +160,21 @@ export const adminDashboardPageStyles = StyleSheet.create({
         zIndex: 999,
     },
     bottom: {
-        marginBottom: "20%",
+        marginBottom: "30%",
+    },
+    noOrders: {
+        fontFamily: fonts.mainBold,
+        fontSize: 20,
+        alignSelf: "center",
+        textAlign: "center",
+        marginVertical: 10,
+        zIndex: -1,
+    },
+    loadingGraph: {
+        width: 330,
+        height: 220,
+        alignSelf: "center",
+        marginLeft: "12.5%",
+        marginVertical: 8,
     },
 });

@@ -2,23 +2,15 @@ import React from "react";
 import { View } from "react-native";
 import { LineChart } from "react-native-chart-kit";
 
+import Skeleton from "@/components/skeleton";
 import { colors } from "@/consts/styles";
 import { adminDashboardPageStyles } from "@/styles/adminDashboardPageStyles";
 
-export default function AdminLineChart() {
-    const line = {
-        labels: ["Jan", "Feb", "Mar", "Apr", "May", "June"],
-        datasets: [
-            {
-                data: [20, 45, 28, 80, 99, 43],
-                strokeWidth: 2, // optional
-            },
-        ],
-    };
+export default function AdminLineChart(data: any) {
     return (
         <View style={adminDashboardPageStyles.graphContainer}>
             <LineChart
-                data={line}
+                data={data.data}
                 width={330}
                 height={220}
                 yAxisLabel="$"
@@ -38,6 +30,14 @@ export default function AdminLineChart() {
                     borderRadius: 16,
                 }}
             />
+        </View>
+    );
+}
+
+export function LoadingAdmnLineChart() {
+    return (
+        <View style={adminDashboardPageStyles.graphContainer}>
+            <Skeleton style={adminDashboardPageStyles.loadingGraph} />
         </View>
     );
 }
