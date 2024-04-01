@@ -63,7 +63,12 @@ export default function AdminOverviewCard(orders: any) {
                 />
                 <AdminOverviewSection
                     title="Total Sales"
-                    figure={"$ " + data.totalSales.toFixed(0)}
+                    figure={
+                        "$ " +
+                        data.totalSales.toLocaleString(undefined, {
+                            maximumFractionDigits: 0,
+                        })
+                    }
                     change="12.4%"
                     isNegative
                 />

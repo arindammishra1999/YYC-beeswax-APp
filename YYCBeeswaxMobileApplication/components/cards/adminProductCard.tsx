@@ -21,7 +21,11 @@ export default function AdminProductCard(props: Props) {
                     source={{ uri: props.image }}
                     style={adminDashboardPageStyles.productImage}
                 />
-                <Text style={adminDashboardPageStyles.productName}>
+                <Text
+                    style={adminDashboardPageStyles.productName}
+                    ellipsizeMode="tail"
+                    numberOfLines={3}
+                >
                     {props.name}
                 </Text>
             </View>

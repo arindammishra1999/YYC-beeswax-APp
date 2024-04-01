@@ -21,7 +21,7 @@ export default function AdminOverviewSection(props: Props) {
                 <Text style={adminDashboardPageStyles.figureText}>
                     {props.figure}
                 </Text>
-                <View></View>
+                <View />
             </View>
         </View>
     );

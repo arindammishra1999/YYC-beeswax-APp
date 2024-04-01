@@ -123,10 +123,9 @@ export const adminDashboardPageStyles = StyleSheet.create({
         borderRadius: 10,
     },
     productName: {
-        fontSize: 16,
-        height: 20,
+        fontSize: 14,
         alignSelf: "center",
-        maxWidth: 140,
+        maxWidth: 120,
         flexWrap: "wrap",
         fontFamily: fonts.main,
     },
@@ -169,6 +168,7 @@ export const adminDashboardPageStyles = StyleSheet.create({
         alignSelf: "center",
         textAlign: "center",
         marginVertical: 10,
+        zIndex: -1,
     },
     loadingGraph: {
         width: 330,
