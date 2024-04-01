@@ -6,30 +6,11 @@ import Skeleton from "@/components/skeleton";
 import { colors } from "@/consts/styles";
 import { adminDashboardPageStyles } from "@/styles/adminDashboardPageStyles";
 
-export default function AdminLineChart(orders: any) {
-    const line = {
-        labels: [
-            "Jan",
-            "Feb",
-            "Mar",
-            "Apr",
-            "May",
-            "June",
-            "July",
-            "Aug",
-            "Sep",
-        ],
-        datasets: [
-            {
-                data: [20, 45, 28, 80, 200, 43],
-                strokeWidth: 2, // optional
-            },
-        ],
-    };
+export default function AdminLineChart(data: any) {
     return (
         <View style={adminDashboardPageStyles.graphContainer}>
             <LineChart
-                data={line}
+                data={data.data}
                 width={330}
                 height={220}
                 yAxisLabel="$"

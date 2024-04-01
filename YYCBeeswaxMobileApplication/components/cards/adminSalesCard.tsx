@@ -5,6 +5,7 @@ import AdminCardHeader from "@/components/adminCardHeader";
 import AdminLineChart, {
     LoadingAdmnLineChart,
 } from "@/components/adminLineChart";
+import { generateChartData } from "@/functions/AnalyticFunctions";
 import { filterOrders } from "@/functions/TimeFilter";
 import { adminDashboardPageStyles } from "@/styles/adminDashboardPageStyles";
 
@@ -25,8 +26,12 @@ export default function AdminSalesCard(orders: any) {
                     orderPeriod,
                     new Date(),
                 );
-                const newData = {};
-                setData(newData);
+                const trialData = await generateChartData(
+                    filteredOrders,
+                    orderPeriod,
+                    new Date(),
+                );
+                setData(trialData);
                 setLoading(false);
             };
             setOrders();
@@ -50,7 +55,7 @@ export default function AdminSalesCard(orders: any) {
                     title="Sales"
                     changeTimePeriod={changeTimePeriod}
                 />
-                <AdminLineChart orders={orders} />
+                <AdminLineChart data={data} />
             </View>
         );
     }

@@ -13,13 +13,12 @@ type Props = {
 
 export default function AdminCardHeader(props: Props) {
     const options = [
-        { key: "1", value: "All Time" },
+        { key: "1", value: "Last Year" },
         { key: "2", value: "Today" },
         { key: "3", value: "Last Week" },
         { key: "4", value: "Last Month" },
         { key: "5", value: "Last 3 Months" },
         { key: "6", value: "Last 6 Months" },
-        { key: "7", value: "Last Year" },
     ];
 
     const changeSelectedTimePeriod = (selected: string) => {
@@ -49,13 +48,10 @@ export default function AdminCardHeader(props: Props) {
                     currentDate.setMonth(currentDate.getMonth() - 6),
                 );
                 break;
-            case "Last Year":
+            default:
                 period = new Date(
                     currentDate.setFullYear(currentDate.getFullYear() - 1),
                 );
-                break;
-            default:
-                period = new Date(0);
         }
         if (props.changeTimePeriod) {
             props.changeTimePeriod(period);
@@ -71,7 +67,7 @@ export default function AdminCardHeader(props: Props) {
                 boxStyles={{ width: viewportWidth * 0.35 }}
                 dropdownStyles={adminDashboardPageStyles.dropdown}
                 setSelected={changeSelectedTimePeriod}
-                defaultOption={{ key: "1", value: "All Time" }}
+                defaultOption={{ key: "1", value: "Last Year" }}
                 search={false}
                 save="value"
                 fontFamily={fonts.main}
