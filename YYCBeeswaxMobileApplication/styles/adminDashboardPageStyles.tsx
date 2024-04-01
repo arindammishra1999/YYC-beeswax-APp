@@ -160,7 +160,7 @@ export const adminDashboardPageStyles = StyleSheet.create({
         zIndex: 999,
     },
     bottom: {
-        marginBottom: "20%",
+        marginBottom: "30%",
     },
     noOrders: {
         fontFamily: fonts.mainBold,

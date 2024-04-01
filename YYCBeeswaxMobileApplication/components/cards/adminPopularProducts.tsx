@@ -93,10 +93,12 @@ export default function AdminPopularProductsCard(orders: any) {
                     ))}
                 </View>
                 {data.length == 0 && (
-                    <View style={adminDashboardPageStyles.headerContainer}>
-                        <Text style={adminDashboardPageStyles.noOrders}>
-                            There were no sales during this time period
-                        </Text>
+                    <View style={{ zIndex: -1 }}>
+                        <View style={adminDashboardPageStyles.headerContainer}>
+                            <Text style={adminDashboardPageStyles.noOrders}>
+                                There were no sales during this time period
+                            </Text>
+                        </View>
                     </View>
                 )}
             </View>
