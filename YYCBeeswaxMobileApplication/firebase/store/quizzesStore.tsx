@@ -20,26 +20,12 @@ import { create } from "zustand";
 import { db } from "@/firebase/config";
 
 async function getQuizzes(lastVisible?: QueryDocumentSnapshot) {
-    // try {
-    //     const query = await getDocs(collection(db, "quizzes"));
-    //     const quizzes = query.docs.map((doc) => {
-    //         return {
-    //             id: doc.id,
-    //             ...doc.data(),
-    //         } as IQuiz;
-    //     });
-    //     return quizzes;
-    // } catch (error) {
-    //     console.error("Error getting documents: ", error);
-    //     return [];
-    // }
-
     const constraints: QueryConstraint[] = [];
     constraints.push(orderBy("created", "desc"));
     if (lastVisible) {
         constraints.push(startAfter(lastVisible));
     }
-    constraints.push(limit(4));
+    constraints.push(limit(7));
     const querySnap = await getDocs(
         query(collection(db, "quizzes"), ...constraints),
     );
@@ -141,9 +127,3 @@ export const useQuizzesStore = create<IQuizzesContext>()((set, get) => ({
         }));
     },
 }));
-
-// persist({
-//         name: "quizzes",
-//         storage: createJSONStorage(() => AsyncStorage),
-//         partialize: (state) => ({ quizzes: state.quizzes }),
-// });

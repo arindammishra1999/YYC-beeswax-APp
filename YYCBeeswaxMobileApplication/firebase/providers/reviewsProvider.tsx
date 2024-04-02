@@ -1,5 +1,5 @@
 import { useLocalSearchParams } from "expo-router";
-import { createContext, ReactNode, useContext } from "react";
+import React, { createContext, ReactNode, useContext } from "react";
 
 import { useReviewsByProductId } from "@/firebase/hooks/useReviewsByProductId";
 

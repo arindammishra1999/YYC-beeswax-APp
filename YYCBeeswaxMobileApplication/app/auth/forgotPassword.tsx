@@ -1,7 +1,7 @@
 import { Fontisto } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { sendPasswordResetEmail } from "firebase/auth";
-import { useState } from "react";
+import React, { useState } from "react";
 import {
     Keyboard,
     Modal,

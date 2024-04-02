@@ -14,8 +14,15 @@ import { useQuizzesStore } from "@/firebase/store/quizzesStore";
 import { mainStyles } from "@/styles/mainStyles";
 import { quizzesPageStyles } from "@/styles/quizzesPageStyles";
 
-const TMP_IMG =
-    "https://firebasestorage.googleapis.com/v0/b/yyc-mobile.appspot.com/o/ProductImages%2FYYC-Beeswax-041-min-324x324.jpg?alt=media&token=291aef00-df21-44df-9879-39e780f2bac7";
+const IMAGES = [
+    "https://firebasestorage.googleapis.com/v0/b/yyc-mobile.appspot.com/o/ProductImages%2FYYC-Beeswax-041-min-324x324.jpg?alt=media&token=291aef00-df21-44df-9879-39e780f2bac7",
+    "https://firebasestorage.googleapis.com/v0/b/yyc-mobile.appspot.com/o/EventImages%2Fmini_candles.jpg?alt=media&token=9f151adf-090a-4909-be9d-aded060d555a",
+    "https://firebasestorage.googleapis.com/v0/b/yyc-mobile.appspot.com/o/ProductImages%2FYYV-Beeswax-June-2016-071-min.jpg?alt=media&token=b4a5bfd5-bf76-4e8b-9c87-30a078ee38d4",
+    "https://firebasestorage.googleapis.com/v0/b/yyc-mobile.appspot.com/o/ProductImages%2FYYV-Beeswax-June-2016-079-min.jpg?alt=media&token=78329a45-eafe-4bf1-be00-7de286953401",
+    "https://firebasestorage.googleapis.com/v0/b/yyc-mobile.appspot.com/o/ProductImages%2FdyeChip.jpg?alt=media&token=eaea2954-8431-4547-8c9c-0f508ea68333",
+    "https://firebasestorage.googleapis.com/v0/b/yyc-mobile.appspot.com/o/ProductImages%2F2020-01-14-13.37.24-min.jpg?alt=media&token=0f6ed316-44b3-4473-ad68-76562a78c485",
+    "https://firebasestorage.googleapis.com/v0/b/yyc-mobile.appspot.com/o/ProductImages%2FYYV-Beeswax-June-2016-061-min-324x324.jpg?alt=media&token=d9827ff9-347b-4a39-8d9b-7edea46de748",
+];
 
 function LoadingQuizCard() {
     return (
@@ -37,7 +44,7 @@ function LoadingQuizCard() {
     );
 }
 
-function QuizCard({ quiz }: { quiz: IQuiz }) {
+function QuizCard({ quiz, image }: { quiz: IQuiz; image: string }) {
     const { isAdmin } = useUser();
     return (
         <TouchableOpacity
@@ -53,7 +60,7 @@ function QuizCard({ quiz }: { quiz: IQuiz }) {
             <View style={quizzesPageStyles.imageContainer}>
                 <Image
                     source={{
-                        uri: TMP_IMG,
+                        uri: image,
                     }}
                     style={quizzesPageStyles.image}
                 />
@@ -158,7 +165,12 @@ export function QuizzesScreen() {
             ) : (
                 <FlashList
                     contentContainerStyle={quizzesPageStyles.container}
-                    renderItem={({ item }) => <QuizCard quiz={item} />}
+                    renderItem={({ item, index }) => (
+                        <QuizCard
+                            quiz={item}
+                            image={IMAGES[index % IMAGES.length]}
+                        />
+                    )}
                     ItemSeparatorComponent={() => (
                         <View style={quizzesPageStyles.cardSpacing} />
                     )}
