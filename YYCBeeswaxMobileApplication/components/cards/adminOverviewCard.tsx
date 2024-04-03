@@ -21,12 +21,9 @@ export default function AdminOverviewCard(orders: any) {
     useEffect(() => {
         if (orders && orders.orders.length > 0) {
             const setOrders = async () => {
-                const filteredOrders = await filterOrders(
-                    orders,
-                    orderPeriod,
-                    new Date(),
+                const newData = calculateOverview(
+                    filterOrders(orders, orderPeriod, new Date()),
                 );
-                const newData = calculateOverview(filteredOrders);
                 setData(newData);
                 setLoading(false);
             };
