@@ -21,13 +21,8 @@ export default function AdminSalesCard(orders: any) {
     useEffect(() => {
         if (orders && orders.orders.length > 0) {
             const setOrders = async () => {
-                const filteredOrders = await filterOrders(
-                    orders,
-                    orderPeriod,
-                    new Date(),
-                );
                 const trialData = await generateChartData(
-                    filteredOrders,
+                    filterOrders(orders, orderPeriod, new Date()),
                     orderPeriod,
                     new Date(),
                 );
