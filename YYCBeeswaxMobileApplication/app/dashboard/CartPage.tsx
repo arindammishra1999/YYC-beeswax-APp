@@ -22,8 +22,6 @@ import {
 } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 
-import { getProductData } from "../../firebase/getCollections/getProducts";
-
 import Button from "@/components/button";
 import CartProductCard from "@/components/cards/cartProductCard";
 import TotalBillCard, {
@@ -33,6 +31,7 @@ import Header from "@/components/header";
 import { colors } from "@/consts/styles";
 import { db } from "@/firebase/config";
 import { getProductDataById } from "@/firebase/getCollections/getProductByID";
+import { getProductData } from "@/firebase/getCollections/getProducts";
 import { getUserById } from "@/firebase/getCollections/getUserById";
 import { useUser } from "@/firebase/providers/userProvider";
 import { newOrder } from "@/firebase/setCollections/newOrder";
@@ -606,6 +605,7 @@ export default function CartPage() {
             </View>
         );
     }
+
     if (!user) {
         //If the user isn't signed in, can't link a stripe id to their account, thus they must be signed in
         return (
