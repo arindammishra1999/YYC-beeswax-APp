@@ -607,35 +607,32 @@ export default function CartPage() {
         );
     }
     if (!user) {
-        //If the user isn't signed in, can't link a stripe id to their account, thus they must be signed in
         return (
-            <View>
-                <View style={cartPageStyles.container}>
-                    <Header header="Your Cart" noBackArrow />
+            <View style={cartPageStyles.container}>
+                <Header header="Your Cart" noBackArrow />
 
-                    <Text style={cartPageStyles.messageText}>
-                        You are not logged in. Please log in to an account to
-                        view your cart.
+                <Text style={cartPageStyles.messageText}>
+                    You are not logged in. Please log in to an account to view
+                    your cart.
+                </Text>
+                <TouchableOpacity
+                    style={cartPageStyles.buttonTouchableOpacity}
+                    onPress={() => router.push("/auth/login")}
+                >
+                    <Text style={cartPageStyles.buttonText}>Login</Text>
+                </TouchableOpacity>
+                <View style={cartPageStyles.signUpContainer}>
+                    <Text style={cartPageStyles.signUpText}>
+                        Don't have an account?{" "}
                     </Text>
-                    <TouchableOpacity
-                        style={cartPageStyles.buttonTouchableOpacity}
-                        onPress={() => router.push("/auth/login")}
-                    >
-                        <Text style={cartPageStyles.buttonText}>Login</Text>
-                    </TouchableOpacity>
-                    <View style={cartPageStyles.signUpContainer}>
-                        <Text style={cartPageStyles.signUpText}>
-                            Don't have an account?{" "}
+                    <TouchableOpacity>
+                        <Text
+                            style={cartPageStyles.signUpLink}
+                            onPress={() => router.push("/auth/signup")}
+                        >
+                            Sign Up
                         </Text>
-                        <TouchableOpacity>
-                            <Text
-                                style={cartPageStyles.signUpLink}
-                                onPress={() => router.push("/auth/signup")}
-                            >
-                                Sign Up
-                            </Text>
-                        </TouchableOpacity>
-                    </View>
+                    </TouchableOpacity>
                 </View>
             </View>
         );

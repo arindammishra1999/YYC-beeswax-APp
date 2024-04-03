@@ -61,7 +61,7 @@ export const cartPageStyles = StyleSheet.create({
         alignSelf: "center",
         textAlign: "center",
         fontSize: 21,
-        marginTop: "30%",
+        marginTop: "40%",
         marginLeft: "10%",
         marginRight: "10%",
         fontFamily: fonts.mainBold,
