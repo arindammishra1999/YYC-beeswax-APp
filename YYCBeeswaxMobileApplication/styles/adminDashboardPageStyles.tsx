@@ -59,10 +59,10 @@ export const adminDashboardPageStyles = StyleSheet.create({
     figureLoading: {
         alignItems: "center",
         justifyContent: "center",
-        height: 45,
+        height: 40,
     },
     figureText: {
-        fontSize: 35,
+        fontSize: 30,
         fontFamily: fonts.mainBold,
     },
     arrow: {
