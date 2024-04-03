@@ -5,7 +5,7 @@
     "scripts": {
         "start-server": "node -r dotenv/config server/server.mjs",
         "start": "expo start",
-        "start:prod": "expo start --no-dev --minify",
+        "start:prod": "expo start --no-dev --minify -c",
         "android": "expo run:android",
         "ios": "expo run:ios",
         "web": "expo start --web",
