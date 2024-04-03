@@ -8,11 +8,11 @@ import { useTranslation } from "react-i18next";
 import {
     Alert,
     Keyboard,
+    ScrollView,
     Text,
     TouchableOpacity,
     TouchableWithoutFeedback,
     View,
-    ScrollView,
 } from "react-native";
 
 import Button from "@/components/button";
@@ -223,12 +223,14 @@ export default function EditProfilePage() {
                             {t("Change Password")}
                         </Text>
                     </TouchableOpacity>
+                    <View style={editProfilePageStyles.confirmButtonContainer}>
+                        <Button
+                            style={editProfilePageStyles.confirmButton}
+                            title={t("Confirm Changes")}
+                            onPress={login}
+                        />
+                    </View>
                 </ScrollView>
-                <Button
-                    style={editProfilePageStyles.confirmButton}
-                    title={t("Confirm Changes")}
-                    onPress={login}
-                />
             </View>
         </TouchableWithoutFeedback>
     );

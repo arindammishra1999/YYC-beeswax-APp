@@ -57,6 +57,7 @@ export const editProfilePageStyles = StyleSheet.create({
         fontSize: 20,
         fontFamily: fonts.main,
     },
+    confirmButtonContainer: { marginTop: "auto", paddingTop: 25 },
     confirmButton: {
         backgroundColor: colors.yellow,
         alignSelf: "center",
@@ -64,8 +65,6 @@ export const editProfilePageStyles = StyleSheet.create({
         paddingTop: 15,
         paddingBottom: 15,
         borderRadius: 30,
-        position: "absolute",
-        bottom: "5%",
-        top: "88.5%",
+        height: 60,
     },
 });
