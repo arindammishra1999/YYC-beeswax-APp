@@ -46,10 +46,7 @@ When developing a new feature, the following workflow should be followed:
   <img src="App%20photos/landing.png" alt="App Photo 1" style="width: 300px; margin-right: 20px;">
   <img src="App%20photos/order.png" alt="App Photo 2" style="width: 300px; margin-right: 20px; margin-top: -10px">
   <img src="App%20photos/cart.png" alt="App Photo 3" style="width: 300px;">
-</div>
-
-<div style="display: flex; margin-top: 100px">
-  <img src="App%20photos/stripe.png" alt="App Photo 4" style="width: 300px; margin-right: 20px;">
+    <img src="App%20photos/stripe.png" alt="App Photo 4" style="width: 300px; margin-right: 20px;">
   <img src="App%20photos/quizzes.png" alt="App Photo 5" style="width: 300px; margin-right: 20px;">
   <img src="App%20photos/explore.png" alt="App Photo 6" style="width: 300px;">
 </div>
