@@ -42,5 +42,5 @@ When developing a new feature, the following workflow should be followed:
 
 ## Some App screenshots
 
-![App Photo 1](App%20photos/landing.png)
-![App Photo 1](App%20photos/order.png)
+<img src="App%20photos/landing.png" alt="App Photo 1" width="300">
+<img src="App%20photos/order.png" alt="App Photo 1" width="300">
