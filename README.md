@@ -43,8 +43,14 @@ When developing a new feature, the following workflow should be followed:
 ## Some App screenshots
 
 <div style="display: flex;">
-  <img src="App%20photos/landing.png" alt="App Photo 1" style="width: 300px; margin-right: 10px;">
-  <img src="App%20photos/order.png" alt="App Photo 2" style="width: 300px; margin-right: 10px;">
+  <img src="App%20photos/landing.png" alt="App Photo 1" style="width: 300px; margin-right: 20px;">
+  <img src="App%20photos/order.png" alt="App Photo 2" style="width: 300px; margin-right: 20px;">
   <img src="App%20photos/cart.png" alt="App Photo 3" style="width: 300px;">
+</div>
+
+<div style="display: flex;">
+  <img src="App%20photos/stripe.png" alt="App Photo 4" style="width: 300px; margin-right: 20px;">
+  <img src="App%20photos/quizzes.png" alt="App Photo 5" style="width: 300px; margin-right: 20px;">
+  <img src="App%20photos/explore.png" alt="App Photo 6" style="width: 300px;">
 </div>
 
